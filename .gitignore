@@ -1,0 +1,17 @@
+.idea
+public/
+build/
+_gen/
+*.pdf
+*.hprof
+*build.lock
+.venv
+.DS_Store
+
+# evaluation frameworks artifacts
+.deepeval/
+mlruns/
+mlflow.db
+
+*.pyc
+__pycache__/

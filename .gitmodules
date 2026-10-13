@@ -1,0 +1,9 @@
+[submodule "themes/reveal-hugo"]
+	path = themes/reveal-hugo
+	url = https://github.com/cric96/reveal-hugo.git
+[submodule "shared-slides"]
+	path = shared-slides
+	url = https://github.com/MatteoMagnini/shared-slides
+[submodule "static/lab-snippets"]
+	path = static/lab-snippets
+	url = https://github.com/unibo-fc-isi-iag/lab-snippets.git
