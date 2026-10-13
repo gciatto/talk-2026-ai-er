@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="generator" content="Hugo 0.167.0">
+    <meta charset="utf-8">
+<title>About the lectures</title>
+<meta name="description" content="LLM APIs, agents, and open models: two lectures of the 'AI Course — Regione Emilia-Romagna 2026'">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/talk-2026-ai-er/css/custom-theme.min.33d041ec477d01d174fafc300b8cd4c28098210cf0ee315dc6697eacc28a5c92.css" id="theme"><link rel="stylesheet" href="/talk-2026-ai-er/highlight-js/solarized-dark.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/gh/DanySK/css-blur-animation/blur.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/81ac037be0.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script src="https://gciatto.github.io/talk-2026-ai-er/plantuml.js"></script>
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="hahahugoshortcode1s0hbhb">AI Course — Regione Emilia-Romagna 2026 (Part 2)</h1>
+<h2 id="hahahugoshortcode1s1hbhb">October–November 2026</h2>
+<br>
+<h3 id="prof-hahahugoshortcode1s2hbhb">Prof. <a href="mailto:giovanni.ciatto@unibo.it">Giovanni Ciatto</a></h3>
+<br>
+<p>Compiled on: 2026-10-13
+ — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> printable version</a></p>
+<!-- [<i class="fa fa-undo" aria-hidden="true"></i> back](..) -->
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" id="toc">
+  
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol start="0">
+<li><a href="./">About the lectures</a> (this page):
+<ul>
+<li><a href="llmaas/#/running-example">the running example</a> · <a href="#/lab-snippets">code of the examples</a></li>
+</ul>
+</li>
+<li><a href="llmaas">LLM-as-a-Service: APIs, Tools, and Agents</a> (27/10/2026, 4h)
+<ul>
+<li><a href="llmaas/#/llmaas">architectural choices</a> · <a href="llmaas/#/apis">APIs</a> · <a href="llmaas/#/integration">integration</a> · <a href="llmaas/#/openai-in-practice">OpenAI APIs in practice</a> · <a href="llmaas/#/processes">from text to processes</a> · <a href="llmaas/#/agentic-ai">agentic AI</a> · <a href="llmaas/#/building-an-agent">building an agent</a></li>
+<li>guided exercise 1. <a href="llmaas/#/exercise-providers">same program, different providers</a> · guided exercise 2. <a href="llmaas/#/exercise-schema">changing the output schema</a></li>
+</ul>
+</li>
+<li><a href="governance">Sovereign and Open Alternatives to Large LLMs</a> (18/11/2026, 3h)
+<ul>
+<li><a href="governance/#/open-landscape">open models</a> · <a href="governance/#/providers-landscape">providers</a> · <a href="governance/#/local">local execution</a> · <a href="governance/#/eu-sovereignty">EU sovereignty</a> · <a href="governance/#/italy">Italy</a> · <a href="governance/#/evaluation">evaluation</a> · <a href="governance/#/decision">decision</a></li>
+<li>guided tour: <a href="governance/#/zoo-tour">three zoos</a> · guided exercise 1. <a href="governance/#/exercise-compare">comparing models</a> · guided exercise 2. <a href="governance/#/exercise-decision">decision record</a></li>
+</ul>
+</li>
+</ol>
+</section><section>
+<h2 id="teacher">Teacher</h2>
+<h3 id="giovanni-ciatto">Giovanni Ciatto</h3>
+<ul>
+<li>email: <a href="mailto:giovanni.ciatto@unibo.it"><code>giovanni.ciatto@unibo.it</code></a></li>
+<li>homepage: <a href="https://www.unibo.it/sitoweb/giovanni.ciatto/en">https://www.unibo.it/sitoweb/giovanni.ciatto/en</a></li>
+<li>Department of Computer Science and Engineering (DISI), University of Bologna</li>
+</ul>
+</section><section>
+<h2 id="goals">Goals</h2>
+<ol>
+<li>
+<p><strong>LLM-as-a-Service</strong>: how to <em>integrate</em> LLMs into applications</p>
+<ul>
+<li>architectural and strategic choices: cloud, on-premise, hybrid</li>
+<li>the ecosystem of APIs, and the OpenAI API as the <em>de facto</em> standard</li>
+<li>from text generation to <em>processes</em>: structured output, tools, workflows, agents, skills</li>
+</ul>
+</li>
+<li>
+<p><strong>Sovereign and open alternatives</strong>: how to <em>choose</em> models and providers</p>
+<ul>
+<li>open and open-weight models, providers, aggregators, local execution</li>
+<li>European and Italian initiatives, and their maturity</li>
+<li>how to evaluate models, and how to decide</li>
+</ul>
+</li>
+</ol>
+</section><section>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>For <em>everybody</em>: none, besides curiosity
+<ul>
+<li>slides are about <strong>concepts</strong> and <strong>trade-offs</strong>, with short examples and guided exercises</li>
+</ul>
+</li>
+<li>For <em>technicians</em> willing to run the examples by themselves:
+<ul>
+<li>basic knowledge of <strong>Python</strong>, <strong>Git</strong>, and the <strong>shell</strong>; basic understanding of <strong>HTTP</strong> APIs and <strong>JSON</strong></li>
+<li>a <a href="https://www.python.org/downloads/">Python</a> 3.11+ installation, and <a href="https://git-scm.com/downloads">Git</a></li>
+<li>an <strong>API key</strong> for some LLM provider (e.g. a free one from <a href="https://openrouter.ai/">Open Router</a>), or a <em>local</em> LLM runtime (e.g. <a href="https://ollama.com/">Ollama</a>)</li>
+</ul>
+</li>
+</ul>
+</section>
+
+
+<section data-shortcode-section="">
+<section data-noprocess="" data-shortcode-slide="" id="lab-snippets">
+<h2 id="the-code-of-the-examples-a-repository">The code of the examples: a repository</h2>
+<ul>
+<li>
+<p>All examples live in a single repository: <a href="https://github.com/unibo-fc-isi-iag/lab-snippets"><code>unibo-fc-isi-iag/lab-snippets</code></a></p>
+<ul>
+<li>slides only show <em>excerpts</em>: the repository contains the <em>full</em>, <em>commented</em>, <em>runnable</em> code</li>
+<li>it is the repository of the University course these lectures are drawn from (“Intelligent Agents”, Module 2), hence it contains <em>more</em> than what we will see</li>
+</ul>
+</li>
+<li>
+<p>The <a href="https://github.com/unibo-fc-isi-iag/lab-snippets/blob/master/README.md">README</a> lists all examples, lecture by lecture</p>
+</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="lab-snippets-setup">
+<h2 id="the-code-of-the-examples-setup">The code of the examples: setup</h2>
+<ol>
+<li>
+<p>Requirements: <a href="https://www.python.org/downloads/">Python</a> 3.11+, and <a href="https://git-scm.com/downloads">Git</a></p>
+</li>
+<li>
+<p>Clone the repository, and install its dependencies <em>once</em>, via <a href="https://python-poetry.org">Poetry</a> (a dependency manager for Python):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>git clone https://github.com/unibo-fc-isi-iag/lab-snippets.git
+</span></span><span style="display:flex;"><span><span style="color:#204a87">cd</span> lab-snippets
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt  <span style="color:#8f5902;font-style:italic"># installs Poetry, if missing</span>
+</span></span><span style="display:flex;"><span>poetry install                   <span style="color:#8f5902;font-style:italic"># creates a virtual environment in .venv/, with all dependencies</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Configure the LLM provider via <strong>environment variables</strong>:</p>
+<ul>
+<li><code>OPENAI_API_KEY</code>: your API key (if missing, snippets ask for it interactively)</li>
+<li><code>OPENAI_BASE_URL</code> (default: <code>https://openrouter.ai/api/v1/</code>), <code>OPENAI_MODEL</code> (default: <code>nvidia/nemotron-3-super-120b-a12b:free</code>, free)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">OPENAI_API_KEY</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"sk-or-v1-..."</span>     <span style="color:#8f5902;font-style:italic"># on Windows (PowerShell): $env:OPENAI_API_KEY="sk-or-v1-..."</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Open the repository’s directory in your IDE (e.g. VS Code), and select the interpreter in <code>.venv/</code></p>
+</li>
+</ol>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="lab-snippets-run">
+<h2 id="the-code-of-the-examples-running-examples">The code of the examples: running examples</h2>
+<ul>
+<li>
+<p>Always run snippets <em>from the root directory</em> of the repository, via the <strong>runner</strong>, by lecture <code>NAME</code> and example <code>ID</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>poetry run python -m snippets --lecture &lt;NAME&gt; --example &lt;ID&gt; <span style="color:#ce5c00;font-weight:bold">[</span>ARGS<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>poetry run python -m snippets -l &lt;NAME&gt; -e &lt;ID&gt; <span style="color:#ce5c00;font-weight:bold">[</span>ARGS<span style="color:#ce5c00;font-weight:bold">]</span>               <span style="color:#8f5902;font-style:italic"># same, but shorter</span>
+</span></span><span style="display:flex;"><span>poetry run python -m snippets -l prompting -e 1bis data/letter-mario-rossi.txt   <span style="color:#8f5902;font-style:italic"># e.g.</span>
+</span></span></code></pre></div><ul>
+<li><code>poetry run</code>: runs the command <em>inside</em> the project’s virtual environment (<code>.venv/</code>), with all dependencies available</li>
+<li><code>python -m snippets</code>: runs the <code>snippets</code> package as a program (i.e. its <code>__main__.py</code>, the runner)</li>
+<li><code>ARGS</code> are passed to the snippet (each example’s slides show which ones it accepts)</li>
+<li>prefer the runner to <code>python path/to/snippet.py</code>: same command for every snippet, no paths to remember</li>
+</ul>
+</li>
+<li>
+<p>Don’t remember the <code>ID</code>? List the snippets of a lecture (or all of them, omitting <code>-l</code>):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>$ poetry run python -m snippets -l llmaas --list
+</span></span><span style="display:flex;"><span>llmaas/example1: Example 1: Sync CLI Chat, with OpenAI's Chat Completions API.
+</span></span><span style="display:flex;"><span>     snippets/lecture_llmaas/example1/repl_chat_openai.py
+</span></span><span style="display:flex;"><span>llmaas/example1bis: Example 1 (bis): the same CLI Chat, with Anthropic's Messages API (served by a local Ollama).
+</span></span><span style="display:flex;"><span>     snippets/lecture_llmaas/example1bis/repl_chat_anthropic.py
+</span></span><span style="display:flex;"><span>llmaas/example2: Example 2: Async CLI Chat with Streaming, with OpenAI's Chat Completions API.
+</span></span><span style="display:flex;"><span>     snippets/lecture_llmaas/example2/repl_chat_openai_async.py
+</span></span><span style="display:flex;"><span>llmaas/example3: Example 3: CLI Chat with Attachments, with OpenAI's Responses API (stateless or stateful).
+</span></span><span style="display:flex;"><span>     snippets/lecture_llmaas/example3/repl_chat_responses.py
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div></li>
+</ul>
+
+</section>
+</section><section>
+<h1 id="lecture-is-over">Lecture is Over</h1>
+<br>
+<p>Compiled on: 2026-10-13
+ — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> printable version</a></p>
+<p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> back to ToC</a></p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/talk-2026-ai-er/reveal-hugo/object-assign.js"></script>
+
+<a href="/talk-2026-ai-er/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/talk-2026-ai-er/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/talk-2026-ai-er/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/talk-2026-ai-er/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/talk-2026-ai-er/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/talk-2026-ai-er/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/talk-2026-ai-er/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = {
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<script>
+  if (/.*?(\?|&)print-pdf/.test(window.location.toString())) {
+      var ytVideos = document.getElementsByTagName("iframe")
+      for (let i = 0; i < ytVideos.length; i++) {
+          var videoFrame = ytVideos[i]
+          var isYouTube = /^https?:\/\/(www.)youtube\.com\/.*/.test(videoFrame.src)
+          if (isYouTube) {
+              console.log(`Removing ${videoFrame.src}`)
+              var parent = videoFrame.parentElement
+              videoFrame.remove()
+              var p = document.createElement('p')
+              p.append(
+                  document.createTextNode(
+                      "There was an embedded video here, but it is disabled in the printed version of the slides."
+                  )
+              )
+              p.append(document.createElement('br'))
+              p.append(
+                  document.createTextNode(
+                      `Visit instead ${
+                          videoFrame.src
+                      } or ${
+                          videoFrame.src.replace(
+                              /(^https?:\/\/(www.)youtube\.com)\/(embed\/)(\w+).*/,
+                              "https://www.youtube.com/watch?v=$4"
+                          )
+                      }`
+                  )
+              )
+              parent.appendChild(p)
+          }
+      }
+  }
+</script>
+
+
+    
+  
+
+</body></html>
