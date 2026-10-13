@@ -17,7 +17,11 @@ outputs = ["Reveal"]
 0. [About the lectures](./) (this page):
     + [the running example](llmaas/#/running-example) · [code of the examples](#/lab-snippets)
 1. [LLM-as-a-Service: APIs, Tools, and Agents](llmaas) (27/10/2026, 4h)
+    + [architectural choices](llmaas/#/llmaas) · [APIs](llmaas/#/apis) · [integration](llmaas/#/integration) · [OpenAI APIs in practice](llmaas/#/openai-in-practice) · [from text to processes](llmaas/#/processes) · [agentic AI](llmaas/#/agentic-ai) · [building an agent](llmaas/#/building-an-agent)
+    + guided exercise 1. [same program, different providers](llmaas/#/exercise-providers) · guided exercise 2. [changing the output schema](llmaas/#/exercise-schema)
 2. [Sovereign and Open Alternatives to Large LLMs](governance) (18/11/2026, 3h)
+    + [open models](governance/#/open-landscape) · [providers](governance/#/providers-landscape) · [local execution](governance/#/local) · [EU sovereignty](governance/#/eu-sovereignty) · [Italy](governance/#/italy) · [evaluation](governance/#/evaluation) · [decision](governance/#/decision)
+    + guided tour: [three zoos](governance/#/zoo-tour) · guided exercise 1. [comparing models](governance/#/exercise-compare) · guided exercise 2. [decision record](governance/#/exercise-decision)
 
 ---
 
