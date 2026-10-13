@@ -71,8 +71,8 @@
 <text x="250.0" y="432.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">0</text>
 <line x1="450.0" y1="400" x2="450.0" y2="408" stroke="#222222" stroke-width="2"/>
 <text x="450.0" y="432.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">max</text>
-<text x="250.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">fp16 weights (one block)</text>
-<text x="250.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">65,536 possible values</text>
+<text x="250.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">pesi fp16 (un blocco)</text>
+<text x="250.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">65.536 valori possibili</text>
 <rect x="1150.0" y="395.0" width="22.0" height="5.0" fill="#3a9e4f"/>
 <rect x="1175.0" y="386.8" width="22.0" height="13.2" fill="#3a9e4f"/>
 <rect x="1200.0" y="369.7" width="22.0" height="30.3" fill="#3a9e4f"/>
@@ -97,10 +97,10 @@
 <text x="1350.0" y="432.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">0</text>
 <line x1="1550.0" y1="400" x2="1550.0" y2="408" stroke="#222222" stroke-width="2"/>
 <text x="1550.0" y="432.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">max</text>
-<text x="1350.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">approximate weights</text>
-<text x="1350.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">only 16 values: visible steps</text>
-<text x="800.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">map ranges to 16 levels</text>
-<text x="800.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">4-bit codes 0 … 15</text>
+<text x="1350.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">pesi approssimati</text>
+<text x="1350.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">solo 16 valori: gradini visibili</text>
+<text x="800.0" y="60.0" font-size="28" fill="#222222" text-anchor="middle" font-weight="bold">intervalli su 16 livelli</text>
+<text x="800.0" y="92.0" font-size="22" fill="#555555" text-anchor="middle" font-weight="normal">codici a 4 bit: 0 … 15</text>
 <rect x="540.0" y="180" width="32.5" height="36" fill="#d6e8fb"/>
 <line x1="556.2" y1="220" x2="556.2" y2="284" stroke="#8a8f98" stroke-width="2" marker-end="url(#ahs)"/>
 <rect x="542.0" y="290" width="28.5" height="38" rx="5" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="2"/>
@@ -168,11 +168,11 @@
 <rect x="540" y="180" width="520" height="36" fill="none" stroke="#2690e7" stroke-width="2"/>
 <text x="540.0" y="170.0" font-size="20" fill="#555555" text-anchor="start" font-weight="normal">min</text>
 <text x="1060.0" y="170.0" font-size="20" fill="#555555" text-anchor="end" font-weight="normal">max</text>
-<text x="800.0" y="170.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">real values</text>
+<text x="800.0" y="170.0" font-size="20" fill="#555555" text-anchor="middle" font-weight="normal">valori reali</text>
 <rect x="540" y="365" width="520" height="86" rx="12" fill="#fbe7cf" stroke="#e8871e" stroke-width="2"/>
-<text x="800.0" y="399.0" font-size="22" fill="#222222" text-anchor="middle" font-weight="normal">+ one scale per block: s = (max − min) / 15</text>
-<text x="800.0" y="434.0" font-size="24" fill="#222222" text-anchor="middle" font-weight="normal" font-family="'JetBrains Mono', Menlo, Consolas, monospace">ŵ = min + code × s</text>
+<text x="800.0" y="399.0" font-size="22" fill="#222222" text-anchor="middle" font-weight="normal">+ una scala per blocco: s = (max − min) / 15</text>
+<text x="800.0" y="434.0" font-size="24" fill="#222222" text-anchor="middle" font-weight="normal" font-family="'JetBrains Mono', Menlo, Consolas, monospace">ŵ = min + codice × s</text>
 <line x1="460" y1="250" x2="528" y2="250" stroke="#222222" stroke-width="3" marker-end="url(#ah)"/>
 <line x1="1072" y1="250" x2="1140" y2="250" stroke="#222222" stroke-width="3" marker-end="url(#ah)"/>
-<text x="800.0" y="530.0" font-size="30" fill="#222222" text-anchor="middle" font-weight="bold">fp16 weights  →  int4 codes + scale  →  approximate weights</text>
+<text x="800.0" y="530.0" font-size="30" fill="#222222" text-anchor="middle" font-weight="bold">pesi fp16 → codici int4 + scala → pesi approssimati</text>
 </svg>

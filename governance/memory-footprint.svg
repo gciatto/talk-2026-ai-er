@@ -70,12 +70,12 @@
 <text x="1118.8" y="422" font-size="26" font-weight="bold" fill="#222222" text-anchor="middle">70B</text>
 <line x1="95" y1="360" x2="1265" y2="360" stroke="#222222" stroke-width="2"/>
 <rect x="1380" y="70" width="28" height="28" rx="4" fill="#2690e7"/>
-<text x="1420" y="93" font-size="22" fill="#222222">weights</text>
+<text x="1420" y="93" font-size="22" fill="#222222">pesi</text>
 <rect x="1380" y="120" width="28" height="28" rx="4" fill="#e8871e"/>
-<text x="1420" y="143" font-size="22" fill="#222222">KV cache</text>
-<text x="1420" y="169" font-size="18" fill="#555555">(8k tokens)</text>
+<text x="1420" y="143" font-size="22" fill="#222222">cache KV</text>
+<text x="1420" y="169" font-size="18" fill="#555555">(8k token)</text>
 <line x1="1380" y1="210" x2="1408" y2="210" stroke="#222222" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1420" y="217" font-size="22" fill="#222222">device</text>
-<text x="1420" y="243" font-size="22" fill="#222222">memory</text>
-<text x="95" y="460" font-size="18" fill="#555555">Weights = params × bits/8 (Q8_0 ≈ 8.5, Q4_K_M ≈ 4.9 bits). KV cache: 8k-token context in fp16, GQA with 8 KV heads × 128 dims, 32/48/64/80 layers. Runtime overhead not shown.</text>
+<text x="1420" y="217" font-size="22" fill="#222222">memoria</text>
+<text x="1420" y="243" font-size="22" fill="#222222">del dispositivo</text>
+<text x="95" y="460" font-size="18" fill="#555555">Pesi = parametri × bit/8 (Q8_0 ≈ 8,5, Q4_K_M ≈ 4,9 bit). Cache KV: contesto di 8k token in fp16, GQA con 8 teste KV × 128 dim., 32/48/64/80 strati. Overhead del runtime escluso.</text>
 </svg>

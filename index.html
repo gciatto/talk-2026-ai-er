@@ -1,20 +1,20 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="it"><head>
 	<meta name="generator" content="Hugo 0.167.0">
     <meta charset="utf-8">
-<title>About the lectures</title>
-<meta name="description" content="LLM APIs, agents, and open models: two lectures of the 'AI Course — Regione Emilia-Romagna 2026'">
+<title>Informazioni sulle lezioni</title>
+<meta name="description" content="API per LLM, agenti e modelli aperti: due lezioni del 'Corso di IA — Regione Emilia-Romagna 2026'">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reveal.css">
-  <link rel="stylesheet" href="/talk-2026-ai-er/css/custom-theme.min.33d041ec477d01d174fafc300b8cd4c28098210cf0ee315dc6697eacc28a5c92.css" id="theme"><link rel="stylesheet" href="/talk-2026-ai-er/highlight-js/solarized-dark.min.css">
+  <link rel="stylesheet" href="/talk-2026-ai-er/css/custom-theme.min.9ccba1c979ca6d88a7827f8125b9b40dba6038e1fbafbcca1e9f72be0181dffe.css" id="theme"><link rel="stylesheet" href="/talk-2026-ai-er/highlight-js/solarized-dark.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/gh/DanySK/css-blur-animation/blur.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://kit.fontawesome.com/81ac037be0.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" crossorigin="anonymous">
 <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 <script src="https://gciatto.github.io/talk-2026-ai-er/plantuml.js"></script>
 
@@ -25,79 +25,79 @@
       <div class="slides">
   
 
-    <section><h1 id="hahahugoshortcode1s0hbhb">AI Course — Regione Emilia-Romagna 2026 (Part 2)</h1>
-<h2 id="hahahugoshortcode1s1hbhb">October–November 2026</h2>
+    <section><h1 id="hahahugoshortcode1s0hbhb">Corso di IA — Regione Emilia-Romagna 2026 (Parte 2)</h1>
+<h2 id="hahahugoshortcode1s1hbhb">Ottobre–Novembre 2026</h2>
 <br>
 <h3 id="prof-hahahugoshortcode1s2hbhb">Prof. <a href="mailto:giovanni.ciatto@unibo.it">Giovanni Ciatto</a></h3>
 <br>
-<p>Compiled on: 2026-10-13
- — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> printable version</a></p>
-<!-- [<i class="fa fa-undo" aria-hidden="true"></i> back](..) -->
+<p>Generato il: 2026-10-13
+ — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
+<!-- [<i class="fa fa-undo" aria-hidden="true"></i> indietro](..) -->
 </section>
 
 <section data-noprocess="" data-shortcode-slide="" id="toc">
   
-<h2 id="table-of-contents">Table of Contents</h2>
+<h2 id="indice">Indice</h2>
 <ol start="0">
-<li><a href="./">About the lectures</a> (this page):
+<li><a href="./">Informazioni sulle lezioni</a> (questa pagina):
 <ul>
-<li><a href="llmaas/#/running-example">the running example</a> · <a href="#/lab-snippets">code of the examples</a></li>
+<li><a href="llmaas/#/running-example">l’esempio ricorrente</a> · <a href="#/lab-snippets">il codice degli esempi</a></li>
 </ul>
 </li>
-<li><a href="llmaas">LLM-as-a-Service: APIs, Tools, and Agents</a> (27/10/2026, 4h)
+<li><a href="llmaas">LLM-as-a-Service: API, strumenti e agenti</a> (27/10/2026, 4h)
 <ul>
-<li><a href="llmaas/#/llmaas">architectural choices</a> · <a href="llmaas/#/apis">APIs</a> · <a href="llmaas/#/integration">integration</a> · <a href="llmaas/#/openai-in-practice">OpenAI APIs in practice</a> · <a href="llmaas/#/processes">from text to processes</a> · <a href="llmaas/#/agentic-ai">agentic AI</a> · <a href="llmaas/#/building-an-agent">building an agent</a></li>
-<li>guided exercise 1. <a href="llmaas/#/exercise-providers">same program, different providers</a> · guided exercise 2. <a href="llmaas/#/exercise-schema">changing the output schema</a></li>
+<li><a href="llmaas/#/llmaas">scelte architetturali</a> · <a href="llmaas/#/apis">API</a> · <a href="llmaas/#/integration">integrazione</a> · <a href="llmaas/#/openai-in-practice">le API OpenAI in pratica</a> · <a href="llmaas/#/processes">dal testo ai processi</a> · <a href="llmaas/#/agentic-ai">IA agentica</a> · <a href="llmaas/#/building-an-agent">costruire un agente</a></li>
+<li>esercizio guidato 1. <a href="llmaas/#/exercise-providers">stesso programma, fornitori diversi</a> · esercizio guidato 2. <a href="llmaas/#/exercise-schema">cambiare lo schema dell’output</a></li>
 </ul>
 </li>
-<li><a href="governance">Sovereign and Open Alternatives to Large LLMs</a> (18/11/2026, 3h)
+<li><a href="governance">Alternative sovrane e aperte ai grandi LLM</a> (18/11/2026, 3h)
 <ul>
-<li><a href="governance/#/open-landscape">open models</a> · <a href="governance/#/providers-landscape">providers</a> · <a href="governance/#/local">local execution</a> · <a href="governance/#/eu-sovereignty">EU sovereignty</a> · <a href="governance/#/italy">Italy</a> · <a href="governance/#/evaluation">evaluation</a> · <a href="governance/#/decision">decision</a></li>
-<li>guided tour: <a href="governance/#/zoo-tour">three zoos</a> · guided exercise 1. <a href="governance/#/exercise-compare">comparing models</a> · guided exercise 2. <a href="governance/#/exercise-decision">decision record</a></li>
+<li><a href="governance/#/open-landscape">modelli aperti</a> · <a href="governance/#/providers-landscape">fornitori</a> · <a href="governance/#/local">esecuzione locale</a> · <a href="governance/#/eu-sovereignty">sovranità europea</a> · <a href="governance/#/italy">Italia</a> · <a href="governance/#/evaluation">valutazione</a> · <a href="governance/#/decision">decisione</a></li>
+<li>visita guidata: <a href="governance/#/zoo-tour">tre cataloghi di modelli</a> · esercizio guidato 1. <a href="governance/#/exercise-compare">confrontare i modelli</a> · esercizio guidato 2. <a href="governance/#/exercise-decision">motivare e documentare una decisione</a></li>
 </ul>
 </li>
 </ol>
 </section><section>
-<h2 id="teacher">Teacher</h2>
+<h2 id="docente">Docente</h2>
 <h3 id="giovanni-ciatto">Giovanni Ciatto</h3>
 <ul>
 <li>email: <a href="mailto:giovanni.ciatto@unibo.it"><code>giovanni.ciatto@unibo.it</code></a></li>
-<li>homepage: <a href="https://www.unibo.it/sitoweb/giovanni.ciatto/en">https://www.unibo.it/sitoweb/giovanni.ciatto/en</a></li>
-<li>Department of Computer Science and Engineering (DISI), University of Bologna</li>
+<li>pagina personale: <a href="https://www.unibo.it/sitoweb/giovanni.ciatto/en">https://www.unibo.it/sitoweb/giovanni.ciatto/en</a></li>
+<li>Dipartimento di Informatica — Scienza e Ingegneria (DISI), Università di Bologna</li>
 </ul>
 </section><section>
-<h2 id="goals">Goals</h2>
+<h2 id="obiettivi">Obiettivi</h2>
 <ol>
 <li>
-<p><strong>LLM-as-a-Service</strong>: how to <em>integrate</em> LLMs into applications</p>
+<p><strong>LLM-as-a-Service</strong>: come <em>integrare</em> gli LLM nelle applicazioni</p>
 <ul>
-<li>architectural and strategic choices: cloud, on-premise, hybrid</li>
-<li>the ecosystem of APIs, and the OpenAI API as the <em>de facto</em> standard</li>
-<li>from text generation to <em>processes</em>: structured output, tools, workflows, agents, skills</li>
+<li>scelte architetturali e strategiche: cloud, on-premise, ibride</li>
+<li>l’ecosistema delle API e le API OpenAI come standard <em>de facto</em></li>
+<li>dalla generazione di testo ai <em>processi</em>: output strutturato, strumenti, workflow, agenti, skill</li>
 </ul>
 </li>
 <li>
-<p><strong>Sovereign and open alternatives</strong>: how to <em>choose</em> models and providers</p>
+<p><strong>Alternative sovrane e aperte</strong>: come <em>scegliere</em> modelli e fornitori</p>
 <ul>
-<li>open and open-weight models, providers, aggregators, local execution</li>
-<li>European and Italian initiatives, and their maturity</li>
-<li>how to evaluate models, and how to decide</li>
+<li>modelli aperti e a pesi aperti, fornitori, aggregatori, esecuzione locale</li>
+<li>iniziative europee e italiane e loro maturità</li>
+<li>come valutare i modelli e come decidere</li>
 </ul>
 </li>
 </ol>
 </section><section>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="prerequisiti">Prerequisiti</h2>
 <ul>
-<li>For <em>everybody</em>: none, besides curiosity
+<li>Per <em>tutti</em>: nessuno, oltre alla curiosità
 <ul>
-<li>slides are about <strong>concepts</strong> and <strong>trade-offs</strong>, with short examples and guided exercises</li>
+<li>le slide trattano <strong>concetti</strong> e <strong>compromessi</strong>, con brevi esempi ed esercizi guidati</li>
 </ul>
 </li>
-<li>For <em>technicians</em> willing to run the examples by themselves:
+<li>Per i <em>tecnici</em> che vogliono eseguire gli esempi in autonomia:
 <ul>
-<li>basic knowledge of <strong>Python</strong>, <strong>Git</strong>, and the <strong>shell</strong>; basic understanding of <strong>HTTP</strong> APIs and <strong>JSON</strong></li>
-<li>a <a href="https://www.python.org/downloads/">Python</a> 3.11+ installation, and <a href="https://git-scm.com/downloads">Git</a></li>
-<li>an <strong>API key</strong> for some LLM provider (e.g. a free one from <a href="https://openrouter.ai/">Open Router</a>), or a <em>local</em> LLM runtime (e.g. <a href="https://ollama.com/">Ollama</a>)</li>
+<li>conoscenze di base di <strong>Python</strong>, <strong>Git</strong> e della <strong>shell</strong>; nozioni di base sulle API <strong>HTTP</strong> e su <strong>JSON</strong></li>
+<li><a href="https://www.python.org/downloads/">Python</a> 3.11+ e <a href="https://git-scm.com/downloads">Git</a> installati</li>
+<li>una <strong>chiave API</strong> di un fornitore di LLM (ad es. gratuita da <a href="https://openrouter.ai/">Open Router</a>), oppure un ambiente di esecuzione <em>locale</em> per LLM (ad es. <a href="https://ollama.com/">Ollama</a>)</li>
 </ul>
 </li>
 </ul>
@@ -106,63 +106,63 @@
 
 <section data-shortcode-section="">
 <section data-noprocess="" data-shortcode-slide="" id="lab-snippets">
-<h2 id="the-code-of-the-examples-a-repository">The code of the examples: a repository</h2>
+<h2 id="il-codice-degli-esempi-un-repository">Il codice degli esempi: un repository</h2>
 <ul>
 <li>
-<p>All examples live in a single repository: <a href="https://github.com/unibo-fc-isi-iag/lab-snippets"><code>unibo-fc-isi-iag/lab-snippets</code></a></p>
+<p>Tutti gli esempi sono in un unico repository: <a href="https://github.com/unibo-fc-isi-iag/lab-snippets"><code>unibo-fc-isi-iag/lab-snippets</code></a></p>
 <ul>
-<li>slides only show <em>excerpts</em>: the repository contains the <em>full</em>, <em>commented</em>, <em>runnable</em> code</li>
-<li>it is the repository of the University course these lectures are drawn from (“Intelligent Agents”, Module 2), hence it contains <em>more</em> than what we will see</li>
+<li>le slide mostrano solo <em>estratti</em>: il repository contiene il codice <em>completo</em>, <em>commentato</em> ed <em>eseguibile</em></li>
+<li>è il repository del corso universitario da cui sono tratte queste lezioni (“Agenti intelligenti”, Modulo 2), quindi contiene <em>più</em> di quanto vedremo</li>
 </ul>
 </li>
 <li>
-<p>The <a href="https://github.com/unibo-fc-isi-iag/lab-snippets/blob/master/README.md">README</a> lists all examples, lecture by lecture</p>
+<p>Il <a href="https://github.com/unibo-fc-isi-iag/lab-snippets/blob/master/README.md">README</a> elenca tutti gli esempi, lezione per lezione</p>
 </li>
 </ul>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="lab-snippets-setup">
-<h2 id="the-code-of-the-examples-setup">The code of the examples: setup</h2>
+<h2 id="il-codice-degli-esempi-configurazione">Il codice degli esempi: configurazione</h2>
 <ol>
 <li>
-<p>Requirements: <a href="https://www.python.org/downloads/">Python</a> 3.11+, and <a href="https://git-scm.com/downloads">Git</a></p>
+<p>Requisiti: <a href="https://www.python.org/downloads/">Python</a> 3.11+ e <a href="https://git-scm.com/downloads">Git</a></p>
 </li>
 <li>
-<p>Clone the repository, and install its dependencies <em>once</em>, via <a href="https://python-poetry.org">Poetry</a> (a dependency manager for Python):</p>
+<p>Clonare il repository e installare le dipendenze <em>una sola volta</em> con <a href="https://python-poetry.org">Poetry</a> (un gestore di dipendenze per Python):</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>git clone https://github.com/unibo-fc-isi-iag/lab-snippets.git
 </span></span><span style="display:flex;"><span><span style="color:#204a87">cd</span> lab-snippets
 </span></span><span style="display:flex;"><span>pip install -r requirements.txt  <span style="color:#8f5902;font-style:italic"># installs Poetry, if missing</span>
 </span></span><span style="display:flex;"><span>poetry install                   <span style="color:#8f5902;font-style:italic"># creates a virtual environment in .venv/, with all dependencies</span>
 </span></span></code></pre></div></li>
 <li>
-<p>Configure the LLM provider via <strong>environment variables</strong>:</p>
+<p>Configurare il fornitore di LLM tramite <strong>variabili d’ambiente</strong>:</p>
 <ul>
-<li><code>OPENAI_API_KEY</code>: your API key (if missing, snippets ask for it interactively)</li>
-<li><code>OPENAI_BASE_URL</code> (default: <code>https://openrouter.ai/api/v1/</code>), <code>OPENAI_MODEL</code> (default: <code>nvidia/nemotron-3-super-120b-a12b:free</code>, free)</li>
+<li><code>OPENAI_API_KEY</code>: la propria chiave API (se manca, gli snippet la chiedono interattivamente)</li>
+<li><code>OPENAI_BASE_URL</code> (predefinito: <code>https://openrouter.ai/api/v1/</code>), <code>OPENAI_MODEL</code> (predefinito: <code>nvidia/nemotron-3-super-120b-a12b:free</code>, gratuito)</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">OPENAI_API_KEY</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"sk-or-v1-..."</span>     <span style="color:#8f5902;font-style:italic"># on Windows (PowerShell): $env:OPENAI_API_KEY="sk-or-v1-..."</span>
 </span></span></code></pre></div></li>
 <li>
-<p>Open the repository’s directory in your IDE (e.g. VS Code), and select the interpreter in <code>.venv/</code></p>
+<p>Aprire la directory del repository nel proprio IDE (ad es. VS Code) e selezionare l’interprete in <code>.venv/</code></p>
 </li>
 </ol>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="lab-snippets-run">
-<h2 id="the-code-of-the-examples-running-examples">The code of the examples: running examples</h2>
+<h2 id="il-codice-degli-esempi-esecuzione">Il codice degli esempi: esecuzione</h2>
 <ul>
 <li>
-<p>Always run snippets <em>from the root directory</em> of the repository, via the <strong>runner</strong>, by lecture <code>NAME</code> and example <code>ID</code>:</p>
+<p>Eseguire sempre gli snippet <em>dalla directory principale</em> del repository, tramite il <strong>runner</strong>, indicando la lezione <code>NAME</code> e l’esempio <code>ID</code>:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>poetry run python -m snippets --lecture &lt;NAME&gt; --example &lt;ID&gt; <span style="color:#ce5c00;font-weight:bold">[</span>ARGS<span style="color:#ce5c00;font-weight:bold">]</span>
 </span></span><span style="display:flex;"><span>poetry run python -m snippets -l &lt;NAME&gt; -e &lt;ID&gt; <span style="color:#ce5c00;font-weight:bold">[</span>ARGS<span style="color:#ce5c00;font-weight:bold">]</span>               <span style="color:#8f5902;font-style:italic"># same, but shorter</span>
 </span></span><span style="display:flex;"><span>poetry run python -m snippets -l prompting -e 1bis data/letter-mario-rossi.txt   <span style="color:#8f5902;font-style:italic"># e.g.</span>
 </span></span></code></pre></div><ul>
-<li><code>poetry run</code>: runs the command <em>inside</em> the project’s virtual environment (<code>.venv/</code>), with all dependencies available</li>
-<li><code>python -m snippets</code>: runs the <code>snippets</code> package as a program (i.e. its <code>__main__.py</code>, the runner)</li>
-<li><code>ARGS</code> are passed to the snippet (each example’s slides show which ones it accepts)</li>
-<li>prefer the runner to <code>python path/to/snippet.py</code>: same command for every snippet, no paths to remember</li>
+<li><code>poetry run</code>: esegue il comando <em>nell’ambiente virtuale</em> del progetto (<code>.venv/</code>), con tutte le dipendenze disponibili</li>
+<li><code>python -m snippets</code>: esegue il pacchetto <code>snippets</code> come programma (cioè il suo <code>__main__.py</code>, il runner)</li>
+<li><code>ARGS</code> vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)</li>
+<li>preferire il runner a <code>python path/to/snippet.py</code>: lo stesso comando per ogni snippet, senza percorsi da ricordare</li>
 </ul>
 </li>
 <li>
-<p>Don’t remember the <code>ID</code>? List the snippets of a lecture (or all of them, omitting <code>-l</code>):</p>
+<p>Non si ricorda l’<code>ID</code>? Elencare gli snippet di una lezione (o tutti, omettendo <code>-l</code>):</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>$ poetry run python -m snippets -l llmaas --list
 </span></span><span style="display:flex;"><span>llmaas/example1: Example 1: Sync CLI Chat, with OpenAI's Chat Completions API.
 </span></span><span style="display:flex;"><span>     snippets/lecture_llmaas/example1/repl_chat_openai.py
@@ -178,11 +178,11 @@
 
 </section>
 </section><section>
-<h1 id="lecture-is-over">Lecture is Over</h1>
+<h1 id="fine-della-lezione">Fine della lezione</h1>
 <br>
-<p>Compiled on: 2026-10-13
- — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> printable version</a></p>
-<p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> back to ToC</a></p>
+<p>Generato il: 2026-10-13
+ — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
+<p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section>
 
   
@@ -303,15 +303,15 @@
               var p = document.createElement('p')
               p.append(
                   document.createTextNode(
-                      "There was an embedded video here, but it is disabled in the printed version of the slides."
+                      "Qui era incorporato un video, disattivato nella versione stampabile delle slide."
                   )
               )
               p.append(document.createElement('br'))
               p.append(
                   document.createTextNode(
-                      `Visit instead ${
+                      `Il video è disponibile su ${
                           videoFrame.src
-                      } or ${
+                      } oppure ${
                           videoFrame.src.replace(
                               /(^https?:\/\/(www.)youtube\.com)\/(embed\/)(\w+).*/,
                               "https://www.youtube.com/watch?v=$4"
