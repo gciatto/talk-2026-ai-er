@@ -1,31 +1,31 @@
-## Running example
+## Esempio ricorrente
 
-### Admission committee assistant for PhD applications evaluation
+### Assistente alla commissione per valutare le domande di dottorato
 
-- 3 candidates, and as many applications, with their _passport_, _transcript of records_, and _presentation letter_ (in natural language)
+- 3 candidati e altrettante domande, con _passaporto_, _certificato degli esami_ e _lettera di presentazione_ (in linguaggio naturale)
 
-- we want to extract structured information from these documents (e.g. name, age, grades, research experience, etc.) to ease evaluation
+- vogliamo estrarre informazioni strutturate da questi documenti (ad es. nome, età, voti, esperienza di ricerca ecc.) per agevolare la valutazione
 
 {{% multicol %}}
 {{% col %}}
-![](../lab-snippets/data/passport-mario-rossi.png)
+![Passaporto di Mario Rossi](../lab-snippets/data/passport-mario-rossi.png)
 
-- [Transcript of records](../lab-snippets/data/transcript-mario-rossi.png)
-- [Presentation letter](../lab-snippets/data/letter-mario-rossi.txt)
-    + letter is very positive
+- [Certificato degli esami](../lab-snippets/data/transcript-mario-rossi.png)
+- [Lettera di presentazione](../lab-snippets/data/letter-mario-rossi.txt)
+    + la lettera è molto positiva
 {{% /col %}}
 {{% col %}}
-![](../lab-snippets/data/passport-jean-dupont.png)
+![Passaporto di Jean Dupont](../lab-snippets/data/passport-jean-dupont.png)
 
-- [Transcript of records](../lab-snippets/data/transcript-jean-dupont.png)
-- [Presentation letter](../lab-snippets/data/letter-jean-dupont.txt)
-    - letter contains some criticisms
+- [Certificato degli esami](../lab-snippets/data/transcript-jean-dupont.png)
+- [Lettera di presentazione](../lab-snippets/data/letter-jean-dupont.txt)
+    - la lettera contiene alcune critiche
 {{% /col %}}
 {{% col %}}
-![](../lab-snippets/data/passport-mohammed-ali.png)
+![Passaporto di Mohammed Ali](../lab-snippets/data/passport-mohammed-ali.png)
 
-- [Transcript of records](../lab-snippets/data/transcript-mohammed-ali.png)
-- [Presentation letter](../lab-snippets/data/letter-mohammed-ali.txt)
-    - letter is positive but shallow
+- [Certificato degli esami](../lab-snippets/data/transcript-mohammed-ali.png)
+- [Lettera di presentazione](../lab-snippets/data/letter-mohammed-ali.txt)
+    - la lettera è positiva ma poco approfondita
 {{% /col %}}
 {{% /multicol %}}

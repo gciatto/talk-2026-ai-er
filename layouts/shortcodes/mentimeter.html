@@ -18,8 +18,8 @@
         var parent = todisable.parentElement
         todisable.remove()
         var replacement = document.createTextNode(
-            "There was a Mentimeter pool here, but they get disabled when printing.\
-            You might be able to retrieve the results at:\
+            "Qui era presente un sondaggio Mentimeter, disattivato nella versione stampabile.\
+            I risultati potrebbero essere disponibili su:\
             https://www.mentimeter.com/app/presentation/{{ .Get 0 }}/"
         )
         parent.appendChild(replacement)

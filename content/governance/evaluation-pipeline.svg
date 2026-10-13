@@ -44,13 +44,13 @@
 
   <!-- stage headers -->
   <g font-size="28" font-weight="bold" text-anchor="middle">
-    <text x="205" y="44">1. test dataset</text>
-    <text x="545" y="44">2. system under test</text>
-    <text x="825" y="100">outputs</text>
-    <text x="1175" y="44">3. scorers</text>
-    <text x="1470" y="44">4. report</text>
+    <text x="205" y="44">1. dataset di test</text>
+    <text x="545" y="44">2. sistema da valutare</text>
+    <text x="825" y="100">output</text>
+    <text x="1175" y="44">3. valutatori</text>
+    <text x="1470" y="44">4. rapporto</text>
   </g>
-  <text x="1175" y="80" font-size="20" fill="#555555" text-anchor="middle">input + output + expectations</text>
+  <text x="1175" y="80" font-size="20" fill="#555555" text-anchor="middle">input + output + risultati attesi</text>
 
   <!-- ===== 1. test dataset ===== -->
   <rect x="10" y="70" width="390" height="490" rx="12" fill="#ffffff" stroke="#222222" stroke-width="2.5"/>
@@ -63,7 +63,7 @@
   </g>
   <g font-size="22" font-weight="bold">
     <text x="55" y="98" text-anchor="middle">input</text>
-    <text x="116" y="98">expectations</text>
+    <text x="116" y="98">risultati attesi</text>
   </g>
   <use xlink:href="#letter" href="#letter" x="33" y="140" width="44" height="54"/>
   <use xlink:href="#letter" href="#letter" x="33" y="290" width="44" height="54"/>
@@ -74,15 +74,15 @@
     <text x="55" y="522">Ali</text>
   </g>
   <g font-size="21">
-    <text x="114" y="150">applicant = Mario Rossi</text>
-    <text x="114" y="190">score ≥ 4</text>
-    <text x="114" y="230">has weaknesses = no</text>
-    <text x="114" y="300">applicant = Jean Dupont</text>
-    <text x="114" y="340">score ≤ 4</text>
-    <text x="114" y="380">has weaknesses = yes</text>
-    <text x="114" y="450">applicant = Mohammed Ali</text>
-    <text x="114" y="490">score ≤ 3</text>
-    <text x="114" y="530">programme = Cyber Sec.</text>
+    <text x="114" y="150">candidato = Mario Rossi</text>
+    <text x="114" y="190">punteggio ≥ 4</text>
+    <text x="114" y="230">ha punti deboli = no</text>
+    <text x="114" y="300">candidato = Jean Dupont</text>
+    <text x="114" y="340">punteggio ≤ 4</text>
+    <text x="114" y="380">ha punti deboli = sì</text>
+    <text x="114" y="450">candidato = Mohammed Ali</text>
+    <text x="114" y="490">punteggio ≤ 3</text>
+    <text x="114" y="530">corso = Cyber Sec.</text>
   </g>
 
   <!-- ===== 2. system under test ===== -->
@@ -90,12 +90,12 @@
   <rect x="445" y="200" width="200" height="270" rx="14" fill="#eceef1" stroke="#222222" stroke-width="2.5"/>
   <rect x="465" y="220" width="160" height="96" rx="10" fill="#d6e8fb" stroke="#2690e7" stroke-width="2"/>
   <g font-size="24" text-anchor="middle">
-    <text x="545" y="260">prompt</text>
-    <text x="545" y="290">template</text>
+    <text x="545" y="260">modello</text>
+    <text x="545" y="290">di prompt</text>
     <text x="545" y="345" font-weight="bold">+</text>
   </g>
   <rect x="465" y="358" width="160" height="92" rx="10" fill="#ffffff" stroke="#222222" stroke-width="2"/>
-  <text x="545" y="413" font-size="24" font-weight="bold" text-anchor="middle">model</text>
+  <text x="545" y="413" font-size="24" font-weight="bold" text-anchor="middle">modello</text>
 
   <!-- arrows to outputs -->
   <g stroke="#222222" stroke-width="2.5" fill="none" marker-end="url(#arr)">
@@ -142,20 +142,20 @@
   <use xlink:href="#scale" href="#scale" x="1037" y="296" width="56" height="56"/>
   <use xlink:href="#judge" href="#judge" x="1037" y="456" width="56" height="56"/>
   <g font-size="23" font-weight="bold">
-    <text x="1103" y="160">deterministic</text>
-    <text x="1103" y="188">checks</text>
-    <text x="1103" y="320">relational</text>
-    <text x="1103" y="348">check</text>
-    <text x="1103" y="480">LLM-as-a-judge</text>
+    <text x="1103" y="160">verifiche</text>
+    <text x="1103" y="188">deterministiche</text>
+    <text x="1103" y="320">verifica</text>
+    <text x="1103" y="348">relazionale</text>
+    <text x="1103" y="480">LLM come giudice</text>
   </g>
   <g font-size="20" fill="#555555">
-    <text x="1103" y="218">name matches,</text>
-    <text x="1103" y="244">score in range</text>
-    <text x="1103" y="378">Mario's score is</text>
-    <text x="1103" y="404">the highest</text>
-    <text x="1103" y="512">strengths, weaknesses</text>
-    <text x="1103" y="538">grounded in the</text>
-    <text x="1103" y="564">letter?</text>
+    <text x="1103" y="218">nome corretto,</text>
+    <text x="1103" y="244">punteggio nell'intervallo</text>
+    <text x="1103" y="378">il punteggio di Mario è</text>
+    <text x="1103" y="404">il più alto</text>
+    <text x="1103" y="512">pregi e difetti</text>
+    <text x="1103" y="538">sono fondati sulla</text>
+    <text x="1103" y="564">lettera?</text>
   </g>
 
   <g stroke="#222222" stroke-width="2.5" marker-end="url(#arr)">
@@ -186,7 +186,7 @@
     <text x="1390" y="222">Rossi</text>
     <text x="1390" y="312">Dupont</text>
     <text x="1390" y="402">Ali</text>
-    <text x="1390" y="477" fill="#555555">pass</text>
+    <text x="1390" y="477" fill="#555555">superati</text>
   </g>
   <use xlink:href="#tick" href="#tick" x="1442" y="200" width="30" height="30"/>
   <use xlink:href="#tick" href="#tick" x="1442" y="290" width="30" height="30"/>
@@ -203,5 +203,5 @@
 
   <!-- feedback loop -->
   <path d="M1470 500 V700 H545 V476" fill="none" stroke="#222222" stroke-width="2.5" stroke-dasharray="10 7" marker-end="url(#arr)"/>
-  <text x="1000" y="738" font-size="26" text-anchor="middle">change prompt or model, then re-run</text>
+  <text x="1000" y="738" font-size="26" text-anchor="middle">cambiare prompt o modello, poi rieseguire</text>
 </svg>

@@ -1,7 +1,7 @@
-# Lecture is Over
+# Fine della lezione
 
 <br>
 
-Compiled on: {{< today >}} --- [<i class="fa fa-print" aria-hidden="true"></i> printable version](?print-pdf&pdfSeparateFragments=false)
+Generato il: {{< today >}} --- [<i class="fa fa-print" aria-hidden="true"></i> versione stampabile](?print-pdf&pdfSeparateFragments=false)
 
-[<i class="fa fa-undo" aria-hidden="true"></i> back to ToC](../#/toc)
+[<i class="fa fa-undo" aria-hidden="true"></i> torna all'indice](../#/toc)

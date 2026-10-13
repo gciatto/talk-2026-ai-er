@@ -27,15 +27,15 @@
               var p = document.createElement('p')
               p.append(
                   document.createTextNode(
-                      "There was an embedded video here, but it is disabled in the printed version of the slides."
+                      "Qui era incorporato un video, disattivato nella versione stampabile delle slide."
                   )
               )
               p.append(document.createElement('br'))
               p.append(
                   document.createTextNode(
-                      `Visit instead ${
+                      `Il video è disponibile su ${
                           videoFrame.src
-                      } or ${
+                      } oppure ${
                           videoFrame.src.replace(
                               /(^https?:\/\/(www.)youtube\.com)\/(embed\/)(\w+).*/,
                               "https://www.youtube.com/watch?v=$4"

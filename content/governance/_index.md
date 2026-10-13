@@ -1,49 +1,49 @@
 
 +++
 
-title = "[AI-ER] Sovereign and Open Alternatives to Large LLMs"
-description = "Open models, providers, local execution, European and Italian initiatives, model evaluation and selection"
+title = "[AI-ER] Alternative sovrane e aperte ai grandi LLM"
+description = "Modelli aperti, fornitori, esecuzione locale, iniziative europee e italiane, valutazione e scelta dei modelli"
 outputs = ["Reveal"]
 
 +++
 
-# Sovereign and Open Alternatives to Large LLMs
+# Alternative sovrane e aperte ai grandi LLM
 
 {{% import path="reusable/footer.md" %}}
 
 ---
 
-## Outline
+## Programma
 
-1. [The landscape of open and open-weight models](#/open-landscape)
-    + model zoos (Hugging Face, Ollama, Open Router); key parameters; what "open" means; licenses
-2. [Models, providers, and platforms](#/providers-landscape): who offers what
-    + primary providers, aggregators, marketplaces; Open Router; portability and lock-in
-3. [Local execution](#/local) and infrastructural sovereignty
-    + Ollama; hardware requirements; when is it sustainable?
-4. [European digital sovereignty](#/sovereignty): initiatives, and their maturity
-5. [The Italian landscape](#/italy)
-6. [How to evaluate an LLM](#/evaluation)
-    + benchmarks, and their limits; realistic evaluation for an organisation
-7. [Decision criteria for adoption](#/decision)
-    + cloud, European provider, or on-premise? How to build a shortlist
+1. [Il panorama dei modelli aperti e a pesi aperti](#/open-landscape)
+    + cataloghi di modelli (Hugging Face, Ollama, Open Router); parametri chiave; cosa significa "aperto"; licenze
+2. [Modelli, fornitori e piattaforme](#/providers-landscape): chi offre cosa
+    + fornitori primari, aggregatori, marketplace; Open Router; portabilità e lock-in
+3. [Esecuzione locale](#/local) e sovranità infrastrutturale
+    + Ollama; requisiti hardware; quando è sostenibile?
+4. [Sovranità digitale europea](#/sovereignty): iniziative e loro maturità
+5. [Il panorama italiano](#/italy)
+6. [Come valutare un LLM](#/evaluation)
+    + benchmark e loro limiti; valutazione realistica per un'organizzazione
+7. [Criteri di scelta per l'adozione](#/decision)
+    + cloud, fornitore europeo o on-premise? Come costruire una rosa di candidati
 
 ---
 
-## Recall: where should the model run?
+## Riprendiamo: dove deve essere eseguito il modello?
 
-- From the [previous lecture](../llmaas/#/deployment-options), three _deployment options_:
-    1. __proprietary cloud API__ (e.g. OpenAI, Anthropic, Google)
-    2. __open model, hosted by a third party__ (e.g. via Open Router, an EU cloud provider)
-    3. __on-premise__ (e.g. via Ollama, vLLM)
-- ... to be chosen according to _five dimensions_: quality, cost, control, compliance, time-to-market (cf. the [comparison](../llmaas/#/deployment-options))
-- Options 2 and 3 require __open-weight__ models: _which_ ones, from _whom_, under which _conditions_, and how _good_ are they?
+- Dalla [lezione precedente](../llmaas/#/deployment-options), tre _opzioni di deployment_:
+    1. __API cloud proprietaria__ (es. OpenAI, Anthropic, Google)
+    2. __modello aperto, ospitato da terzi__ (es. tramite Open Router, un fornitore cloud UE)
+    3. __on-premise__ (es. tramite Ollama, vLLM)
+- ... da scegliere secondo _cinque dimensioni_: qualità, costo, controllo, conformità, time-to-market (cfr. il [confronto](../llmaas/#/deployment-options))
+- Le opzioni 2 e 3 richiedono modelli __a pesi aperti__: _quali_, di _chi_, a quali _condizioni_ e quanto sono _validi_?
 
 ---
 
 {{< slide id="open-landscape" >}}
 
-# The Landscape of Open and Open-Weight Models
+# Il panorama dei modelli aperti e a pesi aperti
 
 ---
 
@@ -51,97 +51,97 @@ outputs = ["Reveal"]
 
 {{< slide id="model-zoos" >}}
 
-## Model zoos (pt. 1): the general concept
+## Cataloghi di modelli (pt. 1): il concetto generale
 
-- A __model zoo__ (a.k.a. model _hub_, _catalog_, _library_) is a _searchable collection_ of models made available by some provider, each one with:
-    + a __name__ (and _versions_/_variants_), to be used in API calls or downloads
-    + a __model card__: a document describing the model's _purpose_, _training data_, _evaluation_ results, _limitations_, and _intended uses_ (cf. [Mitchell et al., 2019](https://arxiv.org/abs/1810.03993))
-    + _technical metadata_: size, _context window_, supported _modalities_ (text, image, audio), support for _tools_ / _structured output_ / _reasoning_
-    + _economic_ and _legal_ metadata: price per token (for on-cloud zoos), __license__ (for downloadable models)
+- Un __model zoo__ (detto anche _hub_, _catalogo_ o _libreria_ di modelli) è una _raccolta consultabile_ di modelli messi a disposizione da un fornitore, ciascuno con:
+    + un __nome__ (e _versioni_/_varianti_), da usare nelle chiamate API o per il download
+    + una __model card__: un documento che descrive _scopo_, _dati di addestramento_, risultati della _valutazione_, _limiti_ e _usi previsti_ del modello (cfr. [Mitchell et al., 2019](https://arxiv.org/abs/1810.03993))
+    + _metadati tecnici_: dimensione, _finestra di contesto_, _modalità_ supportate (testo, immagini, audio), supporto per _tool_ / _output strutturati_ / _ragionamento_
+    + metadati _economici_ e _giuridici_: prezzo per token (per i cataloghi cloud), __licenza__ (per i modelli scaricabili)
 
-- Zoos are the _entry point_ for __model selection__, which is a recurring activity in GenAI engineering (cf. [GenAI lifecycle](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-workflow))
+- I cataloghi sono il _punto di partenza_ per la __scelta del modello__, un'attività ricorrente nell'ingegneria della GenAI (cfr. [ciclo di vita della GenAI](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-workflow))
 
 
-### Example
+### Esempio
 
-- [Hugging Face Hub](https://huggingface.co/models) is a model zoo with millions of models for any task and any modality,
-    - each one with a model card, technical metadata, and license information
-    - e.g. filter on "Gemma" to see the [Gemma family](https://huggingface.co/models?sort=trending&search=gemma) of LLMs, then click on one to see the card
+- [Hugging Face Hub](https://huggingface.co/models) è un catalogo con milioni di modelli per qualsiasi compito e modalità,
+    - ciascuno con una model card, metadati tecnici e informazioni sulla licenza
+    - es. filtrare per "Gemma" per vedere la [famiglia Gemma](https://huggingface.co/models?sort=trending&search=gemma) di LLM, poi selezionare un modello per aprirne la scheda
 
-    {{< image src="./hugging-face-model-zoo.png" max-h="28vh" alt="Hugging Face Gemma model card screenshot" >}}
+    {{< image src="./hugging-face-model-zoo.png" max-h="28vh" alt="Schermata della model card di Gemma su Hugging Face" >}}
 
 ---
 
-## Model zoos (pt. 2): the technological landscape
+## Cataloghi di modelli (pt. 2): il panorama tecnologico
 
-| | [Hugging Face Hub](https://huggingface.co/models) | [Ollama library](https://ollama.com/models) | [Open Router](https://openrouter.ai/models) |
+| | [Hugging Face Hub](https://huggingface.co/models) | [Libreria Ollama](https://ollama.com/models) | [Open Router](https://openrouter.ai/models) |
 |---|---|---|---|
-| __Kind__ | download (+ some hosted inference) | download, run locally | on-cloud, pay per token |
-| __Size__ | millions of models (any task, any modality) | hundreds of curated LLMs | hundreds of LLMs from dozens of providers |
-| __Naming__ | `organization/model-name` | `model:variant` (e.g. `gemma4:e2b`) | `provider/model[:tier]` (e.g. `google/gemma-4-26b-a4b-it:free`) |
-| __Variants__ | separate repositories (e.g. `...-GGUF`, `...-AWQ`) | _tags_ for size and quantization | one entry per model, served by several providers |
-| __Metadata__ | full model card, files, license, community | size, context, capabilities, quantization | price, context, latency/throughput stats, supported parameters |
-| __License__ | per model (shown as a tag) | per model (in the model page) | provider's _terms of service_ apply |
+| __Tipo__ | download (+ alcune opzioni di inferenza ospitata) | download, esecuzione locale | cloud, pagamento per token |
+| __Dimensione__ | milioni di modelli (qualsiasi compito e modalità) | centinaia di LLM selezionati | centinaia di LLM da decine di fornitori |
+| __Nomi__ | `organization/model-name` | `model:variant` (es. `gemma4:e2b`) | `provider/model[:tier]` (es. `google/gemma-4-26b-a4b-it:free`) |
+| __Varianti__ | repository separati (es. `...-GGUF`, `...-AWQ`) | _tag_ per dimensione e quantizzazione | una voce per modello, servito da più fornitori |
+| __Metadati__ | model card completa, file, licenza, comunità | dimensione, contesto, capacità, quantizzazione | prezzo, contesto, statistiche di latenza/throughput, parametri supportati |
+| __Licenza__ | per modello (mostrata come tag) | per modello (nella pagina del modello) | si applicano i _termini di servizio_ del fornitore |
 
-### Recurring naming conventions (worth decoding)
+### Convenzioni ricorrenti nei nomi (da saper decifrare)
 
-- _family_ + _version_: `llama-3.1`, `qwen3`, `gemma-4`
-- _size_: `8b`, `70b`, or `26b-a4b` (MoE: total vs. active parameters), or `e2b` (_effective_ 2B: Gemma's ~2.3B parameters used in computation, 5.1B including per-layer embeddings)
-- _flavour_: `base` (pure next-token predictor) vs. `instruct` / `it` / `chat` (tuned to follow instructions: __this is what you want__ for Chat Completion), or `coder`, `vl` / `vision`, `thinking`
-- _quantization_ / _format_: `Q4_K_M`, `GGUF`, `AWQ`, `fp8`
-- _date_ / _snapshot_: `gpt-4o-2024-08-06` (pin it for _reproducibility_!)
+- _famiglia_ + _versione_: `llama-3.1`, `qwen3`, `gemma-4`
+- _dimensione_: `8b`, `70b` o `26b-a4b` (MoE: parametri totali vs. attivi), oppure `e2b` (2B _effettivi_: ~2,3 miliardi di parametri di Gemma usati nel calcolo, 5,1 miliardi includendo gli embedding per strato)
+- _specializzazione_: `base` (puro predittore del token successivo) vs. `instruct` / `it` / `chat` (adattato a seguire istruzioni: __è ciò che serve__ per Chat Completion), oppure `coder`, `vl` / `vision`, `thinking`
+- _quantizzazione_ / _formato_: `Q4_K_M`, `GGUF`, `AWQ`, `fp8`
+- _data_ / _snapshot_: `gpt-4o-2024-08-06` (fissare la versione per la _riproducibilità_!)
 
 ---
 
-## Model zoos (pt. 3): what next?
+## Cataloghi di modelli (pt. 3): e poi?
 
-- Zoos tell you _which_ models exist, and what they _claim_ to be capable of
-- Need a model supporting _tools_ or _structured output_?
-    + Ollama: look for the `tools`, `thinking`, `vision` badges (e.g. [filter by tools](https://ollama.com/search?c=tools))
-    + Open Router: filter the models page by _supported parameters_ (e.g. `tools`, `structured_outputs`, `response_format`)
-- __Choosing__ the right model for a given task, and __evaluating__ it on _evidence_, are decisions with consequences on quality, cost, control, and compliance
-    + hence, they are discussed [later](#/model-selection), along with a guided exercise on comparing models on the running example
+- I cataloghi indicano _quali_ modelli esistono e cosa _dichiarano_ di saper fare
+- Serve un modello che supporti _tool_ o _output strutturati_?
+    + Ollama: cercare i badge `tools`, `thinking`, `vision` (es. [filtro per tool](https://ollama.com/search?c=tools))
+    + Open Router: filtrare la pagina dei modelli per _parametri supportati_ (es. `tools`, `structured_outputs`, `response_format`)
+- __Scegliere__ il modello adatto a un compito e __valutarlo__ sulla base di _evidenze_ sono decisioni che incidono su qualità, costo, controllo e conformità
+    + ne parleremo [più avanti](#/model-selection), con un esercizio guidato di confronto dei modelli sull'esempio ricorrente
 
 ---
 
 {{< slide id="key-parameters" >}}
 
-## Key parameters, at a glance
+## I parametri chiave, a colpo d'occhio
 
 {{% small "85%" %}}
 
-| Parameter | Where to find it | Why it matters |
+| Parametro | Dove trovarlo | Perché conta |
 |---|---|---|
-| __Size__ (parameters; _total_ vs. _active_, for MoE) | name (e.g. `26b-a4b`), model card | quality (roughly), memory and hardware needed, speed |
-| __Cost__ | price per 1M input / output tokens (cloud); hardware + energy (local) | operating budget; varies by provider, for the _same_ model |
-| __License__ | model card, license file | what you may _legally_ do: commercial use, fine-tuning, hosting, geography |
-| __Context window__ | model card, zoo metadata | how many documents / how much history fit in a request |
-| __Modalities__ | model card, badges (e.g. `vision`) | text only? images (e.g. scanned documents)? audio? |
-| __Operational capabilities__ | badges, _supported parameters_ (e.g. `tools`, `structured_outputs`) | can it call tools, produce structured output, _reason_? |
-| __Languages__ | model card, technical report | is Italian supported _well_ (not just "supported")? |
-| __Knowledge cut-off__, __release date__ | model card | how up to date it is; how long before it is _deprecated_ |
+| __Dimensione__ (parametri; _totali_ vs. _attivi_, per MoE) | nome (es. `26b-a4b`), model card | qualità (indicativamente), memoria e hardware necessari, velocità |
+| __Costo__ | prezzo per 1M di token in ingresso / uscita (cloud); hardware + energia (locale) | budget operativo; varia tra fornitori per lo _stesso_ modello |
+| __Licenza__ | model card, file della licenza | cosa è _legalmente_ consentito: uso commerciale, fine-tuning, hosting, territorio |
+| __Finestra di contesto__ | model card, metadati del catalogo | quanti documenti / quanta cronologia entrano in una richiesta |
+| __Modalità__ | model card, badge (es. `vision`) | solo testo? immagini (es. documenti scansionati)? audio? |
+| __Capacità operative__ | badge, _parametri supportati_ (es. `tools`, `structured_outputs`) | può chiamare tool, produrre output strutturati, _ragionare_? |
+| __Lingue__ | model card, rapporto tecnico | l'italiano è supportato _bene_ (non soltanto "supportato")? |
+| __Limite temporale delle conoscenze__, __data di rilascio__ | model card | quanto è aggiornato; quanto manca alla sua _dismissione_ |
 
 {{% /small %}}
 
-- Zoo metadata is a _claim_ by the provider: __verify__ what matters for your use case (cf. [evaluation](#/evaluation))
+- I metadati del catalogo sono _dichiarazioni_ del fornitore: __verificare__ ciò che conta per il proprio caso d'uso (cfr. [valutazione](#/evaluation))
 
 ---
 
 {{< slide id="zoo-tour" >}}
 
-## Guided tour: the same model, in three zoos
+## Esplorazione guidata: lo stesso modello in tre cataloghi
 
-> __Goal__: learn to read model zoos, by looking for the _same_ open-weight model (e.g. Gemma 4) in all three
+> __Obiettivo__: imparare a leggere i cataloghi cercando lo _stesso_ modello a pesi aperti (es. Gemma 4) in tutti e tre
 
-1. [Hugging Face Hub](https://huggingface.co/models?search=gemma-4): find the model card of `google/gemma-4-26b-a4b-it`
-    + license? languages? context window? evaluations? how many _derived_ models (fine-tunes, quantizations) exist?
-2. [Ollama library](https://ollama.com/library/gemma4): look at the _tags_ of `gemma4`
-    + which sizes and quantizations? how many GB each? which _badges_ (`vision`, `tools`, `thinking`)?
-3. [Open Router](https://openrouter.ai/models?q=gemma-4): look at `google/gemma-4-26b-a4b-it`
-    + how many _providers_ serve it? at which prices, latency, throughput? is there a `:free` variant? with which limits?
+1. [Hugging Face Hub](https://huggingface.co/models?search=gemma-4): trovare la model card di `google/gemma-4-26b-a4b-it`
+    + licenza? lingue? finestra di contesto? valutazioni? quanti modelli _derivati_ (fine-tuning, quantizzazioni) esistono?
+2. [Libreria Ollama](https://ollama.com/library/gemma4): osservare i _tag_ di `gemma4`
+    + quali dimensioni e quantizzazioni? quanti GB ciascuno? quali _badge_ (`vision`, `tools`, `thinking`)?
+3. [Open Router](https://openrouter.ai/models?q=gemma-4): osservare `google/gemma-4-26b-a4b-it`
+    + quanti _fornitori_ lo offrono? a quali prezzi, con quale latenza e throughput? esiste una variante `:free`? con quali limiti?
 
 {{% fragment %}}
-> Same _weights_, three very different _offers_: download it (and run it yourself), or pay per token to one of _several_ providers. This is what __open weights__ buy: the freedom to choose _where_ the model runs
+> Stessi _pesi_, tre _offerte_ molto diverse: scaricarlo (ed eseguirlo in autonomia), oppure pagare per token uno dei _diversi_ fornitori. Questo offrono i __pesi aperti__: la libertà di scegliere _dove_ viene eseguito il modello
 {{% /fragment %}}
 
 {{% /section %}}
@@ -152,132 +152,132 @@ outputs = ["Reveal"]
 
 {{< slide id="open-models" >}}
 
-## What makes a model _"open"_? The general concept
+## Cosa rende un modello _"aperto"_? Il concetto generale
 
-A model release is a __bundle__ of separately _openable_ artifacts: downloading one of them (usually the weights) says little about the others
+Il rilascio di un modello è un __insieme__ di artefatti che possono essere _aperti_ separatamente: scaricarne uno (di solito i pesi) dice poco sugli altri
 
-| Component | What a useful release contains | What it enables |
+| Componente | Cosa contiene un rilascio utile | Cosa permette |
 |---|---|---|
-| __Weights__ | final parameters (ideally also intermediate checkpoints) | local inference, fine-tuning, independent hosting |
-| __Inference code__ | architecture, tokenizer, generation code, configuration | actually _running_ the weights |
-| __Training code & recipe__ | data processing, hyper-parameters, training and post-training (SFT, RL) pipelines | understanding _how_ the weights arose; re-training |
-| __Training data__ | the actual training mixture, in training-ready form | data auditing, contamination analysis, exact reproduction |
-| __Data information__ | provenance, sources, filtering and selection processes | a (weaker) substitute when data cannot be redistributed |
-| __Documentation__ | model card, technical report, evaluations, limitations | auditability, downstream risk assessment |
-| __Licenses__ | _separate_ licenses for weights, code, and data | knowing what you may _legally_ do with all the above |
+| __Pesi__ | parametri finali (idealmente anche checkpoint intermedi) | inferenza locale, fine-tuning, hosting indipendente |
+| __Codice di inferenza__ | architettura, tokenizer, codice di generazione, configurazione | _eseguire_ concretamente i pesi |
+| __Codice e ricetta di addestramento__ | elaborazione dei dati, iperparametri, pipeline di addestramento e post-addestramento (SFT, RL) | capire _come_ sono stati ottenuti i pesi; riaddestrare |
+| __Dati di addestramento__ | l'effettiva miscela di dati, pronta per l'addestramento | audit dei dati, analisi della contaminazione, riproduzione esatta |
+| __Informazioni sui dati__ | provenienza, fonti, processi di filtraggio e selezione | un sostituto (più debole) quando i dati non sono redistribuibili |
+| __Documentazione__ | model card, rapporto tecnico, valutazioni, limiti | verificabilità, valutazione dei rischi a valle |
+| __Licenze__ | licenze _distinte_ per pesi, codice e dati | sapere cosa è _legalmente_ consentito fare con tutto quanto sopra |
 
 ---
 
-## Openness is _graded_, not binary
+## L'apertura ha _gradi_, non è binaria
 
-{{< image src="./openness-bar.svg" max-h="30vh" alt="Openness of seven release components for a closed API model, an open-weights model (Llama 4) and a fully open model (OLMo 3): downloadable weights do not make a model open" >}}
+{{< image src="./openness-bar.svg" max-h="30vh" alt="Apertura di sette componenti del rilascio per un modello chiuso via API, un modello a pesi aperti (Llama 4) e un modello completamente aperto (OLMo 3): i pesi scaricabili non bastano a rendere aperto un modello" >}}
 
-| Framework | Question it answers |
+| Quadro di riferimento | A quale domanda risponde |
 |---|---|
-| [Liesenfeld & Dingemanse, FAccT 2024](https://doi.org/10.1145/3630106.3659005) | how open is a release _in practice_? (14 dimensions, 40 text LLMs + 6 text-to-image models) |
-| [European Open Source AI Index](https://osai-index.eu/database/) | which open-science artifacts were actually released? (graded score; top ranks in July 2026: YuLan-Mini, BLOOMZ, OLMo 3, Apertus) |
-| [Stanford Foundation Model Transparency Index](https://crfm.stanford.edu/fmti/December-2025/index.html) (Dec. 2025) | how _transparent_ are providers? (mean score 41/100, down 17 from 2024; IBM 95, DeepSeek 32, Alibaba 26: open weights $\neq$ transparency) |
-| [OSI Open Source AI Definition](https://opensource.org/ai/open-source-ai-definition) | does a system meet a _normative_ definition of "open source AI"? (next slide) |
+| [Liesenfeld & Dingemanse, FAccT 2024](https://doi.org/10.1145/3630106.3659005) | quanto è aperto un rilascio _in pratica_? (14 dimensioni, 40 LLM testuali + 6 modelli testo-immagine) |
+| [European Open Source AI Index](https://osai-index.eu/database/) | quali artefatti di scienza aperta sono stati effettivamente pubblicati? (punteggio graduato; ai primi posti a luglio 2026: YuLan-Mini, BLOOMZ, OLMo 3, Apertus) |
+| [Stanford Foundation Model Transparency Index](https://crfm.stanford.edu/fmti/December-2025/index.html) (dic. 2025) | quanto sono _trasparenti_ i fornitori? (media 41/100, 17 punti in meno del 2024; IBM 95, DeepSeek 32, Alibaba 26: pesi aperti $\neq$ trasparenza) |
+| [Definizione OSI di IA open source](https://opensource.org/ai/open-source-ai-definition) | un sistema soddisfa una definizione _normativa_ di "IA open source"? (prossima slide) |
 
-- __Open-washing__: presenting a model as "open" or "open source" based on _one_ disclosed component (typically the weights), while the artifacts or legal freedoms needed to study, reproduce, modify, or freely use it are missing
-    + e.g. _Llama 4_ (downloadable weights, restrictive license), _Gemma 3_ (custom terms with use restrictions), _Mistral 3_ (called ["open-source"](https://mistral.ai/news/mistral-3/) by its vendor: Apache 2.0 weights, undisclosed training data)
-    + by contrast, OpenAI calls [gpt-oss](https://openai.com/index/introducing-gpt-oss/) "_open-weight_": the more accurate term
-
----
-
-## The OSI Open Source AI Definition (OSAID 1.0, Oct. 2024)
-
-- Users must be able, _without asking permission_, to:
-    1. __use__ the system for _any_ purpose
-    2. __study__ how it works
-    3. __modify__ it for any purpose
-    4. __share__ it, with or without modifications
-- This requires the _preferred form for making modifications_:
-    + __data information__: enough detail on training data for a skilled person to build a _substantially equivalent_ system
-    + __code__: the _complete_ training and inference pipeline
-    + __parameters__: weights and configuration, under open terms
-- __Controversy__: OSAID does __not__ require releasing the training data itself (cf. [OSI's FAQ](https://opensource.org/ai/faq))
-    + OSI: data may be personal, copyrighted, or confidential, so requiring it would exclude too many systems
-    + critics: without the data, exact reproduction and data-level auditing are impossible
-- OSI's [initial validation](https://opensource.org/ai/final-board-report) found that _Pythia_, _OLMo_, _Amber_, _CrystalCoder_, and _T5_ passed, while _Llama 2_, _Grok_, _Phi-2_, and _Mixtral_ did not
-    + a _snapshot_ of 2024, __not__ a certification registry for later versions
+- __Open-washing__: presentare un modello come "aperto" o "open source" sulla base di _un solo_ componente pubblicato (tipicamente i pesi), mentre mancano gli artefatti o le libertà giuridiche necessari per studiarlo, riprodurlo, modificarlo o usarlo liberamente
+    + es. _Llama 4_ (pesi scaricabili, licenza restrittiva), _Gemma 3_ (termini specifici con restrizioni d'uso), _Mistral 3_ (definito ["open-source"](https://mistral.ai/news/mistral-3/) dal produttore: pesi Apache 2.0, dati di addestramento non divulgati)
+    + OpenAI invece definisce [gpt-oss](https://openai.com/index/introducing-gpt-oss/) "_open-weight_": il termine più preciso
 
 ---
 
-## The licensing landscape (as of September 2026)
+## La definizione OSI di IA open source (OSAID 1.0, ott. 2024)
 
-| Category | Examples | What is open | Main limitation |
+- Gli utenti devono poter, _senza chiedere il permesso_:
+    1. __usare__ il sistema per _qualsiasi_ scopo
+    2. __studiare__ come funziona
+    3. __modificarlo__ per qualsiasi scopo
+    4. __condividerlo__, con o senza modifiche
+- Serve quindi la _forma preferita per apportare modifiche_:
+    + __informazioni sui dati__: dettagli sufficienti sui dati di addestramento affinché una persona competente possa costruire un sistema _sostanzialmente equivalente_
+    + __codice__: la pipeline _completa_ di addestramento e inferenza
+    + __parametri__: pesi e configurazione, con condizioni aperte
+- __Controversia__: OSAID __non__ richiede di pubblicare i dati di addestramento stessi (cfr. [FAQ di OSI](https://opensource.org/ai/faq))
+    + OSI: i dati possono essere personali, protetti dal diritto d'autore o riservati; richiederli escluderebbe troppi sistemi
+    + critici: senza i dati, la riproduzione esatta e l'audit a livello di dati sono impossibili
+- Nella [validazione iniziale](https://opensource.org/ai/final-board-report) di OSI, _Pythia_, _OLMo_, _Amber_, _CrystalCoder_ e _T5_ risultavano conformi; _Llama 2_, _Grok_, _Phi-2_ e _Mixtral_ no
+    + una _fotografia_ del 2024, __non__ un registro di certificazione delle versioni successive
+
+---
+
+## Il panorama delle licenze (a settembre 2026)
+
+| Categoria | Esempi | Cosa è aperto | Limite principale |
 |---|---|---|---|
-| __Closed__ (API-only) | GPT, Claude, Gemini, Mistral's "Premier" models | API + documentation | no weights; usage governed by _terms of service_ |
-| __Open weights, restrictive license__ | [Llama 4](https://www.llama.com/llama4/license/), [Gemma 3](https://ai.google.dev/gemma/terms), [Teuken v0.6](https://huggingface.co/openGPT-X/Teuken-7B-instruct-v0.6), BLOOM ([RAIL](https://huggingface.co/bigscience/bloom-560m/blob/main/LICENSE)) | weights, inference code | use-based, geographic, commercial, or downstream restrictions: _not_ "any purpose" |
-| __Open weights, permissive license__ | [Gemma 4](https://ai.google.dev/gemma/docs/core/model_card_4), [Qwen3](https://huggingface.co/Qwen/Qwen3-8B), [DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1), [gpt-oss](https://huggingface.co/openai/gpt-oss-120b), [Mistral Large 3 / Small 4](https://docs.mistral.ai/getting-started/models/) | weights under Apache 2.0 or MIT | training data and full pipeline _not_ released |
-| __Fully (or nearly) open__ | [OLMo 3](https://allenai.org/blog/olmo3), [Apertus](https://www.apertus-ai.org/), [Minerva](https://huggingface.co/sapienzanlp/Minerva-7B-base-v1.0) | weights + code + data (or data pipeline) + docs | reproduction still needs _enormous_ compute |
+| __Chiuso__ (solo API) | GPT, Claude, Gemini, modelli "Premier" di Mistral | API + documentazione | nessun peso; uso regolato dai _termini di servizio_ |
+| __Pesi aperti, licenza restrittiva__ | [Llama 4](https://www.llama.com/llama4/license/), [Gemma 3](https://ai.google.dev/gemma/terms), [Teuken v0.6](https://huggingface.co/openGPT-X/Teuken-7B-instruct-v0.6), BLOOM ([RAIL](https://huggingface.co/bigscience/bloom-560m/blob/main/LICENSE)) | pesi, codice di inferenza | restrizioni d'uso, geografiche, commerciali o a valle: _non_ "qualsiasi scopo" |
+| __Pesi aperti, licenza permissiva__ | [Gemma 4](https://ai.google.dev/gemma/docs/core/model_card_4), [Qwen3](https://huggingface.co/Qwen/Qwen3-8B), [DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1), [gpt-oss](https://huggingface.co/openai/gpt-oss-120b), [Mistral Large 3 / Small 4](https://docs.mistral.ai/getting-started/models/) | pesi con licenza Apache 2.0 o MIT | dati di addestramento e pipeline completa _non_ pubblicati |
+| __Completamente (o quasi) aperto__ | [OLMo 3](https://allenai.org/blog/olmo3), [Apertus](https://www.apertus-ai.org/), [Minerva](https://huggingface.co/sapienzanlp/Minerva-7B-base-v1.0) | pesi + codice + dati (o pipeline dei dati) + documentazione | la riproduzione richiede comunque risorse di calcolo _enormi_ |
 
 ---
 
-## The licensing landscape (as of September 2026)
+## Il panorama delle licenze (a settembre 2026)
 
-### Licenses change across versions: always check the __exact checkpoint__
+### Le licenze cambiano tra versioni: verificare sempre il __checkpoint esatto__
 
-| Model | Before | Now |
+| Modello | Prima | Ora |
 |---|---|---|
-| __Gemma__ | Gemma 3: custom Gemma Terms, with cascading use restrictions | Gemma 4 (2026): __Apache 2.0__ |
-| __DeepSeek-V3__ | original V3: custom DeepSeek Model Agreement | V3-0324: [relicensed under __MIT__](https://api-docs.deepseek.com/news/news250325) (March 2025) |
-| __Mistral__ | historically mixed | _still_ mixed: Large 3 and Small 4 Apache 2.0, Medium 3.5 "Modified MIT", several models proprietary |
-| __Teuken__ | v0.4-commercial: Apache 2.0 | v0.6: __non-commercial__ ("newer" does not mean "more permissive") |
-| __iGenius → Domyn__ | Italia 9B: MIT; Italia 10B: [custom, non-open license](https://secure.igenius.ai/legal/iGenius%2BLicense%2BItalia%2B10B.pdf) | [rebranded Domyn](https://www.domyn.com/news/introducing-domyn) (June 2025); [Domyn Small 10B](https://www.domyn.com/news/introducing-domyn-small-an-open-european-reasoning-llm-built-for-ai-ownership) (May 2026): MIT |
+| __Gemma__ | Gemma 3: termini Gemma specifici, con restrizioni d'uso a cascata | Gemma 4 (2026): __Apache 2.0__ |
+| __DeepSeek-V3__ | V3 originale: DeepSeek Model Agreement specifico | V3-0324: [rilasciato nuovamente con licenza __MIT__](https://api-docs.deepseek.com/news/news250325) (marzo 2025) |
+| __Mistral__ | storicamente eterogeneo | _ancora_ eterogeneo: Large 3 e Small 4 Apache 2.0, Medium 3.5 "Modified MIT", diversi modelli proprietari |
+| __Teuken__ | v0.4-commercial: Apache 2.0 | v0.6: __non commerciale__ ("più recente" non significa "più permissivo") |
+| __iGenius → Domyn__ | Italia 9B: MIT; Italia 10B: [licenza specifica, non aperta](https://secure.igenius.ai/legal/iGenius%2BLicense%2BItalia%2B10B.pdf) | [rinominata Domyn](https://www.domyn.com/news/introducing-domyn) (giugno 2025); [Domyn Small 10B](https://www.domyn.com/news/introducing-domyn-small-an-open-european-reasoning-llm-built-for-ai-ownership) (maggio 2026): MIT |
 
 ---
 
-## What do restrictive licenses mean in practice?
+## Cosa significano in pratica le licenze restrittive?
 
-| License | On-premise use | Fine-tuning | Hosted service | Redistribution |
+| Licenza | Uso on-premise | Fine-tuning | Servizio ospitato | Redistribuzione |
 |---|---|---|---|---|
-| __Llama 4__ ([license](https://github.com/meta-llama/llama-models/blob/main/models/llama4/LICENSE), [AUP](https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md)) | yes, __except__ multimodal models for individuals/companies _based in the EU_ | yes | yes (EU _end users_ of products are carved out) | _"Built with Llama"_ attribution; derived models named _"Llama..."_; separate license above 700M monthly active users |
-| __Gemma 3__ ([terms](https://ai.google.dev/gemma/terms)) | yes, within the prohibited-use policy | yes, derivatives inherit the restrictions | counts as _distribution_ | restrictions must be passed to downstream users; Google may restrict use _"remotely or otherwise"_ (a contractual right, not a kill switch) |
-| __OpenRAIL__ ([OpenRAIL-M](https://www.licenses.ai/blog/2022/8/26/bigscience-open-rail-m-license)) | yes, for permitted purposes | yes, for permitted purposes | yes, users bound to use restrictions | use restrictions must be passed on |
-| __Apache 2.0 / MIT__ | yes | yes | yes | yes, with attribution/notices (and patent clauses, for Apache) |
+| __Llama 4__ ([licenza](https://github.com/meta-llama/llama-models/blob/main/models/llama4/LICENSE), [AUP](https://github.com/meta-llama/llama-models/blob/main/models/llama4/USE_POLICY.md)) | sì, __tranne__ i modelli multimodali per persone/aziende _con sede nell'UE_ | sì | sì (gli _utenti finali_ UE dei prodotti sono esclusi dal divieto) | attribuzione _"Built with Llama"_; modelli derivati denominati _"Llama..."_; licenza separata oltre 700M di utenti attivi mensili |
+| __Gemma 3__ ([termini](https://ai.google.dev/gemma/terms)) | sì, rispettando la policy sugli usi vietati | sì, i derivati ereditano le restrizioni | conta come _distribuzione_ | le restrizioni vanno trasmesse agli utenti a valle; Google può limitare l'uso _"da remoto o altrimenti"_ (un diritto contrattuale, non un interruttore di spegnimento) |
+| __OpenRAIL__ ([OpenRAIL-M](https://www.licenses.ai/blog/2022/8/26/bigscience-open-rail-m-license)) | sì, per scopi consentiti | sì, per scopi consentiti | sì, utenti vincolati alle restrizioni d'uso | le restrizioni d'uso vanno trasmesse a valle |
+| __Apache 2.0 / MIT__ | sì | sì | sì | sì, con attribuzione/avvisi (e clausole sui brevetti, per Apache) |
 
 {{% fragment %}}
-> __Running example__: the admission assistant must read _passport pictures_, hence needs a __multimodal__ model. The University of Bologna is an EU organization: under Llama 4's acceptable use policy, it is __not__ granted the right to use Llama 4's multimodal models. Gemma 4, Qwen3, or Mistral's Apache models raise no such issue
+> __Esempio ricorrente__: l'assistente alle ammissioni deve leggere _immagini di passaporti_, quindi serve un modello __multimodale__. L'Università di Bologna è un'organizzazione UE: la policy di uso accettabile di Llama 4 __non__ le concede il diritto di usare i modelli multimodali Llama 4. Gemma 4, Qwen3 o i modelli Apache di Mistral non presentano questo problema
 {{% /fragment %}}
 
 ---
 
-## Derivatives: fine-tunes, distillation, merges, data, outputs
+## Derivati: fine-tuning, distillazione, fusioni, dati, output
 
-- __Fine-tunes__ remain subject to the base model's license: easy for Apache/MIT, restrictions _propagate_ for Gemma 3 and Llama
-- __Distillation__ is license-specific:
-    + Gemma 3 counts models trained on Gemma's _outputs_ (synthetic data) as _Model Derivatives_
-    + DeepSeek-R1 (MIT) allows distillation, but its published _distills_ are fine-tunes of other models, and __inherit their licenses__ ([Qwen](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) → Apache 2.0, [Llama](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B) → Llama license)
-- __Merges__: a merge of models A and B must (conservatively) satisfy __both__ licenses; a restrictive component is not "washed away"
-    + whether weights are copyrightable at all is still legally _unsettled_
-- __Training data__ has its _own_ license: e.g. OLMo 3 is Apache 2.0, but its dataset [Dolma 3](https://huggingface.co/datasets/allenai/dolma3_mix-6T) is ODC-By (attribution required), and its sources may carry further terms
-- __Outputs__: "the vendor claims no rights on outputs" $\neq$ "outputs are free of restrictions"
-    + e.g. using Llama _outputs_ to train a distributed model triggers Llama's _naming_ requirement
-    + proprietary vendors offer _copyright indemnities_ for outputs (e.g. Microsoft's Copilot Copyright Commitment, Google's generative AI indemnification, OpenAI's Copyright Shield, Anthropic's commercial terms), usually for paid or enterprise tiers only, and with conditions; open-weights licenses give none
-    + in Italy, only _human_ works are protected (L. 132/2025, Art. 25: cf. [below](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation))
+- I modelli ottenuti con __fine-tuning__ restano soggetti alla licenza del modello di base: semplice con Apache/MIT, le restrizioni si _propagano_ con Gemma 3 e Llama
+- La __distillazione__ dipende dalla licenza:
+    + Gemma 3 considera _Model Derivatives_ i modelli addestrati sugli _output_ di Gemma (dati sintetici)
+    + DeepSeek-R1 (MIT) consente la distillazione, ma i suoi modelli _distillati_ pubblicati sono fine-tuning di altri modelli e __ne ereditano le licenze__ ([Qwen](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) → Apache 2.0, [Llama](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B) → licenza Llama)
+- __Fusioni__: una fusione dei modelli A e B deve (prudenzialmente) rispettare __entrambe__ le licenze; una componente restrittiva non viene "cancellata"
+    + la possibilità stessa di proteggere i pesi con il diritto d'autore è giuridicamente _ancora incerta_
+- I __dati di addestramento__ hanno una licenza _propria_: es. OLMo 3 è Apache 2.0, ma il suo dataset [Dolma 3](https://huggingface.co/datasets/allenai/dolma3_mix-6T) è ODC-By (attribuzione obbligatoria) e le fonti possono prevedere ulteriori condizioni
+- __Output__: "il produttore non rivendica diritti sugli output" $\neq$ "gli output sono privi di restrizioni"
+    + es. usare _output_ Llama per addestrare un modello distribuito fa scattare il requisito Llama sul _nome_
+    + i fornitori proprietari offrono _tutele contrattuali per violazioni del diritto d'autore_ sugli output (es. Copilot Copyright Commitment di Microsoft, indennizzo per IA generativa di Google, Copyright Shield di OpenAI, termini commerciali di Anthropic), solitamente solo per piani a pagamento o enterprise e a determinate condizioni; le licenze a pesi aperti non ne offrono
+    + in Italia sono protette soltanto le opere _umane_ (L. 132/2025, Art. 25: cfr. [qui](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation))
 
 ---
 
 {{< slide id="open-models-ai-act" >}}
 
-## Open models under the EU AI Act
+## I modelli aperti nell'AI Act dell'UE
 
-| GPAI provider duty ([Art. 53](https://artificialintelligenceact.eu/article/53/)) | Ordinary GPAI | Free/open-source GPAI |
+| Obbligo del fornitore GPAI ([Art. 53](https://artificialintelligenceact.eu/article/53/)) | GPAI ordinaria | GPAI libera/open source |
 |---|---|---|
-| (a) technical documentation (for the AI Office) | required | __exempt__ |
-| (b) information for downstream providers | required | __exempt__ |
-| (c) policy to comply with EU _copyright_ law (incl. text-and-data-mining opt-outs) | required | __still required__ |
-| (d) public _summary of training content_ (AI Office template) | required | __still required__ |
-| systemic-risk obligations ([Art. 55](https://artificialintelligenceact.eu/article/55/)) | if > 10<sup>25</sup> FLOPs (presumption of [Art. 51(2)](https://artificialintelligenceact.eu/article/51/)) | __no exemption__ |
+| (a) documentazione tecnica (per l'AI Office) | obbligatoria | __esente__ |
+| (b) informazioni per i fornitori a valle | obbligatorie | __esente__ |
+| (c) policy di conformità al _diritto d'autore_ UE (incl. riserve sul text and data mining) | obbligatoria | __ancora obbligatoria__ |
+| (d) _sintesi dei contenuti di addestramento_ pubblica (modello dell'AI Office) | obbligatoria | __ancora obbligatoria__ |
+| obblighi per rischio sistemico ([Art. 55](https://artificialintelligenceact.eu/article/55/)) | se > 10<sup>25</sup> FLOPs (presunzione dell'[Art. 51(2)](https://artificialintelligenceact.eu/article/51/)) | __nessuna esenzione__ |
 
-- To qualify, the model must be released under a license allowing _access, use, modification, and distribution_, with weights, architecture, and usage information _public_
-    + this is much __weaker__ than OSAID: no training data or training code needed
-- Non-EU providers of open-source GPAI are also exempted from appointing an EU _authorized representative_ ([Art. 54(6)](https://artificialintelligenceact.eu/article/54/)), unless the model poses systemic risk
-- cf. the Commission's [AI Act Service Desk FAQ](https://ai-act-service-desk.ec.europa.eu/en/ai-act/faq/how-does-ai-act-apply-general-purpose-ai-models-released-open-source) on open-source GPAI models
+- Per rientrare nell'esenzione, il modello deve avere una licenza che consenta _accesso, uso, modifica e distribuzione_, con pesi, architettura e informazioni d'uso _pubblici_
+    + un requisito molto __più debole__ di OSAID: non servono dati né codice di addestramento
+- I fornitori extra-UE di GPAI open source sono anche esentati dal nominare un _rappresentante autorizzato_ nell'UE ([Art. 54(6)](https://artificialintelligenceact.eu/article/54/)), salvo modelli con rischio sistemico
+- cfr. le [FAQ dell'AI Act Service Desk](https://ai-act-service-desk.ec.europa.eu/en/ai-act/faq/how-does-ai-act-apply-general-purpose-ai-models-released-open-source) della Commissione sui modelli GPAI open source
 
-> The AI Act gives open-source GPAI a __documentation discount__: __not__ a copyright exemption, __not__ a training-data-summary exemption, and __not__ a systemic-risk exemption
+> L'AI Act concede alla GPAI open source uno __sconto sulla documentazione__: __non__ un'esenzione dal diritto d'autore, __non__ dalla sintesi dei dati di addestramento e __non__ dal rischio sistemico
 
 {{% /section %}}
 
@@ -285,9 +285,9 @@ A model release is a __bundle__ of separately _openable_ artifacts: downloading 
 
 {{< slide id="providers-landscape" >}}
 
-# Models, Providers, and Platforms
+# Modelli, fornitori e piattaforme
 
-Who offers what
+Chi offre cosa
 
 ---
 
@@ -295,100 +295,100 @@ Who offers what
 
 {{< slide id="provider-kinds" >}}
 
-## Primary providers, aggregators, and marketplaces
+## Fornitori primari, aggregatori e marketplace
 
-| Kind | What they offer | Examples | Contract with |
+| Tipo | Cosa offrono | Esempi | Contratto con |
 |---|---|---|---|
-| __Primary providers__ (model developers) | their _own_ models, via their own API (and apps) | OpenAI, Anthropic, Google, Mistral, DeepSeek | the developer |
-| __Inference providers__ | _open-weight_ models (of others), run on their hardware | Together AI, Groq, Fireworks, DeepInfra, EU clouds (e.g. Scaleway, OVHcloud) | the host |
-| __Cloud platforms__ (hyperscalers) | many models (proprietary _and_ open), inside a cloud ecosystem | Azure AI Foundry, AWS Bedrock, Google Vertex AI | the cloud provider |
-| __Aggregators__ (routers) | _one_ API and _one_ bill, for models of _many_ providers | Open Router | the aggregator (and, indirectly, each upstream provider) |
-| __Marketplaces__ / hubs | models to _download_, and (some) hosted inference | Hugging Face | depends on the model's license, and on the host |
+| __Fornitori primari__ (sviluppatori dei modelli) | i _propri_ modelli tramite la propria API (e app) | OpenAI, Anthropic, Google, Mistral, DeepSeek | lo sviluppatore |
+| __Fornitori di inferenza__ | modelli _a pesi aperti_ (altrui), eseguiti sul proprio hardware | Together AI, Groq, Fireworks, DeepInfra, cloud UE (es. Scaleway, OVHcloud) | chi ospita il modello |
+| __Piattaforme cloud__ (hyperscaler) | molti modelli (proprietari _e_ aperti) in un ecosistema cloud | Azure AI Foundry, AWS Bedrock, Google Vertex AI | il fornitore cloud |
+| __Aggregatori__ (router) | _una_ API e _una_ fattura per modelli di _molti_ fornitori | Open Router | l'aggregatore (e indirettamente ogni fornitore a monte) |
+| __Marketplace__ / hub | modelli da _scaricare_ e (alcune opzioni di) inferenza ospitata | Hugging Face | dipende dalla licenza del modello e da chi lo ospita |
 
-- The _same_ open-weight model can be reached in _many_ ways: compare __price__, __latency__, __data location__, and __terms__ (e.g. data retention, training on your data)
-- The more _intermediaries_, the more contracts (and jurisdictions) your data goes through
+- Lo _stesso_ modello a pesi aperti è accessibile in _molti_ modi: confrontare __prezzo__, __latenza__, __localizzazione dei dati__ e __condizioni__ (es. conservazione dei dati, addestramento sui propri dati)
+- Più _intermediari_ ci sono, più contratti (e giurisdizioni) attraversano i dati
 
 ---
 
 {{< slide id="open-router" >}}
 
-## About Open Router (cf. <https://openrouter.ai/>), pt. 1
+## Open Router (cfr. <https://openrouter.ai/>), pt. 1
 
-- Open Router (_OR_) is a company that provides an __on-cloud__ service for using _LLMs as services_, with a focus on _provider interchangeability_
+- Open Router (_OR_) è un'azienda che offre un servizio __cloud__ per usare _LLM come servizi_, orientato all'_intercambiabilità dei fornitori_
 
-- Its distinguishing feature is that it acts as an _aggregator_ of multiple service providers, allowing users to access a variety of models from different providers via a single API, and helping to avoid vendor lock-in
-    + one can use OR for __free__, with _very limited rates_ (20 requests per minute, max 50 per day)
-        * one may __buy credits__ to widen the limitations for free models (see <https://openrouter.ai/docs/api_reference/limits> for details), or to use _pay-per-use_ models
-        * other free options are listed in the [Free Access appendix](https://unibo-fc-isi-iag.github.io/slides-module2/free-access/#/free-tiers)
+- La sua caratteristica distintiva è il ruolo di _aggregatore_ di più fornitori: permette di accedere a modelli diversi tramite un'unica API e aiuta a evitare il lock-in
+    + OR è utilizzabile __gratuitamente__, con _limiti molto stretti_ (20 richieste al minuto, massimo 50 al giorno)
+        * si possono __acquistare crediti__ per aumentare i limiti dei modelli gratuiti (dettagli in <https://openrouter.ai/docs/api_reference/limits>) o usare modelli _a consumo_
+        * altre opzioni gratuite nell'[appendice sull'accesso gratuito](https://unibo-fc-isi-iag.github.io/slides-module2/free-access/#/free-tiers)
 
-- Pretty rich [model zoo](https://openrouter.ai/models), exposing models from <u>many</u> different providers, most notably: OpenAI, Anthropic, Google, xAI, Mistral, etc.
-    + notice that models come with __price-per-token__, commonly expressed a `$/1M tokens` (some times the prices is different for _input_ or _output_ tokens)
-        * this is very common for on-cloud services, and it is the main reason why we need to be careful when experimenting with them, to avoid unexpected costs
-        * recall that _token_ $\neq$ _word_ (cf. [tokens](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/tokens))
+- Un [catalogo di modelli](https://openrouter.ai/models) piuttosto ricco, con modelli di <u>molti</u> fornitori: in particolare OpenAI, Anthropic, Google, xAI, Mistral ecc.
+    + i modelli hanno un __prezzo per token__, normalmente espresso in `$/1M tokens` (talvolta diverso per i token in _ingresso_ e in _uscita_)
+        * è molto comune nei servizi cloud: occorre tenerne conto durante gli esperimenti per evitare costi inattesi
+        * ricordare che _token_ $\neq$ _parola_ (cfr. [token](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/tokens))
 
-    {{< image src="open-router-models.png" alt="Open Router's Model Zoo" max-h="40vh" >}}
-
----
-
-## About Open Router (cf. <https://openrouter.ai/>), pt. 2
-
-- Models in OR's zoo are __named__ according to the following convention: `provider/model` followed by _optional_ `:tier`, where:
-    + `provider` is the name of the service provider (e.g. `openai`, `qwen`, `google`, etc.)
-    + `model` is the name of the model _variant_ as provided by the provider (e.g. `gpt-oss-120b`, `qwen3-coder`, `gemma-4-26b-a4b-it`, etc.)
-    + `tier` is an optional suffix that denotes a specific variant of the model (most commonly `free` for free models)
-
-
-- __Dynamic routing__ of requests happens at two levels:
-    + among __models__: `openrouter/auto` ([Auto Router](https://openrouter.ai/docs/guides/routing/routers/auto-router)) lets OR pick the model for each request, based on its content (__paid__: it may route to paid models, so it fails on accounts without credits)
-        * the candidates can be restricted with _glob_ patterns, e.g. `anthropic/*` or `openai/gpt-5*`, in the router's `allowed_models` (these are __not__ valid `model` names by themselves)
-    + among __providers__ of a _given_ model: OR picks one of the providers serving it ([provider selection](https://openrouter.ai/docs/guides/routing/provider-selection)); by default, load-balanced and price-weighted
-        * override per request with `provider.sort` = `price` | `latency` | `throughput` (tokens per second), or in the [routing settings](https://openrouter.ai/workspaces/default/routing) of your OR account
-        * or with model _suffixes_: `:floor` (cheapest), `:nitro` (fastest throughput), [`:exacto`](https://openrouter.ai/docs/guides/routing/model-variants/exacto) (providers with better tool-calling quality, e.g. `moonshotai/kimi-k2-0905:exacto`)
-
-- __Bring your own API key__ (BYOK): OR allows you to _link_ your account with your API keys from _other providers_ so that you can use OR's API to access models from those providers, and therefore be charged according to the prices of those providers instead of OR's prices
-    + this is a great feature to avoid vendor lock-in, and to have more control over the costs and the models you want to use
-
-> Dynamic routing and BYOK are _peculiar_ features of OR, for the rest it's an "ordinary" on-cloud provider
+    {{< image src="open-router-models.png" alt="Catalogo dei modelli di Open Router" max-h="40vh" >}}
 
 ---
 
-## On-cloud Example with Open Router (pt. 1)
+## Open Router (cfr. <https://openrouter.ai/>), pt. 2
 
-1. __Sign up__ & _log in_ for an account on Open Router: <https://openrouter.ai>
-    + easier to re-use your GitHub account
+- I modelli nel catalogo OR sono __denominati__ secondo la convenzione `provider/model`, seguita da un eventuale `:tier`, dove:
+    + `provider` è il nome del fornitore del servizio (es. `openai`, `qwen`, `google` ecc.)
+    + `model` è il nome della _variante_ indicato dal fornitore (es. `gpt-oss-120b`, `qwen3-coder`, `gemma-4-26b-a4b-it` ecc.)
+    + `tier` è un suffisso opzionale che indica una variante specifica (di solito `free` per i modelli gratuiti)
 
-2. Optionally add __payment methods__ and _credits_ to your account in <https://openrouter.ai/settings/credits>
-    + no credit needed for the examples of these lectures
-    + recall to set _expense limitation_ to avoid unexpected costs, in case you decide to experiment with actual money
 
-    {{< image src="open-router-credits.png" alt="Open Router's Credits Settings" max-h="40vh" >}}
+- L'__instradamento dinamico__ delle richieste avviene su due livelli:
+    + tra __modelli__: `openrouter/auto` ([Auto Router](https://openrouter.ai/docs/guides/routing/routers/auto-router)) lascia scegliere a OR il modello per ogni richiesta in base al contenuto (__a pagamento__: può scegliere modelli a pagamento, quindi non funziona su account senza crediti)
+        * i candidati possono essere limitati con pattern _glob_, es. `anthropic/*` o `openai/gpt-5*`, in `allowed_models` del router (da soli __non__ sono nomi `model` validi)
+    + tra __fornitori__ di un _dato_ modello: OR sceglie chi lo serve ([selezione del fornitore](https://openrouter.ai/docs/guides/routing/provider-selection)); per impostazione predefinita, bilancia il carico e pesa le scelte in base al prezzo
+        * modificabile per richiesta con `provider.sort` = `price` | `latency` | `throughput` (token al secondo), oppure nelle [impostazioni di routing](https://openrouter.ai/workspaces/default/routing) del proprio account OR
+        * oppure con _suffissi_ del modello: `:floor` (più economico), `:nitro` (throughput più alto), [`:exacto`](https://openrouter.ai/docs/guides/routing/model-variants/exacto) (fornitori con migliore qualità nel tool calling, es. `moonshotai/kimi-k2-0905:exacto`)
 
----
+- __Bring your own API key__ (BYOK, usa la tua chiave API): OR permette di _collegare_ all'account le proprie chiavi di _altri fornitori_, accedendo ai loro modelli tramite l'API OR e pagando secondo i loro prezzi anziché quelli di OR
+    + utile per evitare il lock-in e avere più controllo su costi e modelli da usare
 
-## On-cloud Example with Open Router (pt. 2)
-
-3. From time to time, keep an eye on the __activity dashboard__ of your account, to check the usage and the costs of your requests: <https://openrouter.ai/activity>
-
-    {{< image src="open-router-activity.png" alt="Open Router's Activity Dashboard" max-h="40vh" >}}
-
----
-
-## On-cloud Example with Open Router (pt. 3)
-
-4. To use OR's models programmatically, you need to create an __API key__ first (to be stored securely, and not shared with anyone else)
-    * (i.e. an _authentication token_ to let clients authenticate on your behalf)
-    * you can do that for the _default workspace_ at <https://openrouter.ai/workspaces/default/keys>
-        + __workspaces__ are OR-wise _administration domains_, inside which configurations rules (e.g. routing rules, cost limits, etc.) apply
-
-    {{< image src="open-router-apikeys.png" alt="Open Router's API Keys Settings" max-h="40vh" >}}
-
-    + an API key is a string of the form: `sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXX`: it is sufficient to <u>consume your credit</u> and to make requests on your behalf
+> Instradamento dinamico e BYOK sono caratteristiche _distintive_ di OR; per il resto è un "normale" fornitore cloud
 
 ---
 
-## On-cloud Example with Open Router (pt. 4)
+## Esempio cloud con Open Router (pt. 1)
 
-5. You may test your API key with a simple `curl` request:
+1. __Registrarsi__ e _accedere_ a un account Open Router: <https://openrouter.ai>
+    + è più semplice riutilizzare l'account GitHub
+
+2. Facoltativamente, aggiungere __metodi di pagamento__ e _crediti_ all'account in <https://openrouter.ai/settings/credits>
+    + per gli esempi di queste lezioni non servono crediti
+    + se si sperimenta spendendo denaro, impostare un _limite di spesa_ per evitare costi inattesi
+
+    {{< image src="open-router-credits.png" alt="Impostazioni dei crediti di Open Router" max-h="40vh" >}}
+
+---
+
+## Esempio cloud con Open Router (pt. 2)
+
+3. Controllare periodicamente la __dashboard delle attività__ dell'account per verificare utilizzo e costi delle richieste: <https://openrouter.ai/activity>
+
+    {{< image src="open-router-activity.png" alt="Dashboard delle attività di Open Router" max-h="40vh" >}}
+
+---
+
+## Esempio cloud con Open Router (pt. 3)
+
+4. Per usare i modelli OR da un programma occorre creare una __chiave API__ (da conservare in modo sicuro e non condividere)
+    * (ossia un _token di autenticazione_ che consente ai client di autenticarsi a vostro nome)
+    * per il _workspace predefinito_, si crea in <https://openrouter.ai/workspaces/default/keys>
+        + in OR, i __workspace__ sono _domini amministrativi_ al cui interno si applicano regole di configurazione (es. routing, limiti di costo ecc.)
+
+    {{< image src="open-router-apikeys.png" alt="Impostazioni delle chiavi API di Open Router" max-h="40vh" >}}
+
+    + una chiave API è una stringa del tipo `sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXX`: basta per <u>consumare il vostro credito</u> e inviare richieste a vostro nome
+
+---
+
+## Esempio cloud con Open Router (pt. 4)
+
+5. Si può provare la chiave API con una semplice richiesta `curl`:
 
     ```bash
     curl -X POST "https://openrouter.ai/api/v1/chat/completions" \
@@ -399,9 +399,9 @@ Who offers what
 
 ---
 
-## On-cloud Example with Open Router (pt. 4, cont.)
+## Esempio cloud con Open Router (pt. 4, cont.)
 
-answer (converted in YAML for the sake of readability):
+risposta (convertita in YAML per facilitarne la lettura):
 
 ```yaml {class="print-2cols"}
 id: gen-1779447979-077vepCYJjlgJfXKnK2q
@@ -461,9 +461,9 @@ usage:
 
 ---
 
-## One client, _many_ free providers
+## Un client, _molti_ fornitori gratuiti
 
-- All the providers above expose an __OpenAI-compatible__ API: only `base_url`, key, and model name change
+- Tutti i fornitori citati espongono un'API __compatibile con OpenAI__: cambiano solo `base_url`, chiave e nome del modello
 
 {{% code path="static/lab-snippets/snippets/lecture_free_access/example1/free_providers.py" from="12" to="21" %}}
 
@@ -472,11 +472,11 @@ poetry run python -m snippets -l free-access -e 1 groq                          
 poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello!"   # one chat request
 ```
 
-- `PROVIDERS`: each provider's _endpoint_, and the __environment variable__ holding _its_ key (e.g. `GROQ_API_KEY`, asked interactively if missing)
-    + `ollama`, `vllm`: open models served _locally_ (on your machine, see [below](#/local)), hence no key
-- Arguments: `PROVIDER` (required), then optionally `MODEL` and `PROMPT` (without them, the script just lists the models)
-- Full script [here](../lab-snippets/snippets/lecture_free_access/example1/free_providers.py) (cf. [how to run snippets](../#/lab-snippets-run)); model IDs are _listed live_, not hard-coded, since they __go stale quickly__
-- The same trick works with the [LLM-as-a-Service](../llmaas/) scripts: just set `OPENAI_BASE_URL`, `OPENAI_API_KEY`, __and__ `OPENAI_MODEL` (the default, `nvidia/nemotron-3-super-120b-a12b:free`, exists only on OpenRouter: pick an ID from the listing above), e.g.
+- `PROVIDERS`: l'_endpoint_ di ogni fornitore e la __variabile d'ambiente__ che contiene la _sua_ chiave (es. `GROQ_API_KEY`, richiesta interattivamente se manca)
+    + `ollama`, `vllm`: modelli aperti serviti _localmente_ (sulla propria macchina, cfr. [sotto](#/local)), quindi senza chiave
+- Argomenti: `PROVIDER` (obbligatorio), poi opzionalmente `MODEL` e `PROMPT` (senza questi, lo script elenca solo i modelli)
+- Script completo [qui](../lab-snippets/snippets/lecture_free_access/example1/free_providers.py) (cfr. [come eseguire gli snippet](../#/lab-snippets-run)); gli ID dei modelli sono _elencati in tempo reale_, non fissati nel codice, perché __diventano obsoleti rapidamente__
+- Lo stesso accorgimento funziona con gli script [LLM-as-a-Service](../llmaas/): basta impostare `OPENAI_BASE_URL`, `OPENAI_API_KEY` __e__ `OPENAI_MODEL` (il predefinito, `nvidia/nemotron-3-super-120b-a12b:free`, esiste solo su OpenRouter: scegliere un ID dall'elenco precedente), es.
     + Ollama: `OPENAI_BASE_URL=http://localhost:11434/v1 OPENAI_API_KEY=unused OPENAI_MODEL=gpt-oss:20b`
     + Groq: `OPENAI_BASE_URL=https://api.groq.com/openai/v1 OPENAI_API_KEY=... OPENAI_MODEL=openai/gpt-oss-20b`
 
@@ -484,19 +484,19 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 {{< slide id="lock-in" >}}
 
-## Portability of applications, and dependency on the provider
+## Portabilità delle applicazioni e dipendenza dal fornitore
 
-| What | Portable? | How to keep it portable |
+| Cosa | Portabile? | Come mantenerlo portabile |
 |---|---|---|
-| __API__ (requests, responses) | yes, within the _common subset_ of OpenAI-compatible APIs | base URL, key, and model name in the _configuration_; a gateway |
-| __Open weights__ | yes: any host, or your own hardware | prefer permissive licenses; pin the exact checkpoint |
-| __Proprietary models__ | __no__: they can be changed, or _retired_, on the vendor's schedule | have an alternative _tested_ in advance |
-| __Provider-specific features__ (server-side state, built-in tools, fine-tuning on the platform) | __no__ | use them consciously, behind an _adapter_ |
-| __Prompts__ | partly: tuned to a model, they may work worse with another | an __evaluation suite__, to re-validate prompts upon a change of model |
-| __Embeddings__ (vector indexes, cf. RAG) | __no__: vectors of a model are meaningless for another | plan for _re-indexing_ |
-| __Data__ (logs, conversations, files stored by the provider) | depends on the terms | keep your own copy |
+| __API__ (richieste, risposte) | sì, nel _sottoinsieme comune_ delle API compatibili con OpenAI | URL di base, chiave e nome del modello nella _configurazione_; un gateway |
+| __Pesi aperti__ | sì: qualsiasi host o hardware proprio | preferire licenze permissive; fissare il checkpoint esatto |
+| __Modelli proprietari__ | __no__: possono essere modificati o _ritirati_ secondo i tempi del produttore | avere un'alternativa _già valutata_ |
+| __Funzionalità specifiche del fornitore__ (stato lato server, tool integrati, fine-tuning sulla piattaforma) | __no__ | usarle consapevolmente tramite un _adattatore_ |
+| __Prompt__ | in parte: ottimizzati per un modello, possono funzionare peggio con un altro | una __suite di valutazione__ per rivalidare i prompt quando cambia il modello |
+| __Embedding__ (indici vettoriali, cfr. RAG) | __no__: i vettori di un modello non hanno significato per un altro | prevedere la _reindicizzazione_ |
+| __Dati__ (log, conversazioni, file conservati dal fornitore) | dipende dalle condizioni | conservarne una copia propria |
 
-> The real anti-lock-in tool is an __evaluation suite__ of your own: it tells, in hours, whether _another_ model or provider is good enough
+> Il vero strumento contro il lock-in è una __suite di valutazione__ propria: indica in poche ore se un _altro_ modello o fornitore è abbastanza valido
 
 {{% /section %}}
 
@@ -504,7 +504,7 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 {{< slide id="local" >}}
 
-# Local Execution and Infrastructural Sovereignty
+# Esecuzione locale e sovranità infrastrutturale
 
 ---
 
@@ -512,29 +512,29 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 {{< slide id="ollama" >}}
 
-## About Ollama (cf. <https://ollama.com/>)
+## Ollama (cfr. <https://ollama.com/>)
 
-- Ollama is a company that provides a _containerized_ solution for _hosting_ and _running_ LLMs __on-premise__, with a focus on ease of use and accessibility
+- Ollama è un'azienda che offre una soluzione _containerizzata_ per _ospitare_ ed _eseguire_ LLM __on-premise__, orientata alla facilità d'uso e all'accessibilità
 
-- It offers a [model zoo](https://ollama.com/models) with several pre-trained models available for _download_ and use
-    + plus a _native API_ that is _partially compatible_ with OpenAI's API, to facilitate migration between on-premise and on-cloud deployments
+- Offre un [catalogo di modelli](https://ollama.com/models) preaddestrati, disponibili per _download_ e uso
+    + e un'_API nativa_ _parzialmente compatibile_ con quella di OpenAI, per facilitare la migrazione tra deployment on-premise e cloud
 
-- Ollama's solutions can be used on various __hardware__ & __OS configurations__, including _Nvidia_ GPUs and _Apple Silicon_ as well as _Linux_, _MacOS_, and _Windows_
+- Le soluzioni Ollama funzionano con varie __configurazioni hardware__ e __sistemi operativi__: GPU _Nvidia_, _Apple Silicon_, _Linux_, _MacOS_ e _Windows_
 
-- Ollama's API supports both a native __CLI conversational interface__ and a __Web API__ for programmatic access, making it versatile for different use cases and user preferences
+- Ollama supporta sia un'__interfaccia conversazionale CLI__ nativa sia un'__API Web__ per l'accesso da programma, adattandosi a diversi casi d'uso e preferenze
 
-- Ollama may also be used an [on-cloud service](https://ollama.com/pricing), but here we will focus on the on-premise deployment option alone
-    + three levels of premiumships (\\$0/month, \\$20/month, \\$100/month) with widening rate limitations
+- Ollama è disponibile anche come [servizio cloud](https://ollama.com/pricing), ma qui ci concentriamo sul deployment on-premise
+    + tre piani (\\$0/mese, \\$20/mese, \\$100/mese) con limiti d'uso progressivamente più ampi
 
 ---
 
-## On-premise Example with Ollama pt. 1
+## Esempio on-premise con Ollama, pt. 1
 
-0. Ensure you have the __required hardware__ (e.g. Nvidia GPU, Apple Silicon, etc.)
-    + details and configuration caveats: <https://docs.ollama.com/gpu>
-    + how to tell whether a model _fits_ your machine: see [Running models locally](#/local-requirements) below
+0. Verificare di avere l'__hardware necessario__ (es. GPU Nvidia, Apple Silicon ecc.)
+    + dettagli e avvertenze di configurazione: <https://docs.ollama.com/gpu>
+    + per capire se un modello _entra_ nella propria macchina: cfr. [Eseguire modelli localmente](#/local-requirements) più avanti
 
-1. __Install__ Ollama on your machine:
+1. __Installare__ Ollama sulla propria macchina:
 
     ```bash
     brew install ollama # For macOS (Apple Silicon)
@@ -542,7 +542,7 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
     irm https://ollama.com/install.ps1 | iex # For Windows (PowerShell)
     ```
 
-2. Activate the Ollama __service__ in some shell (alternatively, configure a _deamon_ to run it in background):
+2. Avviare il __servizio__ Ollama in una shell (in alternativa configurare un _demone_ che lo esegua in background):
 
     ```bash
     ollama serve
@@ -550,31 +550,31 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 ---
 
-## On-premise Example with Ollama pt. 2
+## Esempio on-premise con Ollama, pt. 2
 
-3. Have a look to Ollama's __model zoo__ on <https://ollama.com/models>, and __select__ some model you like among the many variants available
-    * notice naming convention: `model:variant`, most commonly the variant denotes the size of the model
+3. Consultare il __catalogo dei modelli__ di Ollama su <https://ollama.com/models> e __scegliere__ un modello tra le molte varianti disponibili
+    * convenzione dei nomi: `model:variant`; di solito la variante indica la dimensione del modello
 
-    {{< image src="ollama-models.png" alt="Ollama's Model Zoo" max-h="70vh" >}}
-    {{< image src="ollama-models-gemma4.png" alt="Available variants for a Model on Ollama's Model Zoo" max-h="70vh" >}}
+    {{< image src="ollama-models.png" alt="Catalogo dei modelli di Ollama" max-h="70vh" >}}
+    {{< image src="ollama-models-gemma4.png" alt="Varianti di un modello disponibili nel catalogo di Ollama" max-h="70vh" >}}
 
 ---
 
-## On-premise Example with Ollama pt. 3
+## Esempio on-premise con Ollama, pt. 3
 
-4. Pick one model, e.g. `gemma4:e2b`, and __pull__ it:
+4. Scegliere un modello, es. `gemma4:e2b`, e __scaricarlo__:
 
     ```bash
     ollama pull gemma4:e2b
     ```
 
-5. You may use Ollama's native __CLI conversational interface__ to try the model out:
+5. Si può provare il modello tramite l'__interfaccia conversazionale CLI__ nativa di Ollama:
 
     ```bash
     ollama run gemma4:e2b
     ```
 
-    example of conversation (notice that the model is also showing its _thinking process_):
+    esempio di conversazione (notare che il modello mostra anche il proprio _processo di ragionamento_):
 
     ```text
     >>> ciao!
@@ -600,12 +600,12 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 ---
 
-## On-premise Example with Ollama pt. 4
+## Esempio on-premise con Ollama, pt. 4
 
-6. Should you ever want to use the model _programmatically_, you can use Ollama's __API__, which is _partially_ compatible with OpenAI's API
-    * e.g. it supports the same `/v1/chat/completions` endpoint, but not all the features of OpenAI's API, e.g. the `tool_choice`, `logit_bias`, `user`, and `n` request fields, nor the files, batches, or fine-tuning endpoints (cf. [compatibility page](https://docs.ollama.com/api/openai-compatibility))
-    * in the client program, recall to set the __API base URL__ to point to your local Ollama service (by default: <http://localhost:11434/v1>)
-    * to prove that the API is working, you can send a test request via `curl`:
+6. Per usare il modello _da un programma_, si può utilizzare l'__API__ di Ollama, _parzialmente_ compatibile con quella di OpenAI
+    * es. supporta lo stesso endpoint `/v1/chat/completions`, ma non tutte le funzionalità OpenAI: mancano i campi `tool_choice`, `logit_bias`, `user` e `n`, e gli endpoint per file, batch e fine-tuning (cfr. [pagina sulla compatibilità](https://docs.ollama.com/api/openai-compatibility))
+    * nel client, impostare l'__URL di base dell'API__ sul servizio Ollama locale (predefinito: <http://localhost:11434/v1>)
+    * per verificare che l'API funzioni, inviare una richiesta di prova con `curl`:
 
         ```bash
         curl -X POST "http://localhost:11434/v1/chat/completions" \
@@ -619,7 +619,7 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
             }'
         ```
 
-        result (converted in YAML for the sake of readability):
+        risultato (convertito in YAML per facilitarne la lettura):
 
         ```yaml
         id: chatcmpl-85
@@ -655,33 +655,33 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 {{< slide id="local-requirements" >}}
 
-## Running models locally: what does it take? (pt. 1)
+## Eseguire modelli localmente: cosa serve? (pt. 1)
 
-### The general concept: a model is a (huge) array of numbers
+### Il concetto generale: un modello è un (enorme) array di numeri
 
-- An LLM is essentially a collection of __parameters__ (a.k.a. _weights_), i.e. numbers learned during training
-    + model _size_ is expressed in number of parameters: e.g. `7B` = 7 billion parameters, `70B` = 70 billion
-- To __run__ a model (_inference_), all its weights must be loaded in the _memory_ of the device doing the computation
-    + ideally, the GPU's memory (__VRAM__), as GPUs are much faster than CPUs at the matrix multiplications LLMs are made of
-- Hence, the __memory footprint__ of a model is roughly:
+- Un LLM è essenzialmente una raccolta di __parametri__ (o _pesi_), cioè numeri appresi durante l'addestramento
+    + la _dimensione_ del modello è il numero di parametri: es. `7B` = 7 miliardi di parametri, `70B` = 70 miliardi
+- Per __eseguire__ un modello (_inferenza_), tutti i pesi devono essere caricati nella _memoria_ del dispositivo che effettua il calcolo
+    + idealmente nella memoria della GPU (__VRAM__): le GPU sono molto più veloci delle CPU nelle moltiplicazioni matriciali su cui si basano gli LLM
+- Quindi l'__occupazione di memoria__ di un modello è approssimativamente:
 
-> __memory__ ≈ (number of params × bits per param / 8) [_weights_] + _KV cache_ [grows with context length] + _overhead_
+> __memoria__ ≈ (numero di parametri × bit per parametro / 8) [_pesi_] + _cache KV_ [cresce con la lunghezza del contesto] + _overhead_
 
-- the __key-value (KV) cache__ stores the attention _keys_ and _values_ of every token processed so far...
-    + ... so that they do not need to be recomputed for every new token generated
-    + its size _grows linearly_ with the _context length_
-        + this is why local runtimes (e.g. Ollama) use a _smaller_ default context window than the model's maximum
-- the _overhead_ covers runtime buffers, activations, and driver context: usually an extra ~10–20%
+- La __cache key-value (KV)__ conserva le _chiavi_ e i _valori_ dell'attenzione di ogni token elaborato finora...
+    + ... evitando di ricalcolarli per ogni nuovo token generato
+    + la sua dimensione _cresce linearmente_ con la _lunghezza del contesto_
+        + per questo i runtime locali (es. Ollama) usano una finestra di contesto predefinita _più piccola_ del massimo del modello
+- L'_overhead_ comprende buffer del runtime, attivazioni e contesto del driver: di solito circa il 10–20% in più
 
-{{< image src="./memory-footprint.svg" max-h="20vh" alt="Stacked bars of the memory needed (weights plus 8k-token KV cache) by 7B, 14B, 32B and 70B models at 16-bit, Q8_0 and Q4_K_M precision, compared with 8/16/24/48/80 GB devices" >}}
+{{< image src="./memory-footprint.svg" max-h="20vh" alt="Barre impilate della memoria richiesta (pesi più cache KV di 8mila token) da modelli 7B, 14B, 32B e 70B a precisione 16 bit, Q8_0 e Q4_K_M, confrontate con dispositivi da 8/16/24/48/80 GB" >}}
 
 ---
 
-## Running models locally: what does it take? (pt. 2)
+## Eseguire modelli localmente: cosa serve? (pt. 2)
 
-### Rule of thumb for the weights alone
+### Regola pratica per i soli pesi
 
-| Model size | 32-bit (`fp32`) | 16-bit (`fp16`/`bf16`) | 8-bit (`int8`, `Q8_0`) | ~4-bit (`Q4_K_M`) |
+| Dimensione del modello | 32 bit (`fp32`) | 16 bit (`fp16`/`bf16`) | 8 bit (`int8`, `Q8_0`) | ~4 bit (`Q4_K_M`) |
 |-----------:|----------------:|-----------------------:|-----------------------:|------------------:|
 | 1B  | 4 GB   | 2 GB   | ~1 GB  | ~0.6 GB |
 | 7B  | 28 GB  | 14 GB  | ~7.5 GB | ~4.3 GB |
@@ -689,92 +689,92 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 | 32B | 128 GB | 64 GB  | ~34 GB | ~20 GB  |
 | 70B | 280 GB | 140 GB | ~74 GB | ~43 GB  |
 
-- i.e. GB ≈ billions of params × bits per weight / 8 (`Q8_0` ≈ 8.5 bits, `Q4_K_M` ≈ 4.9 bits, cf. [llama.cpp's quantize docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md))
-- add ~10–20% runtime overhead, plus the KV cache (it grows with the context: several GB at 32k+ tokens)
-- models are _trained_ in 16/32 bits, but most local users run them at __8 or 4 bits__: this is called _quantization_
+- cioè GB ≈ miliardi di parametri × bit per peso / 8 (`Q8_0` ≈ 8,5 bit, `Q4_K_M` ≈ 4,9 bit, cfr. [documentazione sulla quantizzazione di llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md))
+- aggiungere ~10–20% di overhead del runtime e la cache KV (cresce con il contesto: diversi GB da 32mila token in su)
+- i modelli sono _addestrati_ a 16/32 bit, ma la maggior parte degli utenti locali li esegue a __8 o 4 bit__: è la _quantizzazione_
 
 {{% fragment %}}
-> Before pulling a model, __do the math__: if it does not fit in VRAM, it will either _fail_ to load, or be (partially) _offloaded_ to the CPU, becoming _much slower_
+> Prima di scaricare un modello, __fare i conti__: se non entra in VRAM, il caricamento _fallirà_ oppure il modello sarà (parzialmente) _trasferito_ alla CPU, diventando _molto più lento_
 {{% /fragment %}}
 
 ---
 
-## Quantization (pt. 1): the concept
+## Quantizzazione (pt. 1): il concetto
 
-- __Quantization__ = representing the model's weights with _fewer bits_ (e.g. 4-bit integers instead of 16-bit floats)
-    + by mapping _ranges_ of real values onto a small set of _discrete levels_, plus some _scaling factors_ (stored per _block_ of weights)
-- Why?
-    + _less memory_ $\implies$ bigger models on the same hardware
-    + _faster_ inference, as moving weights around in memory is the main bottleneck
-- At what price?
-    + _loss of precision_ $\implies$ some _quality degradation_, which is often negligible at 8 bits, noticeable at 4 bits, and severe below 3 bits
-    + degradation is task-dependent (e.g. worse for maths, code, and non-English languages)
+- __Quantizzazione__ = rappresentare i pesi del modello con _meno bit_ (es. interi a 4 bit anziché numeri in virgola mobile a 16 bit)
+    + associando _intervalli_ di valori reali a pochi _livelli discreti_, più alcuni _fattori di scala_ (memorizzati per _blocco_ di pesi)
+- Perché?
+    + _meno memoria_ $\implies$ modelli più grandi sullo stesso hardware
+    + inferenza _più veloce_: lo spostamento dei pesi in memoria è il principale collo di bottiglia
+- A quale prezzo?
+    + _perdita di precisione_ $\implies$ un certo _peggioramento della qualità_, spesso trascurabile a 8 bit, visibile a 4 bit e forte sotto i 3 bit
+    + il peggioramento dipende dal compito (es. maggiore per matematica, codice e lingue diverse dall'inglese)
 
-{{< image src="./quantization.svg" max-h="40vh" alt="A bell-shaped histogram of fp16 weights mapped onto 16 four-bit codes plus a per-block scale, yielding an approximate, stepped histogram" >}}
-
----
-
-## Decoding GGUF quantization labels (as seen in Ollama's tags)
-
-- `F16` / `BF16`: no quantization (16-bit)
-- `Q8_0`: 8-bit (~8.5 bits per weight, including block scales), nearly lossless
-- `Q4_K_M`: ~4.9 bits per weight on average
-    - `K` = _k-quants_ (super-blocks of weights whose sub-block scales are quantized too)
-    - `M`edium mix (a few sensitive tensors kept at higher precision): the usual __default__ trade-off
-- `Q2_K`, `Q3_K_S`, ... : smaller and increasingly lossy (`S`mall, `M`edium, `L`arge mixes)
-- `IQ*`: _importance-matrix_ quants, calibrated on sample text to lose less at very low bit-widths
-
-e.g. `ollama pull gemma4:e2b` downloads the default quantization, whereas tags like `...-q8_0` or `...-fp16` select a specific one (see the _"Tags"_ tab of each model on [Ollama's zoo](https://ollama.com/models))
+{{< image src="./quantization.svg" max-h="40vh" alt="Istogramma a campana dei pesi fp16 mappato su 16 codici a quattro bit più un fattore di scala per blocco, ottenendo un istogramma approssimato a gradini" >}}
 
 ---
 
-## Running models locally: hardware & software (pt. 1)
+## Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama)
+
+- `F16` / `BF16`: nessuna quantizzazione (16 bit)
+- `Q8_0`: 8 bit (~8,5 bit per peso, incluse le scale dei blocchi), quasi senza perdita
+- `Q4_K_M`: in media ~4,9 bit per peso
+    - `K` = _k-quants_ (superblocchi di pesi con scale dei sottoblocchi anch'esse quantizzate)
+    - mix `M`edium (medio: alcuni tensori sensibili restano a precisione maggiore): il consueto compromesso __predefinito__
+- `Q2_K`, `Q3_K_S`, ...: più piccoli e con perdite crescenti (mix `S`mall = piccolo, `M`edium = medio, `L`arge = grande)
+- `IQ*`: quantizzazioni con _matrice d'importanza_, calibrate su testo campione per ridurre la perdita con pochissimi bit
+
+Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `...-q8_0` o `...-fp16` ne selezionano una specifica (cfr. scheda _"Tags"_ di ogni modello nel [catalogo Ollama](https://ollama.com/models))
+
+---
+
+## Eseguire modelli localmente: hardware e software (pt. 1)
 
 ### Hardware
 
-- __Nvidia GPUs__ (CUDA): the reference platform; the VRAM size is what matters most (e.g. 8, 12, 16, 24 GB for consumer cards; 40–80+ GB for data-center ones)
-- __AMD GPUs__ (ROCm): supported, with fewer models of cards and more caveats
-- __Apple Silicon__ (Metal): CPU and GPU share a _unified memory_, so the whole RAM (minus what the OS needs) is usable by the model
-- __CPU only__: works for small models, but expect _few tokens per second_
-- __Partial offloading__: layers that do not fit in VRAM run on the CPU, which works but is much slower
+- __GPU Nvidia__ (CUDA): la piattaforma di riferimento; conta soprattutto la VRAM (es. 8, 12, 16, 24 GB nelle schede consumer; 40–80+ GB per data center)
+- __GPU AMD__ (ROCm): supportate, con meno modelli di schede e più vincoli
+- __Apple Silicon__ (Metal): CPU e GPU condividono _memoria unificata_, quindi tutta la RAM (meno quella del sistema operativo) è utilizzabile dal modello
+- __Solo CPU__: funziona per modelli piccoli, ma con _pochi token al secondo_
+- __Offloading parziale__: gli strati che non entrano in VRAM vengono eseguiti sulla CPU; funziona, ma è molto più lento
 
-(cf. <https://docs.ollama.com/gpu> for the supported GPUs)
+(cfr. <https://docs.ollama.com/gpu> per le GPU supportate)
 
-### Mixture-of-Experts (MoE) models
+### Modelli Mixture-of-Experts (MoE)
 
-- Some models activate only a _subset_ of their parameters for each token
-    + e.g. `gemma-4-26b-a4b-it` = 26B _total_ parameters, ~4B _active_ per token
-- __Memory__ depends on the _total_ parameters (all experts must be loaded), __speed__ depends on the _active_ ones
+- Alcuni modelli attivano soltanto un _sottoinsieme_ dei parametri per ogni token
+    + es. `gemma-4-26b-a4b-it` = 26B parametri _totali_, ~4B _attivi_ per token
+- La __memoria__ dipende dai parametri _totali_ (tutti gli esperti devono essere caricati), la __velocità__ da quelli _attivi_
 
 ---
 
-## Running models locally: hardware & software (pt. 2)
+## Eseguire modelli localmente: hardware e software (pt. 2)
 
-### What fits where? (indicative, at ~4-bit quantization, moderate context)
+### Cosa entra dove? (indicativamente, quantizzazione a ~4 bit, contesto moderato)
 
-| Machine | Comfortable model size |
+| Macchina | Dimensione del modello gestibile |
 |---------|-----------------------|
-| laptop, 8 GB RAM, no GPU | ≤ 3B (slow) |
-| laptop, 16 GB unified memory (Apple Silicon) | ≤ 8B |
-| desktop, 12–16 GB VRAM GPU | ≤ 14B |
-| workstation, 24 GB VRAM GPU (or 32–64 GB unified memory) | ≤ 32B |
-| server, 2× 80 GB GPUs | ≤ 70B at 16-bit (140 GB, tight), ~120B+ at 8-bit, larger with 4-bit or MoE |
+| portatile, 8 GB RAM, senza GPU | ≤ 3B (lento) |
+| portatile, 16 GB di memoria unificata (Apple Silicon) | ≤ 8B |
+| desktop, GPU con 12–16 GB VRAM | ≤ 14B |
+| workstation, GPU con 24 GB VRAM (o 32–64 GB di memoria unificata) | ≤ 32B |
+| server, 2 GPU da 80 GB | ≤ 70B a 16 bit (140 GB, al limite), ~120B+ a 8 bit, più grandi con 4 bit o MoE |
 
 ### Software
 
-- up-to-date __GPU drivers__ (CUDA for Nvidia, ROCm for AMD; Metal is built into macOS)
-- a __runtime__: [Ollama](https://ollama.com) (simplest), [LM Studio](https://lmstudio.ai/) (GUI), [llama.cpp](https://github.com/ggml-org/llama.cpp) (lowest level), [vLLM](https://docs.vllm.ai/) (server-grade, high throughput, many concurrent users)
-    + all of them expose an _OpenAI-compatible_ Web API, so client code does not change
-- check what is running, and _where_, with `ollama ps` (on an Apple Silicon laptop):
+- __Driver GPU__ aggiornati (CUDA per Nvidia, ROCm per AMD; Metal è integrato in macOS)
+- un __runtime__: [Ollama](https://ollama.com) (più semplice), [LM Studio](https://lmstudio.ai/) (GUI), [llama.cpp](https://github.com/ggml-org/llama.cpp) (più basso livello), [vLLM](https://docs.vllm.ai/) (per server, alto throughput, molti utenti simultanei)
+    + tutti espongono un'API Web _compatibile con OpenAI_, quindi il codice client non cambia
+- verificare cosa è in esecuzione e _dove_ con `ollama ps` (su un portatile Apple Silicon):
 
     ```text
     NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER    UNTIL
     gemma4:e2b    7fbdbf8f5e45    1.7 GB    100% GPU     4096                 4 minutes from now
     ```
 
-    + `SIZE` is the memory _actually allocated_ (weights in use + KV cache), whereas `ollama list` shows the size _on disk_ (7.2 GB for `gemma4:e2b`: all weights, incl. per-layer embeddings and vision/audio encoders)
-    + `PROCESSOR` tells whether the model is fully on the GPU, or split between CPU and GPU (e.g. `48%/52% CPU/GPU`)
-    + `CONTEXT` is the context window in use: Ollama's [default](https://docs.ollama.com/context-length) depends on the VRAM (4k tokens below 24 GiB, 32k up to 48 GiB, 256k above)
+    + `SIZE` è la memoria _effettivamente allocata_ (pesi in uso + cache KV); `ollama list` mostra invece la dimensione _su disco_ (7,2 GB per `gemma4:e2b`: tutti i pesi, inclusi embedding per strato ed encoder di immagini/audio)
+    + `PROCESSOR` indica se il modello è interamente sulla GPU o suddiviso tra CPU e GPU (es. `48%/52% CPU/GPU`)
+    + `CONTEXT` è la finestra di contesto in uso: il [valore predefinito](https://docs.ollama.com/context-length) di Ollama dipende dalla VRAM (4mila token sotto 24 GiB, 32mila fino a 48 GiB, 256mila oltre)
 
 {{% /section %}}
 
@@ -784,59 +784,59 @@ e.g. `ollama pull gemma4:e2b` downloads the default quantization, whereas tags l
 
 {{< slide id="cost-example" >}}
 
-## Deployment options: a worked cost example
+## Opzioni di deployment: un esempio di calcolo dei costi
 
-Let's estimate the yearly cost of the running example, under explicit (and rough) __assumptions__:
-- 500 applications per year; each one = passport picture + transcript + letter ≈ 6k input tokens, plus ~1k tokens of prompts
-- 5 requests per application (extraction, validation, scoring, ...) $\implies$ ~35k _input_ + ~5k _output_ tokens per application
-- hence, per year: __17.5M input__ + __2.5M output__ tokens
+Stimiamo il costo annuo dell'esempio ricorrente, con __ipotesi__ esplicite (e approssimative):
+- 500 candidature all'anno; ciascuna = immagine del passaporto + certificato esami + lettera ≈ 6mila token in ingresso, più ~mille token di prompt
+- 5 richieste per candidatura (estrazione, validazione, valutazione, ...) $\implies$ ~35mila token in _ingresso_ + ~5mila in _uscita_ per candidatura
+- quindi, all'anno: __17,5M token in ingresso__ + __2,5M in uscita__
 
-| Option | Price (USD per 1M input / output tokens) | Yearly cost |
+| Opzione | Prezzo (USD per 1M di token in ingresso / uscita) | Costo annuo |
 |---|---|---|
-| frontier proprietary model (e.g. [Claude Opus 5.5](https://platform.claude.com/docs/en/about-claude/pricing)) | \\$4 / \\$20 | 17.5 × 4 + 2.5 × 20 ≈ __\\$120__ |
-| small proprietary model (e.g. [Claude Haiku 4.5](https://platform.claude.com/docs/en/about-claude/pricing)) | \\$1 / \\$5 | ≈ __\\$30__ |
-| hosted open model, in the EU (e.g. Mistral Small 4, multimodal, Apache 2.0, on Mistral's [La Plateforme](https://mistral.ai/pricing)) | \\$0.15 / \\$0.60 | 17.5 × 0.15 + 2.5 × 0.6 ≈ __\\$4__ |
-| rented GPU, on demand (e.g. 24 GB GPU on [RunPod](https://www.runpod.io/pricing)) | ~\\$0.35–0.75 per hour | a few hours per year ≈ __\\$5__ (+ setup effort) |
-| on-premise (a 24 GB GPU workstation) | ~€2–2.5k for the GPU alone | __€2.5k+__ upfront, + energy, + maintenance |
+| modello proprietario di frontiera (es. [Claude Opus 5.5](https://platform.claude.com/docs/en/about-claude/pricing)) | \\$4 / \\$20 | 17.5 × 4 + 2.5 × 20 ≈ __\\$120__ |
+| modello proprietario piccolo (es. [Claude Haiku 4.5](https://platform.claude.com/docs/en/about-claude/pricing)) | \\$1 / \\$5 | ≈ __\\$30__ |
+| modello aperto ospitato nell'UE (es. Mistral Small 4, multimodale, Apache 2.0, su [La Plateforme](https://mistral.ai/pricing) di Mistral) | \\$0.15 / \\$0.60 | 17.5 × 0.15 + 2.5 × 0.6 ≈ __\\$4__ |
+| GPU a noleggio, su richiesta (es. GPU da 24 GB su [RunPod](https://www.runpod.io/pricing)) | ~\\$0.35–0.75 all'ora | poche ore all'anno ≈ __\\$5__ (+ lavoro di configurazione) |
+| on-premise (workstation con GPU da 24 GB) | ~€2–2,5mila per la sola GPU | __€2,5mila+__ iniziali, + energia, + manutenzione |
 
-(prices as of September 2026: they change every few months, always re-check them)
+(prezzi a settembre 2026: cambiano ogni pochi mesi, verificarli sempre)
 
 {{% fragment %}}
-> At _this_ scale, __cost is not the deciding factor__: compliance and control are. Things change at scale: e.g. one 80 GB GPU rented 24/7 costs ~\\$2k/month, which buys ~100M _output_ tokens of a frontier model per month. The __break-even__ depends on _volume_, _utilization_, and _model size_
+> A _questa_ scala, __il costo non è il fattore decisivo__: contano conformità e controllo. Su larga scala cambia tutto: es. una GPU da 80 GB noleggiata 24/7 costa ~\\$2mila/mese, cifra che compra ~100M di token in _uscita_ di un modello di frontiera al mese. Il __punto di pareggio__ dipende da _volume_, _utilizzo_ e _dimensione del modello_
 {{% /fragment %}}
 
 ---
 
 {{< slide id="local-sustainability" >}}
 
-## When is local execution _really_ sustainable?
+## Quando l'esecuzione locale è _davvero_ sostenibile?
 
 {{% multicol %}}
 {{% col %}}
 
-### It is, when...
+### Lo è quando...
 
-- data __must not__ leave the premises (by law, contract, or policy), and no trusted host is available
-- the workload is __steady__ and __high-volume__: hardware is used most of the time (high _utilization_)
-- __small/medium__ models suffice for the task (e.g. extraction, classification, summarisation), as measured on your own evaluation
-- __skills__ are available in-house: GPUs, drivers, runtimes, updates, monitoring, security
-- __offline__ operation, or _pinned_ versions (reproducibility) are required
+- i dati __non devono__ uscire dall'organizzazione (per legge, contratto o policy) e non c'è un host affidabile disponibile
+- il carico è __costante__ e __elevato__: l'hardware è usato per gran parte del tempo (alta _utilizzazione_)
+- modelli __piccoli/medi__ bastano per il compito (es. estrazione, classificazione, sintesi), come verificato con valutazioni proprie
+- ci sono __competenze__ interne: GPU, driver, runtime, aggiornamenti, monitoraggio, sicurezza
+- sono richiesti funzionamento __offline__ o versioni _fissate_ (riproducibilità)
 
 {{% /col %}}
 {{% col %}}
 
-### It is not, when...
+### Non lo è quando...
 
-- the task needs _frontier_ quality (hard reasoning, long agentic tasks): open models lag behind, and the largest ones need _data-centre_ hardware
-- the workload is __small__ or __bursty__: hardware sits idle, and pay-per-token is cheaper (cf. the [cost example](#/cost-example))
-- many __concurrent__ users: one GPU serves few requests at a time; scaling means more GPUs
-- nobody can _operate_ it: an unmaintained server is a security and continuity risk
-- __time-to-market__ matters: procurement and setup take weeks
+- il compito richiede qualità _di frontiera_ (ragionamento difficile, lunghe attività agentiche): i modelli aperti sono indietro e i più grandi richiedono hardware _da data center_
+- il carico è __ridotto__ o __discontinuo__: l'hardware resta inutilizzato e il pagamento per token costa meno (cfr. [esempio sui costi](#/cost-example))
+- ci sono molti utenti __simultanei__: una GPU serve poche richieste per volta; scalare significa aggiungere GPU
+- nessuno sa _gestirlo_: un server senza manutenzione è un rischio per sicurezza e continuità
+- conta il __time-to-market__: acquisto e configurazione richiedono settimane
 
 {{% /col %}}
 {{% /multicol %}}
 
-> A middle ground: _open-weight_ models, hosted by a provider __in the EU__ (or on a rented GPU), with the option to move them on-premise later: same weights, same behaviour
+> Una via intermedia: modelli _a pesi aperti_, ospitati da un fornitore __nell'UE__ (o su una GPU a noleggio), con la possibilità di spostarli on-premise in seguito: stessi pesi, stesso comportamento
 
 {{% /section %}}
 
@@ -844,9 +844,9 @@ Let's estimate the yearly cost of the running example, under explicit (and rough
 
 {{< slide id="eu-sovereignty" >}}
 
-# European Digital Sovereignty
+# Sovranità digitale europea
 
-Initiatives, and their maturity
+Iniziative e loro maturità
 
 ---
 
@@ -854,76 +854,76 @@ Initiatives, and their maturity
 
 {{< slide id="sovereignty" >}}
 
-## "Sovereign AI": a framing, and its limits
+## "IA sovrana": una narrazione e i suoi limiti
 
-- Several European and Italian actors frame open, locally-developed models as a matter of __digital sovereignty__
-    + reduce dependency on US and Chinese providers; better support for EU _languages_; compliance with EU _law_
-- The framing mixes (at least) three __distinct__ goals, which should _not_ be conflated:
-    1. __where__ a model is _developed_ (nationality of the developer)
-    2. __where__ it is _executed_, and data are processed (_operational_ control)
-    3. whether its making can be _inspected_ and _reproduced_ (_auditability_)
-- Goals 2 and 3 do __not__ require goal 1:
-    + _any_ open-weights model (e.g. Qwen3, gpt-oss, OLMo 3) can run in an EU data centre
-    + the most reproducible models are not necessarily European (e.g. OLMo 3, from the US), and a European vendor may disclose little (e.g. Mistral)
+- Diversi attori europei e italiani presentano i modelli aperti sviluppati localmente come una questione di __sovranità digitale__
+    + ridurre la dipendenza da fornitori statunitensi e cinesi; supportare meglio le _lingue_ UE; rispettare il _diritto_ UE
+- Questa narrazione mescola (almeno) tre obiettivi __distinti__, da _non_ confondere:
+    1. __dove__ un modello è _sviluppato_ (nazionalità dello sviluppatore)
+    2. __dove__ viene _eseguito_ e vengono elaborati i dati (controllo _operativo_)
+    3. se il processo di realizzazione è _ispezionabile_ e _riproducibile_ (_verificabilità_)
+- Gli obiettivi 2 e 3 __non__ richiedono l'obiettivo 1:
+    + _qualsiasi_ modello a pesi aperti (es. Qwen3, gpt-oss, OLMo 3) può essere eseguito in un data center UE
+    + i modelli più riproducibili non sono necessariamente europei (es. OLMo 3, statunitense), e un fornitore europeo può divulgare poco (es. Mistral)
 
 {{% fragment %}}
-> Skeptical reading: for an engineer, _where the model runs_ and _what its license allows_ matter much more than _who trained it_. The evidence (next slides) suggests that EU and Italian models are mostly __small__, __late__, and __not competitive__ with the frontier, nor with the best global open-weights models
+> Lettura scettica: per un ingegnere, _dove gira il modello_ e _cosa consente la licenza_ contano molto più di _chi lo ha addestrato_. Le evidenze (prossime slide) suggeriscono che i modelli UE e italiani sono perlopiù __piccoli__, __tardivi__ e __non competitivi__ con la frontiera né con i migliori modelli globali a pesi aperti
 {{% /fragment %}}
 
 ---
 
-## The gap, in numbers
+## Il divario, in numeri
 
-Data from the [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report) (2025 figures):
+Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report) (cifre del 2025):
 
-| | United States | China | Europe | Italy |
+| | Stati Uniti | Cina | Europa | Italia |
 |---|---|---|---|---|
-| _Notable_ AI models released (Epoch AI, Fig. 1.1.13) | __59__ | 35 | 1 (France); 1 more in the UK | none listed |
-| Private AI investment (Quid, Fig. 4.2.8, 4.2.11) | __\\$285.9B__ | \\$12.4B | \\$20.9B (France \\$4.4B, Germany \\$3.9B) | < \\$1B (not in the top 15) |
-| ... of which _generative_ AI (Fig. 4.2.10) | __\\$163.6B__ | \\$1.5B | \\$3.2B | — |
-| Newly funded AI companies (Fig. 4.2.9) | __1,953__ | 161 | e.g. Germany 92, France 84 | 38 |
-| Growth of private AI investment, 2024 $\rightarrow$ 2025 (Fig. 4.2.11) | +160% | +32% | +7% | — |
+| Modelli di IA _di rilievo_ pubblicati (Epoch AI, Fig. 1.1.13) | __59__ | 35 | 1 (Francia); un altro nel Regno Unito | nessuno elencato |
+| Investimenti privati in IA (Quid, Fig. 4.2.8, 4.2.11) | __\\$285.9B__ | \\$12.4B | \\$20.9B (Francia \\$4.4B, Germania \\$3.9B) | < \\$1B (fuori dai primi 15) |
+| ... di cui IA _generativa_ (Fig. 4.2.10) | __\\$163.6B__ | \\$1.5B | \\$3.2B | — |
+| Nuove aziende di IA finanziate (Fig. 4.2.9) | __1.953__ | 161 | es. Germania 92, Francia 84 | 38 |
+| Crescita degli investimenti privati in IA, 2024 $\rightarrow$ 2025 (Fig. 4.2.11) | +160% | +32% | +7% | — |
 
-- The gap is not closing: it is _widening_, at least for private investment
-- Caveats: private investment understates _state_ funding (notably China's, and EU/national programmes such as EuroHPC AI Factories); counts by affiliation may double-count multinational teams
+- Il divario non si riduce: si _allarga_, almeno negli investimenti privati
+- Cautele: gli investimenti privati sottostimano i finanziamenti _pubblici_ (soprattutto cinesi, e programmi UE/nazionali come le EuroHPC AI Factories); i conteggi per affiliazione possono contare più volte i gruppi multinazionali
 
 ---
 
-## European initiatives
+## Iniziative europee
 
-| Initiative | Who | What | License | Status (Sep. 2026) |
+| Iniziativa | Chi | Cosa | Licenza | Stato (set. 2026) |
 |---|---|---|---|---|
-| [EuroLLM](https://huggingface.co/utter-project/EuroLLM-22B-2512) | IST Lisbon, Univ. of Edinburgh, Unbabel, et al.; EuroHPC and Horizon Europe funding | 1.7B, 9B, 22B; 35 languages (all 24 EU ones), ~4T tokens | Apache 2.0 | 22B released Feb. 2026 |
-| [OpenEuroLLM](https://openeurollm.eu/) | 20 members, led by Charles University and AMD Silo AI; Digital Europe grant (Feb. 2025, 3 years) | "truly open" models for all EU languages | open (planned) | so far only small _reference_ models (e.g. [38 monolingual 2.15B](https://openeurollm.eu/blog/hplt-oellm-38-reference-models), with HPLT); flagship still pending |
-| [OpenLLM-France](https://openllm-france.fr/en/main-page-en/) | French consortium, Bpifrance funding | [Lucie-7B](https://huggingface.co/OpenLLM-France/Lucie-7B), then [Luciole](https://huggingface.co/collections/OpenLLM-France/luciole-llm) 1B/8B/23B (~30% French) | open data, weights, code | research project |
-| [Teuken / OpenGPT-X](https://www.iais.fraunhofer.de/en/industries_and_cross-sector_solutions/cross-sector_solutions/generative-ai/opengpt-x.html) | Fraunhofer, FZ Jülich, et al.; ~€14M from the German government | 7B, 24 EU languages | v0.4: Apache 2.0; v0.6: non-commercial | project __ended__ in March 2025; models still downloadable |
-| [Apertus](https://www.apertus-ai.org/) | ETH Zurich, EPFL, CSCS (Swiss AI Initiative: CHF 20M + 10M GPU-hours) | 8B, 70B; 1.5 (July 2026) adds images, reasoning, tools | Apache 2.0, fully open | the most complete open release in Europe; 2.0 planned for 2027 |
-| [Mistral AI](https://docs.mistral.ai/getting-started/models/) | French private company | from small to large MoE models | mixed: Apache 2.0, Modified MIT, proprietary | the European vendor closest to the frontier; little training disclosure |
+| [EuroLLM](https://huggingface.co/utter-project/EuroLLM-22B-2512) | IST Lisbona, Univ. di Edimburgo, Unbabel e altri; fondi EuroHPC e Horizon Europe | 1.7B, 9B, 22B; 35 lingue (tutte le 24 UE), ~4mila miliardi di token | Apache 2.0 | 22B pubblicato a feb. 2026 |
+| [OpenEuroLLM](https://openeurollm.eu/) | 20 membri, guidati da Università Carolina e AMD Silo AI; finanziamento Digital Europe (feb. 2025, 3 anni) | modelli "davvero aperti" per tutte le lingue UE | aperta (prevista) | finora solo piccoli modelli _di riferimento_ (es. [38 monolingui 2.15B](https://openeurollm.eu/blog/hplt-oellm-38-reference-models), con HPLT); modello principale ancora atteso |
+| [OpenLLM-France](https://openllm-france.fr/en/main-page-en/) | consorzio francese, fondi Bpifrance | [Lucie-7B](https://huggingface.co/OpenLLM-France/Lucie-7B), poi [Luciole](https://huggingface.co/collections/OpenLLM-France/luciole-llm) 1B/8B/23B (~30% francese) | dati, pesi e codice aperti | progetto di ricerca |
+| [Teuken / OpenGPT-X](https://www.iais.fraunhofer.de/en/industries_and_cross-sector_solutions/cross-sector_solutions/generative-ai/opengpt-x.html) | Fraunhofer, FZ Jülich e altri; ~€14M dal governo tedesco | 7B, 24 lingue UE | v0.4: Apache 2.0; v0.6: non commerciale | progetto __concluso__ a marzo 2025; modelli ancora scaricabili |
+| [Apertus](https://www.apertus-ai.org/) | ETH Zurigo, EPFL, CSCS (Swiss AI Initiative: CHF 20M + 10M di ore GPU) | 8B, 70B; 1.5 (luglio 2026) aggiunge immagini, ragionamento, tool | Apache 2.0, completamente aperto | il rilascio aperto più completo in Europa; 2.0 prevista per il 2027 |
+| [Mistral AI](https://docs.mistral.ai/getting-started/models/) | azienda privata francese | dai modelli piccoli ai grandi MoE | eterogenea: Apache 2.0, Modified MIT, proprietaria | il fornitore europeo più vicino alla frontiera; poche informazioni sull'addestramento |
 
 ---
 
-## Infrastructure and policy
+## Infrastrutture e politiche pubbliche
 
-- __EuroHPC AI Factories__: supercomputing centres opened to AI training and use
-    + [IT4LIA](https://www.hpc.cineca.it/projects/it4lia/), at CINECA in Bologna (with Austria and Slovenia), was among the [first seven](https://eurohpc-ju.europa.eu/selection-first-seven-ai-factories-drive-europes-leadership-ai-2024-12-10_en) selected in Dec. 2024 (€1.5bn in total, EU + national funds)
-    + beware: IT4LIA is an AI __Factory__, __not__ an AI _Gigafactory_: the [Gigafactories call](https://www.eurohpc-ju.europa.eu/eurohpc-joint-undertaking-launches-ai-gigafactories-call-2026-07-30_en) (for frontier-scale training) opened only in July 2026, with a Nov. 2026 deadline
-- __Data__: [ALT-EDIC](https://www.alt-edic.eu/)'s [LLMs4EU](https://www.alt-edic.eu/projects/llms4eu/) (March 2025, 3 years, 20+ countries) collects language resources for all EU languages, and targets sector-specific models
-- __Italian policy__: the [Italian AI Strategy 2024–2026](https://www.agid.gov.it/sites/agid/files/2024-07/Strategia_italiana_per_l_Intelligenza_artificiale_2024-2026.pdf) and [Law 132/2025](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation) call for technology "tailored to the Italian context" and open research artifacts
+- __EuroHPC AI Factories__: centri di supercalcolo aperti all'addestramento e all'uso dell'IA
+    + [IT4LIA](https://www.hpc.cineca.it/projects/it4lia/), al CINECA di Bologna (con Austria e Slovenia), era tra le [prime sette](https://eurohpc-ju.europa.eu/selection-first-seven-ai-factories-drive-europes-leadership-ai-2024-12-10_en) selezionate a dic. 2024 (€1,5 miliardi totali, fondi UE + nazionali)
+    + attenzione: IT4LIA è una AI __Factory__, __non__ una AI _Gigafactory_: il [bando Gigafactories](https://www.eurohpc-ju.europa.eu/eurohpc-joint-undertaking-launches-ai-gigafactories-call-2026-07-30_en) (per addestramento alla scala della frontiera) è stato aperto solo a luglio 2026, con scadenza a nov. 2026
+- __Dati__: [LLMs4EU](https://www.alt-edic.eu/projects/llms4eu/) di [ALT-EDIC](https://www.alt-edic.eu/) (marzo 2025, 3 anni, oltre 20 paesi) raccoglie risorse linguistiche per tutte le lingue UE e punta a modelli settoriali
+- __Politiche italiane__: la [Strategia italiana per l'IA 2024–2026](https://www.agid.gov.it/sites/agid/files/2024-07/Strategia_italiana_per_l_Intelligenza_artificiale_2024-2026.pdf) e la [Legge 132/2025](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation) promuovono tecnologie "adattate al contesto italiano" e artefatti di ricerca aperti
 
-{{< image src="./europe-timeline.svg" max-h="35vh" alt="Timeline 2023-2026 contrasting global frontier model releases with EU and Italian releases and projects, which are smaller and arrive later" >}}
+{{< image src="./europe-timeline.svg" max-h="35vh" alt="Linea temporale 2023-2026 che confronta i rilasci dei modelli globali di frontiera con rilasci e progetti UE e italiani, più piccoli e più tardivi" >}}
 
 ---
 
-## Recurring issues of European open models
+## Problemi ricorrenti dei modelli aperti europei
 
-1. __Data__: too little high-quality text in less-resourced languages (the very reason for LLMs4EU and for synthetic data)
-2. __Compute__: every project depends on a public supercomputer allocation (Leonardo, MareNostrum 5, JUWELS, Alps); an "open" model is not _reproducible_ by anyone who lacks one
-3. __Scale and timing__: models trained from scratch up to 14B parameters, released _months to years_ after comparable global open models; flagships "planned" or "pending"
-4. __Maintenance__: projects have _finite_ funding (e.g. OpenGPT-X ended in 2025): who fixes, updates, and re-evaluates the models afterwards?
-5. __Adoption__: public-administration use is mostly _aspirational_ in the sources, not a demonstrated large-scale deployment
+1. __Dati__: poco testo di qualità nelle lingue con meno risorse (la ragione stessa di LLMs4EU e dei dati sintetici)
+2. __Calcolo__: ogni progetto dipende da un'assegnazione di risorse di supercalcolo pubbliche (Leonardo, MareNostrum 5, JUWELS, Alps); un modello "aperto" non è _riproducibile_ da chi non vi ha accesso
+3. __Scala e tempi__: modelli addestrati da zero fino a 14B parametri, pubblicati _mesi o anni_ dopo modelli globali aperti comparabili; modelli principali "previsti" o "attesi"
+4. __Manutenzione__: i progetti hanno finanziamenti _a termine_ (es. OpenGPT-X concluso nel 2025): chi corregge, aggiorna e rivaluta i modelli dopo?
+5. __Adozione__: nelle fonti, l'uso nella pubblica amministrazione è soprattutto un'_aspirazione_, non un deployment su larga scala dimostrato
 
 {{% fragment %}}
-> These initiatives are valuable for __research__, __openness__, and __language coverage__; they are (still) __not__ a production-grade alternative to global models. An EU organization can get operational control by running a _global_ open-weights model on _EU_ infrastructure
+> Queste iniziative sono preziose per __ricerca__, __apertura__ e __copertura linguistica__; (ancora) __non__ sono un'alternativa pronta per la produzione ai modelli globali. Un'organizzazione UE può ottenere controllo operativo eseguendo un modello _globale_ a pesi aperti su infrastrutture _UE_
 {{% /fragment %}}
 
 {{% /section %}}
@@ -932,36 +932,36 @@ Data from the [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai
 
 {{< slide id="italy" >}}
 
-# The Italian Landscape
+# Il panorama italiano
 
 ---
 
 {{% section %}}
 
-## Italian initiatives
+## Iniziative italiane
 
-| Model | Who | What | License | Status (Sep. 2026) |
+| Modello | Chi | Cosa | Licenza | Stato (set. 2026) |
 |---|---|---|---|---|
-| [Minerva](https://huggingface.co/sapienzanlp/Minerva-7B-base-v1.0) | Sapienza NLP, within the [FAIR](https://fondazione-fair.it/) PNRR project; trained on CINECA's Leonardo | 350M, 1B, 3B, and __7B__, from scratch; 1.14T Italian + 1.14T English + 200B code tokens | Apache 2.0, open data | 7B presented in Nov. 2024; still the flagship, research-grade |
-| [LLaMAntino / ANITA](https://huggingface.co/swap-uniba/LLaMAntino-3-ANITA-8B-Inst-DPO-ITA) | Univ. of Bari | _fine-tunes_ of Llama, Mistral, gpt-oss for Italian (not trained from scratch) | inherited; [ANITA-NEXT](https://huggingface.co/m-polignano/ANITA-NEXT-24B-Magistral-2506-ITA)'s metadata says Apache 2.0, its card says "research only" | active research project; license hygiene is weak |
-| [Velvet](https://huggingface.co/Almawave/Velvet-14B) | Almawave (private); trained on Leonardo | 2B and 14B, 6 languages (~23% Italian for the 14B) | Apache 2.0 | released Jan.–Feb. 2025, static since |
-| [Italia](https://huggingface.co/sapienzanlp/modello-italia-9b) → [Domyn Small](https://huggingface.co/domyn/Domyn-Small-v1.0) | iGenius (private), renamed Domyn in June 2025 | Italia 9B (2024), then 10B; Domyn Small 10B (May 2026), 50+ languages | Italia 9B: MIT; Italia 10B: _custom, non-open_; Domyn Small: MIT | company focus moved to _proprietary_ large models |
+| [Minerva](https://huggingface.co/sapienzanlp/Minerva-7B-base-v1.0) | Sapienza NLP, nel progetto PNRR [FAIR](https://fondazione-fair.it/); addestrato su Leonardo del CINECA | 350M, 1B, 3B e __7B__, da zero; 1,14mila miliardi di token italiani + 1,14mila miliardi inglesi + 200 miliardi di codice | Apache 2.0, dati aperti | 7B presentato a nov. 2024; ancora il modello principale, per ricerca |
+| [LLaMAntino / ANITA](https://huggingface.co/swap-uniba/LLaMAntino-3-ANITA-8B-Inst-DPO-ITA) | Univ. di Bari | _fine-tuning_ di Llama, Mistral, gpt-oss per l'italiano (non addestrati da zero) | ereditata; i metadati di [ANITA-NEXT](https://huggingface.co/m-polignano/ANITA-NEXT-24B-Magistral-2506-ITA) indicano Apache 2.0, la scheda dice "solo ricerca" | progetto di ricerca attivo; gestione delle licenze poco rigorosa |
+| [Velvet](https://huggingface.co/Almawave/Velvet-14B) | Almawave (privata); addestrato su Leonardo | 2B e 14B, 6 lingue (~23% italiano per il 14B) | Apache 2.0 | pubblicato a gen.–feb. 2025, poi invariato |
+| [Italia](https://huggingface.co/sapienzanlp/modello-italia-9b) → [Domyn Small](https://huggingface.co/domyn/Domyn-Small-v1.0) | iGenius (privata), rinominata Domyn a giugno 2025 | Italia 9B (2024), poi 10B; Domyn Small 10B (maggio 2026), oltre 50 lingue | Italia 9B: MIT; Italia 10B: _specifica, non aperta_; Domyn Small: MIT | l'azienda si è orientata verso grandi modelli _proprietari_ |
 
-- A "__national__" model says nothing about its _openness_: compare Minerva (Apache, open data) with Italia 10B (restrictive license)
-- Italian models trained _from scratch_ range from 0.35B (Minerva) to 14B (Velvet); larger ones (e.g. ANITA-NEXT 24B) are _fine-tunes_ of foreign models: one or two orders of magnitude below the frontier
+- Un modello "__nazionale__" non dice nulla sulla sua _apertura_: confrontare Minerva (Apache, dati aperti) con Italia 10B (licenza restrittiva)
+- I modelli italiani addestrati _da zero_ vanno da 0.35B (Minerva) a 14B (Velvet); quelli più grandi (es. ANITA-NEXT 24B) sono _fine-tuning_ di modelli stranieri: uno o due ordini di grandezza sotto la frontiera
 
 ---
 
-## How good are Italian models?
+## Quanto sono validi i modelli italiani?
 
-- Measuring it is hard: translated English benchmarks are _not_ enough
-    + [ITA-Bench](https://aclanthology.org/2024.clicit-1.67/) (CLiC-it 2024) mixes translated tasks with native Italian datasets
-    + [Evalita-LLM](https://arxiv.org/abs/2502.02289) (2025) uses _native_ Italian tasks, and multiple prompts per task, since rankings are _sensitive_ to prompt wording ([leaderboard](https://huggingface.co/spaces/evalitahf/evalita_llm_leaderboard))
-- Published numbers show that small Italian models can be _useful_, e.g. [Velvet-2B](https://huggingface.co/Almawave/Velvet-2B) reports 39.6 on Italian MMLU and 61.9–86.6 on ITA-Bench tasks...
-- ... but there is __no robust evidence__ that Italian models outperform large multilingual open models (e.g. Qwen3, Gemma 4), let alone frontier ones, _even on Italian_
+- Misurarlo è difficile: i benchmark inglesi tradotti _non_ bastano
+    + [ITA-Bench](https://aclanthology.org/2024.clicit-1.67/) (CLiC-it 2024) combina compiti tradotti e dataset nativi italiani
+    + [Evalita-LLM](https://arxiv.org/abs/2502.02289) (2025) usa compiti _nativi_ italiani e più prompt per compito: le classifiche sono _sensibili_ alla formulazione del prompt ([classifica](https://huggingface.co/spaces/evalitahf/evalita_llm_leaderboard))
+- I risultati pubblicati mostrano che i piccoli modelli italiani possono essere _utili_: es. [Velvet-2B](https://huggingface.co/Almawave/Velvet-2B) riporta 39,6 su MMLU italiano e 61,9–86,6 nei compiti ITA-Bench...
+- ... ma __non ci sono evidenze robuste__ che i modelli italiani superino i grandi modelli aperti multilingue (es. Qwen3, Gemma 4), tantomeno quelli di frontiera, _nemmeno in italiano_
 
 {{% fragment %}}
-> Leaderboard positions change every few months: when citing a rank, always write the __snapshot date__
+> Le posizioni in classifica cambiano ogni pochi mesi: quando si cita una posizione, indicare sempre la __data della rilevazione__
 {{% /fragment %}}
 
 {{% /section %}}
@@ -970,7 +970,7 @@ Data from the [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai
 
 {{< slide id="evaluation" >}}
 
-# How to Evaluate an LLM
+# Come valutare un LLM
 
 ---
 
@@ -978,145 +978,145 @@ Data from the [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai
 
 {{< slide id="model-selection" >}}
 
-## Which model? The general concept
+## Quale modello? Il concetto generale
 
-- Choosing a model is a _governance_ decision, since it affects all five dimensions at once:
-    + _quality_ (capabilities), _cost_ (price per token, or hardware), _control_ (open weights? version pinning? deprecation?), _compliance_ (license, provider's jurisdiction and data policies), _time-to-market_ (availability, ecosystem)
-- It requires _information_ about models, which comes from:
-    1. their __documentation__ (model cards, system cards, licenses, terms of service)
-    2. public __evaluations__ (benchmarks, leaderboards)
-    3. __your own__ evaluations on the task at hand
-- It is __not__ a one-off decision: models are _updated_, _deprecated_, and _surpassed_ every few months, so the choice must be _re-assessed_ periodically (and made _reproducible_)
+- La scelta del modello è una decisione di _governance_: influenza tutte e cinque le dimensioni contemporaneamente:
+    + _qualità_ (capacità), _costo_ (prezzo per token o hardware), _controllo_ (pesi aperti? versioni fissate? dismissione?), _conformità_ (licenza, giurisdizione e policy sui dati del fornitore), _time-to-market_ (disponibilità, ecosistema)
+- Richiede _informazioni_ sui modelli, provenienti da:
+    1. __documentazione__ (model card, system card, licenze, termini di servizio)
+    2. __valutazioni__ pubbliche (benchmark, classifiche)
+    3. valutazioni __proprie__ sul compito da svolgere
+- __Non__ è una decisione una tantum: i modelli vengono _aggiornati_, _dismessi_ e _superati_ ogni pochi mesi; la scelta va _riesaminata_ periodicamente (e resa _riproducibile_)
 
-(cf. [model zoos](#/model-zoos) and their [key parameters](#/key-parameters))
-
----
-
-## Model documentation: model cards, system cards, datasheets
-
-- __Model cards__: recall them from the [model zoos](#/model-zoos) ([Mitchell et al., 2019](https://arxiv.org/abs/1810.03993); [Hugging Face's guide](https://huggingface.co/docs/hub/model-cards)); here, what matters is what they say about _governance_ (below)
-- __Datasheets for datasets__ ([Gebru et al., 2021](https://arxiv.org/abs/1803.09010)): the same idea, for training data (motivation, composition, collection, recommended uses)
-- __System cards__: longer reports published by frontier providers for each model release, focusing on _safety_ evaluations, red-teaming, and mitigations
-    + e.g. [OpenAI's](https://openai.com/index/gpt-oss-model-card/) and [Anthropic's](https://www.anthropic.com/system-cards) system cards
-
-{{< image src="./model-card-anatomy.svg" max-h="35vh" alt="Anatomy of a model card: eight sections, from model details to license, each tagged with the governance dimensions it informs (quality, compliance, control)" >}}
-
-- __What to look for__, as an engineer: _license_, _languages_, _context window_, _knowledge cut-off_, _intended uses_ (does yours fit?), known _limitations_, and _evaluations_ relevant to your task
+(cfr. [cataloghi di modelli](#/model-zoos) e relativi [parametri chiave](#/key-parameters))
 
 ---
 
-## How to evaluate models?
+## Documentazione dei modelli: model card, system card, datasheet
 
-### 1. Public __benchmarks__ and __leaderboards__ (generic, cheap to consult)
+- __Model card__: già viste nei [cataloghi](#/model-zoos) ([Mitchell et al., 2019](https://arxiv.org/abs/1810.03993); [guida di Hugging Face](https://huggingface.co/docs/hub/model-cards)); qui conta ciò che dicono sulla _governance_ (sotto)
+- __Datasheet per dataset__ ([Gebru et al., 2021](https://arxiv.org/abs/1803.09010)): stessa idea per i dati di addestramento (motivazione, composizione, raccolta, usi consigliati)
+- __System card__: rapporti più lunghi pubblicati dai fornitori di frontiera a ogni rilascio, centrati sulle valutazioni di _sicurezza_, il red teaming e le mitigazioni
+    + es. le system card di [OpenAI](https://openai.com/index/gpt-oss-model-card/) e [Anthropic](https://www.anthropic.com/system-cards)
 
-- _benchmarks_: fixed datasets + metrics for some capability
-    + e.g. knowledge ([MMLU](https://arxiv.org/abs/2009.03300)), expert reasoning ([GPQA](https://arxiv.org/abs/2311.12022)), coding ([SWE-bench](https://www.swebench.com/)), tool use, long context...
-    + holistic frameworks like [HELM](https://arxiv.org/abs/2211.09110) evaluate many models on many scenarios and metrics (not just accuracy)
-- _leaderboards_: rankings aggregating benchmark results or human preferences
-    + e.g. [Arena](https://arena.ai/) (formerly Chatbot Arena / LMArena: humans blindly compare pairs of answers, cf. [Chiang et al., 2024](https://arxiv.org/abs/2403.04132); but see also the critique by [Singh et al., 2025](https://arxiv.org/abs/2504.20879)), [Artificial Analysis](https://artificialanalysis.ai/) (quality vs. price vs. speed)
-- __caveats__:
-    + _data contamination_: benchmark items may have leaked into training data (cf. [Xu et al., 2024](https://arxiv.org/abs/2406.04244))
-    + _saturation_: top models all score near 100%, so benchmarks stop discriminating (e.g. Hugging Face [retired](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard/discussions/1135) its Open LLM Leaderboard in 2025)
-    + _Goodhart's law_: once a benchmark becomes a target, it stops being a good measure
-    + benchmarks measure _generic_ skills, possibly _not_ the ones your task requires
+{{< image src="./model-card-anatomy.svg" max-h="35vh" alt="Anatomia di una model card: otto sezioni, dai dettagli del modello alla licenza, associate alle dimensioni di governance su cui informano (qualità, conformità, controllo)" >}}
 
-### 2. __Task-specific__ evaluation (the one that really matters)
+- __Cosa cercare__, da ingegneri: _licenza_, _lingue_, _finestra di contesto_, _limite temporale delle conoscenze_, _usi previsti_ (il proprio rientra?), _limiti_ noti e _valutazioni_ pertinenti al compito
 
-- run each shortlisted model on _your_ test dataset, with _your_ scorers, as [below](#/validation) (deterministic scorers first, [LLM-as-a-Judge](#/llm-as-a-judge) where code can't help)
-- measure _latency_ and _cost_ too (both reported in the API responses' metadata, e.g. `usage`)
+---
+
+## Come valutare i modelli?
+
+### 1. __Benchmark__ e __classifiche__ pubblici (generici, economici da consultare)
+
+- _benchmark_: dataset fissi + metriche per una capacità
+    + es. conoscenza ([MMLU](https://arxiv.org/abs/2009.03300)), ragionamento esperto ([GPQA](https://arxiv.org/abs/2311.12022)), programmazione ([SWE-bench](https://www.swebench.com/)), uso dei tool, contesto lungo...
+    + framework complessivi come [HELM](https://arxiv.org/abs/2211.09110) valutano molti modelli su molti scenari e metriche (non solo accuratezza)
+- _classifiche_: graduatorie che aggregano risultati di benchmark o preferenze umane
+    + es. [Arena](https://arena.ai/) (prima Chatbot Arena / LMArena: confronti umani alla cieca tra coppie di risposte, cfr. [Chiang et al., 2024](https://arxiv.org/abs/2403.04132); si veda anche la critica di [Singh et al., 2025](https://arxiv.org/abs/2504.20879)), [Artificial Analysis](https://artificialanalysis.ai/) (qualità vs. prezzo vs. velocità)
+- __cautele__:
+    + _contaminazione dei dati_: elementi del benchmark possono essere finiti nei dati di addestramento (cfr. [Xu et al., 2024](https://arxiv.org/abs/2406.04244))
+    + _saturazione_: tutti i migliori modelli arrivano vicino al 100%, quindi il benchmark smette di distinguerli (es. Hugging Face ha [ritirato](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard/discussions/1135) l'Open LLM Leaderboard nel 2025)
+    + _legge di Goodhart_: quando una misura diventa un obiettivo, smette di essere una buona misura
+    + i benchmark misurano capacità _generiche_, che potrebbero _non_ essere quelle richieste dal proprio compito
+
+### 2. Valutazione __specifica per il compito__ (quella che conta davvero)
+
+- eseguire ogni modello candidato sul _proprio_ dataset di test, con i _propri_ valutatori, come [sotto](#/validation) (prima valutatori deterministici, [LLM-as-a-Judge](#/llm-as-a-judge) dove il codice non basta)
+- misurare anche _latenza_ e _costo_ (entrambi riportati nei metadati delle risposte API, es. `usage`)
 
 ---
 
 {{< slide id="eval-dimensions" >}}
 
-## What to evaluate: quality, efficiency, robustness, specialisation
+## Cosa valutare: qualità, efficienza, robustezza, specializzazione
 
-| Dimension | Questions | How to measure |
+| Dimensione | Domande | Come misurare |
 |---|---|---|
-| __Quality__ | are outputs _correct_, _complete_, _grounded_? | test set with expected results; scorers (code first, then LLM-as-a-judge, then humans) |
-| __Efficiency__ | how _fast_, how _expensive_? | latency (time to first token, tokens per second), tokens per task, cost per task (or per month) |
-| __Robustness__ | same quality with _rephrased_ inputs, noisy documents, adversarial content? Same output across runs? | input variations, repeated runs (_variance_), prompt-injection tests |
-| __Specialisation__ | good at _your_ domain, _your_ language, _your_ document formats? | domain-specific test cases (e.g. Italian administrative texts, scanned forms) |
+| __Qualità__ | gli output sono _corretti_, _completi_, _fondati sui dati_? | test set con risultati attesi; valutatori (prima codice, poi LLM-as-a-Judge, poi persone) |
+| __Efficienza__ | quanto è _veloce_, quanto _costa_? | latenza (tempo al primo token, token al secondo), token per compito, costo per compito (o mese) |
+| __Robustezza__ | stessa qualità con input _riformulati_, documenti rumorosi, contenuti avversariali? Stesso output tra esecuzioni? | variazioni degli input, esecuzioni ripetute (_varianza_), test di prompt injection |
+| __Specializzazione__ | funziona bene nel _proprio_ dominio, nella _propria_ lingua e con i _propri_ formati di documento? | casi di test del dominio (es. testi amministrativi italiani, moduli scansionati) |
 
-- Public benchmarks cover (part of) the first dimension, on _generic_ tasks: the others are __your__ job
-- Each dimension can rule a model out: e.g. a model 2% more accurate but 10× slower, or _inconsistent_ across runs
+- I benchmark pubblici coprono (parte della) prima dimensione su compiti _generici_: le altre spettano a __voi__
+- Ogni dimensione può escludere un modello: es. 2% più accurato ma 10 volte più lento, oppure _incostante_ tra esecuzioni
 
 ---
 
-## Measuring _general_ capabilities: frontier benchmarks
+## Misurare capacità _generali_: benchmark di frontiera
 
-As models _saturate_ classic benchmarks, new ones try to measure what models __cannot__ (yet) do:
+Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misurare ciò che i modelli __non__ sanno (ancora) fare:
 
 {{% multicol %}}
 {{% col class="col-8" %}}
 {{% small "90%" %}}
-- __ARC-AGI__ ([Chollet, 2019](https://arxiv.org/abs/1911.01547)): intelligence as _skill-acquisition efficiency_, measured on visual puzzles that are easy for humans, and require _abstracting_ rules from a few examples
-    + [ARC-AGI-2](https://arxiv.org/abs/2505.11831) (2025) raised the difficulty; the [ARC Prize 2025](https://arcprize.org/blog/arc-prize-2025-results-analysis) grand prize went _unclaimed_
-    + [ARC-AGI-3](https://arcprize.org/blog/arc-agi-3-launch) (March 2026) is _interactive_: cf. the [agentic benchmarks](#/agentic-benchmarks) below, and the [leaderboard](#/arc-agi-3-leaderboard) below
-- __Humanity's Last Exam__ ([Phan et al., 2025](https://arxiv.org/abs/2501.14249)): 2,500 expert-written questions across disciplines, designed to be _un-googleable_
-    + best models went from single digits (early 2025) to ~60% (cf. [Artificial Analysis](https://artificialanalysis.ai/evaluations/humanitys-last-exam), September 2026)
-- __METR's time horizon__ ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)): the _length_ of tasks (in human-expert time) that an agent completes with 50% success
-    + _doubling_ every ~7 months over 2019–2025 (212 days, in the original paper), and faster since 2023: ~4 months (129 days, METR's Time Horizon 1.1 fit, cf. [live measurements](https://metr.org/time-horizons))
-- __Aggregated views__: the [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report) describes a _jagged frontier_: models winning maths olympiad gold medals, yet failing at reading analog clocks
+- __ARC-AGI__ ([Chollet, 2019](https://arxiv.org/abs/1911.01547)): intelligenza come _efficienza nell'acquisire capacità_, misurata su rompicapi visivi facili per gli esseri umani, che richiedono di _astrarre_ regole da pochi esempi
+    + [ARC-AGI-2](https://arxiv.org/abs/2505.11831) (2025) ha alzato la difficoltà; il premio principale dell'[ARC Prize 2025](https://arcprize.org/blog/arc-prize-2025-results-analysis) _non è stato assegnato_
+    + [ARC-AGI-3](https://arcprize.org/blog/arc-agi-3-launch) (marzo 2026) è _interattivo_: cfr. [benchmark agentici](#/agentic-benchmarks) e [classifica](#/arc-agi-3-leaderboard) più avanti
+- __Humanity's Last Exam__ ([Phan et al., 2025](https://arxiv.org/abs/2501.14249)): 2.500 domande scritte da esperti di varie discipline, pensate per _non essere risolvibili con Google_
+    + i migliori modelli sono passati da percentuali a una cifra (inizio 2025) a ~60% (cfr. [Artificial Analysis](https://artificialanalysis.ai/evaluations/humanitys-last-exam), settembre 2026)
+- __Orizzonte temporale di METR__ ([Kwa et al., 2025](https://arxiv.org/abs/2503.14499)): la _durata_ dei compiti (in tempo di un esperto umano) che un agente completa con il 50% di successo
+    + _raddoppio_ ogni ~7 mesi nel 2019–2025 (212 giorni nel lavoro originale), più veloce dal 2023: ~4 mesi (129 giorni, stima METR Time Horizon 1.1, cfr. [misurazioni aggiornate](https://metr.org/time-horizons))
+- __Visioni aggregate__: lo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report) descrive una _frontiera irregolare_: modelli da medaglia d'oro alle olimpiadi di matematica, che però falliscono nel leggere orologi analogici
 {{% /small %}}
 {{% /col %}}
 {{% col class="col-4" %}}
-{{< image src="./benchmark-saturation.png" max-h="48vh" alt="AI Index 2026, Figure 2.1.1: best model performance relative to the human baseline, 2012-2025, on ImageNet, SuperGLUE, MMLU, GPQA Diamond, MATH, MMMU, AIME, SWE-bench Verified, OSWorld and others: each benchmark climbs towards or past the human baseline, newer ones ever faster" >}}
+{{< image src="./benchmark-saturation.png" max-h="48vh" alt="AI Index 2026, Figura 2.1.1: prestazioni del miglior modello rispetto al riferimento umano, 2012-2025, su ImageNet, SuperGLUE, MMLU, GPQA Diamond, MATH, MMMU, AIME, SWE-bench Verified, OSWorld e altri: ogni benchmark si avvicina o supera il riferimento umano, quelli più recenti sempre più rapidamente" >}}
 
-<small>Source: [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report), ch. 2, Figure 2.1.1 ([CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/))</small>
+<small>Fonte: [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report), cap. 2, Figura 2.1.1 ([CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/))</small>
 {{% /col %}}
 {{% /multicol %}}
 
-> __Engineering take-away__: frontier benchmarks tell you where the _state of the art_ is, not whether a model is good for __your__ task
+> __Indicazione per l'ingegneria__: i benchmark di frontiera mostrano dove si trova lo _stato dell'arte_, non se un modello è adatto al __proprio__ compito
 
 ---
 
-## Frontier benchmarks: METR's time horizons
+## Benchmark di frontiera: gli orizzonti temporali di METR
 
-{{< image src="./task-completion-time-horizon.png" max-h="50vh" alt="METR: length of software tasks (in human time) that LLMs complete 50% of the time, by release date, log scale: from seconds (GPT-2, 2019) to about 1 hour (o1, late 2024), several hours (Claude Opus 4.6, early 2026), and about 16 hours (Claude Mythos Preview, early, April 2026), along an exponential trend; measurements above 16 hours are unreliable with the current task suite" >}}
+{{< image src="./task-completion-time-horizon.png" max-h="50vh" alt="METR: durata dei compiti software (in tempo umano) completati dagli LLM nel 50% dei casi, per data di rilascio, in scala logaritmica: da secondi (GPT-2, 2019) a circa un'ora (o1, fine 2024), diverse ore (Claude Opus 4.6, inizio 2026) e circa 16 ore (Claude Mythos Preview, aprile 2026), con andamento esponenziale; sopra 16 ore le misurazioni sono inaffidabili con l'attuale insieme di compiti" >}}
 
-- E.g. the 50% time horizon of Claude Mythos Preview (April 2026) is ~17 hours, at the limit of what METR's task suite can measure
-- Caveats: _software_ tasks only, 50% success (the 80% horizon is much shorter), wide confidence intervals
+- Es. l'orizzonte temporale al 50% di Claude Mythos Preview (aprile 2026) è ~17 ore, al limite di ciò che la suite di compiti METR può misurare
+- Cautele: solo compiti _software_, successo al 50% (l'orizzonte all'80% è molto più breve), intervalli di confidenza ampi
 
-<small>Source: [METR, time horizons](https://metr.org/time-horizons), retrieved October 2026</small>
+<small>Fonte: [METR, orizzonti temporali](https://metr.org/time-horizons), consultato a ottobre 2026</small>
 
 ---
 
 {{< slide id="arc-agi-3-leaderboard" >}}
 
-## Frontier benchmarks: the ARC-AGI-3 leaderboard
+## Benchmark di frontiera: la classifica ARC-AGI-3
 
-{{< image src="./arc-agi-3-leaderboard.png" max-h="50vh" alt="ARC-AGI-3 verified leaderboard, score versus cost per run (log scale): the best models with the standard harness reach about 63% (GPT-6 Astra, Max) at tens of thousands of dollars; Claude Opus 5 (High) about 30%; with the Provider Adapter harness, GPT-6 Astra and GPT-6.1 Sol reach 90–100%; most other models stay below 10%" >}}
+{{< image src="./arc-agi-3-leaderboard.png" max-h="50vh" alt="Classifica verificata ARC-AGI-3, punteggio rispetto al costo per esecuzione (scala logaritmica): i migliori modelli con harness standard raggiungono circa 63% (GPT-6 Astra, Max) a decine di migliaia di dollari; Claude Opus 5 (High) circa 30%; con harness Provider Adapter, GPT-6 Astra e GPT-6.1 Sol raggiungono 90–100%; quasi tutti gli altri restano sotto il 10%" >}}
 
-- From < 1% at launch (March 2026) to 62.7% with the _standard_ harness, and ~99% with a _general-purpose_ harness (keeping reasoning state, compacting the conversation), in 6 months
-    + at a cost of thousands to tens of thousands of dollars per full run; humans solve all environments
+- Da < 1% al lancio (marzo 2026) a 62,7% con l'harness _standard_ e ~99% con un harness _generale_ (conservazione dello stato di ragionamento, compattazione della conversazione), in 6 mesi
+    + a un costo di migliaia o decine di migliaia di dollari per esecuzione completa; gli esseri umani risolvono tutti gli ambienti
 
-<small>Source: [ARC Prize leaderboard](https://arcprize.org/leaderboard), retrieved October 2026</small>
+<small>Fonte: [classifica ARC Prize](https://arcprize.org/leaderboard), consultata a ottobre 2026</small>
 
 ---
 
 {{< slide id="agentic-benchmarks" >}}
 
-## Agentic benchmarks: how good are agents, in general?
+## Benchmark agentici: quanto sono validi gli agenti in generale?
 
 {{% small "80%" %}}
 
-| Benchmark | What the agent must do | At release |
+| Benchmark | Cosa deve fare l'agente | Al rilascio |
 |---|---|---|
-| [GAIA](https://arxiv.org/abs/2311.12983) (2023) | answer real-world questions, combining Web search, files, and tools | humans 92%, GPT-4 with plugins 15% |
-| [WebArena](https://arxiv.org/abs/2307.13854) (2023) | complete tasks on realistic (self-hosted) Web sites, keeping track of the task state | humans 78%, best GPT-4 agent 14% |
-| [AgentBench](https://arxiv.org/abs/2308.03688) (2023) | pursue goals in 8 environments (OS, databases, games, Web, ...) over many turns | large gap between commercial and open models |
-| [SWE-bench](https://www.swebench.com/) (2023) | fix _real_ GitHub issues, i.e. build a working model of a code base | a few % (now much higher, cf. coding agents) |
-| [$\tau$-bench](https://arxiv.org/abs/2406.12045) (2024) | serve simulated users via tools, following domain _policies_ | pass$^8$ < 25% in retail |
-| [ARC-AGI-3](https://arcprize.org/arc-agi/3) (2026) | explore _novel_ interactive environments, infer goals and dynamics, plan | humans 100%, frontier AI < 1% ([March 2026](https://arxiv.org/abs/2603.24621)); best verified in Oct 2026: 62.7% ([leaderboard](https://arcprize.org/leaderboard)) |
+| [GAIA](https://arxiv.org/abs/2311.12983) (2023) | rispondere a domande reali combinando ricerca Web, file e tool | esseri umani 92%, GPT-4 con plugin 15% |
+| [WebArena](https://arxiv.org/abs/2307.13854) (2023) | completare compiti su siti Web realistici (ospitati localmente), mantenendo traccia dello stato del compito | esseri umani 78%, miglior agente GPT-4 14% |
+| [AgentBench](https://arxiv.org/abs/2308.03688) (2023) | perseguire obiettivi in 8 ambienti (sistemi operativi, database, giochi, Web, ...) per molti turni | ampio divario tra modelli commerciali e aperti |
+| [SWE-bench](https://www.swebench.com/) (2023) | risolvere issue GitHub _reali_, cioè costruire una rappresentazione operativa di una base di codice | pochi punti percentuali (ora molto di più, cfr. agenti di programmazione) |
+| [$\tau$-bench](https://arxiv.org/abs/2406.12045) (2024) | assistere utenti simulati tramite tool, rispettando le _policy_ del dominio | pass$^8$ < 25% nel commercio al dettaglio |
+| [ARC-AGI-3](https://arcprize.org/arc-agi/3) (2026) | esplorare ambienti interattivi _nuovi_, inferire obiettivi e dinamiche, pianificare | esseri umani 100%, IA di frontiera < 1% ([marzo 2026](https://arxiv.org/abs/2603.24621)); miglior risultato verificato a ott. 2026: 62,7% ([classifica](https://arcprize.org/leaderboard)) |
 
 {{% /small %}}
 
-- __Representation__ is the bottleneck: agents fail when they cannot _build_, _maintain_, _verify_, and _revise_ the right representation of the task (its state, goals, rules, and the effects of actions)
-    + e.g. on a variant of the ARC-AGI-3 environment TR87, Claude Opus 4.6 scores 0% with no harness and 97.1% within a _hand-crafted_ harness, yet 0% under both on BP35 ([ARC-AGI-3 report](https://arxiv.org/abs/2603.24621), §4): a hand-crafted harness can make or break a task, but does not _generalise_
-    + whereas a _general-purpose_ harness (keeping reasoning state, compacting the conversation) lifts GPT-6 Astra from 54.8% to 99.9% on the whole benchmark ([leaderboard](https://arcprize.org/leaderboard), Oct 2026): the surrounding software matters as much as the model
-- __Success__ without governance is not trustworthy _agency_: success rates say nothing about _how_ the goal was reached (policies, side effects, costs)
-- Benchmarks _saturate_ and leak into training data: they help _choosing_ models (cf. [how to choose](#/decision)), but __your own__ evaluations are what tells whether _your_ agent works
+- La __rappresentazione__ è il collo di bottiglia: gli agenti falliscono quando non sanno _costruire_, _mantenere_, _verificare_ e _rivedere_ la corretta rappresentazione del compito (stato, obiettivi, regole, effetti delle azioni)
+    + es. in una variante dell'ambiente ARC-AGI-3 TR87, Claude Opus 4.6 ottiene 0% senza harness e 97,1% con un harness _costruito ad hoc_, ma 0% in entrambi i casi su BP35 ([rapporto ARC-AGI-3](https://arxiv.org/abs/2603.24621), §4): un harness ad hoc può determinare il successo o il fallimento, ma non _generalizza_
+    + un harness _generale_ (conservazione dello stato di ragionamento, compattazione della conversazione) porta invece GPT-6 Astra da 54,8% a 99,9% sull'intero benchmark ([classifica](https://arcprize.org/leaderboard), ott. 2026): il software che circonda il modello conta quanto il modello stesso
+- Il __successo__ senza governance non rende affidabile l'_azione autonoma_: i tassi di successo non dicono _come_ sia stato raggiunto l'obiettivo (policy, effetti collaterali, costi)
+- I benchmark _saturano_ e finiscono nei dati di addestramento: aiutano a _scegliere_ i modelli (cfr. [come scegliere](#/decision)), ma sono le valutazioni __proprie__ a dire se il _proprio_ agente funziona
 
 {{% /section %}}
 
@@ -1126,49 +1126,49 @@ As models _saturate_ classic benchmarks, new ones try to measure what models __c
 
 {{< slide id="realistic-evaluation" >}}
 
-## A realistic evaluation, for an organisation
+## Una valutazione realistica per un'organizzazione
 
-1. Start from the __use case__: which decisions, or documents, will the model touch? What is a _wrong_ output, and how bad is it?
-2. Build a __golden set__: 30–100 _real_ (anonymised) cases, with the expected results, written by the people who do the job today
-    + include _hard_ and _borderline_ cases, not just typical ones
-3. __Shortlist__ 3–5 models satisfying the _hard constraints_ (deployment, data protection, license, modalities, language)
-4. Run each model on the golden set, __several times__, measuring quality, efficiency, and robustness
-5. __Decide__ with a rule written _in advance_ (e.g. "the cheapest model above 90% accuracy, with no critical errors"), and __document__ it
-6. __Re-run__ the evaluation whenever the model, the prompt, or the provider changes: it is a _regression test_
+1. Partire dal __caso d'uso__: quali decisioni o documenti coinvolgerà il modello? Cos'è un output _sbagliato_ e quanto è grave?
+2. Costruire un __golden set__: 30–100 casi _reali_ (anonimizzati), con risultati attesi, scritti da chi svolge oggi il lavoro
+    + includere casi _difficili_ e _al limite_, non solo quelli tipici
+3. __Selezionare__ 3–5 modelli che soddisfino i _vincoli inderogabili_ (deployment, protezione dei dati, licenza, modalità, lingua)
+4. Eseguire ogni modello sul golden set __più volte__, misurando qualità, efficienza e robustezza
+5. __Decidere__ con una regola scritta _in anticipo_ (es. "il modello più economico sopra il 90% di accuratezza, senza errori critici") e __documentarla__
+6. __Ripetere__ la valutazione ogni volta che cambia modello, prompt o fornitore: è un _test di regressione_
 
-> The golden set is an __asset__ of the organisation: it outlives models, providers, and vendors
+> Il golden set è un __patrimonio__ dell'organizzazione: dura più di modelli e fornitori
 
 ---
 
 {{< slide id="validation" >}}
 
-## Validating generative software: the general concept
+## Validare software generativo: il concetto generale
 
-- LLM-based software is hard to test:
-    + outputs are _non-deterministic_ (same input, different outputs)
-    + outputs are _open-ended_ (many correct answers, no single expected value)
-    + behaviour changes whenever the _prompt_, the _model_, or the _provider_ changes, even silently
-- Hence, rather than _only_ unit tests (pass/fail on one run), we need __evaluations__ (a.k.a. _evals_): measuring _how often_, and _how well_, the system behaves as expected, on a _dataset_ of representative inputs
-    + evaluations can still _run on_ unit-test frameworks (e.g. `pytest`), if assertions are on _rates_ or _thresholds_, rather than on single exact outputs
+- Il software basato su LLM è difficile da testare:
+    + gli output sono _non deterministici_ (stesso input, output diversi)
+    + gli output sono _aperti_ (molte risposte corrette, nessun unico valore atteso)
+    + il comportamento cambia quando cambia _prompt_, _modello_ o _fornitore_, anche senza preavviso
+- Oltre ai _soli_ test unitari (superato/fallito su un'esecuzione), servono __valutazioni__ (o _eval_): misurare _quanto spesso_ e _quanto bene_ il sistema si comporta come previsto su un _dataset_ di input rappresentativi
+    + le valutazioni possono comunque _usare_ framework di test unitari (es. `pytest`), con asserzioni su _tassi_ o _soglie_ anziché su singoli output esatti
 
-- Ingredients of an evaluation:
-    1. a __test dataset__: _known_ inputs, each with the _expected_ results (a.k.a. _expectations_), designed by _humans_ __before__ testing
-    2. the __system under test__ (prompt + model + code)
-    3. __scorers__ (a.k.a. _metrics_), mapping each (input, output, expectation) to a _score_ or a _pass/fail_:
-        * __deterministic__ scorers: schema validity, exact match, ranges, regular expressions, invariants and _relations_ among outputs
-        * __statistical__ scorers: similarity to a reference (e.g. [BLEU](https://aclanthology.org/P02-1040/), [ROUGE](https://aclanthology.org/W04-1013/), embedding similarity)
-            - they need a _reference_ text, and correlate poorly with human judgement on open-ended outputs (cf. [G-Eval](https://arxiv.org/abs/2303.16634)): not used here
-        * __LLM-as-a-Judge__: another LLM grades the output, according to a natural language _rubric_
-        * __humans__: the most reliable, and the most expensive
-    4. an __aggregation__ (e.g. pass rate, mean score), to be compared across _versions_ of the system (_regression testing_)
+- Ingredienti di una valutazione:
+    1. un __dataset di test__: input _noti_, ciascuno con risultati _attesi_, progettato da _persone_ __prima__ del test
+    2. il __sistema da valutare__ (prompt + modello + codice)
+    3. __valutatori__ (o _metriche_), che associano a ogni (input, output, risultato atteso) un _punteggio_ o un esito _superato/fallito_:
+        * valutatori __deterministici__: validità dello schema, corrispondenza esatta, intervalli, espressioni regolari, invarianti e _relazioni_ tra output
+        * valutatori __statistici__: similarità a un riferimento (es. [BLEU](https://aclanthology.org/P02-1040/), [ROUGE](https://aclanthology.org/W04-1013/), similarità degli embedding)
+            - richiedono un testo _di riferimento_ e correlano poco con il giudizio umano sugli output aperti (cfr. [G-Eval](https://arxiv.org/abs/2303.16634)): qui non li usiamo
+        * __LLM-as-a-Judge__: un altro LLM valuta l'output secondo una _rubrica_ in linguaggio naturale
+        * __persone__: i valutatori più affidabili e più costosi
+    4. un'__aggregazione__ (es. tasso di superamento, punteggio medio), da confrontare tra _versioni_ del sistema (_test di regressione_)
 
-- Structured outputs make evaluation _much_ easier: most fields can be checked with _code_
+- Gli output strutturati rendono la valutazione _molto_ più semplice: gran parte dei campi è verificabile con _codice_
 
 ---
 
-## Validating generative software: an intuitive example
+## Validare software generativo: un esempio intuitivo
 
-{{< image src="./evaluation-pipeline.svg" max-h="65vh" alt="An evaluation pipeline: a test dataset of three letters with expectations goes through the prompt template and model; outputs are checked by deterministic, relational and LLM-as-a-judge scorers, and the pass/fail report feeds back into the prompt" >}}
+{{< image src="./evaluation-pipeline.svg" max-h="65vh" alt="Pipeline di valutazione: un dataset di tre lettere con risultati attesi attraversa il template del prompt e il modello; gli output sono verificati da valutatori deterministici, relazionali e LLM-as-a-Judge; il rapporto superato/fallito alimenta la revisione del prompt" >}}
 
 ---
 
@@ -1176,35 +1176,35 @@ As models _saturate_ classic benchmarks, new ones try to measure what models __c
 
 ## LLM-as-a-Judge
 
-- Idea: use a (strong) LLM to _grade_ outputs, according to some _criteria_ (cf. [Zheng et al. (2023)](https://arxiv.org/abs/2306.05685), and the survey by [Gu et al. (2024)](https://arxiv.org/abs/2411.15594))
-    + _pointwise_ (grade one output on a scale), or _pairwise_ (which of two outputs is better?), with or without a _reference_ answer
-    + the judge's prompt is a _rubric_, and its answer is (ideally) a __structured output__: score + rationale
-    + asking for the _rationale first_ helps (cf. [chain-of-thought](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/letter-tone)); [G-Eval](https://arxiv.org/abs/2303.16634) goes further, by first generating _evaluation steps_ from the criteria
+- Idea: usare un LLM (capace) per _valutare_ gli output secondo _criteri_ definiti (cfr. [Zheng et al. (2023)](https://arxiv.org/abs/2306.05685) e la rassegna di [Gu et al. (2024)](https://arxiv.org/abs/2411.15594))
+    + valutazione _puntuale_ (un output su una scala) o _a coppie_ (quale dei due output è migliore?), con o senza risposta _di riferimento_
+    + il prompt del giudice è una _rubrica_; la risposta è (idealmente) un __output strutturato__: punteggio + motivazione
+    + chiedere _prima la motivazione_ aiuta (cfr. [chain-of-thought](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/letter-tone)); [G-Eval](https://arxiv.org/abs/2303.16634) va oltre, generando prima _passi di valutazione_ a partire dai criteri
 
-- Known __biases__ of judges:
-    + _position_ bias (preferring the first, or the second, option in pairwise comparisons), cf. [Wang et al. (2023)](https://arxiv.org/abs/2305.17926)
-    + _verbosity_ bias (preferring longer answers), and _self-preference_ (preferring outputs of the _same_ model family)
+- __Distorsioni__ note dei giudici:
+    + distorsione di _posizione_ (preferenza per la prima o la seconda opzione nei confronti a coppie), cfr. [Wang et al. (2023)](https://arxiv.org/abs/2305.17926)
+    + distorsione di _verbosità_ (preferenza per risposte più lunghe) e _autopreferenza_ (preferenza per output della _stessa_ famiglia di modelli)
 
-- Good practices:
-    + use a _different_ (and possibly stronger) model as judge, with _low_ temperature
-    + prefer _narrow_, _binary_ criteria (e.g. "is every strength supported by the letter?") over vague ones (e.g. "is it good?")
-    + __validate the judge__: compare its grades with _human_ grades, on a small sample, before trusting it
-        * measure _agreement_: raw accuracy, plus [Cohen's κ](https://en.wikipedia.org/wiki/Cohen%27s_kappa) $= (p_o - p_e)/(1 - p_e)$, which discounts _chance_ agreement (cf. [Thakur et al., 2024](https://arxiv.org/abs/2406.12624))
-    + use judges only for what _cannot_ be checked with code
+- Buone pratiche:
+    + usare come giudice un modello _diverso_ (e possibilmente più capace), con temperatura _bassa_
+    + preferire criteri _circoscritti_ e _binari_ (es. "ogni punto di forza è sostenuto dalla lettera?") a quelli vaghi (es. "è buono?")
+    + __validare il giudice__: confrontare i suoi giudizi con quelli _umani_ su un piccolo campione, prima di fidarsi
+        * misurare l'_accordo_: accuratezza grezza, più [κ di Cohen](https://en.wikipedia.org/wiki/Cohen%27s_kappa) $= (p_o - p_e)/(1 - p_e)$, che corregge l'accordo _casuale_ (cfr. [Thakur et al., 2024](https://arxiv.org/abs/2406.12624))
+    + usare i giudici solo per ciò che _non_ è verificabile con codice
 
 ---
 
 {{< slide id="evidence" >}}
 
-## How much evidence?
+## Quante evidenze servono?
 
-- A pass rate is an _estimate_, and small datasets give __wide__ uncertainty:
-    + e.g. 3 letters out of 3 passing $\Rightarrow$ the 95% [Wilson](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) confidence interval of the true pass rate is $[0.44, 1]$
-    + hence, report pass rates _with_ confidence intervals (cf. [Miller, 2024, "Adding Error Bars to Evals"](https://arxiv.org/abs/2411.00640))
-- Outputs are _non-deterministic_: repeat $N$ runs per test case, and look at the _distribution_, not at a single run
-- Comparing two versions (prompts, models) _fairly_:
-    + same test cases, same number of runs, _one_ factor changed at a time
-    + compare them _paired_, case by case (e.g. [McNemar's test](https://en.wikipedia.org/wiki/McNemar%27s_test) on pass/fail, or paired differences of scores), rather than comparing two averages
+- Un tasso di superamento è una _stima_; dataset piccoli comportano un'incertezza __ampia__:
+    + es. 3 lettere su 3 superano la valutazione $\Rightarrow$ l'intervallo di confidenza al 95% di [Wilson](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) del vero tasso di superamento è $[0.44, 1]$
+    + quindi riportare i tassi _con_ gli intervalli di confidenza (cfr. [Miller, 2024, "Adding Error Bars to Evals"](https://arxiv.org/abs/2411.00640))
+- Gli output sono _non deterministici_: ripetere $N$ esecuzioni per caso di test e osservare la _distribuzione_, non una sola esecuzione
+- Confrontare due versioni (prompt, modelli) _equamente_:
+    + stessi casi di test, stesso numero di esecuzioni, _un_ fattore cambiato alla volta
+    + confronti _appaiati_, caso per caso (es. [test di McNemar](https://en.wikipedia.org/wiki/McNemar%27s_test) su superato/fallito o differenze appaiate dei punteggi), anziché confrontare due medie
 
 {{% /section %}}
 
@@ -1212,7 +1212,7 @@ As models _saturate_ classic benchmarks, new ones try to measure what models __c
 
 {{< slide id="decision" >}}
 
-# Decision Criteria for Adoption
+# Criteri di scelta per l'adozione
 
 ---
 
@@ -1220,82 +1220,82 @@ As models _saturate_ classic benchmarks, new ones try to measure what models __c
 
 {{< slide id="three-options" >}}
 
-## Commercial cloud, European provider, or on-premise?
+## Cloud commerciale, fornitore europeo o on-premise?
 
 {{% small "85%" %}}
 
-| | Commercial cloud (e.g. US providers' APIs) | European provider (proprietary or open-weight models, EU data centres) | On-premise (open-weight models) |
+| | Cloud commerciale (es. API di fornitori USA) | Fornitore europeo (modelli proprietari o a pesi aperti, data center UE) | On-premise (modelli a pesi aperti) |
 |---|---|---|---|
-| __Quality__ | highest (frontier models) | good: best open models, or EU proprietary ones (e.g. Mistral) | limited by the hardware |
-| __Cost__ | pay per token; cheap at low volume | pay per token, often lower for open models | upfront hardware + energy + staff; cheap only at high, steady volume |
-| __Control__ | low: models change or are retired by the vendor | medium: open weights can be moved elsewhere | full |
-| __Compliance__ | contracts (DPA), transfer safeguards, foreign jurisdiction (e.g. US CLOUD Act) | EU jurisdiction; DPA still needed | data stays in-house |
-| __Time-to-market__ | minutes | hours to days | weeks |
+| __Qualità__ | massima (modelli di frontiera) | buona: migliori modelli aperti o proprietari UE (es. Mistral) | limitata dall'hardware |
+| __Costo__ | per token; economico con volumi bassi | per token, spesso inferiore per modelli aperti | hardware iniziale + energia + personale; economico solo con volumi alti e costanti |
+| __Controllo__ | basso: il produttore modifica o ritira i modelli | medio: i pesi aperti si possono spostare altrove | completo |
+| __Conformità__ | contratti (DPA), garanzie sui trasferimenti, giurisdizione estera (es. CLOUD Act USA) | giurisdizione UE; serve comunque un DPA | dati all'interno dell'organizzazione |
+| __Time-to-market__ | minuti | da ore a giorni | settimane |
 
 {{% /small %}}
 
-- Often the answer is a __mix__ (cf. [hybrid architectures](../llmaas/#/hybrid)), by data sensitivity and task difficulty
-- Whatever the option, __you__ remain responsible: e.g. as _deployer_ under the AI Act, and as _controller_ under the GDPR
+- Spesso la risposta è una __combinazione__ (cfr. [architetture ibride](../llmaas/#/hybrid)), in base a sensibilità dei dati e difficoltà del compito
+- Qualunque sia l'opzione, la responsabilità resta __vostra__: es. come _deployer_ secondo l'AI Act e come _titolare del trattamento_ secondo il GDPR
 
 ---
 
-## EU AI Act: a risk-based approach
+## AI Act dell'UE: un approccio basato sul rischio
 
 {{% multicol %}}
 {{% col %}}
 
-- __Unacceptable risk__ $\rightarrow$ _prohibited_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
-    + e.g. social scoring, manipulative techniques, __emotion recognition__ in workplaces and __education__, untargeted scraping of facial images
-- __High risk__ $\rightarrow$ strict _obligations_ ([Art. 6](https://artificialintelligenceact.eu/article/6/) and [Annex III](https://artificialintelligenceact.eu/annex/3/))
-    + e.g. CV screening, credit scoring, and __education__: systems to _determine access or admission_ to educational institutions (Annex III, point 3(a)), to _evaluate learning outcomes_ (3(b)), or to _proctor_ exams (3(d))
-- __Transparency risk__ $\rightarrow$ _disclosure_ obligations ([Art. 50](https://artificialintelligenceact.eu/article/50/))
-    + e.g. chatbots must disclose they are AI; synthetic content must be _marked_; deepfakes must be _labelled_
-- __Minimal risk__ $\rightarrow$ no specific obligations
-    + e.g. spam filters, AI in video games
-- Orthogonally: __general-purpose AI (GPAI) models__, with obligations for their _providers_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); systemic risk: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
+- __Rischio inaccettabile__ $\rightarrow$ _vietato_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
+    + es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
+- __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/) e [Allegato III](https://artificialintelligenceact.eu/annex/3/))
+    + es. selezione dei CV, valutazione del credito e __istruzione__: sistemi per _determinare accesso o ammissione_ agli istituti (Allegato III, punto 3(a)), _valutare i risultati dell'apprendimento_ (3(b)) o _sorvegliare_ gli esami (3(d))
+- __Rischio di trasparenza__ $\rightarrow$ obblighi di _informazione_ ([Art. 50](https://artificialintelligenceact.eu/article/50/))
+    + es. i chatbot devono dichiarare di essere IA; i contenuti sintetici devono essere _marcati_; i deepfake devono essere _etichettati_
+- __Rischio minimo__ $\rightarrow$ nessun obbligo specifico
+    + es. filtri antispam, IA nei videogiochi
+- Su un piano distinto: __modelli di IA per finalità generali (GPAI)__, con obblighi per i _fornitori_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); rischio sistemico: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
 
 {{% /col %}}
 {{% col %}}
 
-{{< image src="./ai-act-pyramid.png" max-h="60vh" alt="The AI Act risk pyramid, top to bottom: unacceptable risk (prohibited), high risk (regulated), limited risk (transparency), minimal risk (unregulated)" >}}
+{{< image src="./ai-act-pyramid.png" max-h="60vh" alt="Piramide dei rischi dell'AI Act, dall'alto: rischio inaccettabile (vietato), alto rischio (regolamentato), rischio limitato (trasparenza), rischio minimo (non regolamentato)" >}}
 
 {{% /col %}}
 {{% /multicol %}}
 
 {{% fragment %}}
-> Our __running example is high-risk__: it contributes to deciding _admission_ to a PhD programme. The same LLM, used to summarize news, would be _minimal_ risk: the Act regulates the __use__, not the technology
+> Il nostro __esempio ricorrente è ad alto rischio__: contribuisce a decidere l'_ammissione_ a un dottorato. Lo stesso LLM, usato per riassumere notizie, sarebbe a rischio _minimo_: il regolamento disciplina l'__uso__, non la tecnologia
 {{% /fragment %}}
 
 ---
 
-## How to choose a model for a given task?
+## Come scegliere un modello per un compito?
 
 {{% multicol %}}
 {{% col %}}
 
-### Hard constraints (filter)
+### Vincoli inderogabili (filtrare)
 
-1. __Deployment__: on-premise (hardware available?) or on-cloud (budget available?)
-2. __Data protection__: can the data leave your premises? which jurisdiction? (cf. GDPR)
-3. __License__: is the intended use (e.g. commercial) permitted?
-4. __Modalities__: text only? images? audio?
-5. __Capabilities__: tool calling? structured output? reasoning?
-6. __Context window__: will prompts + documents + history fit?
-7. __Languages__: e.g. is Italian supported well enough?
+1. __Deployment__: on-premise (hardware disponibile?) o cloud (budget disponibile?)
+2. __Protezione dei dati__: i dati possono uscire dall'organizzazione? quale giurisdizione? (cfr. GDPR)
+3. __Licenza__: l'uso previsto (es. commerciale) è consentito?
+4. __Modalità__: solo testo? immagini? audio?
+5. __Capacità__: tool calling? output strutturati? ragionamento?
+6. __Finestra di contesto__: entrano prompt + documenti + cronologia?
+7. __Lingue__: es. l'italiano è supportato abbastanza bene?
 
 {{% /col %}}
 {{% col %}}
 
-### Soft criteria (rank)
+### Criteri di preferenza (ordinare)
 
-- _quality_ on __your__ task (see next slide)
-- _latency_ (time to first token, tokens per second)
-- _cost_ per request (tokens × price, or hardware amortization)
-- _stability_ of the offer (will the model be deprecated soon?)
-- _ecosystem_ (client libraries, documentation, community)
+- _qualità_ sul __proprio__ compito (prossima slide)
+- _latenza_ (tempo al primo token, token al secondo)
+- _costo_ per richiesta (token × prezzo o ammortamento hardware)
+- _stabilità_ dell'offerta (il modello verrà dismesso a breve?)
+- _ecosistema_ (librerie client, documentazione, comunità)
 
 {{% fragment %}}
-> __Rule of thumb__: start from the _smallest/cheapest_ model satisfying the hard constraints, measure its quality on your task, and move to _bigger_ models only if needed
+> __Regola pratica__: partire dal modello _più piccolo/economico_ che soddisfa i vincoli inderogabili, misurare la qualità sul proprio compito e passare a modelli _più grandi_ solo se necessario
 {{% /fragment %}}
 
 {{% /col %}}
@@ -1304,69 +1304,69 @@ As models _saturate_ classic benchmarks, new ones try to measure what models __c
 {{< mermaid >}}
 %%{init: {'flowchart': {'htmlLabels': false}}}%%
 flowchart LR
-    Z[("All models
-    in the zoo")] --> D[/"Deployment &
-    data protection"\] --> L[/"License"\] --> C[/"Modalities &
-    capabilities"\] --> X[/"Context window
-    & language"\] --> S["Shortlist
-    (3-5 models)"] --> E["Evaluate on
-    your own test set"] --> P(["Pick the cheapest one
-    above the quality threshold"])
+    Z[("Tutti i modelli
+    nel catalogo")] --> D[/"Deployment e
+    protezione dati"\] --> L[/"Licenza"\] --> C[/"Modalità e
+    capacità"\] --> X[/"Finestra di contesto
+    e lingua"\] --> S["Rosa di candidati
+    (3-5 modelli)"] --> E["Valutare sul
+    proprio test set"] --> P(["Scegliere il più economico
+    sopra la soglia di qualità"])
 {{< /mermaid >}}
 
 ---
 
 {{< slide id="open-models-checklist" >}}
 
-## Engineering take-aways: pre-adoption checklist
+## Indicazioni per l'ingegneria: controlli prima dell'adozione
 
-The compliance unit is __checkpoint + license version + code licenses + data licenses + deployment + intended use__, not a brand name
+L'unità di verifica della conformità è __checkpoint + versione della licenza + licenze del codice + licenze dei dati + deployment + uso previsto__, non il nome del marchio
 
-| Question | What to check |
+| Domanda | Cosa verificare |
 |---|---|
-| exactly _which_ artifact? | repository, checkpoint hash, release date, license version |
-| commercial use? | Apache/MIT: yes; CC-BY-NC: no; custom licenses: read the use restrictions |
-| on-premise use? | the license, not the availability of files (e.g. Llama 4 multimodal in the EU) |
-| fine-tuning, distillation, merging? | whether derivatives inherit restrictions; license of _each_ parent model |
-| hosted service or redistribution? | whether serving an API counts as distribution (it does for Gemma 3); attribution and naming duties |
-| geography or scale limits? | e.g. Llama 4: EU multimodal clause, 700M monthly users |
-| training and fine-tuning data? | provenance, licenses (e.g. ODC-By), personal data |
-| AI Act role? | are _we_ becoming a GPAI provider (e.g. by fine-tuning and distributing)? does the open-source exemption apply? |
-| reproducibility needed? | self-hosting: permissive weights suffice; audit or research: prefer fully open models (OLMo 3, Apertus) |
+| esattamente _quale_ artefatto? | repository, hash del checkpoint, data di rilascio, versione della licenza |
+| uso commerciale? | Apache/MIT: sì; CC-BY-NC: no; licenze specifiche: leggere le restrizioni d'uso |
+| uso on-premise? | la licenza, non la disponibilità dei file (es. Llama 4 multimodale nell'UE) |
+| fine-tuning, distillazione, fusione? | se i derivati ereditano restrizioni; licenza di _ogni_ modello di partenza |
+| servizio ospitato o redistribuzione? | se esporre un'API conta come distribuzione (sì per Gemma 3); obblighi di attribuzione e denominazione |
+| limiti geografici o di scala? | es. Llama 4: clausola UE sui multimodali, 700M utenti mensili |
+| dati di addestramento e fine-tuning? | provenienza, licenze (es. ODC-By), dati personali |
+| ruolo nell'AI Act? | stiamo diventando _noi_ fornitori GPAI (es. con fine-tuning e distribuzione)? si applica l'esenzione open source? |
+| serve riproducibilità? | hosting autonomo: bastano pesi permissivi; audit o ricerca: preferire modelli completamente aperti (OLMo 3, Apertus) |
 
-> Mnemonic: __weights → license → recipe → data → regulatory role__: a model is only as open as the layer that matters for your use
+> Da ricordare: __pesi → licenza → ricetta → dati → ruolo normativo__: un modello è aperto solo quanto il livello che conta per il proprio uso
 
 ---
 
-## Engineering take-aways: three scenarios
+## Indicazioni per l'ingegneria: tre scenari
 
 {{% multicol %}}
 {{% col %}}
 
-### A UniBo lab, on-premise
+### Un laboratorio UniBo, on-premise
 
-- wants: local RAG/chat, fine-tuning on university material, reproducible experiments
-- good fits: OLMo 3, Apertus (reproducibility); Gemma 4, Qwen3, gpt-oss, Mistral Apache models (weights only suffice); Minerva (Italian-centric research)
-- ruled out: Llama 4 _multimodal_ (EU clause)
-
-{{% /col %}}
-{{% col %}}
-
-### An Italian startup reselling a fine-tune
-
-- wants: fine-tune, host, sell the model
-- good fits: Apache/MIT weights (Gemma 4, Qwen3, gpt-oss, DeepSeek-R1, Mistral Large 3, OLMo 3, Domyn Small)
-- beware: R1 _distills_ (Llama-based ones inherit Llama's license); Gemma 3 (restrictions flow to customers); Teuken v0.6 (non-commercial)
+- vuole: RAG/chat locale, fine-tuning su materiale universitario, esperimenti riproducibili
+- adatti: OLMo 3, Apertus (riproducibilità); Gemma 4, Qwen3, gpt-oss, modelli Apache di Mistral (bastano i pesi); Minerva (ricerca centrata sull'italiano)
+- escluso: Llama 4 _multimodale_ (clausola UE)
 
 {{% /col %}}
 {{% col %}}
 
-### A public administration
+### Una startup italiana che rivende un modello adattato
 
-- wants: EU-controlled deployment and auditability
-- _auditability_: Apertus, OLMo 3, Minerva
-- _operational control_: any permissively licensed model on EU infrastructure (incl. Mistral, EuroLLM, Velvet, Domyn Small)
-- beware: IT4LIA/CINECA provides _compute_, not a model license
+- vuole: fare fine-tuning, ospitare e vendere il modello
+- adatti: pesi Apache/MIT (Gemma 4, Qwen3, gpt-oss, DeepSeek-R1, Mistral Large 3, OLMo 3, Domyn Small)
+- attenzione: modelli _distillati_ R1 (quelli basati su Llama ne ereditano la licenza); Gemma 3 (restrizioni trasmesse ai clienti); Teuken v0.6 (non commerciale)
+
+{{% /col %}}
+{{% col %}}
+
+### Una pubblica amministrazione
+
+- vuole: deployment sotto controllo UE e verificabilità
+- _verificabilità_: Apertus, OLMo 3, Minerva
+- _controllo operativo_: qualsiasi modello con licenza permissiva su infrastrutture UE (incl. Mistral, EuroLLM, Velvet, Domyn Small)
+- attenzione: IT4LIA/CINECA offre _risorse di calcolo_, non una licenza del modello
 
 {{% /col %}}
 {{% /multicol %}}
@@ -1379,54 +1379,54 @@ The compliance unit is __checkpoint + license version + code licenses + data lic
 
 {{< slide id="exercise-compare" >}}
 
-## Guided exercise 1: comparing models on the running example
+## Esercizio guidato 1: confrontare i modelli sull'esempio ricorrente
 
-> __Goal__: build a _shortlist_, and compare its models on evidence: the letter-scoring system of the [previous lecture](../llmaas/#/letter-scoring), on all 3 letters, 5 times each
+> __Obiettivo__: costruire una _rosa di candidati_ e confrontarli sulla base di evidenze: il sistema di valutazione delle lettere della [lezione precedente](../llmaas/#/letter-scoring), su tutte e 3 le lettere, 5 volte ciascuna
 
 ```bash
 poetry run python -m snippets -l governance -x 1                                     # default shortlist
 poetry run python -m snippets -l governance -x 1 MODEL1 MODEL2@http://localhost:11434/v1   # custom shortlist (e.g. a local model)
 ```
 
-- each `MODEL` is an Open Router model name, or `MODEL@BASE_URL` for other providers (e.g. Ollama)
-- the script prints one line per model: scores (mean ± standard deviation), error w.r.t. the committee's _reference_ scores, ranking of candidates, failures, latency, tokens, and cost
-    + raw data (one row per run) in `output/model-comparison.csv`
-- discuss the results:
-    + which model is the most __accurate__? the most __consistent__? the __cheapest__? the __fastest__?
-    + do models __agree__ on the ranking of the candidates?
-    + which one would you pick, and with which _rule_? Would you trust a decision based on 3 letters? (cf. [how much evidence](#/evidence))
+- ogni `MODEL` è il nome di un modello Open Router, oppure `MODEL@BASE_URL` per altri fornitori (es. Ollama)
+- lo script stampa una riga per modello: punteggi (media ± deviazione standard), errore rispetto ai punteggi _di riferimento_ della commissione, graduatoria dei candidati, fallimenti, latenza, token e costo
+    + dati grezzi (una riga per esecuzione) in `output/model-comparison.csv`
+- discutere i risultati:
+    + quale modello è il più __accurato__? il più __costante__? il più __economico__? il più __veloce__?
+    + i modelli __concordano__ sulla graduatoria dei candidati?
+    + quale scegliereste e con quale _regola_? Vi fidereste di una decisione basata su 3 lettere? (cfr. [quante evidenze](#/evidence))
 
-(full code [here](../lab-snippets/snippets/lecture_governance/exercise1/compare_models.py); try also `TEMPERATURE=0` vs. `TEMPERATURE=1`)
+(codice completo [qui](../lab-snippets/snippets/lecture_governance/exercise1/compare_models.py); provare anche `TEMPERATURE=0` vs. `TEMPERATURE=1`)
 
 ---
 
 {{< slide id="exercise-decision" >}}
 
-## Guided exercise 2: a decision record, in groups
+## Esercizio guidato 2: un documento di decisione, in gruppi
 
-> __Goal__: _justify_ the adoption of an LLM-based system, in writing, as an organisation would have to
+> __Obiettivo__: _motivare_ per iscritto l'adozione di un sistema basato su LLM, come dovrebbe fare un'organizzazione
 
-- In groups of 3–5 (mixing managers and technicians), pick a use case: the [running example](../llmaas/#/running-example), or one from _your_ office (e.g. classifying citizens' requests, summarising case files, drafting answers)
-- Write a one-page __decision record__ (cf. _Architecture Decision Records_, <https://adr.github.io/>), answering:
-    1. __Classification__: is the system _high-risk_ under the AI Act? Which personal data does it process?
-    2. __Deployment__: commercial cloud, European provider, or on-premise? Why? (use the five dimensions)
-    3. __Shortlist__: which 3 models, and which _hard constraints_ did they pass? (apply the [pre-adoption checklist](#/open-models-checklist))
-    4. __Evaluation__: what would the _golden set_ contain? Which _decision rule_?
-    5. __Oversight__: what do humans review? Who is _accountable_? When is the decision _re-assessed_?
-- Share and discuss: could a colleague _reproduce_ your choice from the record alone?
+- In gruppi di 3–5 (mescolando manager e tecnici), scegliere un caso d'uso: l'[esempio ricorrente](../llmaas/#/running-example) o uno del _proprio_ ufficio (es. classificare richieste dei cittadini, riassumere fascicoli, preparare risposte)
+- Scrivere un __documento di decisione__ di una pagina (cfr. _Architecture Decision Records_, <https://adr.github.io/>), rispondendo a:
+    1. __Classificazione__: il sistema è _ad alto rischio_ secondo l'AI Act? Quali dati personali tratta?
+    2. __Deployment__: cloud commerciale, fornitore europeo o on-premise? Perché? (usare le cinque dimensioni)
+    3. __Rosa di candidati__: quali 3 modelli e quali _vincoli inderogabili_ hanno superato? (applicare i [controlli prima dell'adozione](#/open-models-checklist))
+    4. __Valutazione__: cosa conterrebbe il _golden set_? Quale _regola di decisione_?
+    5. __Supervisione__: cosa controllano le persone? Chi ne _risponde_? Quando viene _riesaminata_ la decisione?
+- Condividere e discutere: un collega potrebbe _riprodurre_ la scelta leggendo solo il documento?
 
 {{% /section %}}
 
 ---
 
-## Wrap-up
+## Riepilogo
 
-1. "Open" is __graded__: weights, code, data, documentation, and licenses are _separate_ questions; check the __exact checkpoint__
-2. Open weights buy the freedom to choose __where__ a model runs: many providers, aggregators, or your own hardware
-3. __Local execution__ is sustainable for steady volumes, small/medium models, and in-house skills; otherwise, EU-hosted open models are a middle ground
-4. European and Italian models are valuable for research and openness, but __not yet__ competitive with global ones: _operational_ sovereignty does not need a _national_ model
-5. Public benchmarks tell where the state of the art is; __your own golden set__ tells which model is good for _you_
-6. Decide with explicit __criteria__, write them down, and __re-assess__ periodically
+1. L'apertura ha __gradi__: pesi, codice, dati, documentazione e licenze sono questioni _distinte_; verificare il __checkpoint esatto__
+2. I pesi aperti offrono libertà di scegliere __dove__ gira un modello: molti fornitori, aggregatori o hardware proprio
+3. L'__esecuzione locale__ è sostenibile con volumi costanti, modelli piccoli/medi e competenze interne; altrimenti i modelli aperti ospitati nell'UE sono una via intermedia
+4. I modelli europei e italiani sono preziosi per ricerca e apertura, ma __non ancora__ competitivi con quelli globali: la sovranità _operativa_ non richiede un modello _nazionale_
+5. I benchmark pubblici mostrano lo stato dell'arte; il __proprio golden set__ indica quale modello è adatto a _voi_
+6. Decidere con __criteri__ espliciti, metterli per iscritto e __riesaminarli__ periodicamente
 
 ---
 

@@ -1,6 +1,7 @@
 baseURL = "https://gciatto.github.io/talk-2026-ai-er"
-languageCode = "en-us"
-title = "LLM APIs, Agents, and Open Models"
+languageCode = "it-it"
+defaultContentLanguage = "it"
+title = "API per LLM, agenti e modelli aperti"
 disableKinds = ["sitemap", "RSS"]
 theme = "reveal-hugo"
 publishDir = "build"

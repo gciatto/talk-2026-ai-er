@@ -58,6 +58,8 @@ git submodule update --init --recursive   # theme, shared-slides, lab-snippets a
 hugo serve                                # requires Hugo *extended* (SCSS compilation)
 ```
 
+Recursive initialization is required: Reveal.js is a nested theme submodule. Without it, Hugo can build successfully but the slideshow CSS and JavaScript return 404 (reported by browsers as MIME-type errors).
+
 Then open <http://localhost:1313/talk-2026-ai-er/>. `hugo` alone builds into `build/`. Printable version: append `?print-pdf` to a URL.
 
 ## Layout
@@ -96,7 +98,7 @@ Then open <http://localhost:1313/talk-2026-ai-er/>. `hugo` alone builds into `bu
 - Diagrams: mermaid code fences or `{{< mermaid >}}` (inlined by CI), or `{{< plantuml >}}`; `.graphml` sources exported to `.svg`/`.png`
 - Facts that age (prices, leaderboards, model versions, licenses) carry their __date__ ("as of September 2026", "retrieved October 2026")
 - European/Italian "sovereignty" is presented as _others'_ framing, stressing with evidence that EU/Italian models are lagging behind
-- Slides are in __English__; `goldmark` runs in unsafe mode, so raw HTML is allowed
+- Slides are in __Italian__ (code and actual outputs from `lab-snippets` may remain in English); `goldmark` runs in unsafe mode, so raw HTML is allowed
 - Course-wide values (event name, period) live in single-line shortcodes in `layouts/shortcodes/`: never hard-code them in slides
 
 ## Don'ts

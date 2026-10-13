@@ -1,7 +1,7 @@
 +++
 
-title = "About the lectures"
-description = "LLM APIs, agents, and open models: two lectures of the 'AI Course — Regione Emilia-Romagna 2026'"
+title = "Informazioni sulle lezioni"
+description = "API per LLM, agenti e modelli aperti: due lezioni del 'Corso di IA — Regione Emilia-Romagna 2026'"
 outputs = ["Reveal"]
 
 +++
@@ -12,50 +12,50 @@ outputs = ["Reveal"]
 
 {{< slide id="toc" >}}
 
-## Table of Contents
+## Indice
 
-0. [About the lectures](./) (this page):
-    + [the running example](llmaas/#/running-example) · [code of the examples](#/lab-snippets)
-1. [LLM-as-a-Service: APIs, Tools, and Agents](llmaas) (27/10/2026, 4h)
-    + [architectural choices](llmaas/#/llmaas) · [APIs](llmaas/#/apis) · [integration](llmaas/#/integration) · [OpenAI APIs in practice](llmaas/#/openai-in-practice) · [from text to processes](llmaas/#/processes) · [agentic AI](llmaas/#/agentic-ai) · [building an agent](llmaas/#/building-an-agent)
-    + guided exercise 1. [same program, different providers](llmaas/#/exercise-providers) · guided exercise 2. [changing the output schema](llmaas/#/exercise-schema)
-2. [Sovereign and Open Alternatives to Large LLMs](governance) (18/11/2026, 3h)
-    + [open models](governance/#/open-landscape) · [providers](governance/#/providers-landscape) · [local execution](governance/#/local) · [EU sovereignty](governance/#/eu-sovereignty) · [Italy](governance/#/italy) · [evaluation](governance/#/evaluation) · [decision](governance/#/decision)
-    + guided tour: [three zoos](governance/#/zoo-tour) · guided exercise 1. [comparing models](governance/#/exercise-compare) · guided exercise 2. [decision record](governance/#/exercise-decision)
+0. [Informazioni sulle lezioni](./) (questa pagina):
+    + [l'esempio ricorrente](llmaas/#/running-example) · [il codice degli esempi](#/lab-snippets)
+1. [LLM-as-a-Service: API, strumenti e agenti](llmaas) (27/10/2026, 4h)
+    + [scelte architetturali](llmaas/#/llmaas) · [API](llmaas/#/apis) · [integrazione](llmaas/#/integration) · [le API OpenAI in pratica](llmaas/#/openai-in-practice) · [dal testo ai processi](llmaas/#/processes) · [IA agentica](llmaas/#/agentic-ai) · [costruire un agente](llmaas/#/building-an-agent)
+    + esercizio guidato 1. [stesso programma, fornitori diversi](llmaas/#/exercise-providers) · esercizio guidato 2. [cambiare lo schema dell'output](llmaas/#/exercise-schema)
+2. [Alternative sovrane e aperte ai grandi LLM](governance) (18/11/2026, 3h)
+    + [modelli aperti](governance/#/open-landscape) · [fornitori](governance/#/providers-landscape) · [esecuzione locale](governance/#/local) · [sovranità europea](governance/#/eu-sovereignty) · [Italia](governance/#/italy) · [valutazione](governance/#/evaluation) · [decisione](governance/#/decision)
+    + visita guidata: [tre cataloghi di modelli](governance/#/zoo-tour) · esercizio guidato 1. [confrontare i modelli](governance/#/exercise-compare) · esercizio guidato 2. [motivare e documentare una decisione](governance/#/exercise-decision)
 
 ---
 
-## Teacher
+## Docente
 
 ### Giovanni Ciatto
 * email: [`giovanni.ciatto@unibo.it`](mailto:giovanni.ciatto@unibo.it)
-* homepage: <https://www.unibo.it/sitoweb/giovanni.ciatto/en>
-* Department of Computer Science and Engineering (DISI), University of Bologna
+* pagina personale: <https://www.unibo.it/sitoweb/giovanni.ciatto/en>
+* Dipartimento di Informatica — Scienza e Ingegneria (DISI), Università di Bologna
 
 ---
 
-## Goals
+## Obiettivi
 
-1. __LLM-as-a-Service__: how to _integrate_ LLMs into applications
-    + architectural and strategic choices: cloud, on-premise, hybrid
-    + the ecosystem of APIs, and the OpenAI API as the _de facto_ standard
-    + from text generation to _processes_: structured output, tools, workflows, agents, skills
+1. __LLM-as-a-Service__: come _integrare_ gli LLM nelle applicazioni
+    + scelte architetturali e strategiche: cloud, on-premise, ibride
+    + l'ecosistema delle API e le API OpenAI come standard _de facto_
+    + dalla generazione di testo ai _processi_: output strutturato, strumenti, workflow, agenti, skill
 
-2. __Sovereign and open alternatives__: how to _choose_ models and providers
-    + open and open-weight models, providers, aggregators, local execution
-    + European and Italian initiatives, and their maturity
-    + how to evaluate models, and how to decide
+2. __Alternative sovrane e aperte__: come _scegliere_ modelli e fornitori
+    + modelli aperti e a pesi aperti, fornitori, aggregatori, esecuzione locale
+    + iniziative europee e italiane e loro maturità
+    + come valutare i modelli e come decidere
 
 ---
 
-## Prerequisites
+## Prerequisiti
 
-- For _everybody_: none, besides curiosity
-    + slides are about __concepts__ and __trade-offs__, with short examples and guided exercises
-- For _technicians_ willing to run the examples by themselves:
-    + basic knowledge of __Python__, __Git__, and the __shell__; basic understanding of __HTTP__ APIs and __JSON__
-    + a [Python](https://www.python.org/downloads/) 3.11+ installation, and [Git](https://git-scm.com/downloads)
-    + an __API key__ for some LLM provider (e.g. a free one from [Open Router](https://openrouter.ai/)), or a _local_ LLM runtime (e.g. [Ollama](https://ollama.com/))
+- Per _tutti_: nessuno, oltre alla curiosità
+    + le slide trattano __concetti__ e __compromessi__, con brevi esempi ed esercizi guidati
+- Per i _tecnici_ che vogliono eseguire gli esempi in autonomia:
+    + conoscenze di base di __Python__, __Git__ e della __shell__; nozioni di base sulle API __HTTP__ e su __JSON__
+    + [Python](https://www.python.org/downloads/) 3.11+ e [Git](https://git-scm.com/downloads) installati
+    + una __chiave API__ di un fornitore di LLM (ad es. gratuita da [Open Router](https://openrouter.ai/)), oppure un ambiente di esecuzione _locale_ per LLM (ad es. [Ollama](https://ollama.com/))
 
 ---
 
@@ -63,23 +63,23 @@ outputs = ["Reveal"]
 
 {{< slide id="lab-snippets" >}}
 
-## The code of the examples: a repository
+## Il codice degli esempi: un repository
 
-- All examples live in a single repository: [`unibo-fc-isi-iag/lab-snippets`]({{< github-url repo="lab-snippets" >}})
-    + slides only show _excerpts_: the repository contains the _full_, _commented_, _runnable_ code
-    + it is the repository of the University course these lectures are drawn from ("Intelligent Agents", Module 2), hence it contains _more_ than what we will see
+- Tutti gli esempi sono in un unico repository: [`unibo-fc-isi-iag/lab-snippets`]({{< github-url repo="lab-snippets" >}})
+    + le slide mostrano solo _estratti_: il repository contiene il codice _completo_, _commentato_ ed _eseguibile_
+    + è il repository del corso universitario da cui sono tratte queste lezioni ("Agenti intelligenti", Modulo 2), quindi contiene _più_ di quanto vedremo
 
-- The [README]({{< github-url repo="lab-snippets" path="README.md" >}}) lists all examples, lecture by lecture
+- Il [README]({{< github-url repo="lab-snippets" path="README.md" >}}) elenca tutti gli esempi, lezione per lezione
 
 ---
 
 {{< slide id="lab-snippets-setup" >}}
 
-## The code of the examples: setup
+## Il codice degli esempi: configurazione
 
-1. Requirements: [Python](https://www.python.org/downloads/) 3.11+, and [Git](https://git-scm.com/downloads)
+1. Requisiti: [Python](https://www.python.org/downloads/) 3.11+ e [Git](https://git-scm.com/downloads)
 
-2. Clone the repository, and install its dependencies _once_, via [Poetry](https://python-poetry.org) (a dependency manager for Python):
+2. Clonare il repository e installare le dipendenze _una sola volta_ con [Poetry](https://python-poetry.org) (un gestore di dipendenze per Python):
 
     ```bash
     git clone https://github.com/unibo-fc-isi-iag/lab-snippets.git
@@ -88,23 +88,23 @@ outputs = ["Reveal"]
     poetry install                   # creates a virtual environment in .venv/, with all dependencies
     ```
 
-3. Configure the LLM provider via __environment variables__:
-    + `OPENAI_API_KEY`: your API key (if missing, snippets ask for it interactively)
-    + `OPENAI_BASE_URL` (default: `https://openrouter.ai/api/v1/`), `OPENAI_MODEL` (default: `nvidia/nemotron-3-super-120b-a12b:free`, free)
+3. Configurare il fornitore di LLM tramite __variabili d'ambiente__:
+    + `OPENAI_API_KEY`: la propria chiave API (se manca, gli snippet la chiedono interattivamente)
+    + `OPENAI_BASE_URL` (predefinito: `https://openrouter.ai/api/v1/`), `OPENAI_MODEL` (predefinito: `nvidia/nemotron-3-super-120b-a12b:free`, gratuito)
 
     ```bash
     export OPENAI_API_KEY="sk-or-v1-..."     # on Windows (PowerShell): $env:OPENAI_API_KEY="sk-or-v1-..."
     ```
 
-4. Open the repository's directory in your IDE (e.g. VS Code), and select the interpreter in `.venv/`
+4. Aprire la directory del repository nel proprio IDE (ad es. VS Code) e selezionare l'interprete in `.venv/`
 
 ---
 
 {{< slide id="lab-snippets-run" >}}
 
-## The code of the examples: running examples
+## Il codice degli esempi: esecuzione
 
-- Always run snippets _from the root directory_ of the repository, via the __runner__, by lecture `NAME` and example `ID`:
+- Eseguire sempre gli snippet _dalla directory principale_ del repository, tramite il __runner__, indicando la lezione `NAME` e l'esempio `ID`:
 
     ```bash
     poetry run python -m snippets --lecture <NAME> --example <ID> [ARGS]
@@ -112,12 +112,12 @@ outputs = ["Reveal"]
     poetry run python -m snippets -l prompting -e 1bis data/letter-mario-rossi.txt   # e.g.
     ```
 
-    - `poetry run`: runs the command _inside_ the project's virtual environment (`.venv/`), with all dependencies available
-    - `python -m snippets`: runs the `snippets` package as a program (i.e. its `__main__.py`, the runner)
-    - `ARGS` are passed to the snippet (each example's slides show which ones it accepts)
-    - prefer the runner to `python path/to/snippet.py`: same command for every snippet, no paths to remember
+    - `poetry run`: esegue il comando _nell'ambiente virtuale_ del progetto (`.venv/`), con tutte le dipendenze disponibili
+    - `python -m snippets`: esegue il pacchetto `snippets` come programma (cioè il suo `__main__.py`, il runner)
+    - `ARGS` vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)
+    - preferire il runner a `python path/to/snippet.py`: lo stesso comando per ogni snippet, senza percorsi da ricordare
 
-- Don't remember the `ID`? List the snippets of a lecture (or all of them, omitting `-l`):
+- Non si ricorda l'`ID`? Elencare gli snippet di una lezione (o tutti, omettendo `-l`):
 
     ```text
     $ poetry run python -m snippets -l llmaas --list

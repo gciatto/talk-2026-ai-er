@@ -9,7 +9,7 @@ Use `%` delimiters when the inner content is Markdown, `<` when it is HTML or no
 
 | Shortcode | Renders |
 |-----------|---------|
-| `academic_year` | the period of the lectures (`October–November 2026`) |
+| `academic_year` | the period of the lectures (`Ottobre–Novembre 2026`) |
 | `course_name` | the name of the course the lectures belong to |
 
 ## People
