@@ -208,7 +208,7 @@
 </li>
 <li>Prerequisito: tutti i modelli devono essere raggiungibili tramite un’<strong>API comune</strong> (prossima sezione), altrimenti ogni percorso richiede codice dedicato</li>
 </ul>
-<figure id="plantuml-figure-1791986675055203860" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
+<figure id="plantuml-figure-1791988416554981525" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
 <p>@startuml
 rectangle “Applicazioni” as A
 rectangle “Gateway\n(instradamento, chiavi,\nbudget, log)” as G
@@ -222,7 +222,7 @@ G -&gt; C
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791986675055203860");
+    handlePlantumlFigureByID("plantuml-figure-1791988416554981525");
 </script>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="providers">
@@ -291,7 +291,7 @@ G -&gt; C
 </ul>
 </section><section>
 <h2 id="chat-completion-un-esempio-intuitivo">Chat Completion: un esempio intuitivo</h2>
-<figure id="plantuml-figure-1791986675056168168" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
+<figure id="plantuml-figure-1791988416556033804" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
 <p>@startuml
 hide footbox
 actor “Utente” as U
@@ -313,7 +313,7 @@ P -&gt; U: “A Cesena sono le …”
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791986675056168168");
+    handlePlantumlFigureByID("plantuml-figure-1791988416556033804");
 </script>
 <ul>
 <li>La <strong>stessa</strong> interazione è implementata da <em>tutti</em> i fornitori; cambia solo la <em>sintassi</em>
@@ -864,6 +864,35 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="context-growth">
+<h2 id="la-cronologia-cresce-a-ogni-turno-e-con-lei-i-costi">La cronologia cresce a ogni turno (e con lei i costi)</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-4" style="text-align: left;"><div style="font-size: 85%;">
+<ul>
+<li>L’API è <em>senza stato</em>: a ogni turno l’Esempio 1 reinvia <strong>l’intera</strong> lista <code>messages</code>
+<ul>
+<li>i token in <em>ingresso</em> (e quindi <em>costo</em> e <em>latenza</em>) crescono a ogni turno</li>
+<li>il costo <em>cumulativo</em> di una conversazione cresce in modo <strong>quadratico</strong> con il numero di turni</li>
+<li>oltre la <em>finestra di contesto</em>, la richiesta fallisce</li>
+</ul>
+</li>
+<li>Anche <em>dentro</em> la finestra, più contesto non è sempre meglio: le prestazioni calano con input lunghi (cfr. <a href="https://research.trychroma.com/context-rot">“context rot”</a>)</li>
+<li><strong>Gestione del contesto</strong>:
+<ol>
+<li><em>tagliare</em> i messaggi più vecchi</li>
+<li><em>compattare</em>: sostituirli con un riassunto (cfr. <a href="../lab-snippets/snippets/lecture_prompting/example4/chat_with_compaction.py"><code>chat_with_compaction.py</code></a>)</li>
+<li><em>recuperare</em> solo le informazioni rilevanti (cfr. RAG)</li>
+<li><em>prompt caching</em> del fornitore: il prefisso stabile costa meno</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div class="col col-8" style="text-align: left;"><img src="./context-growth.svg" alt="Token inviati per richiesta in 10 turni: senza gestione del contesto la cronologia cresce linearmente e supera il budget dal turno 7; con la compattazione un riassunto sostituisce i messaggi più vecchi dopo i turni 6 e 9, mantenendo ogni richiesta entro il budget" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
+</div>
+</div>
+</div>
 
 </section>
 </section>
@@ -1150,6 +1179,39 @@ P -&gt; U: “A Cesena sono le …”
 <ul>
 <li>Attenzione al <em>compromesso</em>: più la funzione è specifica del fornitore, maggiore è il <strong>lock-in</strong></li>
 </ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="reasoning-models">
+<h2 id="modelli-di-ragionamento-qualità-in-cambio-di-latenza-e-costi">Modelli di ragionamento: qualità in cambio di latenza e costi</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-5" style="text-align: left;"><div style="font-size: 85%;">
+<ul>
+<li>I <strong>modelli di ragionamento</strong> (<em>thinking</em>) generano una <em>catena di ragionamento</em> <strong>prima</strong> della risposta, senza che venga chiesto
+<ul>
+<li>es. GPT-5+, Claude, Gemini “thinking”, DeepSeek-R1, Qwen3, <code>gpt-oss</code></li>
+</ul>
+</li>
+<li>I <strong>token di ragionamento</strong>:
+<ul>
+<li>sono <em>generati</em>, quindi <strong>fatturati</strong> come token di <em>output</em>, e occupano la finestra di contesto</li>
+<li>possono essere <em>nascosti</em>, <em>riassunti</em> o <em>restituiti</em>, a seconda del fornitore</li>
+<li>scambiano <strong>latenza e costo</strong> con <strong>qualità</strong> sui compiti difficili</li>
+</ul>
+</li>
+<li>Quasi tutte le API permettono di regolare <em>quanto</em> ragiona il modello: un <strong>livello di sforzo</strong> (es. <code>low</code> / <code>medium</code> / <code>high</code>) o un <strong>budget di token</strong>
+<ul>
+<li>stesso concetto, <em>sintassi</em> diversa tra fornitori (es. <code>reasoning_effort</code> per OpenAI, <code>reasoning={...}</code> per Open Router)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="col col-7" style="text-align: left;"><img src="./reasoning-tokens.svg" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" style="max-width: calc(95 * 19.2px); max-height: calc(60 * 10.8px); object-fit: contain;">
+</div>
+</div>
+</div>
+<blockquote>
+<p>Scegliere il livello di sforzo <em>più basso</em> che superi le proprie valutazioni: per estrazione e classificazione spesso basta <code>low</code></p>
+</blockquote>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="api-errors">
 <h2 id="quando-qualcosa-va-storto-errori-limiti-di-utilizzo-e-costi">Quando qualcosa va storto: errori, limiti di utilizzo e costi</h2>
@@ -1922,7 +1984,8 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ul>
-</section><section>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="prompt-injection">
 <h2 id="prompt-injection">Prompt injection</h2>
 <ul>
 <li>
@@ -1941,6 +2004,9 @@ P -&gt; U: “A Cesena sono le …”
 <li>il tool <code>read_letter</code> introdurrebbe questo testo nel contesto dell’agente…</li>
 </ul>
 </li>
+</ul>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-8" style="text-align: left;"><ul>
 <li>
 <p>La <strong>triade letale</strong> (<em>lethal trifecta</em>, cfr. <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">Willison (2025)</a>): un agente con</p>
 <ol>
@@ -1951,6 +2017,11 @@ P -&gt; U: “A Cesena sono le …”
 <p>può essere indotto a <em>esfiltrare</em> dati: evitare di combinare queste tre capacità nello stesso agente</p>
 </li>
 </ul>
+</div>
+<div class="col col-4" style="text-align: left;"><img src="./lethal-trifecta.svg" alt="Diagramma di Venn della triade letale: dati privati (es. tutte le domande), contenuti non attendibili (es. lettere dei candidati) e comunicazione esterna (es. inviare e-mail, aprire URL); dove si sovrappongono tutte e tre c'è il rischio di esfiltrazione" style="max-width: calc(95 * 19.2px); max-height: calc(32 * 10.8px); object-fit: contain;">
+</div>
+</div>
+</div>
 </section><section>
 <h2 id="mitigazioni">Mitigazioni</h2>
 <p>Non esiste una difesa completa dalla prompt injection: progettare gli agenti <em>assumendo</em> che possano subire attacchi di prompt injection</p>
@@ -1971,6 +2042,19 @@ P -&gt; U: “A Cesena sono le …”
 <blockquote>
 <p>Ricordare: gli LLM <strong>propongono</strong>, il software <strong>verifica</strong> (es. validando gli argomenti dei tool), le persone rimangono <strong>responsabili</strong></p>
 </blockquote>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="llm-modulo">
+<h2 id="lllm-propone-i-critici-verificano-llm-modulo">L’LLM propone, i critici verificano: LLM-Modulo</h2>
+<img src="./llm-modulo.svg" alt="Ciclo LLM-Modulo sull'esempio ricorrente: un obiettivo (selezionare i migliori candidati per un colloquio) arriva all'LLM, che propone un piano (valutare ogni lettera, ordinare per punteggio, invitare i primi 2 tramite send_email); critici esterni lo verificano: critici rigidi nel codice (i tool esistono, argomenti validi, precondizioni soddisfatte), critici di policy (e-mail solo con approvazione umana, considerare anche i voti), critici morbidi (LLM-as-a-Judge o persone); i piani rifiutati tornano all'LLM con la critica, quelli accettati sono eseguiti dal controllore con log e approvazione umana" style="max-width: calc(95 * 19.2px); max-height: calc(50 * 10.8px); object-fit: contain;">
+<ul>
+<li>Gli LLM generano piani <em>plausibili</em>, ma non <em>garantiti</em>: nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il <strong>12%</strong> dei casi (<a href="https://arxiv.org/abs/2305.15771">Valmeekam et al., 2023</a>)</li>
+<li><strong>LLM-Modulo</strong> (<a href="https://proceedings.mlr.press/v235/kambhampati24a.html">Kambhampati et al., 2024</a>): l’LLM <em>propone</em>, <strong>critici</strong> esterni <em>verificano</em>, in un ciclo <em>genera–verifica–critica</em>
+<ul>
+<li>prima i controlli <em>nel codice</em> (economici, deterministici), poi i giudizi di LLM o persone, solo per ciò che il codice non può verificare</li>
+<li>in pratica: il piano è un <a href="#/structured-output">output strutturato</a>, validato <em>prima</em> di eseguire qualsiasi azione</li>
+</ul>
+</li>
+</ul>
 
 </section>
 </section>
@@ -2751,41 +2835,40 @@ P -&gt; U: “A Cesena sono le …”
 <section data-noprocess="" data-shortcode-slide="" id="mcp">
 <h2 id="model-context-protocol-mcp-il-concetto-generale">Model Context Protocol (MCP): il concetto generale</h2>
 <ul>
-<li>
-<p><strong>Problema</strong>: finora i tool risiedono <em>dentro</em> il codice dell’agente</p>
+<li><strong>Problema</strong>: finora i tool risiedono <em>dentro</em> il codice dell’agente
 <ul>
 <li>ogni agente reimplementa (o copia) i tool necessari</li>
 <li>ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)</li>
 </ul>
 </li>
-<li>
-<p><a href="https://modelcontextprotocol.io"><strong>MCP</strong></a> è un <em>protocollo aperto</em> per esporre tool (e altro) alle applicazioni basate su LLM in modo <em>standard</em> (cfr. <a href="https://modelcontextprotocol.io/specification">specifica</a>)</p>
+<li><a href="https://modelcontextprotocol.io"><strong>MCP</strong></a> è un <em>protocollo aperto</em> per esporre tool (e altro) alle applicazioni basate su LLM in modo <em>standard</em> (cfr. <a href="https://modelcontextprotocol.io/specification">specifica</a>)
 <ul>
 <li>“una porta USB-C per le applicazioni IA”: $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$</li>
 <li>introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation</li>
 </ul>
 </li>
-<li>
-<p>Ruoli:</p>
+</ul>
+<img src="./mcp-n-plus-m.svg" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
+<ul>
+<li>MCP non cambia il <a href="#/react">ciclo ReAct</a>, solo <em>da dove</em> provengono i tool</li>
+</ul>
+</section><section>
+<h2 id="mcp-ruoli-e-trasporti">MCP: ruoli e trasporti</h2>
+<ul>
+<li>Ruoli:
 <ul>
 <li><strong>host</strong>: applicazione basata su LLM (es. agente, IDE, chat)</li>
 <li><strong>client</strong>: componente dell’host connesso a <em>un</em> server</li>
 <li><strong>server</strong>: programma che espone <em>tool</em> (funzioni), <em>risorse</em> (dati) e <em>prompt</em> (template)</li>
 </ul>
 </li>
-<li>
-<p>Messaggi <a href="https://www.jsonrpc.org/specification">JSON-RPC</a>, es. <code>tools/list</code> (scoperta), <code>tools/call</code> (invocazione), su due <strong>trasporti</strong>:</p>
+<li>Messaggi <a href="https://www.jsonrpc.org/specification">JSON-RPC</a>, es. <code>tools/list</code> (scoperta), <code>tools/call</code> (invocazione), su due <strong>trasporti</strong>:
 <ul>
 <li><em>stdio</em>: il server è un <em>sottoprocesso locale</em> dell’host e comunica tramite stdin/stdout</li>
 <li><em>streamable HTTP</em>: il server è un <em>servizio Web</em>, anche remoto, eventualmente con autenticazione (OAuth)</li>
 </ul>
 </li>
-<li>
-<p>Dalla <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">specifica del 28/07/2026</a> il protocollo è <em>stateless</em> (senza sessioni né handshake <code>initialize</code>); i server possono ancora chiedere input durante una chiamata (<em>elicitation</em>)</p>
-</li>
-<li>
-<p>MCP non cambia il <a href="#/react">ciclo ReAct</a>, solo <em>da dove</em> provengono i tool</p>
-</li>
+<li>Dalla <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">specifica del 28/07/2026</a> il protocollo è <em>stateless</em> (senza sessioni né handshake <code>initialize</code>); i server possono ancora chiedere input durante una chiamata (<em>elicitation</em>)</li>
 </ul>
 </section><section>
 <h2 id="mcp-un-esempio-intuitivo">MCP: un esempio intuitivo</h2>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1810 295" width="1810" height="295" font-family="'Signika Negative', 'Helvetica Neue', Helvetica, Arial, sans-serif" fill="#222222" text-anchor="middle">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<rect x="20" y="30" width="1310" height="44" rx="10" fill="#fdecea" stroke="#d64541" stroke-width="2"/>
+<text x="675" y="61" font-size="24" fill="#a3302c" font-weight="bold">i dati (es. le domande dei candidati) transitano qui</text>
+<rect x="1400" y="30" width="390" height="44" rx="10" fill="#eef7ee" stroke="#3a9e4f" stroke-width="2"/>
+<text x="1595" y="61" font-size="24" fill="#2d7a3d" font-weight="bold">non vede i dati</text>
+<rect x="20" y="100" width="390" height="130" rx="14" fill="#eeeeee" stroke="#555555" stroke-width="3"/>
+<text x="215" y="150" font-size="28" font-weight="bold">organizzazione</text><text x="215" y="192" font-size="22" font-style="italic">es. l&#8217;università</text>
+<text x="215" y="275" font-size="22" fill="#555">titolare del trattamento</text>
+<rect x="480" y="100" width="390" height="130" rx="14" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/>
+<text x="675" y="150" font-size="28" font-weight="bold">aggregatore</text><text x="675" y="192" font-size="22" font-style="italic">es. Open Router (USA)</text>
+<text x="675" y="275" font-size="22" fill="#555">ToS + DPA firmati da voi</text>
+<rect x="940" y="100" width="390" height="130" rx="14" fill="#fbe7cf" stroke="#e8871e" stroke-width="3"/>
+<text x="1135" y="150" font-size="28" font-weight="bold">fornitore di inferenza</text><text x="1135" y="192" font-size="22" font-style="italic">es. Together AI (USA), Scaleway (UE)</text>
+<text x="1135" y="275" font-size="22" fill="#555">contratto con l&#8217;aggregatore</text>
+<rect x="1400" y="100" width="390" height="130" rx="14" fill="#eadff3" stroke="#8e5bb5" stroke-width="3"/>
+<text x="1595" y="150" font-size="28" font-weight="bold">sviluppatore del modello</text><text x="1595" y="192" font-size="22" font-style="italic">es. Qwen3 (Alibaba, Cina)</text>
+<text x="1595" y="275" font-size="22" fill="#555">solo la licenza dei pesi</text>
+<line x1="414" y1="165" x2="476" y2="165" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<line x1="874" y1="165" x2="936" y2="165" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<line x1="1334" y1="165" x2="1396" y2="165" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<text x="905" y="345" font-size="26">ogni passaggio aggiunge un <tspan font-weight="bold">contratto</tspan> e, potenzialmente, una <tspan font-weight="bold">giurisdizione</tspan></text>
+<text x="905" y="385" font-size="26">chiedersi <tspan font-style="italic">dove</tspan> vengono elaborati i dati, non solo <tspan font-style="italic">chi</tspan> ha addestrato il modello</text>
+</svg>

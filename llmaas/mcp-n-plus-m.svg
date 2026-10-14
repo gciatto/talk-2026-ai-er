@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 560" width="1600" height="560" font-family="'Signika Negative', 'Helvetica Neue', Helvetica, Arial, sans-serif" fill="#222222" text-anchor="middle">
+<text x="400" y="50" font-size="34" font-weight="bold">senza MCP: N × M</text>
+<text x="160" y="98" font-size="22" fill="#555">applicazioni (N)</text><text x="640" y="98" font-size="22" fill="#555">sistemi / tool (M)</text>
+<line x1="245" y1="150" x2="555" y2="150" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="150" x2="555" y2="290" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="150" x2="555" y2="430" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="290" x2="555" y2="150" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="290" x2="555" y2="290" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="290" x2="555" y2="430" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="430" x2="555" y2="150" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="430" x2="555" y2="290" stroke="#d64541" stroke-width="4"/>
+<line x1="245" y1="430" x2="555" y2="430" stroke="#d64541" stroke-width="4"/>
+<text x="400" y="530" font-size="26">3 × 3 = <tspan font-weight="bold">9</tspan> adattatori su misura</text>
+<rect x="75.0" y="116" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="160" y="160" font-size="28">agente</text>
+<rect x="75.0" y="256" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="160" y="300" font-size="28">IDE</text>
+<rect x="75.0" y="396" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="160" y="440" font-size="28">chat</text>
+<rect x="555.0" y="116" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="640" y="160" font-size="28">documenti</text>
+<rect x="555.0" y="256" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="640" y="300" font-size="28">database</text>
+<rect x="555.0" y="396" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="640" y="440" font-size="28">e-mail</text>
+<line x1="800" y1="30" x2="800" y2="540" stroke="#cccccc" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1200" y="50" font-size="34" font-weight="bold">con MCP: N + M</text>
+<text x="960" y="98" font-size="22" fill="#555">applicazioni (N)</text><text x="1440" y="98" font-size="22" fill="#555">sistemi / tool (M)</text>
+<line x1="1045" y1="150" x2="1140" y2="290" stroke="#2690e7" stroke-width="4"/>
+<line x1="1260" y1="290" x2="1355" y2="150" stroke="#3a9e4f" stroke-width="4"/>
+<line x1="1045" y1="290" x2="1140" y2="290" stroke="#2690e7" stroke-width="4"/>
+<line x1="1260" y1="290" x2="1355" y2="290" stroke="#3a9e4f" stroke-width="4"/>
+<line x1="1045" y1="430" x2="1140" y2="290" stroke="#2690e7" stroke-width="4"/>
+<line x1="1260" y1="290" x2="1355" y2="430" stroke="#3a9e4f" stroke-width="4"/>
+<rect x="1140" y="230" width="120" height="120" rx="60" fill="#fbf1c7" stroke="#e6b800" stroke-width="3"/><text x="1200" y="280" font-size="20" fill="#555">protocollo</text><text x="1200" y="314" font-size="30" font-weight="bold">MCP</text>
+<text x="1200" y="530" font-size="26">3 client + 3 server = <tspan font-weight="bold">6</tspan> adattatori</text>
+<rect x="875.0" y="116" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="960" y="160" font-size="28">agente</text>
+<rect x="875.0" y="256" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="960" y="300" font-size="28">IDE</text>
+<rect x="875.0" y="396" width="170" height="68" rx="12" fill="#d6e8fb" stroke="#2690e7" stroke-width="3"/><text x="960" y="440" font-size="28">chat</text>
+<rect x="1355.0" y="116" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="1440" y="160" font-size="28">documenti</text>
+<rect x="1355.0" y="256" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="1440" y="300" font-size="28">database</text>
+<rect x="1355.0" y="396" width="170" height="68" rx="12" fill="#dcf0e0" stroke="#3a9e4f" stroke-width="3"/><text x="1440" y="440" font-size="28">e-mail</text>
+</svg>

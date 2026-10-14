@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 720" font-family="Signika Negative, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#222">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker><marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a9a5b"/></marker></defs>
+<!-- goal -->
+<rect x="20" y="230" width="230" height="160" rx="12" fill="#555" fill-opacity="0.15" stroke="#555" stroke-width="3"/>
+<text x="135" y="275" font-size="24" font-weight="600">Obiettivo</text>
+<text x="135" y="310" font-size="18">“selezionare i migliori</text>
+<text x="135" y="335" font-size="18">candidati per un</text>
+<text x="135" y="360" font-size="18">colloquio”</text>
+<line x1="250" y1="310" x2="324" y2="310" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<!-- LLM -->
+<rect x="330" y="200" width="300" height="220" rx="12" fill="#2690e7" fill-opacity="0.15" stroke="#2690e7" stroke-width="3"/>
+<text x="480" y="245" font-size="26" font-weight="600">LLM</text>
+<text x="480" y="280" font-size="19" font-style="italic">propone un piano candidato</text>
+<g font-size="16" font-family="Menlo, Consolas, monospace" text-anchor="start">
+<text x="350" y="320">1. score_letter(ognuno)</text>
+<text x="350" y="345">2. ordina per punteggio</text>
+<text x="350" y="370">3. invita i primi 2</text>
+<text x="350" y="395" xml:space="preserve">   (send_email)</text></g>
+<line x1="630" y1="310" x2="744" y2="310" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<text x="687" y="295" font-size="18" fill="#555">piano</text>
+<!-- critics -->
+<rect x="750" y="40" width="460" height="540" rx="14" fill="#7e57c2" fill-opacity="0.08" stroke="#7e57c2" stroke-width="3"/>
+<text x="980" y="80" font-size="26" font-weight="600">Critici / verificatori</text>
+<text x="980" y="108" font-size="18" fill="#555">esterni all&#8217;LLM</text>
+<g font-size="18">
+<rect x="775" y="130" width="410" height="120" rx="10" fill="#fff" stroke="#7e57c2" stroke-width="2"/>
+<text x="980" y="162" font-weight="600">critici rigidi (codice)</text>
+<text x="980" y="192">i tool esistono? gli argomenti sono validi?</text>
+<text x="980" y="220">le precondizioni valgono (lettere tutte valutate)?</text>
+<rect x="775" y="270" width="410" height="120" rx="10" fill="#fff" stroke="#7e57c2" stroke-width="2"/>
+<text x="980" y="302" font-weight="600">critici di policy (codice / regole)</text>
+<text x="980" y="332">e-mail ai candidati solo con approvazione umana;</text>
+<text x="980" y="360">vanno considerati anche i voti</text>
+<rect x="775" y="410" width="410" height="150" rx="10" fill="#fff" stroke="#7e57c2" stroke-width="2"/>
+<text x="980" y="442" font-weight="600">critici morbidi (LLM-as-a-Judge, persone)</text>
+<text x="980" y="472">il piano è ragionevole? equo?</text>
+<text x="980" y="500">manca qualcosa?</text>
+<text x="980" y="532" fill="#555" font-size="16">(solo per ciò che il codice non può verificare)</text>
+</g>
+<!-- feedback -->
+<path d="M980,580 L980,660 L480,660 L480,426" fill="none" stroke="#d64545" stroke-width="3" stroke-dasharray="10,7" marker-end="url(#r)"/>
+<rect x="545" y="642" width="370" height="32" fill="#fff"/>
+<text x="730" y="666" font-size="20" font-weight="600" fill="#d64545">rifiutato: la critica torna all&#8217;LLM</text>
+<!-- accepted -->
+<line x1="1210" y1="310" x2="1324" y2="310" stroke="#3a9a5b" stroke-width="3" marker-end="url(#g)"/>
+<text x="1267" y="295" font-size="18" font-weight="600" fill="#3a9a5b">accettato</text>
+<rect x="1330" y="200" width="250" height="220" rx="12" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="3"/>
+<text x="1455" y="245" font-size="24" font-weight="600">Esecuzione</text>
+<text x="1455" y="285" font-size="18">da parte del</text>
+<text x="1455" y="310" font-size="18">controllore dell&#8217;agente,</text>
+<text x="1455" y="335" font-size="18">con log e approvazione</text>
+<text x="1455" y="360" font-size="18">umana se necessaria</text>
+</svg>

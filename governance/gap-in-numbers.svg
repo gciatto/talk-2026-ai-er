@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 560" width="1800" height="560" font-family="'Signika Negative', 'Helvetica Neue', Helvetica, Arial, sans-serif" fill="#222222">
+<text x="30" y="50" font-size="32" font-weight="bold">investimenti privati in IA, 2025</text>
+<text x="184" y="150" font-size="28" text-anchor="end">Stati Uniti</text>
+<rect x="200" y="110" width="620.0" height="60" rx="6" fill="#2690e7"/>
+<text x="834.0" y="150" font-size="28" font-weight="bold">$285,9 mld</text>
+<text x="184" y="250" font-size="28" text-anchor="end">Europa</text>
+<rect x="200" y="210" width="45.3" height="60" rx="6" fill="#e6b800"/>
+<text x="259.3" y="250" font-size="28" font-weight="bold">$20,9 mld</text>
+<text x="184" y="350" font-size="28" text-anchor="end">Cina</text>
+<rect x="200" y="310" width="26.9" height="60" rx="6" fill="#d64541"/>
+<text x="240.9" y="350" font-size="28" font-weight="bold">$12,4 mld</text>
+<text x="184" y="450" font-size="28" text-anchor="end">Italia</text>
+<rect x="200" y="410" width="4.0" height="60" rx="6" fill="#3a9e4f"/>
+<text x="218.0" y="450" font-size="28" font-weight="bold">&lt; $1 mld</text>
+<line x1="1010" y1="20" x2="1010" y2="500" stroke="#cccccc" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1050" y="50" font-size="32" font-weight="bold">modelli di IA di rilievo, 2025</text>
+<text x="1204" y="150" font-size="28" text-anchor="end">Stati Uniti</text>
+<rect x="1220" y="110" width="300.0" height="60" rx="6" fill="#2690e7"/>
+<text x="1534.0" y="150" font-size="28" font-weight="bold">59</text>
+<text x="1204" y="250" font-size="28" text-anchor="end">Cina</text>
+<rect x="1220" y="210" width="178.0" height="60" rx="6" fill="#d64541"/>
+<text x="1412.0" y="250" font-size="28" font-weight="bold">35</text>
+<text x="1204" y="350" font-size="28" text-anchor="end">Europa</text>
+<rect x="1220" y="310" width="5.1" height="60" rx="6" fill="#e6b800"/>
+<text x="1239.1" y="350" font-size="28" font-weight="bold">1 Francia (+1 Regno Unito)</text>
+<text x="1204" y="450" font-size="28" text-anchor="end">Italia</text>
+<rect x="1220" y="410" width="4.0" height="60" rx="6" fill="#3a9e4f"/>
+<text x="1238.0" y="450" font-size="28" font-weight="bold">nessuno elencato</text>
+<text x="30" y="545" font-size="22" fill="#555">fonte: Stanford AI Index 2026 (Quid, Fig. 4.2.8 e 4.2.11; Epoch AI, Fig. 1.1.13)</text>
+</svg>
