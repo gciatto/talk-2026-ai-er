@@ -1298,6 +1298,25 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 
 ---
 
+{{< slide id="regulation" >}}
+
+## La regolamentazione: il quadro generale
+
+Il software basato sull'IA è soggetto ad (almeno) quattro _livelli_ di regole, ciascuno con un _oggetto_ diverso:
+
+1. il __GDPR__ ([Reg. (UE) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj)) disciplina il trattamento dei __dati personali__, qualunque sia la tecnologia
+2. l'__AI Act dell'UE__ ([Reg. (UE) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)) disciplina i __sistemi di IA__ (in base al _rischio_ del loro _uso_) e i __modelli di IA per finalità generali__
+3. le __leggi nazionali__, es. la legge italiana sull'IA ([Legge 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg))
+4. le __policy dell'organizzazione__, es. le regole interne sull'uso dell'IA generativa
+
+più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamento dei dati) e le _licenze_ (dei modelli e dei dati)
+
+{{< image src="./regulation-layers.svg" max-h="35vh" alt="Livelli annidati di regole attorno a un'applicazione basata su LLM (licenze e termini di servizio, policy dell'organizzazione, Legge 132/2025, AI Act dell'UE, GDPR), ciascuno associato alla domanda a cui risponde" >}}
+
+> Avvertenza: è una panoramica da _ingegneri_, __non__ una consulenza legale: nei progetti reali coinvolgere l'_ufficio legale_ e il _Responsabile della protezione dei dati_ (DPO) della propria organizzazione
+
+---
+
 ## AI Act dell'UE: un approccio basato sul rischio
 
 {{% multicol %}}

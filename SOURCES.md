@@ -174,6 +174,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Quante evidenze servono? | How much evidence? | `validating` (line 84) |
 | **Criteri di scelta per l'adozione** | **Decision Criteria for Adoption** | __new__ |
 | Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? | __new__ |
+| La regolamentazione: il quadro generale | Regulation: the general picture | `governance` (line 164) |
 | AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219) |
 | Come scegliere un modello per un compito? | How to choose a model for a given task? | `governance` (line 769) |
 | Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
