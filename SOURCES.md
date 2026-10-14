@@ -129,7 +129,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Derivati: fine-tuning, distillazione, fusioni, dati, output | Derivatives: fine-tunes, distillation, merges, data, outputs | `governance` (line 420) |
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
-| Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__; provider-chain diagram __new__ |
+| Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__ |
 | Open Router (cfr. <https://openrouter.ai/>), pt. 1 | About Open Router (cf. <https://openrouter.ai/>), pt. 1 | `llmaas` (line 414) |
 | Open Router (cfr. <https://openrouter.ai/>), pt. 2 | About Open Router (cf. <https://openrouter.ai/>), pt. 2 | `llmaas` (line 432) |
 | Esempio cloud con Open Router (pt. 1) | On-cloud Example with Open Router (pt. 1) | `llmaas` (line 454) |
@@ -156,6 +156,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Quando l'esecuzione locale è _davvero_ sostenibile? | When is local execution _really_ sustainable? | __new__ |
 | **Sovranità digitale europea** | **European Digital Sovereignty** | __new__ |
 | "IA sovrana": una narrazione e i suoi limiti | "Sovereign AI": a framing, and its limits | `governance` (line 459) |
+| Il divario, a colpo d'occhio | — | __new__ |
 | Il divario, in numeri | The gap, in numbers | `governance` (line 477) |
 | Iniziative europee | European initiatives | `governance` (line 508) |
 | Infrastrutture e politiche pubbliche | Infrastructure and policy | `governance` (line 521) |

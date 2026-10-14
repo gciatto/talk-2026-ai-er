@@ -932,6 +932,18 @@ Iniziative e loro maturità
 
 ---
 
+{{< slide id="gap-at-a-glance" >}}
+
+## Il divario, a colpo d'occhio
+
+{{< image src="./gap-in-numbers.svg" max-h="55vh" alt="Stanford AI Index 2026, cifre del 2025. Investimenti privati in IA: Stati Uniti 285,9 miliardi di dollari, Europa 20,9, Cina 12,4, Italia meno di 1. Modelli di IA di rilievo: Stati Uniti 59, Cina 35, Europa 1 in Francia (più 1 nel Regno Unito), Italia nessuno elencato" >}}
+
+> Gli Stati Uniti investono in IA __più di dieci volte__ l'Europa; l'Italia è fuori dai primi 15 paesi
+
+---
+
+{{< slide id="gap-in-numbers" >}}
+
 ## Il divario, in numeri
 
 Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report) (cifre del 2025):
