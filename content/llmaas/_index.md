@@ -979,7 +979,7 @@ function:
 
 - Si noti che:
     + la descrizione di `timezone` _indica_ all'LLM i valori validi (nomi IANA con esempi)
-        * `Annotated[str, Field(description=...)]` associa una _descrizione_ (tramite [`Field`](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/) di Pydantic) all'_annotazione di tipo_ del parametro: finisce nel JSON Schema
+        * `Annotated[str, Field(description=...)]` associa una _descrizione_ (tramite [`Field`](https://docs.pydantic.dev/latest/concepts/fields/) di Pydantic) all'_annotazione di tipo_ del parametro: finisce nel JSON Schema
     + la docstring di `get_weather` descrive all'LLM il contenuto del risultato (unità incluse!)
     + `get_current_time` _valida_ l'argomento e l'errore _spiega come correggerlo_: non fidarsi mai degli argomenti dell'LLM
     + tutti e tre i tool sono di _sola lettura_, ma `web_search` _invia_ query a terzi e introduce testo _non attendibile_ (cfr. [sicurezza](#/security))
@@ -1009,7 +1009,7 @@ function:
 ## Il ciclo ReAct: il concetto generale
 
 - __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
-    + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e [token di ragionamento](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/reasoning-models))
+    + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e nei modelli _di ragionamento_, che generano una catena di ragionamento, fatturata come _token_ di output, prima di rispondere)
 
 - Il __controllore__ dell'agente è un semplice ciclo:
     1. inviare all'LLM la conversazione e le definizioni dei tool
@@ -1020,7 +1020,7 @@ function:
 - Tutto il resto riguarda le _regole di comportamento_ (_policy_) e spetta a chi progetta:
     + quali tool sono disponibili e per chi? Quali chiamate richiedono _approvazione umana_?
     + cosa succede se un tool _fallisce_? (suggerimento: comunicare l'errore all'LLM può permettergli di correggere la richiesta)
-    + cosa viene _registrato_? Quanto contesto si conserva? (cfr. [gestione del contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management))
+    + cosa viene _registrato_? Quanto contesto si conserva? (a ogni passo la conversazione _cresce_, e con essa costo e latenza: oltre la _finestra di contesto_ occorre _riassumere_ o _scartare_ i messaggi più vecchi)
 
 ---
 
@@ -1042,14 +1042,14 @@ function:
 
 {{< image src="./autonomy-spectrum.svg" max-h="38vh" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" >}}
 
-- Ricordare la distinzione [tra il codice dello sviluppatore e l’LLM](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses) presentata nella lezione introduttiva:
+- Chi decide il _prossimo passo_: il __codice__ scritto dallo sviluppatore, o l'__LLM__?
 - __Workflow__: LLM e tool sono orchestrati lungo percorsi _predefiniti_ (il _codice_ controlla il flusso)
 - __Agenti__: l'LLM dirige _dinamicamente_ il proprio processo e l'uso dei tool (l'_LLM_ controlla il flusso)
     + cfr. [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) di Anthropic
 
 - Regola pratica: usare la __minima autonomia__ necessaria
     + partire da una singola chiamata; passare ai workflow quando i passi sono _noti_ in anticipo; agli agenti solo quando _non_ lo sono
-    + _l'autonomia è un costo_ (rischi, verifiche, governance), non un obiettivo (ricordare: [i clienti comprano automazione](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses))
+    + _l'autonomia è un costo_ (rischi, verifiche, governance), non un obiettivo: si vuole _automatizzare_, non "avere un agente"
     + prima i workflow, poi gli agenti
 
 ---
@@ -1173,7 +1173,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 - __Delimitare__ i contenuti non attendibili (es. `<letter>...</letter>`) e dichiarare nel system prompt che sono _dati_: aiuta, ma _non_ garantisce protezione
 - Trattare _tool_ e _server MCP_ di terzi come _dipendenze_ di terzi: fissare le versioni, esaminarli e decidere esplicitamente se fidarsene (cfr. [buone pratiche di sicurezza](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices) MCP)
 
-> Ricordare: gli LLM __propongono__, il software __verifica__ (cfr. [lezione introduttiva](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action)), le persone rimangono __responsabili__
+> Ricordare: gli LLM __propongono__, il software __verifica__ (es. validando gli argomenti dei tool), le persone rimangono __responsabili__
 
 {{% /section %}}
 
@@ -1199,7 +1199,8 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 ## Gli LLM da soli non sono agenti
 
-- Dalla [lezione introduttiva](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action): gli LLM producono __testo__, non _azioni_
+- Gli LLM producono __testo__, non _azioni_: serve _software_ che traduca il testo in _operazioni_
+    + es. `Prenota il treno per Lisbona` è solo testo, finché un programma non lo traduce in _ricerca_, _prenotazione_, _pagamento_ e _conferma_
     + non percepiscono né agiscono sugli ambienti _direttamente_
     + non gestiscono obiettivi e stato in modo _persistente_
 - L'"agente" è soprattutto il __software circostante__: _agente_ $\approx$ _controllore_ + _LLM_ + _tool_ + _memoria_ + _policy_
@@ -1208,7 +1209,8 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
     + non serve _formalizzare_ in anticipo obiettivi, credenze e piani: l'LLM gestisce obiettivi _vaghi_, scritti in linguaggio naturale
     + la deliberazione diventa però _testo generato_: plausibile, non necessariamente _corretto_ e difficile da _verificare_
 
-- Ricordare: _intelligenza_, _autonomia_ e _capacità di agire_ sono dimensioni __separabili__ (cfr. [Floridi, 2025](https://doi.org/10.1007/s13347-025-00858-9) e [lezione introduttiva](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action))
+- _Intelligenza_, _autonomia_ e _capacità di agire_ sono dimensioni __separabili__ (cfr. [Floridi, 2025](https://doi.org/10.1007/s13347-025-00858-9))
+    + _intelligenza_: quanto __bene__ risolve i problemi; _capacità di agire_: quale __stato__ cambia davvero; _autonomia_: chi __controlla__ _quando_ e _perché_ agisce
 
 ---
 
@@ -1220,14 +1222,14 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
     + concretamente: una __cartella__ con _istruzioni_ (file Markdown), più eventuali _script_, _documenti di riferimento_ e _risorse_ (es. template)
     + inizialmente l'agente vede solo __nome__ e __descrizione__; legge il resto _su richiesta_
 
-- Nei [tipi di memoria CoALA](https://unibo-fc-isi-iag.github.io/slides-module2/rag/#/memory), le skill sono __memoria procedurale__ resa _esplicita_ e _modificabile_
+- Nei tipi di memoria di un agente secondo [CoALA (Sumers et al., 2023)](https://arxiv.org/abs/2309.02427) (_di lavoro_: il contesto; _episodica_: le interazioni passate; _semantica_: fatti e documenti; _procedurale_: come fare le cose), le skill sono __memoria procedurale__ resa _esplicita_ e _modificabile_
     + _come_ fare qualcosa (es. "come valutiamo una domanda di dottorato", "come scriviamo una nota di rilascio"), rispetto a _ciò_ che si sa (memoria semantica, es. RAG)
     + scritte da _persone_ (o da agenti e poi riviste da persone), _versionate_ come codice e _condivise_ come documentazione
 
 - I __tool__ dicono all'agente _cosa può fare_; le __skill__ _come_ e _quando_ farlo, eventualmente con quali tool
     + una skill può _includere_ codice (script) che l'agente esegue tramite tool _generici_ (es. shell), anziché tool _dedicati_
 
-- Perché non basta un system prompt più lungo? Per la [finestra di contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management):
+- Perché non basta un system prompt più lungo? Per la _finestra di contesto_ (il numero massimo di token per richiesta) e perché _più_ contesto non significa risposte _migliori_ (cfr. ["context rot"](https://research.trychroma.com/context-rot)):
     + 50 procedure $\times$ 2.000 token ciascuna = 100.000 token, inviati a _ogni_ passo, perlopiù _irrilevanti_ e _distraenti_
     + con le skill: 50 $\times$ ~100 token di descrizioni, più l'_unica_ procedura necessaria
 
@@ -1266,8 +1268,8 @@ L’_harness_ è il software che gestisce l’agente.
 {{% /small %}}
 
 - Le skill e gli altri elementi sono __complementari__: una skill può indicare _quali tool_ (o server MCP) usare e _come_
-- Regola pratica (cfr. [spettro dell'autonomia](#/autonomy-spectrum)): _procedure_ che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; _procedure_ affidabili e verificabili $\rightarrow$ workflow (prossima lezione)
-    + compromessi organizzativi (costo, conformità, time-to-market) nella [lezione sulla governance](#/which-technique)
+- Regola pratica (cfr. [spettro dell'autonomia](#/autonomy-spectrum)): _procedure_ che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; _procedure_ affidabili e verificabili $\rightarrow$ [workflow](#/workflows-concept)
+    + compromessi organizzativi (costo, conformità, time-to-market) nella sezione [Quale tecnica?](#/which-technique)
 
 ---
 
@@ -1338,8 +1340,8 @@ metadata:
 2. __Istruzioni__ (< 5.000 token consigliati): corpo di `SKILL.md`, letto quando la skill viene _attivata_
 3. __Risorse__ (secondo necessità): file letti _solo se_ richiesti dalle istruzioni; script _eseguiti_, così che entri nel contesto solo il loro _output_
 
-- Si possono quindi installare _molte_ skill con un costo contenuto e _costante_: il [contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management) contiene solo ciò che è _pertinente_
-    + stesso principio del [RAG](https://unibo-fc-isi-iag.github.io/slides-module2/rag/), ma l'agente _stesso_ decide cosa caricare _leggendo_ file (senza embedding né ricerca per similarità)
+- Si possono quindi installare _molte_ skill con un costo contenuto e _costante_: il contesto contiene solo ciò che è _pertinente_
+    + stesso principio del RAG (caricare solo le informazioni pertinenti, quando servono), ma l'agente _stesso_ decide cosa caricare _leggendo_ file (senza embedding né ricerca per similarità)
     + consigliato: `SKILL.md` sotto 500 righe; riferimenti a _un solo livello_ (un riferimento non dovrebbe rimandare ad altri)
 
 ---
@@ -1442,7 +1444,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 ## Skill nei propri agenti
 
 - Le skill non sono una prerogativa degli _agenti di programmazione_: qualsiasi agente può supportarle con poche righe di codice
-- Cosa deve fare il __controllore__ (cfr. [agenti](https://unibo-fc-isi-iag.github.io/slides-module2/agents/#/agents-concept)):
+- Cosa deve fare il __controllore__ (cfr. [la metafora agentica](#/agentic-ai)):
     1. _scoprire_: trovare i file `SKILL.md` nelle cartelle e interpretarne il front matter
     2. _presentare_: inserire nome, descrizione e posizione di ogni skill nel __system prompt__
     3. _caricare_: dare all'LLM un modo per __leggere__ i file delle skill (tool dedicato `load_skill` o generico `read_file`)
@@ -1537,7 +1539,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 - Le opzioni si __combinano__: es. un workflow con passi che usano prompting, RAG e tool
 - Empiricamente, il RAG tende a superare il fine-tuning nell'inserire _nuove conoscenze_ ([Ovadia et al., 2023](https://arxiv.org/abs/2312.05934)), mentre il fine-tuning modella meglio la _forma_
 
-> Ricordare la [regola pratica](https://unibo-fc-isi-iag.github.io/slides-module2/rag/#/technique-selection): partire dal prompting, misurare e aggiungere complessità solo quando le valutazioni ne mostrano la _necessità_
+> Regola pratica: partire dal prompting, misurare e aggiungere complessità solo quando le valutazioni ne mostrano la _necessità_
 
 {{% /section %}}
 
@@ -1595,7 +1597,7 @@ Da una chat a un agente con tool condivisi
 
 {{% small "90%" %}}
 
-5. Il programma principale è una chat CLI (cfr. [lezione LLM-as-a-Service](#/sync-chat)), dove ogni messaggio attiva un ciclo ReAct (codice completo [qui](../lab-snippets/snippets/lecture_agents/example1/agent_openai.py)):
+5. Il programma principale è una chat CLI (cfr. [Esempio 1](#/sync-chat)), dove ogni messaggio attiva un ciclo ReAct (codice completo [qui](../lab-snippets/snippets/lecture_agents/example1/agent_openai.py)):
 
     {{% code path="static/lab-snippets/snippets/lecture_agents/example1/agent_openai.py" from="54" to="61" %}}
 
@@ -1655,7 +1657,7 @@ Da una chat a un agente con tool condivisi
     + _streamable HTTP_: il server è un _servizio Web_, anche remoto, eventualmente con autenticazione (OAuth)
 - Dalla [specifica del 28/07/2026](https://modelcontextprotocol.io/specification/2026-07-28/changelog) il protocollo è _stateless_ (senza sessioni né handshake `initialize`); i server possono ancora chiedere input durante una chiamata (_elicitation_)
 
-- Ricordare la [figura MCP](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/mcp-concept) della lezione introduttiva: MCP non cambia il ciclo ReAct, solo _da dove_ provengono i tool
+- MCP non cambia il [ciclo ReAct](#/react), solo _da dove_ provengono i tool
 
 ---
 

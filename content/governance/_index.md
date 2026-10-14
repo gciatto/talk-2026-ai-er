@@ -59,7 +59,7 @@ outputs = ["Reveal"]
     + _metadati tecnici_: dimensione, _finestra di contesto_, _modalità_ supportate (testo, immagini, audio), supporto per _tool_ / _output strutturati_ / _ragionamento_
     + metadati _economici_ e _giuridici_: prezzo per token (per i cataloghi cloud), __licenza__ (per i modelli scaricabili)
 
-- I cataloghi sono il _punto di partenza_ per la __scelta del modello__, un'attività ricorrente nell'ingegneria della GenAI (cfr. [ciclo di vita della GenAI](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-workflow))
+- I cataloghi sono il _punto di partenza_ per la __scelta del modello__, un'attività _ricorrente_ nei progetti di GenAI: si ripete a ogni _nuovo modello_ disponibile, o quando cambiano _compito_ o _dati_
 
 
 {{% multicol %}}
@@ -271,7 +271,7 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
 - __Output__: "il produttore non rivendica diritti sugli output" $\neq$ "gli output sono privi di restrizioni"
     + es. usare _output_ Llama per addestrare un modello distribuito fa scattare il requisito Llama sul _nome_
     + i fornitori proprietari offrono _tutele contrattuali in caso di contestazioni per violazione del diritto d'autore_ relative agli output (es. Copilot Copyright Commitment di Microsoft, indennizzo per IA generativa di Google, Copyright Shield di OpenAI, termini commerciali di Anthropic), solitamente solo per piani a pagamento o enterprise e a determinate condizioni; le licenze a pesi aperti non ne offrono
-    + in Italia sono protette soltanto le opere _umane_ (L. 132/2025, Art. 25: cfr. [qui](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation))
+    + in Italia sono protette soltanto le opere _umane_ ([L. 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg), Art. 25)
 
 ---
 
@@ -342,12 +342,12 @@ Chi offre cosa
 - La sua caratteristica distintiva è il ruolo di _aggregatore_ di più fornitori: permette di accedere a modelli diversi tramite un'unica API e aiuta a evitare il lock-in
     + OR è utilizzabile __gratuitamente__, con _limiti molto stretti_ (20 richieste al minuto, massimo 50 al giorno)
         * si possono __acquistare crediti__ per aumentare i limiti dei modelli gratuiti (dettagli in <https://openrouter.ai/docs/api_reference/limits>) o usare modelli _a consumo_
-        * altre opzioni gratuite nell'[appendice sull'accesso gratuito](https://unibo-fc-isi-iag.github.io/slides-module2/free-access/#/free-tiers)
+        * altre API con quote gratuite, tutte compatibili con l'API OpenAI (ottobre 2026): [Google Gemini API](https://ai.google.dev/gemini-api/docs/pricing), [Mistral](https://mistral.ai/pricing/) (piano Free), [Groq](https://console.groq.com/docs/rate-limits), [Cohere](https://docs.cohere.com/docs/rate-limits) (chiave di prova, solo uso non commerciale)
 
 - Un [catalogo di modelli](https://openrouter.ai/models) piuttosto ricco, con modelli di <u>molti</u> fornitori: in particolare OpenAI, Anthropic, Google, xAI, Mistral ecc.
     + i modelli hanno un __prezzo per token__, normalmente espresso in `$/1M tokens` (talvolta diverso per i token in _ingresso_ e in _uscita_)
         * è molto comune nei servizi cloud: occorre tenerne conto durante gli esperimenti per evitare costi inattesi
-        * ricordare che _token_ $\neq$ _parola_ (cfr. [token](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/tokens))
+        * ricordare che _token_ $\neq$ _parola_: i token sono frammenti di testo definiti dal _tokenizzatore_ del modello (cfr. [esempio interattivo](https://platform.openai.com/tokenizer)), e la stessa frase può costare token diversi su modelli diversi
 
     {{< image src="open-router-models.png" alt="Catalogo dei modelli di Open Router" max-h="40vh" >}}
 
@@ -959,7 +959,7 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
     + [IT4LIA](https://www.hpc.cineca.it/projects/it4lia/), al CINECA di Bologna (con Austria e Slovenia), era tra le [prime sette](https://eurohpc-ju.europa.eu/selection-first-seven-ai-factories-drive-europes-leadership-ai-2024-12-10_en) selezionate a dic. 2024 (€1,5 miliardi totali, fondi UE + nazionali)
     + attenzione: IT4LIA è una AI __Factory__, __non__ una AI _Gigafactory_: il [bando Gigafactories](https://www.eurohpc-ju.europa.eu/eurohpc-joint-undertaking-launches-ai-gigafactories-call-2026-07-30_en) (per addestramento alla scala della frontiera) è stato aperto solo a luglio 2026, con scadenza a nov. 2026
 - __Dati__: [LLMs4EU](https://www.alt-edic.eu/projects/llms4eu/) di [ALT-EDIC](https://www.alt-edic.eu/) (marzo 2025, 3 anni, oltre 20 paesi) raccoglie risorse linguistiche per tutte le lingue UE e punta a modelli settoriali
-- __Politiche italiane__: la [Strategia italiana per l'IA 2024–2026](https://www.agid.gov.it/sites/agid/files/2024-07/Strategia_italiana_per_l_Intelligenza_artificiale_2024-2026.pdf) e la [Legge 132/2025](https://unibo-fc-isi-iag.github.io/slides-module2/governance/#/regulation) promuovono tecnologie "adattate al contesto italiano" e artefatti di ricerca aperti
+- __Politiche italiane__: la [Strategia italiana per l'IA 2024–2026](https://www.agid.gov.it/sites/agid/files/2024-07/Strategia_italiana_per_l_Intelligenza_artificiale_2024-2026.pdf) e la [Legge 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg) promuovono tecnologie "adattate al contesto italiano" e artefatti di ricerca aperti
 
 {{< image src="./europe-timeline.svg" max-h="35vh" alt="Linea temporale 2023-2026 che confronta i rilasci dei modelli globali di frontiera con rilasci e progetti UE e italiani, più piccoli e più tardivi" >}}
 
@@ -1238,7 +1238,7 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 - Idea: usare un LLM (capace) per _valutare_ gli output secondo _criteri_ definiti (cfr. [Zheng et al. (2023)](https://arxiv.org/abs/2306.05685) e la rassegna di [Gu et al. (2024)](https://arxiv.org/abs/2411.15594))
     + valutazione _puntuale_ (assegnare un punteggio a un singolo output su una scala) o _a coppie_ (quale dei due output è migliore?), con o senza risposta _di riferimento_
     + il prompt del giudice descrive una _griglia di valutazione_; la risposta è (idealmente) un __output strutturato__: punteggio + motivazione
-    + chiedere _prima la motivazione_ aiuta (cfr. [chain-of-thought](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/letter-tone)); [G-Eval](https://arxiv.org/abs/2303.16634) va oltre, generando prima _passi di valutazione_ a partire dai criteri
+    + chiedere _prima la motivazione_ aiuta (_chain-of-thought_: far _ragionare_ il modello passo per passo prima della risposta, cfr. [Wei et al. (2022)](https://arxiv.org/abs/2201.11903)); [G-Eval](https://arxiv.org/abs/2303.16634) va oltre, generando prima _passi di valutazione_ a partire dai criteri
 
 - __Distorsioni__ note dei giudici:
     + distorsione di _posizione_ (preferenza per la prima o la seconda opzione nei confronti a coppie), cfr. [Wang et al. (2023)](https://arxiv.org/abs/2305.17926)

@@ -67,7 +67,8 @@ outputs = ["Reveal"]
 
 - Tutti gli esempi sono in un unico repository: [`unibo-fc-isi-iag/lab-snippets`]({{< github-url repo="lab-snippets" >}})
     + le slide mostrano solo _estratti_: il repository contiene il codice _completo_, _commentato_ ed _eseguibile_
-    + è il repository del corso universitario da cui sono tratte queste lezioni ("Agenti intelligenti", Modulo 2), quindi contiene _più_ di quanto vedremo
+    + è il repository del corso universitario da cui sono tratte queste lezioni ("Agenti intelligenti", Modulo 2, Università di Bologna), quindi contiene _più_ di quanto vedremo
+    + gli esempi sono organizzati per _lezione di quel corso_ (`snippets/lecture_<NOME>/`): i nomi delle cartelle (es. `lecture_prompting`, `lecture_agents`, `lecture_skills`) __non__ corrispondono alle due lezioni di questo corso, e le slide indicano sempre il percorso esatto
 
 - Il [README]({{< github-url repo="lab-snippets" path="README.md" >}}) elenca tutti gli esempi, lezione per lezione
 
