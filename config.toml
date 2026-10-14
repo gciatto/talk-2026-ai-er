@@ -46,7 +46,7 @@ targetPath = "css/custom-theme.css"
 enableSourceMap = true
 
 [[params.reveal_hugo.mermaid]]
-# startOnLoad = false
+startOnLoad = false
 # theme = "default"
 # fontFamily = "Inconsolata"
 # useMaxWidth = false
