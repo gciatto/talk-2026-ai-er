@@ -8,21 +8,21 @@
 
 {{% multicol %}}
 {{% col %}}
-![Passaporto di Mario Rossi](../lab-snippets/data/passport-mario-rossi.png)
+<img src="../lab-snippets/data/passport-mario-rossi.png" alt="Passaporto di Mario Rossi" style="max-height: 300px; object-fit: contain;">
 
 - [Certificato degli esami](../lab-snippets/data/transcript-mario-rossi.png)
 - [Lettera di presentazione](../lab-snippets/data/letter-mario-rossi.txt)
     + la lettera è molto positiva
 {{% /col %}}
 {{% col %}}
-![Passaporto di Jean Dupont](../lab-snippets/data/passport-jean-dupont.png)
+<img src="../lab-snippets/data/passport-jean-dupont.png" alt="Passaporto di Jean Dupont" style="max-height: 300px; object-fit: contain;">
 
 - [Certificato degli esami](../lab-snippets/data/transcript-jean-dupont.png)
 - [Lettera di presentazione](../lab-snippets/data/letter-jean-dupont.txt)
     - la lettera contiene alcune critiche
 {{% /col %}}
 {{% col %}}
-![Passaporto di Mohammed Ali](../lab-snippets/data/passport-mohammed-ali.png)
+<img src="../lab-snippets/data/passport-mohammed-ali.png" alt="Passaporto di Mohammed Ali" style="max-height: 300px; object-fit: contain;">
 
 - [Certificato degli esami](../lab-snippets/data/transcript-mohammed-ali.png)
 - [Lettera di presentazione](../lab-snippets/data/letter-mohammed-ali.txt)

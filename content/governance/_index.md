@@ -62,17 +62,22 @@ outputs = ["Reveal"]
 - I cataloghi sono il _punto di partenza_ per la __scelta del modello__, un'attività ricorrente nell'ingegneria della GenAI (cfr. [ciclo di vita della GenAI](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-workflow))
 
 
-### Esempio
-
-- [Hugging Face Hub](https://huggingface.co/models) è un catalogo con milioni di modelli per qualsiasi compito e modalità,
+{{% multicol %}}
+{{% col class="col-5" %}}
+- __Esempio__: [Hugging Face Hub](https://huggingface.co/models) è un catalogo con milioni di modelli per qualsiasi compito e modalità,
     - ciascuno con una model card, metadati tecnici e informazioni sulla licenza
     - es. filtrare per "Gemma" per vedere la [famiglia Gemma](https://huggingface.co/models?sort=trending&search=gemma) di LLM, poi selezionare un modello per aprirne la scheda
-
-    {{< image src="./hugging-face-model-zoo.png" max-h="28vh" alt="Schermata della model card di Gemma su Hugging Face" >}}
+{{% /col %}}
+{{% col class="col-7" %}}
+{{< image src="./hugging-face-model-zoo.png" max-w="100%" max-h="34vh" alt="Schermata della model card di Gemma su Hugging Face" >}}
+{{% /col %}}
+{{% /multicol %}}
 
 ---
 
 ## Cataloghi di modelli (pt. 2): il panorama tecnologico
+
+{{% small "80%" %}}
 
 | | [Hugging Face Hub](https://huggingface.co/models) | [Libreria Ollama](https://ollama.com/models) | [Open Router](https://openrouter.ai/models) |
 |---|---|---|---|
@@ -83,6 +88,10 @@ outputs = ["Reveal"]
 | __Metadati__ | model card completa, file, licenza, comunità | dimensione, contesto, capacità, quantizzazione | prezzo, contesto, statistiche di latenza e throughput (token al secondo), parametri supportati |
 | __Licenza__ | per modello (mostrata come tag) | per modello (nella pagina del modello) | si applicano i _termini di servizio_ del fornitore |
 
+{{% /small %}}
+
+{{% small "85%" %}}
+
 ### Convenzioni ricorrenti nei nomi (da saper decifrare)
 
 - _famiglia_ + _versione_: `llama-3.1`, `qwen3`, `gemma-4`
@@ -90,6 +99,8 @@ outputs = ["Reveal"]
 - _specializzazione_: `base` (puro predittore del token successivo) vs. `instruct` / `it` / `chat` (adattato a seguire istruzioni: __è ciò che serve__ per Chat Completion), oppure `coder`, `vl` / `vision`, `thinking`
 - _quantizzazione_ / _formato_: `Q4_K_M`, `GGUF`, `AWQ`, `fp8`
 - _data_ / _snapshot_: `gpt-4o-2024-08-06` (fissare la versione per la _riproducibilità_!)
+
+{{% /small %}}
 
 ---
 
@@ -172,6 +183,8 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
 
 {{< image src="./openness-bar.svg" max-h="30vh" alt="Apertura di sette componenti del rilascio per un modello chiuso via API, un modello a pesi aperti (Llama 4) e un modello completamente aperto (OLMo 3): i pesi scaricabili non bastano a rendere aperto un modello" >}}
 
+{{% small "80%" %}}
+
 | Quadro di riferimento | A quale domanda risponde |
 |---|---|
 | [Liesenfeld & Dingemanse, FAccT 2024](https://doi.org/10.1145/3630106.3659005) | quanto è aperto un rilascio _in pratica_? (14 dimensioni, 40 LLM testuali + 6 modelli testo-immagine) |
@@ -182,6 +195,8 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
 - __Open-washing__: presentare un modello come "aperto" o "open source" sulla base di _un solo_ componente pubblicato (tipicamente i pesi), mentre mancano gli artefatti o le libertà giuridiche necessari per studiarlo, riprodurlo, modificarlo o usarlo liberamente
     + es. _Llama 4_ (pesi scaricabili, licenza restrittiva), _Gemma 3_ (termini specifici con restrizioni d'uso), _Mistral 3_ (definito ["open-source"](https://mistral.ai/news/mistral-3/) dal produttore: pesi Apache 2.0, dati di addestramento non divulgati)
     + OpenAI invece definisce [gpt-oss](https://openai.com/index/introducing-gpt-oss/) "_open-weight_": il termine più preciso
+
+{{% /small %}}
 
 ---
 
@@ -264,6 +279,8 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
 
 ## I modelli aperti nell'AI Act dell'UE
 
+{{% small "85%" %}}
+
 | Obbligo del fornitore GPAI ([Art. 53](https://artificialintelligenceact.eu/article/53/)) | Modelli GPAI ordinari | Modelli GPAI liberi/open source |
 |---|---|---|
 | (a) documentazione tecnica (per l'AI Office) | obbligatoria | __esenzione__ |
@@ -271,6 +288,8 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
 | (c) policy di conformità al _diritto d'autore_ UE (incl. riserve sul text and data mining) | obbligatoria | __ancora obbligatoria__ |
 | (d) _sintesi dei contenuti di addestramento_ pubblica (modello dell'AI Office) | obbligatoria | __ancora obbligatoria__ |
 | obblighi per rischio sistemico ([Art. 55](https://artificialintelligenceact.eu/article/55/)) | se > 10<sup>25</sup> FLOPs (presunzione dell'[Art. 51(2)](https://artificialintelligenceact.eu/article/51/)) | __nessuna esenzione__ |
+
+{{% /small %}}
 
 - Per rientrare nell'esenzione, il modello deve avere una licenza che consenta _accesso, uso, modifica e distribuzione_, con pesi, architettura e informazioni d'uso _pubblici_
     + un requisito molto __più debole__ di OSAID: non servono dati né codice di addestramento
@@ -297,6 +316,8 @@ Chi offre cosa
 
 ## Fornitori primari, aggregatori e marketplace
 
+{{% small "90%" %}}
+
 | Tipo | Cosa offrono | Esempi | Contratto con |
 |---|---|---|---|
 | __Fornitori primari__ (sviluppatori dei modelli) | i _propri_ modelli tramite la propria API (e app) | OpenAI, Anthropic, Google, Mistral, DeepSeek | lo sviluppatore |
@@ -307,6 +328,8 @@ Chi offre cosa
 
 - Lo _stesso_ modello a pesi aperti è accessibile in _molti_ modi: confrontare __prezzo__, __latenza__, __localizzazione dei dati__ e __condizioni__ (es. conservazione dei dati, addestramento sui propri dati)
 - Più _intermediari_ ci sono, più contratti e giurisdizioni possono disciplinare il trattamento dei dati
+
+{{% /small %}}
 
 ---
 
@@ -423,20 +446,24 @@ choices:
       reasoning: '**Providing the capital of France**
 
 
-        The user asked a straightforward question: "What is the capital of France?"
-        The answer is simple: Paris. I should respond concisely. My best guess is
-        to confirm: "The capital of France is Paris." While adding context could be
-        fun, it’s not necessary since the user didn’t request it. If I wanted to be
-        helpful, I could mention that Paris is the largest city and home to famous
-        landmarks like the Eiffel Tower, but I’ll keep it brief.**Confirming details
-        on Paris**
+        The user asked a straightforward question: "What is the
+        capital of France?" The answer is simple: Paris. I
+        should respond concisely. My best guess is to confirm:
+        "The capital of France is Paris." While adding context
+        could be fun, it’s not necessary since the user didn’t
+        request it. If I wanted to be helpful, I could mention
+        that Paris is the largest city and home to famous
+        landmarks like the Eiffel Tower, but I’ll keep it
+        brief.**Confirming details on Paris**
 
 
-        I can keep my response short and straightforward. The user asked about the
-        capital of France, and I can simply say: "Paris." If I want to offer more,
-        I could say, "The capital of France is Paris." I think that covers it! But
-        if they are interested, I could mention I''m happy to share more details about
-        Paris if they''d like. For now, I’ll stick with the essential answer.'
+        I can keep my response short and straightforward. The
+        user asked about the capital of France, and I can simply
+        say: "Paris." If I want to offer more, I could say, "The
+        capital of France is Paris." I think that covers it! But
+        if they are interested, I could mention I''m happy to
+        share more details about Paris if they''d like. For now,
+        I’ll stick with the essential answer.'
 usage:
   prompt_tokens: 13
   completion_tokens: 243
@@ -463,6 +490,8 @@ usage:
 
 ## Un client, _molti_ fornitori gratuiti
 
+{{% small "90%" %}}
+
 - Tutti i fornitori citati espongono un'API __compatibile con OpenAI__: cambiano solo `base_url`, chiave e nome del modello
 
 {{% code path="static/lab-snippets/snippets/lecture_free_access/example1/free_providers.py" from="12" to="21" %}}
@@ -479,6 +508,8 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 - Lo stesso accorgimento funziona con gli script [LLM-as-a-Service](../llmaas/): basta impostare `OPENAI_BASE_URL`, `OPENAI_API_KEY` __e__ `OPENAI_MODEL` (il modello predefinito, `nvidia/nemotron-3-super-120b-a12b:free`, esiste solo su OpenRouter: scegliere un ID dall'elenco precedente), es.
     + Ollama: `OPENAI_BASE_URL=http://localhost:11434/v1 OPENAI_API_KEY=unused OPENAI_MODEL=gpt-oss:20b`
     + Groq: `OPENAI_BASE_URL=https://api.groq.com/openai/v1 OPENAI_API_KEY=... OPENAI_MODEL=openai/gpt-oss-20b`
+
+{{% /small %}}
 
 ---
 
@@ -562,6 +593,8 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 ## Esempio on-premise con Ollama, pt. 3
 
+{{% small "90%" %}}
+
 4. Scegliere un modello, es. `gemma4:e2b`, e __scaricarlo__:
 
     ```bash
@@ -598,9 +631,13 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
     Ciao! Come stai? 😊
     ```
 
+{{% /small %}}
+
 ---
 
 ## Esempio on-premise con Ollama, pt. 4
+
+{{% small "90%" %}}
 
 6. Per usare il modello _da un programma_, si può utilizzare l'__API__ di Ollama, _parzialmente_ compatibile con quella di OpenAI
     * es. supporta lo stesso endpoint `/v1/chat/completions`, ma non tutte le funzionalità OpenAI: mancano i campi `tool_choice`, `logit_bias`, `user` e `n`, e gli endpoint per file, batch e fine-tuning (cfr. [pagina sulla compatibilità](https://docs.ollama.com/api/openai-compatibility))
@@ -646,6 +683,8 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
           completion_tokens: 121
           total_tokens: 150
         ```
+
+{{% /small %}}
 
 {{% /section %}}
 
@@ -750,6 +789,8 @@ Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `..
 
 ## Eseguire modelli localmente: hardware e software (pt. 2)
 
+{{% small "85%" %}}
+
 ### Quali modelli si possono eseguire sui diversi dispositivi? (indicativamente, quantizzazione a ~4 bit, contesto moderato)
 
 | Macchina | Dimensione del modello gestibile |
@@ -776,6 +817,8 @@ Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `..
     + `PROCESSOR` indica se il modello è interamente sulla GPU o suddiviso tra CPU e GPU (es. `48%/52% CPU/GPU`)
     + `CONTEXT` è la finestra di contesto in uso: il [valore predefinito](https://docs.ollama.com/context-length) di Ollama dipende dalla VRAM (4mila token sotto 24 GiB, 32mila fino a 48 GiB, 256mila oltre)
 
+{{% /small %}}
+
 {{% /section %}}
 
 ---
@@ -785,6 +828,8 @@ Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `..
 {{< slide id="cost-example" >}}
 
 ## Opzioni di deployment: un esempio di calcolo dei costi
+
+{{% small "80%" %}}
 
 Stimiamo il costo annuo dell'esempio ricorrente, con __ipotesi__ esplicite (e approssimative):
 - 500 candidature all'anno; ciascuna = immagine del passaporto + certificato degli esami + lettera ≈ 6mila token in ingresso, più ~mille token di prompt
@@ -800,6 +845,8 @@ Stimiamo il costo annuo dell'esempio ricorrente, con __ipotesi__ esplicite (e ap
 | on-premise (workstation con GPU da 24 GB) | ~€2–2,5mila per la sola GPU | __€2,5mila+__ iniziali, + energia, + manutenzione |
 
 (prezzi a settembre 2026: cambiano ogni pochi mesi, verificarli sempre)
+
+{{% /small %}}
 
 {{% fragment %}}
 > A _questa_ scala, __il costo non è il fattore decisivo__: contano conformità e controllo. Su larga scala cambia tutto: es. una GPU da 80 GB noleggiata 24/7 costa ~\\$2mila/mese, un importo che permette di acquistare ~100M di token in _uscita_ di un modello di frontiera al mese. Il __punto di pareggio__ dipende da _volume_, _utilizzo_ e _dimensione del modello_
@@ -891,6 +938,8 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 
 ## Iniziative europee
 
+{{% small "80%" %}}
+
 | Iniziativa | Chi | Cosa | Licenza | Stato (set. 2026) |
 |---|---|---|---|---|
 | [EuroLLM](https://huggingface.co/utter-project/EuroLLM-22B-2512) | IST Lisbona, Univ. di Edimburgo, Unbabel e altri; fondi EuroHPC e Horizon Europe | 1.7B, 9B, 22B; 35 lingue (tutte le 24 lingue ufficiali dell’UE), ~4mila miliardi di token | Apache 2.0 | 22B pubblicato a feb. 2026 |
@@ -899,6 +948,8 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 | [Teuken / OpenGPT-X](https://www.iais.fraunhofer.de/en/industries_and_cross-sector_solutions/cross-sector_solutions/generative-ai/opengpt-x.html) | Fraunhofer, FZ Jülich e altri; ~€14M dal governo tedesco | 7B, 24 lingue UE | v0.4: Apache 2.0; v0.6: non commerciale | progetto __concluso__ a marzo 2025; modelli ancora scaricabili |
 | [Apertus](https://www.apertus-ai.org/) | ETH Zurigo, EPFL, CSCS (Swiss AI Initiative: CHF 20M + 10M di ore GPU) | 8B, 70B; 1.5 (luglio 2026) aggiunge immagini, ragionamento, tool | Apache 2.0, completamente aperto | il rilascio aperto più completo in Europa; 2.0 prevista per il 2027 |
 | [Mistral AI](https://docs.mistral.ai/getting-started/models/) | azienda privata francese | dai modelli piccoli ai grandi MoE | eterogenea: Apache 2.0, Modified MIT, proprietaria | il fornitore europeo più vicino alla frontiera; poche informazioni sull'addestramento |
+
+{{% /small %}}
 
 ---
 
@@ -994,6 +1045,8 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 
 ## Documentazione dei modelli: model card, system card, datasheet
 
+{{% small "90%" %}}
+
 - __Model card__: già viste nei [cataloghi](#/model-zoos) ([Mitchell et al., 2019](https://arxiv.org/abs/1810.03993); [guida di Hugging Face](https://huggingface.co/docs/hub/model-cards)); qui interessa ciò che riportano sugli aspetti di _governance_
 - __Datasheet per dataset__ ([Gebru et al., 2021](https://arxiv.org/abs/1803.09010)): stessa idea per i dati di addestramento (motivazione, composizione, raccolta, usi consigliati)
 - __System card__: rapporti più lunghi pubblicati dai fornitori di frontiera a ogni rilascio, centrati sulle valutazioni di _sicurezza_, il red teaming e le mitigazioni
@@ -1002,6 +1055,8 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 {{< image src="./model-card-anatomy.svg" max-h="35vh" alt="Anatomia di una model card: otto sezioni, dai dettagli del modello alla licenza, associate alle dimensioni di governance su cui forniscono informazioni (qualità, conformità, controllo)" >}}
 
 - __Cosa cercare__, da ingegneri: _licenza_, _lingue_, _finestra di contesto_, _limite temporale delle conoscenze_, _usi previsti_ (il proprio rientra?), _limiti_ noti e _valutazioni_ pertinenti al compito
+
+{{% /small %}}
 
 ---
 
@@ -1112,11 +1167,15 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 
 {{% /small %}}
 
+{{% small "80%" %}}
+
 - La __rappresentazione__ è il collo di bottiglia: gli agenti falliscono quando non sanno _costruire_, _mantenere_, _verificare_ e _rivedere_ la corretta rappresentazione del compito (stato, obiettivi, regole, effetti delle azioni)
     + es. in una variante dell'ambiente ARC-AGI-3 TR87, Claude Opus 4.6 ottiene 0% senza harness e 97,1% con un harness _costruito ad hoc_, ma 0% in entrambi i casi su BP35 ([rapporto ARC-AGI-3](https://arxiv.org/abs/2603.24621), §4): un harness ad hoc può determinare il successo o il fallimento, ma non _generalizza_
     + un harness _generale_ (conservazione dello stato di ragionamento, compattazione della conversazione) porta invece GPT-6 Astra da 54,8% a 99,9% sull'intero benchmark ([classifica](https://arcprize.org/leaderboard), ott. 2026): il software che circonda il modello conta quanto il modello stesso
 - Il __successo__ senza governance non rende affidabile l'_azione autonoma_: i tassi di successo non dicono _come_ sia stato raggiunto l'obiettivo (policy, effetti collaterali, costi)
 - I benchmark _saturano_ e finiscono nei dati di addestramento: aiutano a _scegliere_ i modelli (cfr. [come scegliere](#/decision)), ma sono le valutazioni __proprie__ a dire se il _proprio_ agente funziona
+
+{{% /small %}}
 
 {{% /section %}}
 
@@ -1244,6 +1303,8 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 {{% multicol %}}
 {{% col %}}
 
+{{% small "85%" %}}
+
 - __Rischio inaccettabile__ $\rightarrow$ _vietato_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
     + es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
 - __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/) e [Allegato III](https://artificialintelligenceact.eu/annex/3/))
@@ -1253,6 +1314,8 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 - __Rischio minimo__ $\rightarrow$ nessun obbligo specifico
     + es. filtri antispam, IA nei videogiochi
 - Su un piano distinto: __modelli di IA per finalità generali (GPAI)__, con obblighi per i _fornitori_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); rischio sistemico: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
+
+{{% /small %}}
 
 {{% /col %}}
 {{% col %}}
@@ -1269,6 +1332,8 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 ---
 
 ## Come scegliere un modello per un compito?
+
+{{% small "85%" %}}
 
 {{% multicol %}}
 {{% col %}}
@@ -1301,6 +1366,8 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 {{% /col %}}
 {{% /multicol %}}
 
+{{% /small %}}
+
 {{< mermaid >}}
 %%{init: {'flowchart': {'htmlLabels': false}}}%%
 flowchart LR
@@ -1322,6 +1389,8 @@ flowchart LR
 
 La conformità va verificata per la specifica combinazione di __checkpoint, versione della licenza, licenze del codice e dei dati, deployment e uso previsto__, anziché sulla base del nome del marchio
 
+{{% small "85%" %}}
+
 | Domanda | Cosa verificare |
 |---|---|
 | esattamente _quale_ artefatto? | repository, hash del checkpoint, data di rilascio, versione della licenza |
@@ -1333,6 +1402,8 @@ La conformità va verificata per la specifica combinazione di __checkpoint, vers
 | dati di addestramento e fine-tuning? | provenienza, licenze (es. ODC-By), dati personali |
 | ruolo nell'AI Act? | stiamo diventando _noi_ fornitori GPAI (es. con fine-tuning e distribuzione)? si applica l'esenzione open source? |
 | serve riproducibilità? | hosting autonomo: bastano pesi distribuiti con una licenza permissiva; audit o ricerca: preferire modelli completamente aperti (OLMo 3, Apertus) |
+
+{{% /small %}}
 
 > Da ricordare: __pesi → licenza → ricetta → dati → ruolo normativo__: l’apertura va valutata rispetto ai componenti e alle libertà necessari per l’uso previsto
 

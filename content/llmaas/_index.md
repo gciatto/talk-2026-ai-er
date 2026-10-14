@@ -85,6 +85,8 @@ Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono 
 
 ## Opzioni di deployment a confronto
 
+{{% small "80%" %}}
+
 | | API cloud proprietaria | Modello aperto ospitato | On-premise |
 |---|---|---|---|
 | __Qualità__ | massima (modelli di frontiera) | buona (i migliori modelli aperti inseguono la frontiera) | limitata dall'hardware (modelli più piccoli) |
@@ -99,6 +101,8 @@ Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono 
 - L'energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito ([Luccioni et al., 2024](https://arxiv.org/abs/2311.16863)); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)
 - Le soluzioni _ibride_ sono comuni: es. _on-premise_ per dati sensibili, _cloud_ per il resto; oppure un _gateway_ che instrada le richieste in base alla sensibilità dei dati
 
+{{% /small %}}
+
 ---
 
 {{< slide id="hybrid" >}}
@@ -109,23 +113,22 @@ Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono 
     + __sensibilità dei dati__: dati personali o riservati $\rightarrow$ modelli on-premise (o ospitati nell'UE); dati pubblici $\rightarrow$ API cloud
     + __difficoltà del compito__: compiti semplici e frequenti (es. classificazione, estrazione) $\rightarrow$ modelli piccoli ed economici; compiti difficili $\rightarrow$ modelli di frontiera
     + __disponibilità__: un fornitore _di riserva_ (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo
-- A rendere possibile questa architettura è un __gateway__ (detto anche _router_, _proxy_): _un’unica_ API interna per accedere a _molti_ modelli e fornitori
+- A rendere possibile questa architettura è un __gateway__ (detto anche _router_, _proxy_): _un unico_ punto d'accesso per accedere a _molti_ modelli e fornitori
     + le applicazioni comunicano solo con il gateway; questo _instrada_ le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e _registra_ le operazioni
     + es. [LiteLLM](https://docs.litellm.ai/), [Portkey](https://portkey.ai/), gateway dei fornitori cloud o aggregatori come [Open Router](https://openrouter.ai/) (approfondimento nella [prossima lezione](../governance/))
 - Prerequisito: tutti i modelli devono essere raggiungibili tramite un'__API comune__ (prossima sezione), altrimenti ogni percorso richiede codice dedicato
 
-{{< plantuml max-h="30vh" >}}
+{{< plantuml max-h="30vh" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" >}}
 @startuml
-left to right direction
 rectangle "Applicazioni" as A
 rectangle "Gateway\n(instradamento, chiavi,\nbudget, log)" as G
 rectangle "Modello on-premise\n(dati sensibili)" as L
 rectangle "Modello aperto ospitato nell'UE" as E
 rectangle "API cloud di frontiera\n(compiti difficili)" as C
-A --> G : una API
-G --> L
-G --> E
-G --> C
+A -> G : una API
+G -> L
+G -> E
+G -> C
 @enduml
 {{< /plantuml >}}
 
@@ -449,6 +452,8 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
 
 ## Esempio 1: chat CLI sincrona (pt. 1)
 
+{{% small "90%" %}}
+
 1. Creiamo il client a partire dall'URL di base di Open Router (OR), dalla chiave API e dal modello scelto:
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example1/repl_chat_openai.py" from="7" to="15" %}}
@@ -468,9 +473,13 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
 
     - es. "rispondi sempre in italiano" oppure "riconosci la lingua dell'utente e rispondi nella stessa lingua", ecc.
 
+{{% /small %}}
+
 ---
 
 ## Esempio 1: chat CLI sincrona (pt. 2)
+
+{{% small "90%" %}}
 
 3. Infine entriamo in un ciclo: leggiamo l'input dell'utente dal terminale, lo inviamo al modello come nuovo messaggio e mostriamo la risposta nel terminale
 
@@ -485,6 +494,8 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
     1. una _richiesta_ di chat completion viene poi inviata al `model` tramite `client.chat.completions.create(...)`, con la cronologia come input
     1. la _risposta_ del modello dovrebbe contenere una _sola scelta_ (`response.choices[0]`), il cui `.message.content` viene mostrato all'utente
         + `content` può essere `None` (es. nelle chiamate ai tool), da cui `or ""`
+
+{{% /small %}}
 
 ---
 
@@ -621,6 +632,8 @@ messages.append(dict(role="assistant", content="".join(answer_parts))) # reconst
 
 ## Esempio 3: chat CLI con allegati tramite API Responses (pt. 3)
 
+{{% small "85%" %}}
+
 4. Richieste stateless/stateful e lettura del flusso di eventi _tipizzati_:
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example3/repl_chat_responses.py" from="65" to="85" %}}
@@ -629,6 +642,8 @@ messages.append(dict(role="assistant", content="".join(answer_parts))) # reconst
     - in modalità __stateless__ si invia _tutta_ la cronologia a ogni richiesta (come negli Esempi 1 e 2) e `store=False` chiede al fornitore di _non_ conservarla
     - in modalità __stateful__ si invia solo il _nuovo_ messaggio: meno byte per richiesta (gli allegati si inviano _una volta_), ma la conversazione risiede sui server del fornitore (cfr. protezione dei dati) e questa modalità è supportata solo da OpenAI
     - ci interessano solo due tipi di eventi: `response.created` (per l'ID della risposta) e `response.output_text.delta` (il nuovo frammento di testo)
+
+{{% /small %}}
 
 ---
 
@@ -741,6 +756,8 @@ __In breve__: vincolare il modello a _produrre output_ in un formato preciso (es
 
 ## Come si _impone_ l'output strutturato? (pt. 1)
 
+{{% small "85%" %}}
+
 Dalle garanzie _più deboli_ alle _più forti_:
 
 1. __Solo prompt__: descrivere il formato nel prompt, poi _interpretare_ (e _validare_) la risposta
@@ -750,10 +767,12 @@ Dalle garanzie _più deboli_ alle _più forti_:
     + spesso implementato con __decodifica vincolata__: a ogni passo di generazione vengono _esclusi_ i token che violerebbero lo schema
     + cfr. [Willard & Louf (2023)](https://arxiv.org/abs/2307.09702) e librerie come [Outlines](https://github.com/dottxt-ai/outlines), [llguidance](https://github.com/guidance-ai/llguidance), [XGrammar](https://github.com/mlc-ai/xgrammar)
 
-    {{< image src="./constrained-decoding.svg" max-h="30vh" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" >}}
+    {{< image src="./constrained-decoding.svg" max-h="25vh" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" >}}
 
 4. __Trucco della chiamata a tool__: dichiarare un _tool_ (fittizio) i cui parametri corrispondono allo schema desiderato e _forzare_ il modello a chiamarlo
     + gli _argomenti_ della chiamata sono l'output strutturato (comune prima del supporto dei fornitori a (3))
+
+{{% /small %}}
 
 ---
 
@@ -783,6 +802,8 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 ## Esempio 4: output strutturato con classi Pydantic (pt. 2)
 
+{{% small "90%" %}}
+
 3. Definiamo classi `pydantic` per rappresentare il formato desiderato, con _stringhe di documentazione_ che completano la specifica
 
     - Importazioni:
@@ -803,9 +824,13 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
         * le istruzioni per assegnare il punteggio sono contenute in un'altra stringa
 
+{{% /small %}}
+
 ---
 
 ## Esempio 4: output strutturato con classi Pydantic (pt. 3)
+
+{{% small "80%" %}}
 
 4. Anche le _istruzioni_ per il _punteggio_ possono essere in _linguaggio naturale_, ma è meglio essere precisi e dare all'LLM una _"ricetta"_ per calcolarlo
 
@@ -822,6 +847,8 @@ Dalle garanzie _più deboli_ alle _più forti_:
     - il parametro `response_format` viene impostato a un _riferimento_ alla classe `LetterInfo`
         + `openai` genera automaticamente il JSON Schema dalla definizione della classe e lo include nella richiesta
     - `message.parsed` è l'istanza di `LetterInfo`, salvo che il modello _rifiuti_ di rispondere (es. per sicurezza): in quel caso `message.refusal` contiene la spiegazione
+
+{{% /small %}}
 
 ---
 
@@ -918,7 +945,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 {{% multicol %}}
 {{% col class="col-6" %}}
-{{% small "85%" %}}
+{{% small "80%" %}}
 - Tre __tool__ come funzioni Python (codice completo [qui](../lab-snippets/snippets/lecture_agents/simple_tools.py)):
     + `get_current_time(timezone)`: _ragionamento_ (calcolo locale, tramite `zoneinfo` della libreria standard, che conosce i fusi orari IANA)
     + `get_weather(location)`: _percezione_ (tramite l'API Web gratuita [Open-Meteo](https://open-meteo.com/))
@@ -1013,7 +1040,7 @@ function:
 
 ## Lo spettro dell'autonomia
 
-{{< image src="./autonomy-spectrum.svg" max-h="45vh" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" >}}
+{{< image src="./autonomy-spectrum.svg" max-h="38vh" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" >}}
 
 - Ricordare la distinzione [tra il codice dello sviluppatore e l’LLM](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses) presentata nella lezione introduttiva:
 - __Workflow__: LLM e tool sono orchestrati lungo percorsi _predefiniti_ (il _codice_ controlla il flusso)
@@ -1384,6 +1411,8 @@ La _stessa_ skill (cartella con un `SKILL.md`) può essere usata da _diversi tip
 
 ## Esempio 5: usare skill da OpenClaw
 
+{{% small "85%" %}}
+
 > __Obiettivo__: due skill per la commissione, [`phd-application-review`](../lab-snippets/snippets/lecture_skills/example1/phd-application-review/SKILL.md) e [`admission-letter`](../lab-snippets/snippets/lecture_skills/example1/admission-letter/SKILL.md) (cartelle in [`snippets/lecture_skills/example1/`](../lab-snippets/snippets/lecture_skills/example1/__init__.py)), usate da un _agente locale_ senza scrivere codice
 
 - [OpenClaw](https://docs.openclaw.ai/): harness agentico open source (MIT), self-hosted, accessibile dal terminale o da app di messaggistica
@@ -1403,6 +1432,8 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 ```
 
 - Le _stesse_ cartelle funzionano senza modifiche in Claude Code (`.claude/skills/`), Codex, Cursor, Copilot (`.agents/skills/`), ...: provare a collegarle con `ln -s`
+
+{{% /small %}}
 
 ---
 
@@ -1562,6 +1593,8 @@ Da una chat a un agente con tool condivisi
 
 ## Esempio 6: un agente da zero con il client OpenAI (pt. 3)
 
+{{% small "90%" %}}
+
 5. Il programma principale è una chat CLI (cfr. [lezione LLM-as-a-Service](#/sync-chat)), dove ogni messaggio attiva un ciclo ReAct (codice completo [qui](../lab-snippets/snippets/lecture_agents/example1/agent_openai.py)):
 
     {{% code path="static/lab-snippets/snippets/lecture_agents/example1/agent_openai.py" from="54" to="61" %}}
@@ -1593,6 +1626,8 @@ Da una chat a un agente con tool condivisi
     - chiedere qualcosa cui i tool _non possono_ rispondere (es. "_pioverà a Bologna la prossima settimana?_"): l'agente lo ammette o _inventa una risposta_?
     - chiedere qualcosa che _non richiede_ tool (es. "_qual è la capitale della Francia?_"): li chiama comunque?
     - provare un modello _più piccolo_: continua a chiamare correttamente i tool?
+
+{{% /small %}}
 
 {{% /section %}}
 
