@@ -30,7 +30,7 @@
 <br>
 <h3 id="prof-hahahugoshortcode1s2hbhb">Prof. <a href="mailto:giovanni.ciatto@unibo.it">Giovanni Ciatto</a></h3>
 <br>
-<p>Generato il: 2026-10-13
+<p>Generato il: 2026-10-14
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <!-- [<i class="fa fa-undo" aria-hidden="true"></i> indietro](..) -->
 </section>
@@ -71,7 +71,7 @@
 <li>
 <p><strong>LLM-as-a-Service</strong>: come <em>integrare</em> gli LLM nelle applicazioni</p>
 <ul>
-<li>scelte architetturali e strategiche: cloud, on-premise, ibride</li>
+<li>scelte architetturali e strategiche: architetture cloud, on-premise e ibride</li>
 <li>l’ecosistema delle API e le API OpenAI come standard <em>de facto</em></li>
 <li>dalla generazione di testo ai <em>processi</em>: output strutturato, strumenti, workflow, agenti, skill</li>
 </ul>
@@ -97,7 +97,7 @@
 <ul>
 <li>conoscenze di base di <strong>Python</strong>, <strong>Git</strong> e della <strong>shell</strong>; nozioni di base sulle API <strong>HTTP</strong> e su <strong>JSON</strong></li>
 <li><a href="https://www.python.org/downloads/">Python</a> 3.11+ e <a href="https://git-scm.com/downloads">Git</a> installati</li>
-<li>una <strong>chiave API</strong> di un fornitore di LLM (ad es. gratuita da <a href="https://openrouter.ai/">Open Router</a>), oppure un ambiente di esecuzione <em>locale</em> per LLM (ad es. <a href="https://ollama.com/">Ollama</a>)</li>
+<li>una <strong>chiave API</strong> di un fornitore di LLM (ad es. una chiave gratuita ottenuta da <a href="https://openrouter.ai/">Open Router</a>), oppure un ambiente di esecuzione <em>locale</em> per LLM (ad es. <a href="https://ollama.com/">Ollama</a>)</li>
 </ul>
 </li>
 </ul>
@@ -137,7 +137,7 @@
 <p>Configurare il fornitore di LLM tramite <strong>variabili d’ambiente</strong>:</p>
 <ul>
 <li><code>OPENAI_API_KEY</code>: la propria chiave API (se manca, gli snippet la chiedono interattivamente)</li>
-<li><code>OPENAI_BASE_URL</code> (predefinito: <code>https://openrouter.ai/api/v1/</code>), <code>OPENAI_MODEL</code> (predefinito: <code>nvidia/nemotron-3-super-120b-a12b:free</code>, gratuito)</li>
+<li><code>OPENAI_BASE_URL</code> (valore predefinito: <code>https://openrouter.ai/api/v1/</code>), <code>OPENAI_MODEL</code> (valore predefinito: <code>nvidia/nemotron-3-super-120b-a12b:free</code>, gratuito)</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">OPENAI_API_KEY</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"sk-or-v1-..."</span>     <span style="color:#8f5902;font-style:italic"># on Windows (PowerShell): $env:OPENAI_API_KEY="sk-or-v1-..."</span>
 </span></span></code></pre></div></li>
@@ -157,7 +157,7 @@
 </span></span></code></pre></div><ul>
 <li><code>poetry run</code>: esegue il comando <em>nell’ambiente virtuale</em> del progetto (<code>.venv/</code>), con tutte le dipendenze disponibili</li>
 <li><code>python -m snippets</code>: esegue il pacchetto <code>snippets</code> come programma (cioè il suo <code>__main__.py</code>, il runner)</li>
-<li><code>ARGS</code> vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)</li>
+<li>gli argomenti <code>ARGS</code> vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)</li>
 <li>preferire il runner a <code>python path/to/snippet.py</code>: lo stesso comando per ogni snippet, senza percorsi da ricordare</li>
 </ul>
 </li>
@@ -180,7 +180,7 @@
 </section><section>
 <h1 id="fine-della-lezione">Fine della lezione</h1>
 <br>
-<p>Generato il: 2026-10-13
+<p>Generato il: 2026-10-14
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section>
@@ -196,7 +196,7 @@
 
 <a href="/talk-2026-ai-er/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
 
-<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{"startOnLoad":false}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
 <script type="application/json" id="reveal-hugo-page-params">null</script>
 
 <script src="/talk-2026-ai-er/reveal-js/dist/reveal.js"></script>

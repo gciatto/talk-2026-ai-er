@@ -90,8 +90,8 @@
   <rect x="445" y="200" width="200" height="270" rx="14" fill="#eceef1" stroke="#222222" stroke-width="2.5"/>
   <rect x="465" y="220" width="160" height="96" rx="10" fill="#d6e8fb" stroke="#2690e7" stroke-width="2"/>
   <g font-size="24" text-anchor="middle">
-    <text x="545" y="260">modello</text>
-    <text x="545" y="290">di prompt</text>
+    <text x="545" y="260">template</text>
+    <text x="545" y="290">del prompt</text>
     <text x="545" y="345" font-weight="bold">+</text>
   </g>
   <rect x="465" y="358" width="160" height="92" rx="10" fill="#ffffff" stroke="#222222" stroke-width="2"/>

@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="it"><head>
     <meta charset="utf-8">
-<title>[AI-ER] LLM-as-a-Service: API, tool e agenti</title>
-<meta name="description" content="Come integrare gli LLM nelle applicazioni: fornitori, API, output strutturato, tool, agenti, skill">
+<title>[AI-ER] LLM-as-a-Service: API, strumenti e agenti</title>
+<meta name="description" content="Come integrare gli LLM nelle applicazioni: fornitori, API, output strutturato, strumenti, agenti, skill">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,14 +24,14 @@
       <div class="slides">
   
 
-    <section><h1 id="llm-as-a-service-api-tool-e-agenti">LLM-as-a-Service: API, tool e agenti</h1>
+    <section><h1 id="llm-as-a-service-api-strumenti-e-agenti">LLM-as-a-Service: API, strumenti e agenti</h1>
 <br>
 <h2 id="hahahugoshortcode1s0hbhb">Corso di IA — Regione Emilia-Romagna 2026 (Parte 2)</h2>
 <h3 id="hahahugoshortcode1s1hbhb">Ottobre–Novembre 2026</h3>
 <h3 id="hahahugoshortcode1s2hbhb"><a href="mailto:giovanni.ciatto@unibo.it">Giovanni Ciatto</a></h3>
 <br>
 <br>
-<p>Generato il: 2026-10-13
+<p>Generato il: 2026-10-14
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section><section>
@@ -94,13 +94,13 @@
 <img src="./tradeoff-radar.svg" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" style="max-width: calc(95 * 19.2px); max-height: calc(45 * 10.8px); object-fit: contain;">
 <span class="fragment ">
   <blockquote>
-<p><strong>Nessuna</strong> opzione domina tutte le altre: la governance consiste nello scegliere il <em>compromesso giusto</em> per il <em>caso d’uso</em> e <strong>documentarne il motivo</strong></p>
+<p><strong>Nessuna</strong> opzione domina tutte le altre: la governance consiste nello scegliere il <em>compromesso giusto</em> per il <em>caso d’uso</em> e <strong>documentare le ragioni della scelta</strong></p>
 </blockquote>
 </span>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="deployment-options">
 <h2 id="dove-eseguire-il-modello-il-concetto-generale">Dove eseguire il modello? Il concetto generale</h2>
-<p>Tre principali <strong>opzioni di deployment</strong>, che differiscono per <em>chi</em> esegue il modello e <em>dove</em> vanno i dati:</p>
+<p>Tre principali <strong>opzioni di deployment</strong> (messa in esercizio), che differiscono per <em>chi</em> esegue il modello e <em>dove</em> vanno i dati:</p>
 <ol>
 <li><strong>API cloud proprietaria</strong>: il modello appartiene al fornitore <em>ed</em> è eseguito da lui (es. OpenAI, Anthropic, Google)
 <ul>
@@ -114,7 +114,7 @@
 </li>
 <li><strong>On-premise</strong> (detto anche <em>self-hosted</em>, <em>locale</em>): un modello a pesi aperti eseguito sul <em>proprio</em> hardware (es. tramite Ollama, vLLM)
 <ul>
-<li>i dati non escono dalla propria infrastruttura; hardware, esercizio e aggiornamenti sono responsabilità propria</li>
+<li>i dati non escono dalla propria infrastruttura; hardware, gestione operativa e aggiornamenti sono a carico dell’organizzazione</li>
 </ul>
 </li>
 </ol>
@@ -123,6 +123,7 @@
 <img src="./deployment-options.svg" alt="Lo stesso processo di ammissione con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i documenti dei candidati escono dall'università, chi paga cosa e chi può vedere i dati" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
 </section><section>
 <h2 id="opzioni-di-deployment-a-confronto">Opzioni di deployment a confronto</h2>
+<div style="font-size: 80%;">
 <table>
 	<thead>
 			<tr>
@@ -184,9 +185,10 @@
 	</tbody>
 </table>
 <ul>
-<li>L’energia conta: i compiti generativi richiedono ordini di grandezza più energia dei modelli specifici per un compito (<a href="https://arxiv.org/abs/2311.16863">Luccioni et al., 2024</a>); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)</li>
+<li>L’energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito (<a href="https://arxiv.org/abs/2311.16863">Luccioni et al., 2024</a>); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)</li>
 <li>Le soluzioni <em>ibride</em> sono comuni: es. <em>on-premise</em> per dati sensibili, <em>cloud</em> per il resto; oppure un <em>gateway</em> che instrada le richieste in base alla sensibilità dei dati</li>
 </ul>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="hybrid">
 <h2 id="architetture-ibride">Architetture ibride</h2>
@@ -198,30 +200,29 @@
 <li><strong>disponibilità</strong>: un fornitore <em>di riserva</em> (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo</li>
 </ul>
 </li>
-<li>Il componente abilitante è un <strong>gateway</strong> (detto anche <em>router</em>, <em>proxy</em>): <em>una</em> API interna davanti a <em>molti</em> modelli e fornitori
+<li>A rendere possibile questa architettura è un <strong>gateway</strong> (detto anche <em>router</em>, <em>proxy</em>): <em>un unico</em> punto d’accesso per accedere a <em>molti</em> modelli e fornitori
 <ul>
-<li>le applicazioni comunicano solo con il gateway; questo <em>instrada</em> le richieste, conserva le chiavi API, applica i budget e <em>registra</em> tutto</li>
+<li>le applicazioni comunicano solo con il gateway; questo <em>instrada</em> le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e <em>registra</em> le operazioni</li>
 <li>es. <a href="https://docs.litellm.ai/">LiteLLM</a>, <a href="https://portkey.ai/">Portkey</a>, gateway dei fornitori cloud o aggregatori come <a href="https://openrouter.ai/">Open Router</a> (approfondimento nella <a href="../governance/">prossima lezione</a>)</li>
 </ul>
 </li>
 <li>Prerequisito: tutti i modelli devono essere raggiungibili tramite un’<strong>API comune</strong> (prossima sezione), altrimenti ogni percorso richiede codice dedicato</li>
 </ul>
-<figure id="plantuml-figure-1791904539905275917" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
+<figure id="plantuml-figure-1791985859354693942" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
 <p>@startuml
-left to right direction
 rectangle “Applicazioni” as A
 rectangle “Gateway\n(instradamento, chiavi,\nbudget, log)” as G
 rectangle “Modello on-premise\n(dati sensibili)” as L
 rectangle “Modello aperto ospitato nell’UE” as E
 rectangle “API cloud di frontiera\n(compiti difficili)” as C
-A –&gt; G : una API
-G –&gt; L
-G –&gt; E
-G –&gt; C
+A -&gt; G : una API
+G -&gt; L
+G -&gt; E
+G -&gt; C
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791904539905275917");
+    handlePlantumlFigureByID("plantuml-figure-1791985859354693942");
 </script>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="providers">
@@ -246,10 +247,10 @@ G –&gt; C
 <p><strong>Criteri di scelta</strong> di un fornitore:</p>
 <ol>
 <li><em>modelli</em> disponibili nel catalogo e qualità per il compito da svolgere</li>
-<li>modello di <em>prezzo</em> (per token, richiesta, ora di GPU, abbonamento) e <em>limiti di utilizzo</em></li>
+<li>struttura <em>tariffaria</em> (per token, richiesta, ora di GPU, abbonamento) e <em>limiti di utilizzo</em></li>
 <li><em>funzionalità</em>: tool, output strutturato, multimodalità, elaborazione in batch, fine-tuning, …</li>
 <li><em>protezione dei dati</em>: dove vengono elaborati e conservati, per quanto tempo, garanzie contrattuali (es. nessun addestramento sui propri dati)</li>
-<li><em>compatibilità API</em>: quanto facilmente possiamo <em>passare</em> a un altro fornitore? (ossia <strong>vendor lock-in</strong>)</li>
+<li><em>compatibilità delle API</em>: quanto è facile <em>passare</em> a un altro fornitore? Quanto dipendiamo da quello attuale (<strong>vendor lock-in</strong>)?</li>
 </ol>
 </li>
 </ul>
@@ -290,7 +291,7 @@ G –&gt; C
 </ul>
 </section><section>
 <h2 id="chat-completion-un-esempio-intuitivo">Chat Completion: un esempio intuitivo</h2>
-<figure id="plantuml-figure-1791904539907048240" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
+<figure id="plantuml-figure-1791985859356108548" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
 <p>@startuml
 hide footbox
 actor “Utente” as U
@@ -312,7 +313,7 @@ P -&gt; U: “A Cesena sono le …”
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791904539907048240");
+    handlePlantumlFigureByID("plantuml-figure-1791985859356108548");
 </script>
 <ul>
 <li>La <strong>stessa</strong> interazione è implementata da <em>tutti</em> i fornitori; cambia solo la <em>sintassi</em>
@@ -331,7 +332,7 @@ P -&gt; U: “A Cesena sono le …”
 <p><strong>Fornire</strong> <strong>istruzioni</strong> generali per il compito da svolgere (es. tramite <em>system prompt</em> o istruzioni di primo livello)</p>
 </li>
 <li>
-<p><strong>Richiedere</strong> il <strong>messaggio successivo</strong> a una <em>sequenza di messaggi</em> (es. tramite chat completions)</p>
+<p><strong>Richiedere</strong> il <strong>messaggio che prosegue</strong> una <em>sequenza di messaggi</em> (es. tramite chat completions)</p>
 <ul>
 <li>i messaggi di input/output possono includere contenuti di <em>modalità diverse</em> (es. testo, immagini, audio, video, file, ecc.)</li>
 <li>possono includere anche <em>chiamate a tool</em>, <em>risultati di tool</em>, <em>tracce di ragionamento</em>, ecc.</li>
@@ -354,27 +355,34 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p>Impostare la <strong>temperatura</strong> del modello per controllare la casualità dell’output</p>
 <ul>
-<li>es. temperature più alte producono output più casuali, temperature più basse output più deterministici</li>
+<li>es. temperature più alte producono risposte più variabili, temperature più basse risposte più deterministiche</li>
 </ul>
 </li>
 </ol>
 </section><section>
 <h2 id="compatibilità-delle-api-web-degli-llm-pt-1--famiglia-openai">Compatibilità delle API Web degli LLM (pt. 1) – Famiglia OpenAI</h2>
 <ul>
-<li><strong>Forma</strong>: <em>“Chat Completions”</em> usa l’endpoint <code>/chat/completions</code>; <em>“Responses”</em> usa <code>/responses</code></li>
-<li><strong>Astrazione</strong>: Chat si basa su messaggi con ruoli; Responses su elementi tipizzati
+<li>
+<p><strong>Forma</strong>: <em>“Chat Completions”</em> usa l’endpoint <code>/chat/completions</code>; <em>“Responses”</em> usa <code>/responses</code></p>
+</li>
+<li>
+<p><strong>Astrazione</strong>: Chat si basa su messaggi con ruoli; Responses su elementi tipizzati</p>
 <ul>
-<li>es. una chat contiene contenuti (testo, immagini) associati a un ruolo (utente, assistente); le responses possono essere chiamate a tool, risultati, passi di ragionamento, ecc.</li>
-<li>es. le responses possono essere messaggi, chiamate a tool o risultati</li>
+<li>es. una chat contiene messaggi (testo, immagini) associati a un ruolo (utente, assistente); gli elementi restituiti dall’API Responses possono essere messaggi, chiamate a tool, risultati o passi di ragionamento</li>
 </ul>
 </li>
-<li><strong>Capacità</strong>: tutte quelle attese (tool, output strutturato, multimodalità, streaming, tracce di ragionamento), cfr. il <a href="#/api-comparison">confronto</a> seguente
+<li>
+<p><strong>Capacità</strong>: tutte quelle attese (tool, output strutturato, multimodalità, streaming, tracce di ragionamento), cfr. il <a href="#/api-comparison">confronto</a> seguente</p>
 <ul>
 <li>oltre a <code>/v1/embeddings</code>, che trasforma il testo in <em>vettori</em> (cfr. le lezioni sul RAG)</li>
 </ul>
 </li>
-<li><strong>Particolarità</strong>: “Responses” è più moderna; “Chat Completions” è più compatibile</li>
-<li><strong>Portabilità</strong>: “Chat Completions” è supportata quasi ovunque; “Responses” è nativa in OpenAI/Azure e sempre più replicata (es. OpenRouter, Ollama, vLLM), ma spesso solo <em>parzialmente</em></li>
+<li>
+<p><strong>Particolarità</strong>: “Responses” è più moderna; “Chat Completions” è più compatibile</p>
+</li>
+<li>
+<p><strong>Portabilità</strong>: “Chat Completions” è supportata quasi ovunque; “Responses” è nativa in OpenAI/Azure e sempre più replicata (es. OpenRouter, Ollama, vLLM), ma spesso solo <em>parzialmente</em></p>
+</li>
 </ul>
 </section><section>
 <h2 id="compatibilità-delle-api-web-degli-llm-pt-2--api-compatibili-con-openai">Compatibilità delle API Web degli LLM (pt. 2) – API compatibili con OpenAI</h2>
@@ -410,7 +418,7 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 <li><strong>Capacità</strong>: tool, streaming, contesto lungo, cache dei prompt, ragionamento esteso
 <ul>
-<li>Esempio: mettere in cache un lungo documento di policy e poi porre molte domande successive</li>
+<li>Esempio: memorizzare nella cache un lungo documento di regole e poi porre più domande sul suo contenuto</li>
 </ul>
 </li>
 <li><strong>Particolarità</strong>: system prompt, risultati dei tool ed eventi di streaming differiscono da OpenAI</li>
@@ -465,7 +473,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </section><section>
 <h2 id="compatibilità-delle-api-web-degli-llm-pt-7--riepilogo">Compatibilità delle API Web degli LLM (pt. 7) – Riepilogo</h2>
-<p>Le API <strong>simili a OpenAI</strong> stanno diventando lo standard <em>de facto</em>, ma sono ancora in rapida <em>evoluzione</em></p>
+<p>Le API <strong>simili a quelle di OpenAI</strong> stanno diventando lo standard <em>de facto</em>, ma sono ancora in rapida <em>evoluzione</em></p>
 <img src="apis.svg" alt="Panorama della compatibilità delle API Web degli LLM" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="api-comparison">
@@ -565,7 +573,7 @@ P -&gt; U: “A Cesena sono le …”
 <p>(cfr. documentazione delle API di <a href="https://developers.openai.com/api/reference">OpenAI</a>, <a href="https://platform.claude.com/docs/en/api/messages">Anthropic</a>, <a href="https://ai.google.dev/api/generate-content">Google</a>; pagine sulla compatibilità di Ollama con <a href="https://docs.ollama.com/api/openai-compatibility">OpenAI</a> e <a href="https://docs.ollama.com/api/anthropic-compatibility">Anthropic</a>)</p>
 <span class="fragment ">
   <blockquote>
-<p>Stesso <strong>metamodello</strong> ovunque (modello + istruzioni + cronologia ordinata di messaggi con ruoli, anche multimodali $\rightarrow$ messaggio successivo + utilizzo), diversa <strong>sintassi</strong>: cambiare fornitore significa riscrivere lo strato di <em>adattamento</em>, non la logica applicativa</p>
+<p>Stesso <strong>metamodello</strong> ovunque (modello + istruzioni + cronologia ordinata di messaggi con ruoli, anche multimodali $\rightarrow$ messaggio successivo + dati sul consumo di token). La <strong>sintassi</strong> cambia: passare a un altro fornitore richiede di riscrivere lo strato di <em>adattamento</em>, mantenendo la logica applicativa</p>
 </blockquote>
 </span>
 
@@ -584,7 +592,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p>I principali fornitori, soprattutto quelli con API Web proprie, offrono <strong>librerie client</strong></p>
 <ul>
-<li>che incapsulano le API in SDK per i linguaggi di destinazione (es. Python, JS, Java, ecc.)</li>
+<li>che incapsulano le API in SDK per diversi linguaggi (es. Python, JS, Java, ecc.)</li>
 </ul>
 </li>
 <li>
@@ -616,7 +624,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p>Offre un <strong>metamodello uniforme</strong> sopra le API di <em>molti</em> fornitori:</p>
+<p>Offre un <strong>metamodello uniforme</strong> per interagire con le API di <em>molti</em> fornitori:</p>
 <ul>
 <li><strong>modelli di chat</strong> (es. <code>ChatOpenAI</code>, <code>ChatAnthropic</code>, <code>ChatGoogleGenerativeAI</code>, <code>ChatOllama</code>): una classe per fornitore, <em>stessa</em> interfaccia
 <ul>
@@ -637,8 +645,8 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p><strong>Perché no</strong>?</p>
 <ul>
-<li>un ulteriore livello di <em>indirezione</em> (oltre a dipendenze e modifiche incompatibili)</li>
-<li>le funzionalità specifiche dei fornitori possono arrivare in ritardo o richiedere “vie di fuga” (es. <code>extra_body</code>)</li>
+<li>un ulteriore livello di <em>astrazione</em>, con dipendenze aggiuntive e possibili modifiche incompatibili</li>
+<li>le funzionalità specifiche dei fornitori possono essere disponibili in ritardo o richiedere parametri specifici (es. <code>extra_body</code>)</li>
 </ul>
 </li>
 </ul>
@@ -717,7 +725,7 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="api-chat-completion-di-openai-con-python">API Chat Completion di OpenAI con Python</h2>
 <ul>
 <li>
-<p>È il modo più semplice e comune per interagire con fornitori di API simili a OpenAI, tramite la libreria <a href="https://github.com/openai/openai-python">openai-python</a></p>
+<p>È il modo più semplice e comune per interagire con fornitori che espongono API simili a quelle di OpenAI, tramite la libreria <a href="https://github.com/openai/openai-python">openai-python</a></p>
 <ul>
 <li>per installarla nel proprio ambiente Python (virtuale), basta eseguire <code>pip install openai</code></li>
 <li>negli script Python basta importare il modulo <code>openai</code></li>
@@ -745,9 +753,10 @@ P -&gt; U: “A Cesena sono le …”
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="sync-chat">
 <h2 id="esempio-1-chat-cli-sincrona-pt-1">Esempio 1: chat CLI sincrona (pt. 1)</h2>
+<div style="font-size: 90%;">
 <ol>
 <li>
-<p>Creiamo il client a partire dall’URL di base di OR, dalla chiave API e dal modello scelto:</p>
+<p>Creiamo il client a partire dall’URL di base di Open Router (OR), dalla chiave API e dal modello scelto:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">import</span> <span style="color:#000">os</span>
 </span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">from</span> <span style="color:#000">openai</span> <span style="color:#204a87;font-weight:bold">import</span> <span style="color:#000">OpenAI</span>
 </span></span><span style="display:flex;"><span>
@@ -759,15 +768,15 @@ P -&gt; U: “A Cesena sono le …”
 </span></span><span style="display:flex;"><span><span style="color:#000">client</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">OpenAI</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">base_url</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">base_url</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">api_key</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">api_key</span><span style="color:#000;font-weight:bold">)</span>  <span style="color:#8f5902;font-style:italic"># stateless: the conversation history is kept by us</span>
 </span></span></code></pre></div><p>Si noti che:</p>
 <ul>
-<li>la classe <code>OpenAI(...)</code> inizializza il client in modo molto personalizzabile</li>
-<li>il parametro <code>base_url</code>, normalmente <a href="https://api.openai.com/v1">https://api.openai.com/v1</a>, è impostato all’URL di OR <a href="https://openrouter.ai/api/v1">https://openrouter.ai/api/v1</a>, salvo diversa indicazione tramite variabili d’ambiente</li>
+<li>il client <code>OpenAI</code> si può configurare tramite i parametri del costruttore</li>
+<li>il parametro <code>base_url</code>, normalmente <a href="https://api.openai.com/v1">https://api.openai.com/v1</a>, è impostato sull’URL di OR <a href="https://openrouter.ai/api/v1">https://openrouter.ai/api/v1</a>, salvo diversa indicazione tramite variabili d’ambiente</li>
 <li><code>api_key</code> viene letto da una variabile d’ambiente o da stdin (tramite <code>input(...)</code>), evitando di scrivere la chiave nel codice sorgente</li>
 <li><code>model</code> (passato successivamente in ogni richiesta) deve indicare un modello disponibile nel catalogo del fornitore</li>
 <li>le variabili <code>OPENAI_BASE_URL</code>, <code>OPENAI_API_KEY</code>, <code>OPENAI_MODEL</code> sono lette tramite <code>os.environ.get(NAME, DEFAULT)</code> (tutte opzionali)</li>
 </ul>
 </li>
 <li>
-<p><em>Inizializziamo</em> poi la cronologia della <em>conversazione</em> con un <strong>system prompt</strong>, contenente <em>istruzioni generali</em> pertinenti al compito per l’LLM</p>
+<p><em>Inizializziamo</em> poi la cronologia della <em>conversazione</em> con un <strong>system prompt</strong>, contenente <em>istruzioni generali</em> sul compito che l’LLM deve svolgere</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">messages</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#204a87">dict</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">role</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"system"</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">content</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"Just chat with the user, be friendly and helpful. Do not think. Just answer."</span><span style="color:#000;font-weight:bold">)]</span>
 </span></span></code></pre></div><p>Qui si possono aggiungere istruzioni da seguire nel resto della conversazione</p>
 <ul>
@@ -775,11 +784,13 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</div>
 </section><section>
 <h2 id="esempio-1-chat-cli-sincrona-pt-2">Esempio 1: chat CLI sincrona (pt. 2)</h2>
+<div style="font-size: 90%;">
 <ol start="3">
 <li>
-<p>Infine entriamo in un ciclo: leggiamo l’input dell’utente dalla riga di comando, lo inviamo al modello come nuovo messaggio e stampiamo la risposta sulla riga di comando</p>
+<p>Infine entriamo in un ciclo: leggiamo l’input dell’utente dal terminale, lo inviamo al modello come nuovo messaggio e mostriamo la risposta nel terminale</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">try</span><span style="color:#000;font-weight:bold">:</span>  <span style="color:#8f5902;font-style:italic"># Ctrl+C (KeyboardInterrupt) or Ctrl+D (EOFError) exit gracefully</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#204a87;font-weight:bold">True</span><span style="color:#000;font-weight:bold">:</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#000">user_text</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87">input</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"you&gt; "</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">strip</span><span style="color:#000;font-weight:bold">()</span>
@@ -818,6 +829,7 @@ P -&gt; U: “A Cesena sono le …”
 </ol>
 </li>
 </ol>
+</div>
 </section><section>
 <h2 id="esempio-1-chat-cli-sincrona-pt-3">Esempio 1: chat CLI sincrona (pt. 3)</h2>
 <ol start="4">
@@ -844,11 +856,11 @@ P -&gt; U: “A Cesena sono le …”
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>you&gt; ^CGoodbye!
 </span></span></code></pre></div><ol start="6">
-<li>Durante l’esecuzione osservare:
+<li>Durante l’esecuzione:
 <ul>
-<li>tempo necessario per ricevere la risposta del modello (latenza)</li>
-<li>possiamo sapere quale modello sta effettivamente elaborando la richiesta?</li>
-<li>il modello non accede a informazioni in tempo reale, quindi non può rispondere a domande sull’ora attuale, ad esempio</li>
+<li>misurare il tempo necessario per ricevere la risposta del modello (latenza)</li>
+<li>chiedersi: possiamo sapere quale modello sta effettivamente elaborando la richiesta?</li>
+<li>osservare il limite: il modello non accede a informazioni in tempo reale; ad esempio, non può conoscere l’ora attuale</li>
 </ul>
 </li>
 </ol>
@@ -905,7 +917,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p>Porre a ciascuno le <em>stesse</em> domande (es. “<em>Che ore sono?</em>”, “<em>Riassumi il GDPR in 3 righe</em>”) e confrontare:</p>
 <ul>
-<li><em>latenza</em> (tempo alla prima risposta), <em>qualità</em> delle risposte, <em>lingua</em> e <em>tono</em></li>
+<li><em>latenza</em> (tempo necessario per ricevere la prima risposta), <em>qualità</em> delle risposte, <em>lingua</em> e <em>tono</em></li>
 <li>dove sono finiti i dati, chi ha pagato e chi potrebbe leggerli (cfr. <a href="#/deployment-options">opzioni di deployment</a>)</li>
 </ul>
 </li>
@@ -926,7 +938,7 @@ P -&gt; U: “A Cesena sono le …”
 <blockquote>
 <p><strong>Obiettivo</strong>: la stessa chat dell’<a href="#/sync-chat">Esempio 1</a>, ma <em>asincrona</em> (<code>AsyncOpenAI</code>) e con risposte in <em>streaming</em> man mano che vengono generate (codice completo <a href="../lab-snippets/snippets/lecture_llmaas/example2/repl_chat_openai_async.py">qui</a>; avviare con <code>poetry run python -m snippets -l llmaas -e 2</code>)</p>
 </blockquote>
-<p>Rispetto alla versione sincrona cambia come: i. creiamo la richiesta, impostando <code>stream=True</code> per ricevere le parti della risposta e attendendole con <code>async for</code> anziché <code>for</code>; ii. consumiamo il flusso delle parti della risposta</p>
+<p>Rispetto alla versione sincrona cambiano due aspetti: creiamo la richiesta con <code>await</code> e <code>stream=True</code>; poi leggiamo i frammenti della risposta con <code>async for</code>, anziché con <code>for</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">stream</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">client</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">chat</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">completions</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">create</span><span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">...</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">stream</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">True</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic"># create the request + open response stream</span>
 </span></span><span style="display:flex;"><span><span style="color:#000">answer_parts</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[]</span> <span style="color:#8f5902;font-style:italic"># buffer to store the parts of the answer as they arrive</span>
 </span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">async</span> <span style="color:#204a87;font-weight:bold">for</span> <span style="color:#000">item</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">stream</span><span style="color:#000;font-weight:bold">:</span>
@@ -995,7 +1007,7 @@ P -&gt; U: “A Cesena sono le …”
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87">dict</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87">type</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"input_file"</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">filename</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">path</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">name</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">file_data</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">data_url</span><span style="color:#000;font-weight:bold">)</span>  <span style="color:#8f5902;font-style:italic"># e.g. PDFs</span>
 </span></span></code></pre></div><ul>
 <li>il testo inserito è <em>delimitato</em> da tag (<code>&lt;file name='...'&gt;</code>), così che il modello distingua i file dal testo dell’utente</li>
-<li>in alternativa, i file si possono <em>caricare una volta</em> tramite l’<a href="https://developers.openai.com/api/reference/resources/files/methods/create">API Files</a> (<code>client.files.create(...)</code>), poi <em>referenziare</em> per ID (<code>file_id=...</code>) in ogni richiesta: è però una funzione specifica di OpenAI</li>
+<li>in alternativa, i file si possono <em>caricare una volta</em> tramite l’<a href="https://developers.openai.com/api/reference/resources/files/methods/create">API Files</a> (<code>client.files.create(...)</code>), poi <em>indicarli</em> tramite ID (<code>file_id=...</code>) in ogni richiesta: è però una funzione specifica di OpenAI</li>
 </ul>
 </li>
 <li>
@@ -1013,9 +1025,10 @@ P -&gt; U: “A Cesena sono le …”
 </ol>
 </section><section>
 <h2 id="esempio-3-chat-cli-con-allegati-tramite-api-responses-pt-3">Esempio 3: chat CLI con allegati tramite API Responses (pt. 3)</h2>
+<div style="font-size: 85%;">
 <ol start="4">
 <li>
-<p>Richieste stateless/stateful e consumo del flusso di eventi <em>tipizzati</em>:</p>
+<p>Richieste stateless/stateful e lettura del flusso di eventi <em>tipizzati</em>:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">args</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">stateful</span><span style="color:#000;font-weight:bold">:</span>  <span style="color:#8f5902;font-style:italic"># we only send the new message, and point to the previous response (the provider has the rest)</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#000">request</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87">dict</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87">input</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">message</span><span style="color:#000;font-weight:bold">],</span> <span style="color:#000">previous_response_id</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">previous_id</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">store</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">True</span><span style="color:#000;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">else</span><span style="color:#000;font-weight:bold">:</span>  <span style="color:#8f5902;font-style:italic"># we send the whole history, and ask the provider NOT to store anything</span>
@@ -1040,11 +1053,12 @@ P -&gt; U: “A Cesena sono le …”
 </span></span></code></pre></div><p>Si noti che:</p>
 <ul>
 <li>in modalità <strong>stateless</strong> si invia <em>tutta</em> la cronologia a ogni richiesta (come negli Esempi 1 e 2) e <code>store=False</code> chiede al fornitore di <em>non</em> conservarla</li>
-<li>in modalità <strong>stateful</strong> si invia solo il <em>nuovo</em> messaggio: meno byte per richiesta (gli allegati si inviano <em>una volta</em>), ma la conversazione risiede sui server del fornitore (cfr. protezione dei dati) e solo OpenAI lo supporta</li>
+<li>in modalità <strong>stateful</strong> si invia solo il <em>nuovo</em> messaggio: meno byte per richiesta (gli allegati si inviano <em>una volta</em>), ma la conversazione risiede sui server del fornitore (cfr. protezione dei dati) e questa modalità è supportata solo da OpenAI</li>
 <li>ci interessano solo due tipi di eventi: <code>response.created</code> (per l’ID della risposta) e <code>response.output_text.delta</code> (il nuovo frammento di testo)</li>
 </ul>
 </li>
 </ol>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" class="print-compact">
 <h2 id="esempio-3-chat-cli-con-allegati-tramite-api-responses-pt-4">Esempio 3: chat CLI con allegati tramite API Responses (pt. 4)</h2>
@@ -1117,7 +1131,7 @@ P -&gt; U: “A Cesena sono le …”
 			</tr>
 			<tr>
 					<td>Documenti e immagini come input</td>
-					<td>parti di contenuto (<code>input_image</code>, <code>input_file</code>) o API Files (caricare una volta, riferire per ID)</td>
+					<td>parti di contenuto (<code>input_image</code>, <code>input_file</code>) o API Files (caricare una volta, poi richiamare tramite ID)</td>
 					<td>cfr. <a href="#/responses-example">Esempio 3</a></td>
 			</tr>
 			<tr>
@@ -1152,7 +1166,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>il client riprova <em>già</em> per alcuni errori (2 volte di default, cfr. parametro <code>max_retries</code> del costruttore)</li>
 </ul>
 </li>
-<li>Ogni risposta include l’<strong>utilizzo</strong> (<code>prompt_tokens</code>, <code>completion_tokens</code>, …): registrarlo per monitorare i <em>costi</em>
+<li>Ogni risposta riporta i dati sul <strong>consumo di token</strong> (<code>prompt_tokens</code>, <code>completion_tokens</code>, …): registrarlo per monitorare i <em>costi</em>
 <ul>
 <li>alcuni fornitori (es. Open Router) riportano anche il <em>costo</em> di ogni richiesta (<code>usage.cost</code>)</li>
 </ul>
@@ -1170,7 +1184,7 @@ P -&gt; U: “A Cesena sono le …”
 <section data-noprocess="" data-shortcode-slide="" id="running-example">
   
 <h2 id="esempio-ricorrente">Esempio ricorrente</h2>
-<h3 id="assistente-alla-commissione-per-valutare-le-domande-di-dottorato">Assistente alla commissione per valutare le domande di dottorato</h3>
+<h3 id="un-assistente-per-la-commissione-che-valuta-le-domande-di-dottorato">Un assistente per la commissione che valuta le domande di dottorato</h3>
 <ul>
 <li>
 <p>3 candidati e altrettante domande, con <em>passaporto</em>, <em>certificato degli esami</em> e <em>lettera di presentazione</em> (in linguaggio naturale)</p>
@@ -1181,7 +1195,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 
 <div class="container w-100 m-0 p-0">
-    <div class="row "><div class="col " style="text-align: left;"><p><img src="../lab-snippets/data/passport-mario-rossi.png" alt="Passaporto di Mario Rossi"></p>
+    <div class="row "><div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mario-rossi.png" alt="Passaporto di Mario Rossi" style="max-height: 300px; object-fit: contain;">
 <ul>
 <li><a href="../lab-snippets/data/transcript-mario-rossi.png">Certificato degli esami</a></li>
 <li><a href="../lab-snippets/data/letter-mario-rossi.txt">Lettera di presentazione</a>
@@ -1191,7 +1205,7 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 </ul>
 </div>
-<div class="col " style="text-align: left;"><p><img src="../lab-snippets/data/passport-jean-dupont.png" alt="Passaporto di Jean Dupont"></p>
+<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-jean-dupont.png" alt="Passaporto di Jean Dupont" style="max-height: 300px; object-fit: contain;">
 <ul>
 <li><a href="../lab-snippets/data/transcript-jean-dupont.png">Certificato degli esami</a></li>
 <li><a href="../lab-snippets/data/letter-jean-dupont.txt">Lettera di presentazione</a>
@@ -1201,7 +1215,7 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 </ul>
 </div>
-<div class="col " style="text-align: left;"><p><img src="../lab-snippets/data/passport-mohammed-ali.png" alt="Passaporto di Mohammed Ali"></p>
+<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mohammed-ali.png" alt="Passaporto di Mohammed Ali" style="max-height: 300px; object-fit: contain;">
 <ul>
 <li><a href="../lab-snippets/data/transcript-mohammed-ali.png">Certificato degli esami</a></li>
 <li><a href="../lab-snippets/data/letter-mohammed-ali.txt">Lettera di presentazione</a>
@@ -1240,6 +1254,7 @@ P -&gt; U: “A Cesena sono le …”
 </ol>
 </section><section>
 <h2 id="come-si-impone-loutput-strutturato-pt-1">Come si <em>impone</em> l’output strutturato? (pt. 1)</h2>
+<div style="font-size: 85%;">
 <p>Dalle garanzie <em>più deboli</em> alle <em>più forti</em>:</p>
 <ol>
 <li>
@@ -1257,7 +1272,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>spesso implementato con <strong>decodifica vincolata</strong>: a ogni passo di generazione vengono <em>esclusi</em> i token che violerebbero lo schema</li>
 <li>cfr. <a href="https://arxiv.org/abs/2307.09702">Willard &amp; Louf (2023)</a> e librerie come <a href="https://github.com/dottxt-ai/outlines">Outlines</a>, <a href="https://github.com/guidance-ai/llguidance">llguidance</a>, <a href="https://github.com/mlc-ai/xgrammar">XGrammar</a></li>
 </ul>
- <img src="./constrained-decoding.svg" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" style="max-width: calc(95 * 19.2px); max-height: calc(30 * 10.8px); object-fit: contain;">
+ <img src="./constrained-decoding.svg" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" style="max-width: calc(95 * 19.2px); max-height: calc(25 * 10.8px); object-fit: contain;">
 </li>
 <li>
 <p><strong>Trucco della chiamata a tool</strong>: dichiarare un <em>tool</em> (fittizio) i cui parametri corrispondono allo schema desiderato e <em>forzare</em> il modello a chiamarlo</p>
@@ -1266,6 +1281,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="letter-scoring">
 <h2 id="esempio-4-output-strutturato-con-classi-pydantic-pt-1">Esempio 4: output strutturato con classi Pydantic (pt. 1)</h2>
@@ -1277,7 +1293,7 @@ P -&gt; U: “A Cesena sono le …”
 <ul>
 <li>informazioni sul <em>candidato</em> (nome, punti di forza e debolezza, ecc.), per capire se la lettera è davvero <em>positiva</em></li>
 <li>informazioni sugli <em>autori</em> (es. nome, ruolo, rapporto con il candidato, ecc.), per capire se la lettera è davvero <em>credibile</em></li>
-<li>una <em>procedura</em> riproducibile e motivata per <strong>assegnare un punteggio</strong> alla lettera in base a questi aspetti</li>
+<li>usiamo poi queste informazioni in una <em>procedura</em> riproducibile e motivata per <strong>assegnare un punteggio</strong> alla lettera</li>
 </ul>
 </li>
 </ul>
@@ -1307,6 +1323,7 @@ P -&gt; U: “A Cesena sono le …”
 </span>
 </section><section>
 <h2 id="esempio-4-output-strutturato-con-classi-pydantic-pt-2">Esempio 4: output strutturato con classi Pydantic (pt. 2)</h2>
+<div style="font-size: 90%;">
 <ol start="3">
 <li>
 <p>Definiamo classi <code>pydantic</code> per rappresentare il formato desiderato, con <em>stringhe di documentazione</em> che completano la specifica</p>
@@ -1357,8 +1374,10 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</div>
 </section><section>
 <h2 id="esempio-4-output-strutturato-con-classi-pydantic-pt-3">Esempio 4: output strutturato con classi Pydantic (pt. 3)</h2>
+<div style="font-size: 80%;">
 <ol start="4">
 <li>
 <p>Anche le <em>istruzioni</em> per il <em>punteggio</em> possono essere in <em>linguaggio naturale</em>, ma è meglio essere precisi e dare all’LLM una <em>“ricetta”</em> per calcolarlo</p>
@@ -1406,6 +1425,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" class="print-compact">
 <h2 id="esempio-4-output-strutturato-con-classi-pydantic-pt-4-continua">Esempio 4: output strutturato con classi Pydantic (pt. 4, continua)</h2>
@@ -1536,7 +1556,7 @@ P -&gt; U: “A Cesena sono le …”
 <section data-noprocess="" data-shortcode-slide="" id="exercise-schema">
 <h2 id="esercizio-guidato-2-modificare-lo-schema-di-output">Esercizio guidato 2: modificare lo schema di output</h2>
 <blockquote>
-<p><strong>Obiettivo</strong>: vedere come lo <em>schema</em> (e le sue <em>descrizioni</em>) guida l’estrazione del modello, senza codice di parsing</p>
+<p><strong>Obiettivo</strong>: vedere come lo <em>schema</em> e le sue <em>descrizioni</em> guidano l’estrazione delle informazioni da parte del modello, senza codice di parsing</p>
 </blockquote>
 <ol>
 <li>
@@ -1574,7 +1594,7 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="tool-il-concetto-generale">Tool: il concetto generale</h2>
 <ul>
 <li>
-<p>Un <strong>tool</strong> è una <em>capacità esterna</em>, esposta all’LLM tramite un’<em>interfaccia</em> composta da:</p>
+<p>Uno <strong>strumento</strong> (<em>tool</em>) è una <em>capacità esterna</em>, esposta all’LLM tramite un’<em>interfaccia</em> composta da:</p>
 <ol>
 <li>un <strong>nome</strong> (es. <code>get_weather</code>)</li>
 <li>una <strong>descrizione</strong> in linguaggio naturale: <em>cosa</em> fa e <em>quando</em> usarlo</li>
@@ -1609,10 +1629,10 @@ P -&gt; U: “A Cesena sono le …”
 <section data-noprocess="" data-shortcode-slide="" id="tools-examples">
 <h2 id="tool-un-esempio-intuitivo">Tool: un esempio intuitivo</h2>
 <blockquote>
-<p><strong>Obiettivo</strong>: un assistente che risponde a domande sul <em>presente</em>, che nessun LLM può conoscere dai dati di addestramento (es. “<em>dove è nato Alan Turing? Che ore sono lì e com’è il tempo?</em>”)</p>
+<p><strong>Obiettivo</strong>: un assistente che combina conoscenze <em>storiche</em> e informazioni <em>aggiornate</em>, non ricavabili dai soli dati di addestramento (es. “<em>dove è nato Alan Turing? Che ore sono lì e com’è il tempo?</em>”)</p>
 </blockquote>
 <div class="container w-100 m-0 p-0">
-    <div class="row "><div class="col col-6" style="text-align: left;"><div style="font-size: 85%;">
+    <div class="row "><div class="col col-6" style="text-align: left;"><div style="font-size: 80%;">
 <ul>
 <li>Tre <strong>tool</strong> come funzioni Python (codice completo <a href="../lab-snippets/snippets/lecture_agents/simple_tools.py">qui</a>):
 <ul>
@@ -1687,7 +1707,7 @@ P -&gt; U: “A Cesena sono le …”
 <li><em>calcolo</em>: validatori, calcolatori, motori di regole (es. verifica dei requisiti), tutto ciò che il codice fa meglio di un LLM</li>
 </ul>
 </li>
-<li>Ogni tool è un <strong>sottile involucro</strong> attorno a un’API esistente: l’LLM non comunica direttamente con il sistema, lo fa il <em>codice del tool</em>
+<li>Ogni tool è un <strong>piccolo adattatore</strong> per un’API esistente: l’LLM non comunica direttamente con il sistema, lo fa il <em>codice del tool</em>
 <ul>
 <li>il tool decide quindi cosa l’LLM può vedere e fare: <em>validazione</em>, <em>permessi</em> e <em>log</em> risiedono lì</li>
 </ul>
@@ -1700,7 +1720,7 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="il-ciclo-react-il-concetto-generale">Il ciclo ReAct: il concetto generale</h2>
 <ul>
 <li>
-<p><strong>ReAct</strong> (<em>Reason + Act</em>, cfr. <a href="https://arxiv.org/abs/2210.03629">Yao et al. (2023)</a>): l’LLM <em>alterna</em> ragionamento e azioni (chiamate a tool); l’<em>osservazione</em> di ogni azione (risultato del tool) informa il ragionamento successivo</p>
+<p><strong>ReAct</strong> (<em>Reason + Act</em>, cfr. <a href="https://arxiv.org/abs/2210.03629">Yao et al. (2023)</a>): l’LLM <em>alterna</em> ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l’<em>osservazione</em>, cioè il risultato del tool) guida il ragionamento successivo</p>
 <ul>
 <li>nato come tecnica di <em>prompting</em> (“Thought: … Action: … Observation: …”), ora <em>integrato</em> nelle API tramite chiamate a tool (e <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/reasoning-models">token di ragionamento</a>)</li>
 </ul>
@@ -1711,14 +1731,14 @@ P -&gt; U: “A Cesena sono le …”
 <li>inviare all’LLM la conversazione e le definizioni dei tool</li>
 <li>se la risposta <strong>non contiene chiamate a tool</strong>, è la <em>risposta finale</em>: terminare</li>
 <li>altrimenti <em>eseguire</em> ogni chiamata, aggiungere il <em>risultato</em> alla conversazione e tornare a 1</li>
-<li>terminare comunque dopo un <em>numero massimo di passi</em> (l’LLM può ciclare all’infinito e ogni passo costa)</li>
+<li>terminare comunque dopo un <em>numero massimo di passi</em> (l’LLM può ripetere il ciclo all’infinito e ogni passo ha un costo)</li>
 </ol>
 </li>
 <li>
-<p>Tutto il resto è <em>policy</em> e spetta a chi progetta:</p>
+<p>Tutto il resto riguarda le <em>regole di comportamento</em> (<em>policy</em>) e spetta a chi progetta:</p>
 <ul>
 <li>quali tool sono disponibili e per chi? Quali chiamate richiedono <em>approvazione umana</em>?</li>
-<li>cosa succede se un tool <em>fallisce</em>? (suggerimento: dirlo all’LLM, potrebbe recuperare)</li>
+<li>cosa succede se un tool <em>fallisce</em>? (suggerimento: comunicare l’errore all’LLM può permettergli di correggere la richiesta)</li>
 <li>cosa viene <em>registrato</em>? Quanto contesto si conserva? (cfr. <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">gestione del contesto</a>)</li>
 </ul>
 </li>
@@ -1737,10 +1757,10 @@ P -&gt; U: “A Cesena sono le …”
 <section data-shortcode-section="">
 <section data-noprocess="" data-shortcode-slide="" id="autonomy-spectrum">
 <h2 id="lo-spettro-dellautonomia">Lo spettro dell’autonomia</h2>
-<img src="./autonomy-spectrum.svg" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" style="max-width: calc(95 * 19.2px); max-height: calc(45 * 10.8px); object-fit: contain;">
+<img src="./autonomy-spectrum.svg" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
 <ul>
 <li>
-<p>Ricordare la distinzione <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses">codice dello sviluppatore e LLM</a> della lezione introduttiva:</p>
+<p>Ricordare la distinzione <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses">tra il codice dello sviluppatore e l’LLM</a> presentata nella lezione introduttiva:</p>
 </li>
 <li>
 <p><strong>Workflow</strong>: LLM e tool sono orchestrati lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso)</p>
@@ -1764,13 +1784,13 @@ P -&gt; U: “A Cesena sono le …”
 <section data-noprocess="" data-shortcode-slide="" id="workflows-concept">
 <h2 id="workflow-il-concetto-generale">Workflow: il concetto generale</h2>
 <blockquote>
-<p>Ricordare: nello <a href="#/autonomy-spectrum">spettro dell’autonomia</a>, i <strong>workflow</strong> orchestrano LLM e tool lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso), mentre gli <strong>agenti</strong> lasciano dirigere il processo all’LLM</p>
+<p>Ricordare: nello <a href="#/autonomy-spectrum">spettro dell’autonomia</a>, i <strong>workflow</strong> orchestrano LLM e tool lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso), mentre gli <strong>agenti</strong> affidano all’LLM la direzione del processo</p>
 </blockquote>
 <ul>
 <li>Un <strong>workflow</strong> è un <em>processo</em>: un insieme di <strong>passi</strong> e <strong>transizioni</strong> tra essi, che operano su uno <strong>stato</strong> condiviso
 <ul>
 <li>ossia una <em>macchina a stati</em> (o un <em>grafo</em>): i nodi sono passi, gli archi transizioni, anche <em>condizionali</em> (guardie sullo stato)</li>
-<li>un <em>inizio</em>, una o più <em>fini</em>, eventuali <em>cicli</em> (limitati!) e rami <em>paralleli</em></li>
+<li>uno <em>stato iniziale</em>, uno o più <em>stati finali</em>, eventuali <em>cicli</em> (limitati!) e rami <em>paralleli</em></li>
 </ul>
 </li>
 <li>Ogni passo <em>legge</em> lo stato, svolge il compito e <em>aggiorna</em> lo stato; il <strong>motore</strong> decide il passo successivo
@@ -1780,7 +1800,7 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 <li>Idea consolidata, nuovi ingredienti: <em>business process management</em> (cfr. <a href="https://www.omg.org/spec/BPMN/2.0.2/">BPMN</a>), <em>pipeline ETL</em>, <em>pipeline CI/CD</em>, … ora con <strong>passi LLM</strong>
 <ul>
-<li>cfr. <a href="https://arxiv.org/abs/2403.11322">StateFlow</a> (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta i successi <em>e</em> riduce i costi rispetto agli agenti ReAct</li>
+<li>cfr. <a href="https://arxiv.org/abs/2403.11322">StateFlow</a> (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo <em>e</em> riduce i costi rispetto agli agenti ReAct</li>
 </ul>
 </li>
 </ul>
@@ -1803,19 +1823,19 @@ P -&gt; U: “A Cesena sono le …”
 					<td>valutare la lettera di un candidato</td>
 			</tr>
 			<tr>
-					<td><strong>Passo dati</strong></td>
+					<td><strong>Passo sui dati</strong></td>
 					<td>valida, calcola, aggrega, recupera (solo codice)</td>
 					<td>sì</td>
 					<td>calcolare la percentuale del voto, verificare i requisiti</td>
 			</tr>
 			<tr>
-					<td><strong>Passo azione</strong></td>
+					<td><strong>Passo di azione</strong></td>
 					<td>ha <em>effetti</em> sul mondo (tool, API, file)</td>
 					<td>sì, ma <em>irreversibile</em></td>
 					<td>inviare un’e-mail, registrare una decisione</td>
 			</tr>
 			<tr>
-					<td><strong>Passo input umano</strong></td>
+					<td><strong>Passo con intervento umano</strong></td>
 					<td>chiede a una <em>persona</em> di approvare, correggere o scegliere</td>
 					<td>no (una persona)</td>
 					<td>la commissione approva la graduatoria</td>
@@ -1824,12 +1844,12 @@ P -&gt; U: “A Cesena sono le …”
 </table>
 <ul>
 <li>Anche un <strong>agente</strong> può essere un passo: es. un ciclo ReAct per una domanda <em>aperta</em>, dentro un processo altrimenti <em>fisso</em></li>
-<li>Regola pratica: mettere nei <strong>passi dati</strong> ciò che il codice sa fare; usare <strong>passi LLM</strong> solo quando serve il <em>linguaggio</em>; proteggere i <strong>passi azione</strong> con controlli e, se irreversibili o rilevanti sul piano normativo, con <strong>passi input umano</strong></li>
+<li>Regola pratica: mettere nei <strong>passi sui dati</strong> ciò che il codice sa fare; usare <strong>passi LLM</strong> solo quando serve il <em>linguaggio</em>; proteggere i <strong>passi di azione</strong> con controlli e, se irreversibili o rilevanti sul piano normativo, con <strong>passi con intervento umano</strong></li>
 </ul>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="workflows-example">
 <h2 id="workflow-un-esempio-intuitivo">Workflow: un esempio intuitivo</h2>
-<img src="./admission-workflow.svg" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo input umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" style="max-width: calc(95 * 19.2px); max-height: calc(42 * 10.8px); object-fit: contain;">
+<img src="./admission-workflow.svg" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" style="max-width: calc(95 * 19.2px); max-height: calc(42 * 10.8px); object-fit: contain;">
 <ul>
 <li>Lo <em>stesso</em> processo come agente sarebbe un system prompt che dice “<em>estrai, verifica, valuta, ordina, chiedi, notifica</em>”, sperando che l’LLM lo segua in quell’ordine ogni volta</li>
 <li>Come workflow (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>):
@@ -1840,7 +1860,7 @@ P -&gt; U: “A Cesena sono le …”
 <li><strong>meno flessibile</strong>: le richieste impreviste richiedono una <em>nuova versione</em> del workflow</li>
 </ul>
 </li>
-<li>Confronto con le <a href="#/skills-vs-others">skill</a>: procedure gestite dagli esperti di dominio (skill) e procedure affidabili e verificabili (workflow)</li>
+<li>Confronto con le <a href="#/skills-vs-others">skill</a>: le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile</li>
 </ul>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="patterns">
@@ -1928,12 +1948,12 @@ P -&gt; U: “A Cesena sono le …”
 <li>esposizione a <em>contenuti non attendibili</em> (es. lettere scritte dai candidati), e</li>
 <li>possibilità di <em>comunicare all’esterno</em> (es. inviare e-mail, accedere a URL)</li>
 </ol>
-<p>può essere indotto a <em>esfiltrare</em> dati: evitare di combinare tutti e tre</p>
+<p>può essere indotto a <em>esfiltrare</em> dati: evitare di combinare queste tre capacità nello stesso agente</p>
 </li>
 </ul>
 </section><section>
 <h2 id="mitigazioni">Mitigazioni</h2>
-<p>Non esiste una difesa completa dalla prompt injection: progettare gli agenti <em>assumendo</em> che accadrà</p>
+<p>Non esiste una difesa completa dalla prompt injection: progettare gli agenti <em>assumendo</em> che possano subire attacchi di prompt injection</p>
 <ul>
 <li><strong>Minimo privilegio</strong>: dare all’agente solo i tool necessari e ai tool solo i permessi necessari
 <ul>
@@ -1946,7 +1966,7 @@ P -&gt; U: “A Cesena sono le …”
 <li><strong>Approvazione umana</strong> per azioni <em>irreversibili</em> o <em>rilevanti sul piano normativo</em> (es. registrare una decisione, inviare un’e-mail)</li>
 <li><strong>Registrare e tracciare</strong> ogni chiamata a tool, con argomenti e risultati: responsabilità verificabile a posteriori</li>
 <li><strong>Delimitare</strong> i contenuti non attendibili (es. <code>&lt;letter&gt;...&lt;/letter&gt;</code>) e dichiarare nel system prompt che sono <em>dati</em>: aiuta, ma <em>non</em> garantisce protezione</li>
-<li>Trattare <em>tool</em> e <em>server MCP</em> di terzi come <em>dipendenze</em> di terzi: fissare le versioni, esaminarli e accordare fiducia esplicita (cfr. <a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices">buone pratiche di sicurezza</a> MCP)</li>
+<li>Trattare <em>tool</em> e <em>server MCP</em> di terzi come <em>dipendenze</em> di terzi: fissare le versioni, esaminarli e decidere esplicitamente se fidarsene (cfr. <a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices">buone pratiche di sicurezza</a> MCP)</li>
 </ul>
 <blockquote>
 <p>Ricordare: gli LLM <strong>propongono</strong>, il software <strong>verifica</strong> (cfr. <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action">lezione introduttiva</a>), le persone rimangono <strong>responsabili</strong></p>
@@ -2033,7 +2053,7 @@ P -&gt; U: “A Cesena sono le …”
 </blockquote>
 <img src="./skill-activation.svg" alt="Sequence diagram of skill activation: at startup, the agent's controller puts the name and description of each available skill (phd-application-review, admission-letter) into the system prompt; the user asks to review Mario Rossi's application; the LLM recognises that the phd-application-review skill is relevant, and asks to read its SKILL.md; the controller returns the instructions; following them, the LLM asks to run the skill's check_application.py script, and to read its rubric; finally, the LLM writes the report, following the skill's template" style="max-width: calc(95 * 19.2px); max-height: calc(45 * 10.8px); object-fit: contain;">
 <ul>
-<li>La skill (una cartella) viene <em>scoperta</em> all’avvio, <em>attivata</em> dall’LLM per una richiesta pertinente e poi <em>seguita</em>
+<li>La cartella della skill viene <em>individuata</em> all’avvio; l’LLM <em>attiva</em> la skill quando è pertinente e ne <em>segue le istruzioni</em>
 <ul>
 <li>nessuno <em>chiama</em> la skill: l’LLM <strong>decide</strong> di usarla in base alla <em>descrizione</em> (come per i <a href="#/tools-concept">tool</a>)</li>
 </ul>
@@ -2042,6 +2062,7 @@ P -&gt; U: “A Cesena sono le …”
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-vs-others">
 <h2 id="skill-a-confronto-con-prompt-tool-server-mcp-e-workflow">Skill a confronto con prompt, tool, server MCP e workflow</h2>
+<p>L’<em>harness</em> è il software che gestisce l’agente.</p>
 <div style="font-size: 80%;">
 <table>
 	<thead>
@@ -2083,7 +2104,7 @@ P -&gt; U: “A Cesena sono le …”
 					<td><em>Costo del contesto</em></td>
 					<td>completo a ogni passo</td>
 					<td>schema a ogni passo</td>
-					<td>schemi di tutti i tool a ogni passo (salvo caricamento <em>differito</em> dell’harness, es. tool search di Claude Code: solo nomi, schemi su richiesta)</td>
+					<td>schemi di tutti i tool a ogni passo (salvo caricamento <em>differito</em>, es. tool search di Claude Code: solo nomi, schemi su richiesta)</td>
 					<td><strong>solo descrizione</strong> fino all’attivazione</td>
 					<td>solo ciò che serve a ogni passo</td>
 			</tr>
@@ -2172,15 +2193,15 @@ P -&gt; U: “A Cesena sono le …”
 </div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="progressive-disclosure">
-<h2 id="le-skill-caricano-il-contesto-divulgazione-progressiva">Le skill caricano il contesto: divulgazione progressiva</h2>
-<img src="./progressive-disclosure.svg" alt="Divulgazione progressiva su tre livelli di una piramide: livello 1, metadati (nome e descrizione di tutte le skill, circa 100 token ciascuna), nel contesto dall'avvio; livello 2, istruzioni (corpo di SKILL.md della skill attivata, meno di 5.000 token), caricate all'attivazione; livello 3, risorse (script, riferimenti, asset), caricate o eseguite solo se richieste dalle istruzioni, anche senza entrare nel contesto, es. uno script di cui si legge solo l'output" style="max-width: calc(95 * 19.2px); max-height: calc(40 * 10.8px); object-fit: contain;">
+<h2 id="caricamento-progressivo-del-contesto-delle-skill">Caricamento progressivo del contesto delle skill</h2>
+<img src="./progressive-disclosure.svg" alt="Caricamento progressivo su tre livelli di una piramide: livello 1, metadati (nome e descrizione di tutte le skill, circa 100 token ciascuna), nel contesto dall'avvio; livello 2, istruzioni (corpo di SKILL.md della skill attivata, meno di 5.000 token), caricate all'attivazione; livello 3, risorse (script, riferimenti, asset), caricate o eseguite solo se richieste dalle istruzioni, anche senza entrare nel contesto, es. uno script di cui si legge solo l'output" style="max-width: calc(95 * 19.2px); max-height: calc(40 * 10.8px); object-fit: contain;">
 <ol>
 <li><strong>Metadati</strong> (~100 token per skill): <code>name</code> + <code>description</code> di <em>tutte</em> le skill, nel system prompt fin dall’avvio</li>
 <li><strong>Istruzioni</strong> (&lt; 5.000 token consigliati): corpo di <code>SKILL.md</code>, letto quando la skill viene <em>attivata</em></li>
 <li><strong>Risorse</strong> (secondo necessità): file letti <em>solo se</em> richiesti dalle istruzioni; script <em>eseguiti</em>, così che entri nel contesto solo il loro <em>output</em></li>
 </ol>
 <ul>
-<li>Si possono quindi installare <em>molte</em> skill a costo piccolo e <em>costante</em>: il <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">contesto</a> contiene solo ciò che è <em>pertinente</em>
+<li>Si possono quindi installare <em>molte</em> skill con un costo contenuto e <em>costante</em>: il <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">contesto</a> contiene solo ciò che è <em>pertinente</em>
 <ul>
 <li>stesso principio del <a href="https://unibo-fc-isi-iag.github.io/slides-module2/rag/">RAG</a>, ma l’agente <em>stesso</em> decide cosa caricare <em>leggendo</em> file (senza embedding né ricerca per similarità)</li>
 <li>consigliato: <code>SKILL.md</code> sotto 500 righe; riferimenti a <em>un solo livello</em> (un riferimento non dovrebbe rimandare ad altri)</li>
@@ -2206,7 +2227,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p><code>allowed-tools</code> (sperimentale) elenca i tool utilizzabili <em>senza chiedere</em> all’utente, es. <code>allowed-tools: Bash(python:*) Read</code></p>
+<p><code>allowed-tools</code> (sperimentale) elenca i tool utilizzabili <em>senza chiedere conferma</em> all’utente, es. <code>allowed-tools: Bash(python:*) Read</code></p>
 <ul>
 <li><em>preapprova</em> i tool, <strong>non</strong> li esegue in sandbox: supporto e semantica variano tra harness</li>
 <li>alcuni harness aggiungono campi propri (es. <code>disable-model-invocation</code>, <code>context: fork</code> o <code>hooks</code> di Claude Code; <code>metadata.openclaw.requires</code> di OpenClaw)</li>
@@ -2327,6 +2348,7 @@ P -&gt; U: “A Cesena sono le …”
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-openclaw">
 <h2 id="esempio-5-usare-skill-da-openclaw">Esempio 5: usare skill da OpenClaw</h2>
+<div style="font-size: 85%;">
 <blockquote>
 <p><strong>Obiettivo</strong>: due skill per la commissione, <a href="../lab-snippets/snippets/lecture_skills/example1/phd-application-review/SKILL.md"><code>phd-application-review</code></a> e <a href="../lab-snippets/snippets/lecture_skills/example1/admission-letter/SKILL.md"><code>admission-letter</code></a> (cartelle in <a href="../lab-snippets/snippets/lecture_skills/example1/__init__.py"><code>snippets/lecture_skills/example1/</code></a>), usate da un <em>agente locale</em> senza scrivere codice</p>
 </blockquote>
@@ -2360,6 +2382,7 @@ P -&gt; U: “A Cesena sono le …”
 </span></span></code></pre></div><ul>
 <li>Le <em>stesse</em> cartelle funzionano senza modifiche in Claude Code (<code>.claude/skills/</code>), Codex, Cursor, Copilot (<code>.agents/skills/</code>), …: provare a collegarle con <code>ln -s</code></li>
 </ul>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-from-scratch">
 <h2 id="skill-nei-propri-agenti">Skill nei propri agenti</h2>
@@ -2390,7 +2413,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p>Rischi misurati nel 2026, non solo ipotetici:</p>
 <ul>
-<li><strong>ClawHavoc</strong> (divulgato a febbraio 2026): centinaia di skill malevole su ClawHub, con falsi “<em>prerequisiti</em>” che inducono utenti (o agenti) a installare software ruba-dati (es. Atomic macOS Stealer); ~1.200 skill malevole storiche secondo <a href="https://www.antiy.net/p/clawhavoc-analysis-of-large-scale-poisoning-campaign-targeting-the-openclaw-skill-market-for-ai-agents/">Antiy CERT</a></li>
+<li><strong>ClawHavoc</strong> (divulgato a febbraio 2026): centinaia di skill malevole su ClawHub, con falsi “<em>prerequisiti</em>” che inducono utenti (o agenti) a installare software che sottrae dati (es. Atomic macOS Stealer); ~1.200 skill malevole rilevate nel tempo secondo <a href="https://www.antiy.net/p/clawhavoc-analysis-of-large-scale-poisoning-campaign-targeting-the-openclaw-skill-market-for-ai-agents/">Antiy CERT</a></li>
 <li><a href="https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub">ToxicSkills di Snyk</a> (3.984 skill da ClawHub e skills.sh): ~37% con almeno una falla, 13% con una critica</li>
 <li><a href="https://arxiv.org/abs/2601.10338">Liu et al., 2026</a> (31.132 skill): 26% con almeno una vulnerabilità; le skill con <em>script</em> hanno probabilità doppia di essere vulnerabili</li>
 </ul>
@@ -2476,7 +2499,7 @@ P -&gt; U: “A Cesena sono le …”
 					<td><strong>Controllo</strong></td>
 					<td>medio: scelta di modello e skill; l’harness è un prodotto di terzi</td>
 					<td>basso: il fornitore sceglie modelli, funzionalità, aggiornamenti</td>
-					<td><strong>alto</strong>: ogni passo è il proprio codice</td>
+					<td><strong>alto</strong>: ogni passo è implementato nel proprio codice</td>
 			</tr>
 			<tr>
 					<td><strong>Sicurezza</strong></td>
@@ -2549,7 +2572,7 @@ P -&gt; U: “A Cesena sono le …”
 			</tr>
 			<tr>
 					<td><strong>RAG</strong></td>
-					<td>alta per compiti ricchi di conoscenza</td>
+					<td>alta per compiti che richiedono molte conoscenze specifiche</td>
 					<td>medio (indicizzazione + prompt lunghi)</td>
 					<td>alto: base di conoscenza ispezionabile e aggiornabile</td>
 					<td>dati nel <em>proprio</em> archivio; serve controllo degli accessi</td>
@@ -2646,7 +2669,7 @@ P -&gt; U: “A Cesena sono le …”
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">except</span> <span style="color:#c00;font-weight:bold">Exception</span> <span style="color:#204a87;font-weight:bold">as</span> <span style="color:#000">e</span><span style="color:#000;font-weight:bold">:</span>  <span style="color:#8f5902;font-style:italic"># errors are fed back to the LLM, which may recover</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#4e9a06">f</span><span style="color:#4e9a06">"Error: </span><span style="color:#4e9a06">{</span><span style="color:#000">e</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">"</span>
 </span></span></code></pre></div><ul>
-<li>gli errori (tool sconosciuto, argomenti invalidi, eccezioni) <strong>non</strong> vengono sollevati: sono restituiti all’LLM come <em>risultati</em>, perché possa <em>recuperare</em> (es. riprovare <code>get_current_time</code> con <code>'Asia/Tokyo'</code> anziché <code>'Tokyo'</code>)</li>
+<li>gli errori (tool sconosciuto, argomenti non validi, eccezioni) <strong>non</strong> vengono sollevati: sono restituiti all’LLM come <em>risultati</em>, perché possa <em>correggere la chiamata</em> (es. riprovare <code>get_current_time</code> con <code>'Asia/Tokyo'</code> anziché <code>'Tokyo'</code>)</li>
 </ul>
 </li>
 <li>
@@ -2675,6 +2698,7 @@ P -&gt; U: “A Cesena sono le …”
 </ol>
 </section><section>
 <h2 id="esempio-6-un-agente-da-zero-con-il-client-openai-pt-3">Esempio 6: un agente da zero con il client OpenAI (pt. 3)</h2>
+<div style="font-size: 90%;">
 <ol start="5">
 <li>
 <p>Il programma principale è una chat CLI (cfr. <a href="#/sync-chat">lezione LLM-as-a-Service</a>), dove ogni messaggio attiva un ciclo ReAct (codice completo <a href="../lab-snippets/snippets/lecture_agents/example1/agent_openai.py">qui</a>):</p>
@@ -2706,13 +2730,14 @@ P -&gt; U: “A Cesena sono le …”
 <p>Cosa osservare:</p>
 <ul>
 <li><em>quali</em> tool vengono chiamati, in che <em>ordine</em> e quante <em>volte</em>? Cambia tra esecuzioni?</li>
-<li>chiedere di un luogo <em>inesistente</em> o dal nome ambiguo (es. <em>Paris, Texas</em>): l’agente recupera?</li>
-<li>chiedere qualcosa cui i tool <em>non possono</em> rispondere (es. “<em>pioverà a Bologna la prossima settimana?</em>”): l’agente lo ammette o <em>allucina</em>?</li>
+<li>porre una domanda su un luogo <em>inesistente</em> o dal nome ambiguo (es. <em>Paris, Texas</em>): l’agente riesce a correggere l’errore?</li>
+<li>chiedere qualcosa cui i tool <em>non possono</em> rispondere (es. “<em>pioverà a Bologna la prossima settimana?</em>”): l’agente lo ammette o <em>inventa una risposta</em>?</li>
 <li>chiedere qualcosa che <em>non richiede</em> tool (es. “<em>qual è la capitale della Francia?</em>”): li chiama comunque?</li>
 <li>provare un modello <em>più piccolo</em>: continua a chiamare correttamente i tool?</li>
 </ul>
 </li>
 </ol>
+</div>
 
 </section>
 </section>
@@ -2868,7 +2893,7 @@ P -&gt; U: “A Cesena sono le …”
 			<tr>
 					<td>Fiducia</td>
 					<td>scritti personalmente</td>
-					<td>i server di terzi sono <em>codice</em> (e <em>prompt</em>: le descrizioni entrano nel contesto!) di terzi: <em>tool poisoning</em> (istruzioni malevole nelle descrizioni), <em>rug pull</em> (descrizioni cambiate dopo l’approvazione: fissarne versione o hash)</td>
+					<td>i server esterni richiedono fiducia nel <em>codice</em> e nelle descrizioni dei tool, che entrano nel contesto. Rischi: <em>tool poisoning</em> (istruzioni malevole nelle descrizioni) e <em>rug pull</em> (modifiche dopo l’approvazione: fissarne versione o hash)</td>
 			</tr>
 	</tbody>
 </table>
@@ -2880,10 +2905,10 @@ P -&gt; U: “A Cesena sono le …”
 </section><section>
 <h2 id="riepilogo">Riepilogo</h2>
 <ol>
-<li>Gli LLM si usano <strong>come servizio</strong>: cloud, on-premise o, più spesso, <strong>ibrido</strong>; la scelta bilancia qualità, costo, controllo, conformità e time-to-market</li>
+<li>Gli LLM si usano <strong>come servizio</strong>: con architetture cloud, on-premise o, più spesso, <strong>ibride</strong>; la scelta bilancia qualità, costo, controllo, conformità e time-to-market</li>
 <li>L’<strong>API OpenAI</strong> è lo standard <em>de facto</em>: tenere modello, URL e chiave nella <em>configurazione</em> favorisce la portabilità (nel sottoinsieme comune di funzionalità)</li>
 <li>L’<strong>output strutturato</strong> trasforma testo in <em>dati</em>; i <strong>tool</strong> in <em>azioni</em>; <strong>workflow</strong> e <strong>agenti</strong> trasformano entrambi in <em>processi</em></li>
-<li>Le <strong>skill</strong> impacchettano procedure in linguaggio naturale, utilizzabili da agenti locali, piattaforme online e software personalizzato</li>
+<li>Le <strong>skill</strong> raccolgono procedure in linguaggio naturale, utilizzabili da agenti locali, piattaforme online e software personalizzato</li>
 <li>Più autonomia significa più flessibilità, ma anche più <strong>rischio</strong>: minimo privilegio, validazione, supervisione umana, log</li>
 </ol>
 
@@ -2898,7 +2923,7 @@ P -&gt; U: “A Cesena sono le …”
 </section><section>
 <h1 id="fine-della-lezione">Fine della lezione</h1>
 <br>
-<p>Generato il: 2026-10-13
+<p>Generato il: 2026-10-14
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section>
@@ -2914,7 +2939,7 @@ P -&gt; U: “A Cesena sono le …”
 
 <a href="/talk-2026-ai-er/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
 
-<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{"startOnLoad":false}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
 <script type="application/json" id="reveal-hugo-page-params">null</script>
 
 <script src="/talk-2026-ai-er/reveal-js/dist/reveal.js"></script>
@@ -2995,7 +3020,7 @@ P -&gt; U: “A Cesena sono le …”
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({});
+    mermaid.initialize({"startOnLoad":false});
 
     let render = (event) => {
       let mermaidElems = event.currentSlide.querySelectorAll('.mermaid');
