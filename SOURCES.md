@@ -99,7 +99,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 6: un agente da zero con il client OpenAI (pt. 1) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 1) | `agents` (line 278) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 2) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 2) | `agents` (line 295) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 3) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 3) | `agents` (line 314) |
-| Model Context Protocol (MCP): il concetto generale | The Model Context Protocol (MCP): the general concept | `agents` (line 437) |
+| Model Context Protocol (MCP): il concetto generale | The Model Context Protocol (MCP): the general concept | `agents` (line 437); N×M vs. N+M diagram __new__ |
+| MCP: ruoli e trasporti | The Model Context Protocol (MCP): the general concept (second half) | `agents` (line 437), split |
 | MCP: un esempio intuitivo | MCP: an intuitive example | `agents` (line 459) |
 | Esempio 7: tool semplici come server MCP (pt. 1) | Example 7: Simple Tools as an MCP Server (pt. 1) | `agents` (line 485) |
 | Esempio 7: tool semplici come server MCP (pt. 2) | Example 7: Simple Tools as an MCP Server (pt. 2) | `agents` (line 505) |

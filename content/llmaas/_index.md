@@ -1724,6 +1724,14 @@ Da una chat a un agente con tool condivisi
     + "una porta USB-C per le applicazioni IA": $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$
     + introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation
 
+{{< image src="./mcp-n-plus-m.svg" max-h="38vh" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" >}}
+
+- MCP non cambia il [ciclo ReAct](#/react), solo _da dove_ provengono i tool
+
+---
+
+## MCP: ruoli e trasporti
+
 - Ruoli:
     + __host__: applicazione basata su LLM (es. agente, IDE, chat)
     + __client__: componente dell'host connesso a _un_ server
@@ -1732,8 +1740,6 @@ Da una chat a un agente con tool condivisi
     + _stdio_: il server è un _sottoprocesso locale_ dell'host e comunica tramite stdin/stdout
     + _streamable HTTP_: il server è un _servizio Web_, anche remoto, eventualmente con autenticazione (OAuth)
 - Dalla [specifica del 28/07/2026](https://modelcontextprotocol.io/specification/2026-07-28/changelog) il protocollo è _stateless_ (senza sessioni né handshake `initialize`); i server possono ancora chiedere input durante una chiamata (_elicitation_)
-
-- MCP non cambia il [ciclo ReAct](#/react), solo _da dove_ provengono i tool
 
 ---
 
