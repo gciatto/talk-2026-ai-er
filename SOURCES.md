@@ -44,7 +44,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 1: chat CLI sincrona (pt. 1) | Example 1: Sync CLI Chat (pt. 1) | `llmaas` (line 779) |
 | Esempio 1: chat CLI sincrona (pt. 2) | Example 1: Sync CLI Chat (pt. 2) | `llmaas` (line 802) |
 | Esempio 1: chat CLI sincrona (pt. 3) | Example 1: Sync CLI Chat (pt. 3) | `llmaas` (line 820) |
-| La cronologia cresce a ogni turno (e con lei i costi) | Context management: the general concept + an intuitive example | `prompting` (lines 852, 876), condensed |
+| La cronologia cresce a ogni turno (e con lei i costi) | Context management: the general concept + an intuitive example | `prompting` (lines 853, 876), condensed |
 | Esercizio guidato 1: stesso programma, diversi fornitori | Guided exercise 1: same program, different providers | __new__ |
 | Esempio 2: chat CLI asincrona con streaming | Example 2: Async CLI Chat with Streaming | `llmaas` (line 1025) |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 1) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 1) | `llmaas` (line 1111) |
@@ -52,6 +52,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 3) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 3) | `llmaas` (line 1146) |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 4) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 4) | `llmaas` (line 1161) |
 | Quale endpoint per quale scenario? | Which endpoint for which scenario? | __new__ |
+| Modelli di ragionamento: qualità in cambio di latenza e costi | Reasoning models: the general concept + an intuitive example | `prompting` (lines 737, 752), condensed |
 | Quando qualcosa va storto: errori, limiti di utilizzo e costi | When things go wrong: errors, rate limits, and costs | `llmaas` (line 1420) |
 | **Dalla generazione di testo ai processi** | **From Text Generation to Processes** | __new__ |
 | Output strutturato | About Structured Output | `prompting` (line 109) |

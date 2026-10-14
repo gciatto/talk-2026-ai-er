@@ -728,6 +728,32 @@ you> Goodbye!
 
 ---
 
+{{< slide id="reasoning-models" >}}
+
+## Modelli di ragionamento: qualità in cambio di latenza e costi
+
+{{% multicol %}}
+{{% col class="col-5" %}}
+{{% small "85%" %}}
+- I __modelli di ragionamento__ (_thinking_) generano una _catena di ragionamento_ __prima__ della risposta, senza che venga chiesto
+    + es. GPT-5+, Claude, Gemini "thinking", DeepSeek-R1, Qwen3, `gpt-oss`
+- I __token di ragionamento__:
+    + sono _generati_, quindi __fatturati__ come token di _output_, e occupano la finestra di contesto
+    + possono essere _nascosti_, _riassunti_ o _restituiti_, a seconda del fornitore
+    + scambiano __latenza e costo__ con __qualità__ sui compiti difficili
+- Quasi tutte le API permettono di regolare _quanto_ ragiona il modello: un __livello di sforzo__ (es. `low` / `medium` / `high`) o un __budget di token__
+    + stesso concetto, _sintassi_ diversa tra fornitori (es. `reasoning_effort` per OpenAI, `reasoning={...}` per Open Router)
+{{% /small %}}
+{{% /col %}}
+{{% col class="col-7" %}}
+{{< image src="./reasoning-tokens.svg" max-h="60vh" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" >}}
+{{% /col %}}
+{{% /multicol %}}
+
+> Scegliere il livello di sforzo _più basso_ che superi le proprie valutazioni: per estrazione e classificazione spesso basta `low`
+
+---
+
 {{< slide id="api-errors" >}}
 
 ## Quando qualcosa va storto: errori, limiti di utilizzo e costi
