@@ -37,7 +37,7 @@ outputs = ["Reveal"]
 ## Obiettivi
 
 1. __LLM-as-a-Service__: come _integrare_ gli LLM nelle applicazioni
-    + scelte architetturali e strategiche: cloud, on-premise, ibride
+    + scelte architetturali e strategiche: architetture cloud, on-premise e ibride
     + l'ecosistema delle API e le API OpenAI come standard _de facto_
     + dalla generazione di testo ai _processi_: output strutturato, strumenti, workflow, agenti, skill
 
@@ -55,7 +55,7 @@ outputs = ["Reveal"]
 - Per i _tecnici_ che vogliono eseguire gli esempi in autonomia:
     + conoscenze di base di __Python__, __Git__ e della __shell__; nozioni di base sulle API __HTTP__ e su __JSON__
     + [Python](https://www.python.org/downloads/) 3.11+ e [Git](https://git-scm.com/downloads) installati
-    + una __chiave API__ di un fornitore di LLM (ad es. gratuita da [Open Router](https://openrouter.ai/)), oppure un ambiente di esecuzione _locale_ per LLM (ad es. [Ollama](https://ollama.com/))
+    + una __chiave API__ di un fornitore di LLM (ad es. una chiave gratuita ottenuta da [Open Router](https://openrouter.ai/)), oppure un ambiente di esecuzione _locale_ per LLM (ad es. [Ollama](https://ollama.com/))
 
 ---
 
@@ -90,7 +90,7 @@ outputs = ["Reveal"]
 
 3. Configurare il fornitore di LLM tramite __variabili d'ambiente__:
     + `OPENAI_API_KEY`: la propria chiave API (se manca, gli snippet la chiedono interattivamente)
-    + `OPENAI_BASE_URL` (predefinito: `https://openrouter.ai/api/v1/`), `OPENAI_MODEL` (predefinito: `nvidia/nemotron-3-super-120b-a12b:free`, gratuito)
+    + `OPENAI_BASE_URL` (valore predefinito: `https://openrouter.ai/api/v1/`), `OPENAI_MODEL` (valore predefinito: `nvidia/nemotron-3-super-120b-a12b:free`, gratuito)
 
     ```bash
     export OPENAI_API_KEY="sk-or-v1-..."     # on Windows (PowerShell): $env:OPENAI_API_KEY="sk-or-v1-..."
@@ -114,7 +114,7 @@ outputs = ["Reveal"]
 
     - `poetry run`: esegue il comando _nell'ambiente virtuale_ del progetto (`.venv/`), con tutte le dipendenze disponibili
     - `python -m snippets`: esegue il pacchetto `snippets` come programma (cioè il suo `__main__.py`, il runner)
-    - `ARGS` vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)
+    - gli argomenti `ARGS` vengono passati allo snippet (le slide di ciascun esempio indicano quali argomenti accetta)
     - preferire il runner a `python path/to/snippet.py`: lo stesso comando per ogni snippet, senza percorsi da ricordare
 
 - Non si ricorda l'`ID`? Elencare gli snippet di una lezione (o tutti, omettendo `-l`):

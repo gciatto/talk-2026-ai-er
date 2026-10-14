@@ -75,9 +75,9 @@
   <circle cx="806.2" cy="422" r="20" fill="#e7a626"/>
   <text x="806.2" y="429.7" font-size="22" text-anchor="middle" font-weight="700" fill="#fff" xml:space="preserve">3</text>
   <text x="806.2" y="472" font-size="18" text-anchor="middle" font-weight="700" fill="#e7a626" xml:space="preserve">GENERARE L'OUTPUT</text>
-  <text x="806.2" y="510" font-size="19" text-anchor="middle" xml:space="preserve">Il modello compila</text>
-  <text x="806.2" y="535" font-size="19" text-anchor="middle" xml:space="preserve">lo schema con i</text>
-  <text x="806.2" y="560" font-size="19" text-anchor="middle" xml:space="preserve">dati appropriati.</text>
+  <text x="806.2" y="510" font-size="19" text-anchor="middle" xml:space="preserve">Il modello genera dati</text>
+  <text x="806.2" y="535" font-size="19" text-anchor="middle" xml:space="preserve">nel formato richiesto</text>
+  <text x="806.2" y="560" font-size="19" text-anchor="middle" xml:space="preserve">dallo schema.</text>
   <rect x="675.2" y="616" width="262" height="56" rx="8" fill="#e7a626" fill-opacity="0.15" stroke="#e7a626" stroke-width="0"/>
   <text x="806.2" y="638" font-size="18" text-anchor="middle" font-style="italic" xml:space="preserve">l'output segue lo schema</text>
   <line x1="950.2" y1="556" x2="969.8000000000001" y2="556" stroke="#555" stroke-width="3" marker-end="url(#arrow)"/>
@@ -96,10 +96,10 @@
   <circle cx="1421.4" cy="422" r="20" fill="#3a9a5b"/>
   <text x="1421.4" y="429.7" font-size="22" text-anchor="middle" font-weight="700" fill="#fff" xml:space="preserve">5</text>
   <text x="1421.4" y="472" font-size="18" text-anchor="middle" font-weight="700" fill="#3a9a5b" xml:space="preserve">INTERPRETARE E USARE</text>
-  <text x="1421.4" y="510" font-size="19" text-anchor="middle" xml:space="preserve">L'output valido diventa</text>
-  <text x="1421.4" y="535" font-size="19" text-anchor="middle" xml:space="preserve">dati nei tipi nativi</text>
-  <text x="1421.4" y="560" font-size="19" text-anchor="middle" xml:space="preserve">(oggetti, array, tabelle,</text>
-  <text x="1421.4" y="585" font-size="19" text-anchor="middle" xml:space="preserve">…).</text>
+  <text x="1421.4" y="510" font-size="19" text-anchor="middle" xml:space="preserve">L'output valido viene</text>
+  <text x="1421.4" y="535" font-size="19" text-anchor="middle" xml:space="preserve">convertito in strutture</text>
+  <text x="1421.4" y="560" font-size="19" text-anchor="middle" xml:space="preserve">dati native (oggetti,</text>
+  <text x="1421.4" y="585" font-size="19" text-anchor="middle" xml:space="preserve">array, tabelle, …).</text>
   <rect x="1290.4" y="616" width="262" height="56" rx="8" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="0"/>
   <text x="1421.4" y="638" font-size="18" text-anchor="middle" font-style="italic" xml:space="preserve">pronti per la propria</text>
   <text x="1421.4" y="660" font-size="18" text-anchor="middle" font-style="italic" xml:space="preserve">applicazione</text>
@@ -140,7 +140,7 @@
   <text x="1242" y="802" font-size="21" text-anchor="start" xml:space="preserve">Essere espliciti: descrizioni e regole chiare per i campi</text>
   <circle cx="1221" cy="835" r="11" fill="#3a9a5b"/>
   <path d="M1215,835 l4,5 l8,-9" stroke="#fff" stroke-width="3" fill="none"/>
-  <text x="1242" y="842" font-size="21" text-anchor="start" xml:space="preserve">Mantenere gli schemi più semplici possibile</text>
+  <text x="1242" y="842" font-size="21" text-anchor="start" xml:space="preserve">Mantenere gli schemi il più semplici possibile</text>
   <circle cx="1221" cy="875" r="11" fill="#3a9a5b"/>
   <path d="M1215,875 l4,5 l8,-9" stroke="#fff" stroke-width="3" fill="none"/>
   <text x="1242" y="882" font-size="21" text-anchor="start" xml:space="preserve">Usare esempi nel prompt quando sono utili</text>

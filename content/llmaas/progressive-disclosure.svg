@@ -31,7 +31,7 @@
 <text x="705" y="146" font-size="20" fill="#555">l'LLM li usa per decidere se una skill è pertinente</text>
 <rect x="680" y="200" width="900" height="140" rx="14" fill="#3a9a5b" fill-opacity="0.18" stroke="#3a9a5b" stroke-width="3"/>
 <text x="705" y="242" font-size="27" font-weight="600">2. Istruzioni</text>
-<text x="1555" y="242" font-size="22" text-anchor="end" font-style="italic">raccomandati &lt; 5.000 token</text>
+<text x="1555" y="242" font-size="22" text-anchor="end" font-style="italic">lunghezza consigliata: &lt; 5.000 token</text>
 <text x="705" y="282" font-size="21">caricate all'<tspan font-weight="600">attivazione</tspan>: quando l'LLM sceglie la skill</text>
 <text x="705" y="316" font-size="20" fill="#555">la procedura: passi, criteri, rimandi alle risorse</text>
 <rect x="680" y="370" width="900" height="170" rx="14" fill="#d64545" fill-opacity="0.10" stroke="#d64545" stroke-width="3"/>

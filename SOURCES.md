@@ -82,7 +82,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Skill a confronto con prompt, tool, server MCP e workflow | Skills vs. prompts, tools, MCP servers, and workflows | `skills` (line 76) |
 | Anatomia di una skill | Anatomy of a skill | `skills` (line 152) |
 | **Valutare una domanda di dottorato** | **Reviewing a PhD application** | __new__ |
-| Le skill caricano il contesto: divulgazione progressiva | Skills as a context-loading mechanism: progressive disclosure | `skills` (line 209) |
+| Caricamento progressivo del contesto delle skill | Skills as a context-loading mechanism: progressive disclosure | `skills` (line 209) |
 | Skill e tool: script e istruzioni | Skills and tools: scripts vs. instructions | `skills` (line 223) |
 | Dove si eseguono le skill? | Where do skills run? | __new__ |
 | Skill: il panorama tecnologico | Skills: the technological landscape | `skills` (line 242) |
@@ -132,7 +132,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio cloud con Open Router (pt. 2) | On-cloud Example with Open Router (pt. 2) | `llmaas` (line 467) |
 | Esempio cloud con Open Router (pt. 3) | On-cloud Example with Open Router (pt. 3) | `llmaas` (line 475) |
 | Esempio cloud con Open Router (pt. 4) | On-cloud Example with Open Router (pt. 4) | `llmaas` (line 488) |
-| Esempio cloud con Open Router (pt. 4, cont.) | On-cloud Example with Open Router (pt. 4, cont.) | `llmaas` (line 501) |
+| Esempio cloud con Open Router (pt. 4, continua) | On-cloud Example with Open Router (pt. 4, cont.) | `llmaas` (line 501) |
 | Un client, _molti_ fornitori gratuiti | One client, _many_ free providers | `free-access` (line 71) |
 | Portabilità delle applicazioni e dipendenza dal fornitore | Portability of applications, and dependency on the provider | __new__ |
 | **Esecuzione locale e sovranità infrastrutturale** | **Local Execution and Infrastructural Sovereignty** | __new__ |
@@ -179,5 +179,5 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
 | Indicazioni per l'ingegneria: tre scenari | Engineering take-aways: three scenarios | `governance` (line 583) |
 | Esercizio guidato 1: confrontare i modelli sull'esempio ricorrente | Guided exercise 1: comparing models on the running example | __new__ |
-| Esercizio guidato 2: un documento di decisione, in gruppi | Guided exercise 2: a decision record, in groups | __new__ |
+| Esercizio guidato 2: motivare una decisione per iscritto, in gruppi | Guided exercise 2: a decision record, in groups | __new__ |
 | Riepilogo | Wrap-up | __new__ |

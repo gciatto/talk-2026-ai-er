@@ -1,13 +1,13 @@
 
 +++
 
-title = "[AI-ER] LLM-as-a-Service: API, tool e agenti"
-description = "Come integrare gli LLM nelle applicazioni: fornitori, API, output strutturato, tool, agenti, skill"
+title = "[AI-ER] LLM-as-a-Service: API, strumenti e agenti"
+description = "Come integrare gli LLM nelle applicazioni: fornitori, API, output strutturato, strumenti, agenti, skill"
 outputs = ["Reveal"]
 
 +++
 
-# LLM-as-a-Service: API, tool e agenti
+# LLM-as-a-Service: API, strumenti e agenti
 
 {{% import path="reusable/footer.md" %}}
 
@@ -56,7 +56,7 @@ Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
 {{< image src="./tradeoff-radar.svg" max-h="45vh" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" >}}
 
 {{% fragment %}}
-> __Nessuna__ opzione domina tutte le altre: la governance consiste nello scegliere il _compromesso giusto_ per il _caso d'uso_ e __documentarne il motivo__
+> __Nessuna__ opzione domina tutte le altre: la governance consiste nello scegliere il _compromesso giusto_ per il _caso d'uso_ e __documentare le ragioni della scelta__
 {{% /fragment %}}
 
 ---
@@ -65,14 +65,14 @@ Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
 
 ## Dove eseguire il modello? Il concetto generale
 
-Tre principali __opzioni di deployment__, che differiscono per _chi_ esegue il modello e _dove_ vanno i dati:
+Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono per _chi_ esegue il modello e _dove_ vanno i dati:
 
 1. __API cloud proprietaria__: il modello appartiene al fornitore _ed_ è eseguito da lui (es. OpenAI, Anthropic, Google)
     + si accede solo a un'_API_; i dati vengono elaborati sull'infrastruttura del fornitore
 2. __Modello aperto ospitato da terzi__: un modello a pesi aperti eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router, Hugging Face Inference Endpoints, GPU cloud a noleggio)
     + lo stesso modello può essere trasferito altrove; i dati escono comunque dalla propria infrastruttura
 3. __On-premise__ (detto anche _self-hosted_, _locale_): un modello a pesi aperti eseguito sul _proprio_ hardware (es. tramite Ollama, vLLM)
-    + i dati non escono dalla propria infrastruttura; hardware, esercizio e aggiornamenti sono responsabilità propria
+    + i dati non escono dalla propria infrastruttura; hardware, gestione operativa e aggiornamenti sono a carico dell’organizzazione
 
 
 ---
@@ -96,7 +96,7 @@ Tre principali __opzioni di deployment__, che differiscono per _chi_ esegue il m
 | __Time-to-market__ | minuti | ore | da giorni a settimane (acquisto, configurazione) |
 | __Impatto energetico__ | consumo energetico per token non visibile nel prezzo | come per le API cloud | consumo _misurabile_ (e a proprio carico) |
 
-- L'energia conta: i compiti generativi richiedono ordini di grandezza più energia dei modelli specifici per un compito ([Luccioni et al., 2024](https://arxiv.org/abs/2311.16863)); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)
+- L'energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito ([Luccioni et al., 2024](https://arxiv.org/abs/2311.16863)); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)
 - Le soluzioni _ibride_ sono comuni: es. _on-premise_ per dati sensibili, _cloud_ per il resto; oppure un _gateway_ che instrada le richieste in base alla sensibilità dei dati
 
 ---
@@ -109,8 +109,8 @@ Tre principali __opzioni di deployment__, che differiscono per _chi_ esegue il m
     + __sensibilità dei dati__: dati personali o riservati $\rightarrow$ modelli on-premise (o ospitati nell'UE); dati pubblici $\rightarrow$ API cloud
     + __difficoltà del compito__: compiti semplici e frequenti (es. classificazione, estrazione) $\rightarrow$ modelli piccoli ed economici; compiti difficili $\rightarrow$ modelli di frontiera
     + __disponibilità__: un fornitore _di riserva_ (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo
-- Il componente abilitante è un __gateway__ (detto anche _router_, _proxy_): _una_ API interna davanti a _molti_ modelli e fornitori
-    + le applicazioni comunicano solo con il gateway; questo _instrada_ le richieste, conserva le chiavi API, applica i budget e _registra_ tutto
+- A rendere possibile questa architettura è un __gateway__ (detto anche _router_, _proxy_): _un’unica_ API interna per accedere a _molti_ modelli e fornitori
+    + le applicazioni comunicano solo con il gateway; questo _instrada_ le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e _registra_ le operazioni
     + es. [LiteLLM](https://docs.litellm.ai/), [Portkey](https://portkey.ai/), gateway dei fornitori cloud o aggregatori come [Open Router](https://openrouter.ai/) (approfondimento nella [prossima lezione](../governance/))
 - Prerequisito: tutti i modelli devono essere raggiungibili tramite un'__API comune__ (prossima sezione), altrimenti ogni percorso richiede codice dedicato
 
@@ -145,10 +145,10 @@ G --> C
 
 - __Criteri di scelta__ di un fornitore:
     1. _modelli_ disponibili nel catalogo e qualità per il compito da svolgere
-    2. modello di _prezzo_ (per token, richiesta, ora di GPU, abbonamento) e _limiti di utilizzo_
+    2. struttura _tariffaria_ (per token, richiesta, ora di GPU, abbonamento) e _limiti di utilizzo_
     3. _funzionalità_: tool, output strutturato, multimodalità, elaborazione in batch, fine-tuning, ...
     4. _protezione dei dati_: dove vengono elaborati e conservati, per quanto tempo, garanzie contrattuali (es. nessun addestramento sui propri dati)
-    5. _compatibilità API_: quanto facilmente possiamo _passare_ a un altro fornitore? (ossia __vendor lock-in__)
+    5. _compatibilità delle API_: quanto è facile _passare_ a un altro fornitore? Quanto dipendiamo da quello attuale (__vendor lock-in__)?
 
 {{% /section %}}
 
@@ -215,7 +215,7 @@ P -> U: "A Cesena sono le ..."
 
 2. __Fornire__ __istruzioni__ generali per il compito da svolgere (es. tramite _system prompt_ o istruzioni di primo livello)
 
-3. __Richiedere__ il __messaggio successivo__ a una _sequenza di messaggi_ (es. tramite chat completions)
+3. __Richiedere__ il __messaggio che prosegue__ una _sequenza di messaggi_ (es. tramite chat completions)
     - i messaggi di input/output possono includere contenuti di _modalità diverse_ (es. testo, immagini, audio, video, file, ecc.)
     - possono includere anche _chiamate a tool_, _risultati di tool_, _tracce di ragionamento_, ecc.
     - i messaggi di input possono contenere istruzioni su come _strutturare l'output_ (es. tramite JSON Schema o altri vincoli)
@@ -227,7 +227,7 @@ P -> U: "A Cesena sono le ..."
         + così il modello decide come usarli per completare il compito
 
 6. Impostare la __temperatura__ del modello per controllare la casualità dell'output
-    + es. temperature più alte producono output più casuali, temperature più basse output più deterministici
+    + es. temperature più alte producono risposte più variabili, temperature più basse risposte più deterministiche
 
 ---
 
@@ -235,8 +235,8 @@ P -> U: "A Cesena sono le ..."
 
 * **Forma**: _"Chat Completions"_ usa l'endpoint `/chat/completions`; _"Responses"_ usa `/responses`
 * **Astrazione**: Chat si basa su messaggi con ruoli; Responses su elementi tipizzati
-    - es. una chat contiene contenuti (testo, immagini) associati a un ruolo (utente, assistente); le responses possono essere chiamate a tool, risultati, passi di ragionamento, ecc.
-    - es. le responses possono essere messaggi, chiamate a tool o risultati
+    - es. una chat contiene messaggi (testo, immagini) associati a un ruolo (utente, assistente); gli elementi restituiti dall’API Responses possono essere messaggi, chiamate a tool, risultati o passi di ragionamento
+
 * **Capacità**: tutte quelle attese (tool, output strutturato, multimodalità, streaming, tracce di ragionamento), cfr. il [confronto](#/api-comparison) seguente
     - oltre a `/v1/embeddings`, che trasforma il testo in _vettori_ (cfr. le lezioni sul RAG)
 * **Particolarità**: "Responses" è più moderna; "Chat Completions" è più compatibile
@@ -268,7 +268,7 @@ In questi casi il client può fallire a runtime, segnalando funzionalità non su
 * **Astrazione**: messaggi con blocchi di contenuto e istruzione di sistema di primo livello
   - Esempio: `system: "..."` separato da `messages: [...]`
 * **Capacità**: tool, streaming, contesto lungo, cache dei prompt, ragionamento esteso
-  - Esempio: mettere in cache un lungo documento di policy e poi porre molte domande successive
+  - Esempio: memorizzare nella cache un lungo documento di regole e poi porre più domande sul suo contenuto
 * **Particolarità**: system prompt, risultati dei tool ed eventi di streaming differiscono da OpenAI
 * **Portabilità**: API nativa completa; serve un adattatore per sistemi nello stile di OpenAI
 
@@ -311,7 +311,7 @@ In questi casi il client può fallire a runtime, segnalando funzionalità non su
 
 ## Compatibilità delle API Web degli LLM (pt. 7) – Riepilogo
 
-Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono ancora in rapida _evoluzione_
+Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, ma sono ancora in rapida _evoluzione_
 
 {{<image src="apis.svg" alt="Panorama della compatibilità delle API Web degli LLM" max-h="70vh" >}}
 
@@ -340,7 +340,7 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
 (cfr. documentazione delle API di [OpenAI](https://developers.openai.com/api/reference), [Anthropic](https://platform.claude.com/docs/en/api/messages), [Google](https://ai.google.dev/api/generate-content); pagine sulla compatibilità di Ollama con [OpenAI](https://docs.ollama.com/api/openai-compatibility) e [Anthropic](https://docs.ollama.com/api/anthropic-compatibility))
 
 {{% fragment %}}
-> Stesso __metamodello__ ovunque (modello + istruzioni + cronologia ordinata di messaggi con ruoli, anche multimodali $\rightarrow$ messaggio successivo + utilizzo), diversa __sintassi__: cambiare fornitore significa riscrivere lo strato di _adattamento_, non la logica applicativa
+> Stesso __metamodello__ ovunque (modello + istruzioni + cronologia ordinata di messaggi con ruoli, anche multimodali $\rightarrow$ messaggio successivo + dati sul consumo di token). La __sintassi__ cambia: passare a un altro fornitore richiede di riscrivere lo strato di _adattamento_, mantenendo la logica applicativa
 {{% /fragment %}}
 
 {{% /section %}}
@@ -358,7 +358,7 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
 ## Le librerie client
 
 - I principali fornitori, soprattutto quelli con API Web proprie, offrono __librerie client__
-    + che incapsulano le API in SDK per i linguaggi di destinazione (es. Python, JS, Java, ecc.)
+    + che incapsulano le API in SDK per diversi linguaggi (es. Python, JS, Java, ecc.)
 
 - Qui scegliamo due alternative didattiche (tra le _molte_ possibili):
     1. [Libreria client OpenAI](https://developers.openai.com/api/docs/libraries) per JavaScript, Python, .Net, Java, Go, Ruby, CLI
@@ -377,7 +377,7 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
     + disponibile in [Python](https://github.com/langchain-ai/langchain) e [JavaScript/TypeScript](https://github.com/langchain-ai/langchainjs)
     + della stessa azienda: [LangGraph](https://www.langchain.com/langgraph) (workflow) e [LangSmith](https://www.langchain.com/langsmith) (osservabilità e valutazione)
 
-- Offre un __metamodello uniforme__ sopra le API di _molti_ fornitori:
+- Offre un __metamodello uniforme__ per interagire con le API di _molti_ fornitori:
     + __modelli di chat__ (es. `ChatOpenAI`, `ChatAnthropic`, `ChatGoogleGenerativeAI`, `ChatOllama`): una classe per fornitore, _stessa_ interfaccia
         * ciascuna è distribuita in un pacchetto separato (es. `pip install langchain-openai`)
     + __messaggi__ (`SystemMessage`, `HumanMessage`, `AIMessage`, ...), __template di prompt__, __parser di output__, __tool__, ...
@@ -388,8 +388,8 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
     + astrazioni di livello superiore (template, output strutturato, tool, agenti, RAG) già disponibili
 
 - __Perché no__?
-    + un ulteriore livello di _indirezione_ (oltre a dipendenze e modifiche incompatibili)
-    + le funzionalità specifiche dei fornitori possono arrivare in ritardo o richiedere "vie di fuga" (es. `extra_body`)
+    + un ulteriore livello di _astrazione_, con dipendenze aggiuntive e possibili modifiche incompatibili
+    + le funzionalità specifiche dei fornitori possono essere disponibili in ritardo o richiedere parametri specifici (es. `extra_body`)
 
 ---
 
@@ -427,7 +427,7 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
 
 ## API Chat Completion di OpenAI con Python
 
-- È il modo più semplice e comune per interagire con fornitori di API simili a OpenAI, tramite la libreria [openai-python](https://github.com/openai/openai-python)
+- È il modo più semplice e comune per interagire con fornitori che espongono API simili a quelle di OpenAI, tramite la libreria [openai-python](https://github.com/openai/openai-python)
     * per installarla nel proprio ambiente Python (virtuale), basta eseguire `pip install openai`
     * negli script Python basta importare il modulo `openai`
 
@@ -449,18 +449,18 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
 
 ## Esempio 1: chat CLI sincrona (pt. 1)
 
-1. Creiamo il client a partire dall'URL di base di OR, dalla chiave API e dal modello scelto:
+1. Creiamo il client a partire dall'URL di base di Open Router (OR), dalla chiave API e dal modello scelto:
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example1/repl_chat_openai.py" from="7" to="15" %}}
 
     Si noti che:
-    - la classe `OpenAI(...)` inizializza il client in modo molto personalizzabile
-    - il parametro `base_url`, normalmente <https://api.openai.com/v1>, è impostato all'URL di OR <https://openrouter.ai/api/v1>, salvo diversa indicazione tramite variabili d'ambiente
+    - il client `OpenAI` si può configurare tramite i parametri del costruttore
+    - il parametro `base_url`, normalmente <https://api.openai.com/v1>, è impostato sull'URL di OR <https://openrouter.ai/api/v1>, salvo diversa indicazione tramite variabili d'ambiente
     - `api_key` viene letto da una variabile d'ambiente o da stdin (tramite `input(...)`), evitando di scrivere la chiave nel codice sorgente
     - `model` (passato successivamente in ogni richiesta) deve indicare un modello disponibile nel catalogo del fornitore
     - le variabili `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL` sono lette tramite `os.environ.get(NAME, DEFAULT)` (tutte opzionali)
 
-2. _Inizializziamo_ poi la cronologia della _conversazione_ con un __system prompt__, contenente _istruzioni generali_ pertinenti al compito per l'LLM
+2. _Inizializziamo_ poi la cronologia della _conversazione_ con un __system prompt__, contenente _istruzioni generali_ sul compito che l'LLM deve svolgere
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example1/repl_chat_openai.py" from="16" to="17" %}}
 
@@ -472,7 +472,7 @@ Le API __simili a OpenAI__ stanno diventando lo standard _de facto_, ma sono anc
 
 ## Esempio 1: chat CLI sincrona (pt. 2)
 
-3. Infine entriamo in un ciclo: leggiamo l'input dell'utente dalla riga di comando, lo inviamo al modello come nuovo messaggio e stampiamo la risposta sulla riga di comando
+3. Infine entriamo in un ciclo: leggiamo l'input dell'utente dal terminale, lo inviamo al modello come nuovo messaggio e mostriamo la risposta nel terminale
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example1/repl_chat_openai.py" from="21" to="40" %}}
 
@@ -512,10 +512,10 @@ Example: if UTC is 13:00, then Cesena is 15:00. Want me to convert a specific ti
 you> ^CGoodbye!
 ```
 
-6. Durante l'esecuzione osservare:
-    - tempo necessario per ricevere la risposta del modello (latenza)
-    - possiamo sapere quale modello sta effettivamente elaborando la richiesta?
-    - il modello non accede a informazioni in tempo reale, quindi non può rispondere a domande sull'ora attuale, ad esempio
+6. Durante l'esecuzione:
+    - misurare il tempo necessario per ricevere la risposta del modello (latenza)
+    - chiedersi: possiamo sapere quale modello sta effettivamente elaborando la richiesta?
+    - osservare il limite: il modello non accede a informazioni in tempo reale; ad esempio, non può conoscere l'ora attuale
 
 {{% /section %}}
 
@@ -544,7 +544,7 @@ you> ^CGoodbye!
     ```
 
 3. Porre a ciascuno le _stesse_ domande (es. "_Che ore sono?_", "_Riassumi il GDPR in 3 righe_") e confrontare:
-    + _latenza_ (tempo alla prima risposta), _qualità_ delle risposte, _lingua_ e _tono_
+    + _latenza_ (tempo necessario per ricevere la prima risposta), _qualità_ delle risposte, _lingua_ e _tono_
     + dove sono finiti i dati, chi ha pagato e chi potrebbe leggerli (cfr. [opzioni di deployment](#/deployment-options))
 
 {{% fragment %}}
@@ -563,7 +563,7 @@ you> ^CGoodbye!
 
 > __Obiettivo__: la stessa chat dell'[Esempio 1](#/sync-chat), ma _asincrona_ (`AsyncOpenAI`) e con risposte in _streaming_ man mano che vengono generate (codice completo [qui](../lab-snippets/snippets/lecture_llmaas/example2/repl_chat_openai_async.py); avviare con `poetry run python -m snippets -l llmaas -e 2`)
 
-Rispetto alla versione sincrona cambia come: i. creiamo la richiesta, impostando `stream=True` per ricevere le parti della risposta e attendendole con `async for` anziché `for`; ii. consumiamo il flusso delle parti della risposta
+Rispetto alla versione sincrona cambiano due aspetti: creiamo la richiesta con `await` e `stream=True`; poi leggiamo i frammenti della risposta con `async for`, anziché con `for`.
 
 ```python
 stream = await client.chat.completions.create(..., stream=True) # create the request + open response stream
@@ -611,7 +611,7 @@ messages.append(dict(role="assistant", content="".join(answer_parts))) # reconst
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example3/repl_chat_responses.py" from="30" to="38" %}}
 
     - il testo inserito è _delimitato_ da tag (`<file name='...'>`), così che il modello distingua i file dal testo dell'utente
-    - in alternativa, i file si possono _caricare una volta_ tramite l'[API Files](https://developers.openai.com/api/reference/resources/files/methods/create) (`client.files.create(...)`), poi _referenziare_ per ID (`file_id=...`) in ogni richiesta: è però una funzione specifica di OpenAI
+    - in alternativa, i file si possono _caricare una volta_ tramite l'[API Files](https://developers.openai.com/api/reference/resources/files/methods/create) (`client.files.create(...)`), poi _indicarli_ tramite ID (`file_id=...`) in ogni richiesta: è però una funzione specifica di OpenAI
 
 3. Il REPL gestisce `/attach <path>` _accumulando_ parti di contenuto per il messaggio successivo:
 
@@ -621,13 +621,13 @@ messages.append(dict(role="assistant", content="".join(answer_parts))) # reconst
 
 ## Esempio 3: chat CLI con allegati tramite API Responses (pt. 3)
 
-4. Richieste stateless/stateful e consumo del flusso di eventi _tipizzati_:
+4. Richieste stateless/stateful e lettura del flusso di eventi _tipizzati_:
 
     {{% code path="static/lab-snippets/snippets/lecture_llmaas/example3/repl_chat_responses.py" from="65" to="85" %}}
 
     Si noti che:
     - in modalità __stateless__ si invia _tutta_ la cronologia a ogni richiesta (come negli Esempi 1 e 2) e `store=False` chiede al fornitore di _non_ conservarla
-    - in modalità __stateful__ si invia solo il _nuovo_ messaggio: meno byte per richiesta (gli allegati si inviano _una volta_), ma la conversazione risiede sui server del fornitore (cfr. protezione dei dati) e solo OpenAI lo supporta
+    - in modalità __stateful__ si invia solo il _nuovo_ messaggio: meno byte per richiesta (gli allegati si inviano _una volta_), ma la conversazione risiede sui server del fornitore (cfr. protezione dei dati) e questa modalità è supportata solo da OpenAI
     - ci interessano solo due tipi di eventi: `response.created` (per l'ID della risposta) e `response.output_text.delta` (il nuovo frammento di testo)
 
 ---
@@ -677,7 +677,7 @@ you> Goodbye!
 | Interfacce interattive (chat, assistenti) | `stream=True` | gli utenti vedono _subito_ le prime parole |
 | Molte richieste contemporanee (es. backend con molti utenti) | client asincrono (`AsyncOpenAI`) | richieste eseguite _contemporaneamente_, senza thread |
 | Elaborazioni massive non urgenti (es. classificare 100.000 documenti durante la notte) | [API Batch](https://developers.openai.com/api/docs/guides/batch) | risultati entro 24 ore a prezzo _scontato_ |
-| Documenti e immagini come input | parti di contenuto (`input_image`, `input_file`) o API Files (caricare una volta, riferire per ID) | cfr. [Esempio 3](#/responses-example) |
+| Documenti e immagini come input | parti di contenuto (`input_image`, `input_file`) o API Files (caricare una volta, poi richiamare tramite ID) | cfr. [Esempio 3](#/responses-example) |
 | Output leggibile da software | output strutturato (JSON Schema) | cfr. [prossima sezione](#/structured-output) |
 | Ricerca nei propri documenti | Embeddings (`/v1/embeddings`) | cfr. le lezioni sul RAG |
 
@@ -697,7 +697,7 @@ you> Goodbye!
     + `5xx` (errore lato server, sovraccarico): riprovare più tardi con attesa esponenziale (_exponential backoff_)
 - Nell'SDK `openai` emergono come _eccezioni_: `openai.RateLimitError` (429), `openai.APIStatusError` (altri stati, con `.status_code`), `openai.APIConnectionError` (rete)
     + il client riprova _già_ per alcuni errori (2 volte di default, cfr. parametro `max_retries` del costruttore)
-- Ogni risposta include l'__utilizzo__ (`prompt_tokens`, `completion_tokens`, ...): registrarlo per monitorare i _costi_
+- Ogni risposta riporta i dati sul __consumo di token__ (`prompt_tokens`, `completion_tokens`, ...): registrarlo per monitorare i _costi_
     + alcuni fornitori (es. Open Router) riportano anche il _costo_ di ogni richiesta (`usage.cost`)
 
 {{% /section %}}
@@ -765,7 +765,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
 - In particolare:
     + informazioni sul _candidato_ (nome, punti di forza e debolezza, ecc.), per capire se la lettera è davvero _positiva_
     + informazioni sugli _autori_ (es. nome, ruolo, rapporto con il candidato, ecc.), per capire se la lettera è davvero _credibile_
-    + una _procedura_ riproducibile e motivata per __assegnare un punteggio__ alla lettera in base a questi aspetti
+    + usiamo poi queste informazioni in una _procedura_ riproducibile e motivata per __assegnare un punteggio__ alla lettera
 
 {{% fragment %}}
 
@@ -853,7 +853,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 ## Esercizio guidato 2: modificare lo schema di output
 
-> __Obiettivo__: vedere come lo _schema_ (e le sue _descrizioni_) guida l'estrazione del modello, senza codice di parsing
+> __Obiettivo__: vedere come lo _schema_ e le sue _descrizioni_ guidano l'estrazione delle informazioni da parte del modello, senza codice di parsing
 
 1. Eseguire l'[Esempio 4](#/letter-scoring) su una lettera: `poetry run python -m snippets -l prompting -e 1 jean-dupont`
 2. Aprire [`letter_scoring_openai.py`](../lab-snippets/snippets/lecture_prompting/example1/letter_scoring_openai.py) e aggiungere un campo alla classe `ApplicantInfo`:
@@ -889,7 +889,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 ## Tool: il concetto generale
 
-- Un __tool__ è una _capacità esterna_, esposta all'LLM tramite un'_interfaccia_ composta da:
+- Uno __strumento__ (_tool_) è una _capacità esterna_, esposta all'LLM tramite un'_interfaccia_ composta da:
     1. un __nome__ (es. `get_weather`)
     2. una __descrizione__ in linguaggio naturale: _cosa_ fa e _quando_ usarlo
     3. un __JSON Schema__ dei _parametri_ (nomi, tipi, descrizioni, vincoli)
@@ -914,7 +914,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 ## Tool: un esempio intuitivo
 
-> __Obiettivo__: un assistente che risponde a domande sul _presente_, che nessun LLM può conoscere dai dati di addestramento (es. "_dove è nato Alan Turing? Che ore sono lì e com'è il tempo?_")
+> __Obiettivo__: un assistente che combina conoscenze _storiche_ e informazioni _aggiornate_, non ricavabili dai soli dati di addestramento (es. "_dove è nato Alan Turing? Che ore sono lì e com'è il tempo?_")
 
 {{% multicol %}}
 {{% col class="col-6" %}}
@@ -970,7 +970,7 @@ function:
     + _lettura_: gestione documentale, database, registri, ricerca intranet, sistemi di ticketing
     + _scrittura_: aprire un ticket, archiviare un documento, aggiornare un record, inviare una notifica
     + _calcolo_: validatori, calcolatori, motori di regole (es. verifica dei requisiti), tutto ciò che il codice fa meglio di un LLM
-- Ogni tool è un __sottile involucro__ attorno a un'API esistente: l'LLM non comunica direttamente con il sistema, lo fa il _codice del tool_
+- Ogni tool è un __piccolo adattatore__ per un'API esistente: l'LLM non comunica direttamente con il sistema, lo fa il _codice del tool_
     + il tool decide quindi cosa l'LLM può vedere e fare: _validazione_, _permessi_ e _log_ risiedono lì
 - I tool possono essere _locali_ (funzioni nel codice applicativo) o _condivisi_ tramite [Model Context Protocol](#/mcp) (MCP), per essere usati da _qualsiasi_ applicazione basata su LLM
 - Esistono anche tool _lato server_ (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il _lock-in_
@@ -981,18 +981,18 @@ function:
 
 ## Il ciclo ReAct: il concetto generale
 
-- __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); l'_osservazione_ di ogni azione (risultato del tool) informa il ragionamento successivo
+- __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
     + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e [token di ragionamento](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/reasoning-models))
 
 - Il __controllore__ dell'agente è un semplice ciclo:
     1. inviare all'LLM la conversazione e le definizioni dei tool
     2. se la risposta __non contiene chiamate a tool__, è la _risposta finale_: terminare
     3. altrimenti _eseguire_ ogni chiamata, aggiungere il _risultato_ alla conversazione e tornare a 1
-    4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ciclare all'infinito e ogni passo costa)
+    4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ripetere il ciclo all'infinito e ogni passo ha un costo)
 
-- Tutto il resto è _policy_ e spetta a chi progetta:
+- Tutto il resto riguarda le _regole di comportamento_ (_policy_) e spetta a chi progetta:
     + quali tool sono disponibili e per chi? Quali chiamate richiedono _approvazione umana_?
-    + cosa succede se un tool _fallisce_? (suggerimento: dirlo all'LLM, potrebbe recuperare)
+    + cosa succede se un tool _fallisce_? (suggerimento: comunicare l'errore all'LLM può permettergli di correggere la richiesta)
     + cosa viene _registrato_? Quanto contesto si conserva? (cfr. [gestione del contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management))
 
 ---
@@ -1015,7 +1015,7 @@ function:
 
 {{< image src="./autonomy-spectrum.svg" max-h="45vh" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" >}}
 
-- Ricordare la distinzione [codice dello sviluppatore e LLM](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses) della lezione introduttiva:
+- Ricordare la distinzione [tra il codice dello sviluppatore e l’LLM](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses) presentata nella lezione introduttiva:
 - __Workflow__: LLM e tool sono orchestrati lungo percorsi _predefiniti_ (il _codice_ controlla il flusso)
 - __Agenti__: l'LLM dirige _dinamicamente_ il proprio processo e l'uso dei tool (l'_LLM_ controlla il flusso)
     + cfr. [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) di Anthropic
@@ -1031,15 +1031,15 @@ function:
 
 ## Workflow: il concetto generale
 
-> Ricordare: nello [spettro dell'autonomia](#/autonomy-spectrum), i __workflow__ orchestrano LLM e tool lungo percorsi _predefiniti_ (il _codice_ controlla il flusso), mentre gli __agenti__ lasciano dirigere il processo all'LLM
+> Ricordare: nello [spettro dell'autonomia](#/autonomy-spectrum), i __workflow__ orchestrano LLM e tool lungo percorsi _predefiniti_ (il _codice_ controlla il flusso), mentre gli __agenti__ affidano all'LLM la direzione del processo
 
 - Un __workflow__ è un _processo_: un insieme di __passi__ e __transizioni__ tra essi, che operano su uno __stato__ condiviso
     + ossia una _macchina a stati_ (o un _grafo_): i nodi sono passi, gli archi transizioni, anche _condizionali_ (guardie sullo stato)
-    + un _inizio_, una o più _fini_, eventuali _cicli_ (limitati!) e rami _paralleli_
+    + uno _stato iniziale_, uno o più _stati finali_, eventuali _cicli_ (limitati!) e rami _paralleli_
 - Ogni passo _legge_ lo stato, svolge il compito e _aggiorna_ lo stato; il __motore__ decide il passo successivo
     + l'LLM svolge _alcuni_ passi (quelli che richiedono _linguaggio_), ma __non__ ne decide l'ordine
 - Idea consolidata, nuovi ingredienti: _business process management_ (cfr. [BPMN](https://www.omg.org/spec/BPMN/2.0.2/)), _pipeline ETL_, _pipeline CI/CD_, ... ora con __passi LLM__
-    + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta i successi _e_ riduce i costi rispetto agli agenti ReAct
+    + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo _e_ riduce i costi rispetto agli agenti ReAct
 
 ---
 
@@ -1048,12 +1048,12 @@ function:
 | Tipo | Cosa fa | Deterministico? | Esempio (caso guida) |
 |---|---|---|---|
 | __Passo LLM__ | estrae, classifica, valuta, redige testo | no | valutare la lettera di un candidato |
-| __Passo dati__ | valida, calcola, aggrega, recupera (solo codice) | sì | calcolare la percentuale del voto, verificare i requisiti |
-| __Passo azione__ | ha _effetti_ sul mondo (tool, API, file) | sì, ma _irreversibile_ | inviare un'e-mail, registrare una decisione |
-| __Passo input umano__ | chiede a una _persona_ di approvare, correggere o scegliere | no (una persona) | la commissione approva la graduatoria |
+| __Passo sui dati__ | valida, calcola, aggrega, recupera (solo codice) | sì | calcolare la percentuale del voto, verificare i requisiti |
+| __Passo di azione__ | ha _effetti_ sul mondo (tool, API, file) | sì, ma _irreversibile_ | inviare un'e-mail, registrare una decisione |
+| __Passo con intervento umano__ | chiede a una _persona_ di approvare, correggere o scegliere | no (una persona) | la commissione approva la graduatoria |
 
 - Anche un __agente__ può essere un passo: es. un ciclo ReAct per una domanda _aperta_, dentro un processo altrimenti _fisso_
-- Regola pratica: mettere nei __passi dati__ ciò che il codice sa fare; usare __passi LLM__ solo quando serve il _linguaggio_; proteggere i __passi azione__ con controlli e, se irreversibili o rilevanti sul piano normativo, con __passi input umano__
+- Regola pratica: mettere nei __passi sui dati__ ciò che il codice sa fare; usare __passi LLM__ solo quando serve il _linguaggio_; proteggere i __passi di azione__ con controlli e, se irreversibili o rilevanti sul piano normativo, con __passi con intervento umano__
 
 ---
 
@@ -1061,7 +1061,7 @@ function:
 
 ## Workflow: un esempio intuitivo
 
-{{< image src="./admission-workflow.svg" max-h="42vh" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo input umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" >}}
+{{< image src="./admission-workflow.svg" max-h="42vh" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" >}}
 
 - Lo _stesso_ processo come agente sarebbe un system prompt che dice "_estrai, verifica, valuta, ordina, chiedi, notifica_", sperando che l'LLM lo segua in quell'ordine ogni volta
 - Come workflow (cfr. [spettro dell'autonomia](#/autonomy-spectrum)):
@@ -1069,7 +1069,7 @@ function:
     + __più economico__: ogni passo LLM vede _solo_ ciò che serve, anche con un modello più piccolo
     + __verificabile__: passi isolabili, percorsi del grafo enumerabili
     + __meno flessibile__: le richieste impreviste richiedono una _nuova versione_ del workflow
-- Confronto con le [skill](#/skills-vs-others): procedure gestite dagli esperti di dominio (skill) e procedure affidabili e verificabili (workflow)
+- Confronto con le [skill](#/skills-vs-others): le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile
 
 ---
 
@@ -1128,13 +1128,13 @@ Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose s
     2. esposizione a _contenuti non attendibili_ (es. lettere scritte dai candidati), e
     3. possibilità di _comunicare all'esterno_ (es. inviare e-mail, accedere a URL)
 
-    può essere indotto a _esfiltrare_ dati: evitare di combinare tutti e tre
+    può essere indotto a _esfiltrare_ dati: evitare di combinare queste tre capacità nello stesso agente
 
 ---
 
 ## Mitigazioni
 
-Non esiste una difesa completa dalla prompt injection: progettare gli agenti _assumendo_ che accadrà
+Non esiste una difesa completa dalla prompt injection: progettare gli agenti _assumendo_ che possano subire attacchi di prompt injection
 
 - __Minimo privilegio__: dare all'agente solo i tool necessari e ai tool solo i permessi necessari
     + sola lettura di default; agenti (o insiemi di tool) separati per leggere contenuti non attendibili e per agire
@@ -1144,7 +1144,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 - __Approvazione umana__ per azioni _irreversibili_ o _rilevanti sul piano normativo_ (es. registrare una decisione, inviare un'e-mail)
 - __Registrare e tracciare__ ogni chiamata a tool, con argomenti e risultati: responsabilità verificabile a posteriori
 - __Delimitare__ i contenuti non attendibili (es. `<letter>...</letter>`) e dichiarare nel system prompt che sono _dati_: aiuta, ma _non_ garantisce protezione
-- Trattare _tool_ e _server MCP_ di terzi come _dipendenze_ di terzi: fissare le versioni, esaminarli e accordare fiducia esplicita (cfr. [buone pratiche di sicurezza](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices) MCP)
+- Trattare _tool_ e _server MCP_ di terzi come _dipendenze_ di terzi: fissare le versioni, esaminarli e decidere esplicitamente se fidarsene (cfr. [buone pratiche di sicurezza](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices) MCP)
 
 > Ricordare: gli LLM __propongono__, il software __verifica__ (cfr. [lezione introduttiva](https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action)), le persone rimangono __responsabili__
 
@@ -1214,7 +1214,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 {{< image src="./skill-activation.svg" max-h="45vh" alt="Sequence diagram of skill activation: at startup, the agent's controller puts the name and description of each available skill (phd-application-review, admission-letter) into the system prompt; the user asks to review Mario Rossi's application; the LLM recognises that the phd-application-review skill is relevant, and asks to read its SKILL.md; the controller returns the instructions; following them, the LLM asks to run the skill's check_application.py script, and to read its rubric; finally, the LLM writes the report, following the skill's template" >}}
 
-- La skill (una cartella) viene _scoperta_ all'avvio, _attivata_ dall'LLM per una richiesta pertinente e poi _seguita_
+- La cartella della skill viene _individuata_ all'avvio; l'LLM _attiva_ la skill quando è pertinente e ne _segue le istruzioni_
     + nessuno _chiama_ la skill: l'LLM __decide__ di usarla in base alla _descrizione_ (come per i [tool](#/tools-concept))
 
 ---
@@ -1223,6 +1223,8 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 ## Skill a confronto con prompt, tool, server MCP e workflow
 
+L’_harness_ è il software che gestisce l’agente.
+
 {{% small "80%" %}}
 
 | | System prompt | Tool | Server MCP | __Skill__ | Workflow |
@@ -1230,7 +1232,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 | _Cos'è_ | istruzioni sempre nel contesto | una funzione che l'LLM può chiedere di chiamare | tool (e risorse, prompt) dietro un protocollo | cartella di istruzioni + script + risorse | codice che orchestra chiamate LLM e tool |
 | _Linguaggio_ | linguaggio naturale | codice + docstring | codice | __linguaggio naturale__ (+ codice) | codice |
 | _Chi decide di usarlo_ | nessuno (sempre attivo) | l'LLM | l'LLM | __l'LLM__ (o esplicitamente l'utente) | il progettista |
-| _Costo del contesto_ | completo a ogni passo | schema a ogni passo | schemi di tutti i tool a ogni passo (salvo caricamento _differito_ dell'harness, es. tool search di Claude Code: solo nomi, schemi su richiesta) | __solo descrizione__ fino all'attivazione | solo ciò che serve a ogni passo |
+| _Costo del contesto_ | completo a ogni passo | schema a ogni passo | schemi di tutti i tool a ogni passo (salvo caricamento _differito_, es. tool search di Claude Code: solo nomi, schemi su richiesta) | __solo descrizione__ fino all'attivazione | solo ciò che serve a ogni passo |
 | _Chi può scriverlo_ | chiunque | sviluppatori | sviluppatori | __esperti di dominio__ (+ sviluppatori per gli script) | sviluppatori |
 | _Prevedibilità_ | media | alta (il codice) | alta (il codice) | bassa–media | alta |
 
@@ -1301,15 +1303,15 @@ metadata:
 
 {{< slide id="progressive-disclosure" >}}
 
-## Le skill caricano il contesto: divulgazione progressiva
+## Caricamento progressivo del contesto delle skill
 
-{{< image src="./progressive-disclosure.svg" max-h="40vh" alt="Divulgazione progressiva su tre livelli di una piramide: livello 1, metadati (nome e descrizione di tutte le skill, circa 100 token ciascuna), nel contesto dall'avvio; livello 2, istruzioni (corpo di SKILL.md della skill attivata, meno di 5.000 token), caricate all'attivazione; livello 3, risorse (script, riferimenti, asset), caricate o eseguite solo se richieste dalle istruzioni, anche senza entrare nel contesto, es. uno script di cui si legge solo l'output" >}}
+{{< image src="./progressive-disclosure.svg" max-h="40vh" alt="Caricamento progressivo su tre livelli di una piramide: livello 1, metadati (nome e descrizione di tutte le skill, circa 100 token ciascuna), nel contesto dall'avvio; livello 2, istruzioni (corpo di SKILL.md della skill attivata, meno di 5.000 token), caricate all'attivazione; livello 3, risorse (script, riferimenti, asset), caricate o eseguite solo se richieste dalle istruzioni, anche senza entrare nel contesto, es. uno script di cui si legge solo l'output" >}}
 
 1. __Metadati__ (~100 token per skill): `name` + `description` di _tutte_ le skill, nel system prompt fin dall'avvio
 2. __Istruzioni__ (< 5.000 token consigliati): corpo di `SKILL.md`, letto quando la skill viene _attivata_
 3. __Risorse__ (secondo necessità): file letti _solo se_ richiesti dalle istruzioni; script _eseguiti_, così che entri nel contesto solo il loro _output_
 
-- Si possono quindi installare _molte_ skill a costo piccolo e _costante_: il [contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management) contiene solo ciò che è _pertinente_
+- Si possono quindi installare _molte_ skill con un costo contenuto e _costante_: il [contesto](https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management) contiene solo ciò che è _pertinente_
     + stesso principio del [RAG](https://unibo-fc-isi-iag.github.io/slides-module2/rag/), ma l'agente _stesso_ decide cosa caricare _leggendo_ file (senza embedding né ricerca per similarità)
     + consigliato: `SKILL.md` sotto 500 righe; riferimenti a _un solo livello_ (un riferimento non dovrebbe rimandare ad altri)
 
@@ -1326,7 +1328,7 @@ metadata:
     + passi di _giudizio_ (valutare una lettera, scrivere un rapporto) $\rightarrow$ istruzioni
     + ricordare: gli LLM hanno scarsa affidabilità _simbolica_ (cfr. [tool](#/tools-concept)) — una skill non dovrebbe chiedere all'LLM di _contare_ o _ordinare_
 
-- `allowed-tools` (sperimentale) elenca i tool utilizzabili _senza chiedere_ all'utente, es. `allowed-tools: Bash(python:*) Read`
+- `allowed-tools` (sperimentale) elenca i tool utilizzabili _senza chiedere conferma_ all'utente, es. `allowed-tools: Bash(python:*) Read`
     + _preapprova_ i tool, __non__ li esegue in sandbox: supporto e semantica variano tra harness
     + alcuni harness aggiungono campi propri (es. `disable-model-invocation`, `context: fork` o `hooks` di Claude Code; `metadata.openclaw.requires` di OpenClaw)
 
@@ -1428,7 +1430,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
     + `allowed-tools` _preapprova_ tool: una skill può chiedere più di quanto le serva
 
 - Rischi misurati nel 2026, non solo ipotetici:
-    + __ClawHavoc__ (divulgato a febbraio 2026): centinaia di skill malevole su ClawHub, con falsi "_prerequisiti_" che inducono utenti (o agenti) a installare software ruba-dati (es. Atomic macOS Stealer); ~1.200 skill malevole storiche secondo [Antiy CERT](https://www.antiy.net/p/clawhavoc-analysis-of-large-scale-poisoning-campaign-targeting-the-openclaw-skill-market-for-ai-agents/)
+    + __ClawHavoc__ (divulgato a febbraio 2026): centinaia di skill malevole su ClawHub, con falsi "_prerequisiti_" che inducono utenti (o agenti) a installare software che sottrae dati (es. Atomic macOS Stealer); ~1.200 skill malevole rilevate nel tempo secondo [Antiy CERT](https://www.antiy.net/p/clawhavoc-analysis-of-large-scale-poisoning-campaign-targeting-the-openclaw-skill-market-for-ai-agents/)
     + [ToxicSkills di Snyk](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub) (3.984 skill da ClawHub e skills.sh): ~37% con almeno una falla, 13% con una critica
     + [Liu et al., 2026](https://arxiv.org/abs/2601.10338) (31.132 skill): 26% con almeno una vulnerabilità; le skill con _script_ hanno probabilità doppia di essere vulnerabili
 
@@ -1470,7 +1472,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 
 | | Agente locale (harness) | Piattaforma online | Agente sviluppato come software |
 |---|---|---|---|
-| __Controllo__ | medio: scelta di modello e skill; l'harness è un prodotto di terzi | basso: il fornitore sceglie modelli, funzionalità, aggiornamenti | __alto__: ogni passo è il proprio codice |
+| __Controllo__ | medio: scelta di modello e skill; l'harness è un prodotto di terzi | basso: il fornitore sceglie modelli, funzionalità, aggiornamenti | __alto__: ogni passo è implementato nel proprio codice |
 | __Sicurezza__ | l'agente agisce sul PC con i privilegi dell'_utente_: servono sandbox e policy | dati e skill sui server del fornitore; isolamento a suo carico | a proprio carico: minimo privilegio, validazione, log |
 | __Integrazione__ | tramite server MCP e skill; adatto alla produttività _individuale_ | tramite connettori della piattaforma | __qualsiasi__ sistema tramite tool |
 | __Portabilità__ | skill portabili tra harness (specifica aperta) | dipende dalle opzioni di esportazione | alta con API comuni |
@@ -1494,7 +1496,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 |---|---|---|---|---|---|
 | __Prompting__ | buona se il modello sa abbastanza | basso (ma prompt lunghi costano token a ogni richiesta) | alto: prompt come testo versionato | facile da verificare | il più rapido |
 | __Tool / agenti__ | alta per compiti con azioni o dati in tempo reale | medio (più richieste per compito) | medio: comportamento meno prevedibile | servono _minimo privilegio_ e log | medio |
-| __RAG__ | alta per compiti ricchi di conoscenza | medio (indicizzazione + prompt lunghi) | alto: base di conoscenza ispezionabile e aggiornabile | dati nel _proprio_ archivio; serve controllo degli accessi | medio |
+| __RAG__ | alta per compiti che richiedono molte conoscenze specifiche | medio (indicizzazione + prompt lunghi) | alto: base di conoscenza ispezionabile e aggiornabile | dati nel _proprio_ archivio; serve controllo degli accessi | medio |
 | [__Skill__](#/skills-vs-others) | alta se l'agente sceglie la skill giusta | basso–medio | medio: l'agente decide quando applicarle | dipende dai tool consentiti | rapido (scrivere un documento) |
 | __Workflow__ | alta e _costante_ | medio | massimo: passi fissati dal progettista | facile da verificare passo per passo | lento (più codice) |
 | __Fine-tuning__ | massima per compiti _circoscritti_ con dati sufficienti | alto (dati, addestramento, riaddestramento a ogni aggiornamento) | basso–medio: comportamento incorporato nei pesi | dati leciti e licenza che permetta l'addestramento | il più lento |
@@ -1545,7 +1547,7 @@ Da una chat a un agente con tool condivisi
 
     {{% code path="static/lab-snippets/snippets/lecture_agents/example1/agent_openai.py" from="32" to="38" %}}
 
-    - gli errori (tool sconosciuto, argomenti invalidi, eccezioni) __non__ vengono sollevati: sono restituiti all'LLM come _risultati_, perché possa _recuperare_ (es. riprovare `get_current_time` con `'Asia/Tokyo'` anziché `'Tokyo'`)
+    - gli errori (tool sconosciuto, argomenti non validi, eccezioni) __non__ vengono sollevati: sono restituiti all'LLM come _risultati_, perché possa _correggere la chiamata_ (es. riprovare `get_current_time` con `'Asia/Tokyo'` anziché `'Tokyo'`)
 
 4. Il __ciclo ReAct__:
 
@@ -1587,8 +1589,8 @@ Da una chat a un agente con tool condivisi
 
 7. Cosa osservare:
     - _quali_ tool vengono chiamati, in che _ordine_ e quante _volte_? Cambia tra esecuzioni?
-    - chiedere di un luogo _inesistente_ o dal nome ambiguo (es. _Paris, Texas_): l'agente recupera?
-    - chiedere qualcosa cui i tool _non possono_ rispondere (es. "_pioverà a Bologna la prossima settimana?_"): l'agente lo ammette o _allucina_?
+    - porre una domanda su un luogo _inesistente_ o dal nome ambiguo (es. _Paris, Texas_): l'agente riesce a correggere l'errore?
+    - chiedere qualcosa cui i tool _non possono_ rispondere (es. "_pioverà a Bologna la prossima settimana?_"): l'agente lo ammette o _inventa una risposta_?
     - chiedere qualcosa che _non richiede_ tool (es. "_qual è la capitale della Francia?_"): li chiama comunque?
     - provare un modello _più piccolo_: continua a chiamare correttamente i tool?
 
@@ -1684,7 +1686,7 @@ Da una chat a un agente con tool condivisi
 | Scoperta | durante lo sviluppo | a _runtime_ (`tools/list`): i tool possono cambiare senza modificare l'agente |
 | Isolamento | nessuno: i tool condividono memoria, file, segreti dell'agente | confine di processo/rete: ogni server riceve _solo_ i propri segreti |
 | Costo aggiuntivo | nessuno | serializzazione, gestione dei processi, latenza (di rete) |
-| Fiducia | scritti personalmente | i server di terzi sono _codice_ (e _prompt_: le descrizioni entrano nel contesto!) di terzi: _tool poisoning_ (istruzioni malevole nelle descrizioni), _rug pull_ (descrizioni cambiate dopo l'approvazione: fissarne versione o hash) |
+| Fiducia | scritti personalmente | i server esterni richiedono fiducia nel _codice_ e nelle descrizioni dei tool, che entrano nel contesto. Rischi: _tool poisoning_ (istruzioni malevole nelle descrizioni) e _rug pull_ (modifiche dopo l’approvazione: fissarne versione o hash) |
 
 - Usare tool locali per logica _specifica dell'applicazione_; MCP per _condividere_ tool tra applicazioni o _usare_ quelli di terzi
 
@@ -1694,10 +1696,10 @@ Da una chat a un agente con tool condivisi
 
 ## Riepilogo
 
-1. Gli LLM si usano __come servizio__: cloud, on-premise o, più spesso, __ibrido__; la scelta bilancia qualità, costo, controllo, conformità e time-to-market
+1. Gli LLM si usano __come servizio__: con architetture cloud, on-premise o, più spesso, __ibride__; la scelta bilancia qualità, costo, controllo, conformità e time-to-market
 2. L'__API OpenAI__ è lo standard _de facto_: tenere modello, URL e chiave nella _configurazione_ favorisce la portabilità (nel sottoinsieme comune di funzionalità)
 3. L'__output strutturato__ trasforma testo in _dati_; i __tool__ in _azioni_; __workflow__ e __agenti__ trasformano entrambi in _processi_
-4. Le __skill__ impacchettano procedure in linguaggio naturale, utilizzabili da agenti locali, piattaforme online e software personalizzato
+4. Le __skill__ raccolgono procedure in linguaggio naturale, utilizzabili da agenti locali, piattaforme online e software personalizzato
 5. Più autonomia significa più flessibilità, ma anche più __rischio__: minimo privilegio, validazione, supervisione umana, log
 
 {{% fragment %}}

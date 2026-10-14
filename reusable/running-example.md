@@ -1,6 +1,6 @@
 ## Esempio ricorrente
 
-### Assistente alla commissione per valutare le domande di dottorato
+### Un assistente per la commissione che valuta le domande di dottorato
 
 - 3 candidati e altrettante domande, con _passaporto_, _certificato degli esami_ e _lettera di presentazione_ (in linguaggio naturale)
 
