@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/talk-2026-ai-er/reveal-js/dist/reveal.css">
-  <link rel="stylesheet" href="/talk-2026-ai-er/css/custom-theme.min.9ccba1c979ca6d88a7827f8125b9b40dba6038e1fbafbcca1e9f72be0181dffe.css" id="theme"><link rel="stylesheet" href="/talk-2026-ai-er/highlight-js/solarized-dark.min.css">
+  <link rel="stylesheet" href="/talk-2026-ai-er/css/custom-theme.min.939ae57250d553c98b6d939248000693b977de3246dd1d15acbd74ebd0a015d1.css" id="theme"><link rel="stylesheet" href="/talk-2026-ai-er/highlight-js/solarized-dark.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
@@ -208,7 +208,7 @@
 </li>
 <li>Prerequisito: tutti i modelli devono essere raggiungibili tramite un’<strong>API comune</strong> (prossima sezione), altrimenti ogni percorso richiede codice dedicato</li>
 </ul>
-<figure id="plantuml-figure-1791985859354693942" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
+<figure id="plantuml-figure-1791986675055203860" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
 <p>@startuml
 rectangle “Applicazioni” as A
 rectangle “Gateway\n(instradamento, chiavi,\nbudget, log)” as G
@@ -222,7 +222,7 @@ G -&gt; C
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791985859354693942");
+    handlePlantumlFigureByID("plantuml-figure-1791986675055203860");
 </script>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="providers">
@@ -291,7 +291,7 @@ G -&gt; C
 </ul>
 </section><section>
 <h2 id="chat-completion-un-esempio-intuitivo">Chat Completion: un esempio intuitivo</h2>
-<figure id="plantuml-figure-1791985859356108548" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
+<figure id="plantuml-figure-1791986675056168168" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
 <p>@startuml
 hide footbox
 actor “Utente” as U
@@ -313,7 +313,7 @@ P -&gt; U: “A Cesena sono le …”
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1791985859356108548");
+    handlePlantumlFigureByID("plantuml-figure-1791986675056168168");
 </script>
 <ul>
 <li>La <strong>stessa</strong> interazione è implementata da <em>tutti</em> i fornitori; cambia solo la <em>sintassi</em>
@@ -1683,7 +1683,7 @@ P -&gt; U: “A Cesena sono le …”
 <ul>
 <li>la descrizione di <code>timezone</code> <em>indica</em> all’LLM i valori validi (nomi IANA con esempi)
 <ul>
-<li><code>Annotated[str, Field(description=...)]</code> associa una <em>descrizione</em> (tramite <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/"><code>Field</code></a> di Pydantic) all’<em>annotazione di tipo</em> del parametro: finisce nel JSON Schema</li>
+<li><code>Annotated[str, Field(description=...)]</code> associa una <em>descrizione</em> (tramite <a href="https://docs.pydantic.dev/latest/concepts/fields/"><code>Field</code></a> di Pydantic) all’<em>annotazione di tipo</em> del parametro: finisce nel JSON Schema</li>
 </ul>
 </li>
 <li>la docstring di <code>get_weather</code> descrive all’LLM il contenuto del risultato (unità incluse!)</li>
@@ -1722,7 +1722,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>
 <p><strong>ReAct</strong> (<em>Reason + Act</em>, cfr. <a href="https://arxiv.org/abs/2210.03629">Yao et al. (2023)</a>): l’LLM <em>alterna</em> ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l’<em>osservazione</em>, cioè il risultato del tool) guida il ragionamento successivo</p>
 <ul>
-<li>nato come tecnica di <em>prompting</em> (“Thought: … Action: … Observation: …”), ora <em>integrato</em> nelle API tramite chiamate a tool (e <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/reasoning-models">token di ragionamento</a>)</li>
+<li>nato come tecnica di <em>prompting</em> (“Thought: … Action: … Observation: …”), ora <em>integrato</em> nelle API tramite chiamate a tool (e nei modelli <em>di ragionamento</em>, che generano una catena di ragionamento, fatturata come <em>token</em> di output, prima di rispondere)</li>
 </ul>
 </li>
 <li>
@@ -1739,7 +1739,7 @@ P -&gt; U: “A Cesena sono le …”
 <ul>
 <li>quali tool sono disponibili e per chi? Quali chiamate richiedono <em>approvazione umana</em>?</li>
 <li>cosa succede se un tool <em>fallisce</em>? (suggerimento: comunicare l’errore all’LLM può permettergli di correggere la richiesta)</li>
-<li>cosa viene <em>registrato</em>? Quanto contesto si conserva? (cfr. <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">gestione del contesto</a>)</li>
+<li>cosa viene <em>registrato</em>? Quanto contesto si conserva? (a ogni passo la conversazione <em>cresce</em>, e con essa costo e latenza: oltre la <em>finestra di contesto</em> occorre <em>riassumere</em> o <em>scartare</em> i messaggi più vecchi)</li>
 </ul>
 </li>
 </ul>
@@ -1760,7 +1760,7 @@ P -&gt; U: “A Cesena sono le …”
 <img src="./autonomy-spectrum.svg" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
 <ul>
 <li>
-<p>Ricordare la distinzione <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses">tra il codice dello sviluppatore e l’LLM</a> presentata nella lezione introduttiva:</p>
+<p>Chi decide il <em>prossimo passo</em>: il <strong>codice</strong> scritto dallo sviluppatore, o l’<strong>LLM</strong>?</p>
 </li>
 <li>
 <p><strong>Workflow</strong>: LLM e tool sono orchestrati lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso)</p>
@@ -1775,7 +1775,7 @@ P -&gt; U: “A Cesena sono le …”
 <p>Regola pratica: usare la <strong>minima autonomia</strong> necessaria</p>
 <ul>
 <li>partire da una singola chiamata; passare ai workflow quando i passi sono <em>noti</em> in anticipo; agli agenti solo quando <em>non</em> lo sono</li>
-<li><em>l’autonomia è un costo</em> (rischi, verifiche, governance), non un obiettivo (ricordare: <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/genai-uses">i clienti comprano automazione</a>)</li>
+<li><em>l’autonomia è un costo</em> (rischi, verifiche, governance), non un obiettivo: si vuole <em>automatizzare</em>, non “avere un agente”</li>
 <li>prima i workflow, poi gli agenti</li>
 </ul>
 </li>
@@ -1969,7 +1969,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>Trattare <em>tool</em> e <em>server MCP</em> di terzi come <em>dipendenze</em> di terzi: fissare le versioni, esaminarli e decidere esplicitamente se fidarsene (cfr. <a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices">buone pratiche di sicurezza</a> MCP)</li>
 </ul>
 <blockquote>
-<p>Ricordare: gli LLM <strong>propongono</strong>, il software <strong>verifica</strong> (cfr. <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action">lezione introduttiva</a>), le persone rimangono <strong>responsabili</strong></p>
+<p>Ricordare: gli LLM <strong>propongono</strong>, il software <strong>verifica</strong> (es. validando gli argomenti dei tool), le persone rimangono <strong>responsabili</strong></p>
 </blockquote>
 
 </section>
@@ -1993,8 +1993,9 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="gli-llm-da-soli-non-sono-agenti">Gli LLM da soli non sono agenti</h2>
 <ul>
 <li>
-<p>Dalla <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action">lezione introduttiva</a>: gli LLM producono <strong>testo</strong>, non <em>azioni</em></p>
+<p>Gli LLM producono <strong>testo</strong>, non <em>azioni</em>: serve <em>software</em> che traduca il testo in <em>operazioni</em></p>
 <ul>
+<li>es. <code>Prenota il treno per Lisbona</code> è solo testo, finché un programma non lo traduce in <em>ricerca</em>, <em>prenotazione</em>, <em>pagamento</em> e <em>conferma</em></li>
 <li>non percepiscono né agiscono sugli ambienti <em>direttamente</em></li>
 <li>non gestiscono obiettivi e stato in modo <em>persistente</em></li>
 </ul>
@@ -2010,7 +2011,10 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p>Ricordare: <em>intelligenza</em>, <em>autonomia</em> e <em>capacità di agire</em> sono dimensioni <strong>separabili</strong> (cfr. <a href="https://doi.org/10.1007/s13347-025-00858-9">Floridi, 2025</a> e <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/language-to-action">lezione introduttiva</a>)</p>
+<p><em>Intelligenza</em>, <em>autonomia</em> e <em>capacità di agire</em> sono dimensioni <strong>separabili</strong> (cfr. <a href="https://doi.org/10.1007/s13347-025-00858-9">Floridi, 2025</a>)</p>
+<ul>
+<li><em>intelligenza</em>: quanto <strong>bene</strong> risolve i problemi; <em>capacità di agire</em>: quale <strong>stato</strong> cambia davvero; <em>autonomia</em>: chi <strong>controlla</strong> <em>quando</em> e <em>perché</em> agisce</li>
+</ul>
 </li>
 </ul>
 </section>
@@ -2025,7 +2029,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p>Nei <a href="https://unibo-fc-isi-iag.github.io/slides-module2/rag/#/memory">tipi di memoria CoALA</a>, le skill sono <strong>memoria procedurale</strong> resa <em>esplicita</em> e <em>modificabile</em></p>
+<p>Nei tipi di memoria di un agente secondo <a href="https://arxiv.org/abs/2309.02427">CoALA (Sumers et al., 2023)</a> (<em>di lavoro</em>: il contesto; <em>episodica</em>: le interazioni passate; <em>semantica</em>: fatti e documenti; <em>procedurale</em>: come fare le cose), le skill sono <strong>memoria procedurale</strong> resa <em>esplicita</em> e <em>modificabile</em></p>
 <ul>
 <li><em>come</em> fare qualcosa (es. “come valutiamo una domanda di dottorato”, “come scriviamo una nota di rilascio”), rispetto a <em>ciò</em> che si sa (memoria semantica, es. RAG)</li>
 <li>scritte da <em>persone</em> (o da agenti e poi riviste da persone), <em>versionate</em> come codice e <em>condivise</em> come documentazione</li>
@@ -2038,7 +2042,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p>Perché non basta un system prompt più lungo? Per la <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">finestra di contesto</a>:</p>
+<p>Perché non basta un system prompt più lungo? Per la <em>finestra di contesto</em> (il numero massimo di token per richiesta) e perché <em>più</em> contesto non significa risposte <em>migliori</em> (cfr. <a href="https://research.trychroma.com/context-rot">“context rot”</a>):</p>
 <ul>
 <li>50 procedure $\times$ 2.000 token ciascuna = 100.000 token, inviati a <em>ogni</em> passo, perlopiù <em>irrilevanti</em> e <em>distraenti</em></li>
 <li>con le skill: 50 $\times$ ~100 token di descrizioni, più l’<em>unica</em> procedura necessaria</li>
@@ -2129,9 +2133,9 @@ P -&gt; U: “A Cesena sono le …”
 </div>
 <ul>
 <li>Le skill e gli altri elementi sono <strong>complementari</strong>: una skill può indicare <em>quali tool</em> (o server MCP) usare e <em>come</em></li>
-<li>Regola pratica (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>): <em>procedure</em> che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; <em>procedure</em> affidabili e verificabili $\rightarrow$ workflow (prossima lezione)
+<li>Regola pratica (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>): <em>procedure</em> che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; <em>procedure</em> affidabili e verificabili $\rightarrow$ <a href="#/workflows-concept">workflow</a>
 <ul>
-<li>compromessi organizzativi (costo, conformità, time-to-market) nella <a href="#/which-technique">lezione sulla governance</a></li>
+<li>compromessi organizzativi (costo, conformità, time-to-market) nella sezione <a href="#/which-technique">Quale tecnica?</a></li>
 </ul>
 </li>
 </ul>
@@ -2201,9 +2205,9 @@ P -&gt; U: “A Cesena sono le …”
 <li><strong>Risorse</strong> (secondo necessità): file letti <em>solo se</em> richiesti dalle istruzioni; script <em>eseguiti</em>, così che entri nel contesto solo il loro <em>output</em></li>
 </ol>
 <ul>
-<li>Si possono quindi installare <em>molte</em> skill con un costo contenuto e <em>costante</em>: il <a href="https://unibo-fc-isi-iag.github.io/slides-module2/prompting/#/context-management">contesto</a> contiene solo ciò che è <em>pertinente</em>
+<li>Si possono quindi installare <em>molte</em> skill con un costo contenuto e <em>costante</em>: il contesto contiene solo ciò che è <em>pertinente</em>
 <ul>
-<li>stesso principio del <a href="https://unibo-fc-isi-iag.github.io/slides-module2/rag/">RAG</a>, ma l’agente <em>stesso</em> decide cosa caricare <em>leggendo</em> file (senza embedding né ricerca per similarità)</li>
+<li>stesso principio del RAG (caricare solo le informazioni pertinenti, quando servono), ma l’agente <em>stesso</em> decide cosa caricare <em>leggendo</em> file (senza embedding né ricerca per similarità)</li>
 <li>consigliato: <code>SKILL.md</code> sotto 500 righe; riferimenti a <em>un solo livello</em> (un riferimento non dovrebbe rimandare ad altri)</li>
 </ul>
 </li>
@@ -2388,7 +2392,7 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="skill-nei-propri-agenti">Skill nei propri agenti</h2>
 <ul>
 <li>Le skill non sono una prerogativa degli <em>agenti di programmazione</em>: qualsiasi agente può supportarle con poche righe di codice</li>
-<li>Cosa deve fare il <strong>controllore</strong> (cfr. <a href="https://unibo-fc-isi-iag.github.io/slides-module2/agents/#/agents-concept">agenti</a>):
+<li>Cosa deve fare il <strong>controllore</strong> (cfr. <a href="#/agentic-ai">la metafora agentica</a>):
 <ol>
 <li><em>scoprire</em>: trovare i file <code>SKILL.md</code> nelle cartelle e interpretarne il front matter</li>
 <li><em>presentare</em>: inserire nome, descrizione e posizione di ogni skill nel <strong>system prompt</strong></li>
@@ -2610,7 +2614,7 @@ P -&gt; U: “A Cesena sono le …”
 <li>Empiricamente, il RAG tende a superare il fine-tuning nell’inserire <em>nuove conoscenze</em> (<a href="https://arxiv.org/abs/2312.05934">Ovadia et al., 2023</a>), mentre il fine-tuning modella meglio la <em>forma</em></li>
 </ul>
 <blockquote>
-<p>Ricordare la <a href="https://unibo-fc-isi-iag.github.io/slides-module2/rag/#/technique-selection">regola pratica</a>: partire dal prompting, misurare e aggiungere complessità solo quando le valutazioni ne mostrano la <em>necessità</em></p>
+<p>Regola pratica: partire dal prompting, misurare e aggiungere complessità solo quando le valutazioni ne mostrano la <em>necessità</em></p>
 </blockquote>
 
 </section>
@@ -2701,7 +2705,7 @@ P -&gt; U: “A Cesena sono le …”
 <div style="font-size: 90%;">
 <ol start="5">
 <li>
-<p>Il programma principale è una chat CLI (cfr. <a href="#/sync-chat">lezione LLM-as-a-Service</a>), dove ogni messaggio attiva un ciclo ReAct (codice completo <a href="../lab-snippets/snippets/lecture_agents/example1/agent_openai.py">qui</a>):</p>
+<p>Il programma principale è una chat CLI (cfr. <a href="#/sync-chat">Esempio 1</a>), dove ogni messaggio attiva un ciclo ReAct (codice completo <a href="../lab-snippets/snippets/lecture_agents/example1/agent_openai.py">qui</a>):</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">__name__</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">"__main__"</span><span style="color:#000;font-weight:bold">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000">messages</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#204a87">dict</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">role</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"system"</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">content</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">instructions</span><span style="color:#000;font-weight:bold">)]</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#204a87;font-weight:bold">True</span><span style="color:#000;font-weight:bold">:</span>
@@ -2780,7 +2784,7 @@ P -&gt; U: “A Cesena sono le …”
 <p>Dalla <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">specifica del 28/07/2026</a> il protocollo è <em>stateless</em> (senza sessioni né handshake <code>initialize</code>); i server possono ancora chiedere input durante una chiamata (<em>elicitation</em>)</p>
 </li>
 <li>
-<p>Ricordare la <a href="https://unibo-fc-isi-iag.github.io/slides-module2/genai/#/mcp-concept">figura MCP</a> della lezione introduttiva: MCP non cambia il ciclo ReAct, solo <em>da dove</em> provengono i tool</p>
+<p>MCP non cambia il <a href="#/react">ciclo ReAct</a>, solo <em>da dove</em> provengono i tool</p>
 </li>
 </ul>
 </section><section>

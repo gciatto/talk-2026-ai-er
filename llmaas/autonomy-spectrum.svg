@@ -11,7 +11,7 @@
 <text x="215" y="180" font-size="26" font-weight="600">Singola chiamata LLM</text>
 <text x="215" y="220">input → LLM → output</text>
 <text x="215" y="290" font-style="italic" fill="#555">ad es. valutare una lettera</text>
-<text x="215" y="318" font-style="italic" fill="#555">(lezione sul prompting)</text>
+<text x="215" y="318" font-style="italic" fill="#555">(cfr. valutazione delle lettere)</text>
 
 <rect x="425" y="140" width="350" height="260" rx="12" fill="#3a9a5b" fill-opacity="0.12" stroke="#3a9a5b" stroke-width="3"/>
 <text x="600" y="180" font-size="26" font-weight="600">Workflow</text>
