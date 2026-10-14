@@ -327,9 +327,11 @@ Chi offre cosa
 | __Marketplace__ / hub | modelli da _scaricare_ e (alcune opzioni di) inferenza ospitata | Hugging Face | dipende dalla licenza del modello e da chi lo ospita |
 
 - Lo _stesso_ modello a pesi aperti è accessibile in _molti_ modi: confrontare __prezzo__, __latenza__, __localizzazione dei dati__ e __condizioni__ (es. conservazione dei dati, addestramento sui propri dati)
-- Più _intermediari_ ci sono, più contratti e giurisdizioni possono disciplinare il trattamento dei dati
+- Più _intermediari_ ci sono, più contratti e giurisdizioni: chiedersi _dove_ vengono elaborati i dati, non solo _chi_ ha addestrato il modello
 
 {{% /small %}}
+
+{{< image src="./provider-chain.svg" max-h="20vh" alt="Catena dei fornitori: l'organizzazione (titolare del trattamento) invia i dati a un aggregatore (es. Open Router, USA; ToS e DPA firmati dall'organizzazione), che li inoltra a un fornitore di inferenza (es. Together AI, USA, o Scaleway, UE; contratto con l'aggregatore), che esegue i pesi di uno sviluppatore (es. Qwen3, Alibaba, Cina; solo la licenza dei pesi). I dati transitano dai primi tre, lo sviluppatore non li vede" >}}
 
 ---
 
