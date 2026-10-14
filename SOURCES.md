@@ -76,6 +76,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | I tool cambiano il profilo di rischio | Tools change the risk profile | `agents` (line 699) |
 | Prompt injection | Prompt injection | `agents` (line 717) |
 | Mitigazioni | Mitigations | `agents` (line 742) |
+| L'LLM propone, i critici verificano: LLM-Modulo | LLMs can't plan, but can help planning: LLM-Modulo | `agents` (line 674), merged with the previous slide |
 | **Fondamenti di IA agentica** | **Fundamentals of Agentic AI** | __new__ |
 | Agenti basati su LLM: la metafora agentica | Agents built around LLMs: the agentic metaphor | `agents` (line 56) |
 | Gli LLM da soli non sono agenti | LLMs are not agents by themselves | `agents` (line 66) |

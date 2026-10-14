@@ -1227,6 +1227,19 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 > Ricordare: gli LLM __propongono__, il software __verifica__ (es. validando gli argomenti dei tool), le persone rimangono __responsabili__
 
+---
+
+{{< slide id="llm-modulo" >}}
+
+## L'LLM propone, i critici verificano: LLM-Modulo
+
+{{< image src="./llm-modulo.svg" max-h="50vh" alt="Ciclo LLM-Modulo sull'esempio ricorrente: un obiettivo (selezionare i migliori candidati per un colloquio) arriva all'LLM, che propone un piano (valutare ogni lettera, ordinare per punteggio, invitare i primi 2 tramite send_email); critici esterni lo verificano: critici rigidi nel codice (i tool esistono, argomenti validi, precondizioni soddisfatte), critici di policy (e-mail solo con approvazione umana, considerare anche i voti), critici morbidi (LLM-as-a-Judge o persone); i piani rifiutati tornano all'LLM con la critica, quelli accettati sono eseguiti dal controllore con log e approvazione umana" >}}
+
+- Gli LLM generano piani _plausibili_, ma non _garantiti_: nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il __12%__ dei casi ([Valmeekam et al., 2023](https://arxiv.org/abs/2305.15771))
+- __LLM-Modulo__ ([Kambhampati et al., 2024](https://proceedings.mlr.press/v235/kambhampati24a.html)): l'LLM _propone_, __critici__ esterni _verificano_, in un ciclo _genera–verifica–critica_
+    + prima i controlli _nel codice_ (economici, deterministici), poi i giudizi di LLM o persone, solo per ciò che il codice non può verificare
+    + in pratica: il piano è un [output strutturato](#/structured-output), validato _prima_ di eseguire qualsiasi azione
+
 {{% /section %}}
 
 ---
