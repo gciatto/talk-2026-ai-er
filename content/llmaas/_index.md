@@ -528,6 +528,32 @@ you> ^CGoodbye!
     - chiedersi: possiamo sapere quale modello sta effettivamente elaborando la richiesta?
     - osservare il limite: il modello non accede a informazioni in tempo reale; ad esempio, non può conoscere l'ora attuale
 
+---
+
+{{< slide id="context-growth" >}}
+
+## La cronologia cresce a ogni turno (e con lei i costi)
+
+{{% multicol %}}
+{{% col class="col-4" %}}
+{{% small "85%" %}}
+- L'API è _senza stato_: a ogni turno l'Esempio 1 reinvia __l'intera__ lista `messages`
+    + i token in _ingresso_ (e quindi _costo_ e _latenza_) crescono a ogni turno
+    + il costo _cumulativo_ di una conversazione cresce in modo __quadratico__ con il numero di turni
+    + oltre la _finestra di contesto_, la richiesta fallisce
+- Anche _dentro_ la finestra, più contesto non è sempre meglio: le prestazioni calano con input lunghi (cfr. ["context rot"](https://research.trychroma.com/context-rot))
+- __Gestione del contesto__:
+    1. _tagliare_ i messaggi più vecchi
+    2. _compattare_: sostituirli con un riassunto (cfr. [`chat_with_compaction.py`](../lab-snippets/snippets/lecture_prompting/example4/chat_with_compaction.py))
+    3. _recuperare_ solo le informazioni rilevanti (cfr. RAG)
+    4. _prompt caching_ del fornitore: il prefisso stabile costa meno
+{{% /small %}}
+{{% /col %}}
+{{% col class="col-8" %}}
+{{< image src="./context-growth.svg" max-h="70vh" alt="Token inviati per richiesta in 10 turni: senza gestione del contesto la cronologia cresce linearmente e supera il budget dal turno 7; con la compattazione un riassunto sostituisce i messaggi più vecchi dopo i turni 6 e 9, mantenendo ogni richiesta entro il budget" >}}
+{{% /col %}}
+{{% /multicol %}}
+
 {{% /section %}}
 
 ---
