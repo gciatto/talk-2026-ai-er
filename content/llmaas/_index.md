@@ -1186,6 +1186,8 @@ Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose s
 
 ---
 
+{{< slide id="prompt-injection" >}}
+
 ## Prompt injection
 
 - __Prompt injection__: _istruzioni_ nascoste nei _dati_, che l'LLM segue come se provenissero dallo sviluppatore o dall'utente
@@ -1202,12 +1204,21 @@ Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose s
 
     + il tool `read_letter` introdurrebbe questo testo nel contesto dell'agente...
 
+{{% multicol %}}
+{{% col class="col-8" %}}
+
 - La __triade letale__ (_lethal trifecta_, cfr. [Willison (2025)](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/)): un agente con
     1. accesso a _dati privati_ (es. tutte le domande), e
     2. esposizione a _contenuti non attendibili_ (es. lettere scritte dai candidati), e
     3. possibilità di _comunicare all'esterno_ (es. inviare e-mail, accedere a URL)
 
     può essere indotto a _esfiltrare_ dati: evitare di combinare queste tre capacità nello stesso agente
+
+{{% /col %}}
+{{% col class="col-4" %}}
+{{< image src="./lethal-trifecta.svg" max-h="32vh" alt="Diagramma di Venn della triade letale: dati privati (es. tutte le domande), contenuti non attendibili (es. lettere dei candidati) e comunicazione esterna (es. inviare e-mail, aprire URL); dove si sovrappongono tutte e tre c'è il rischio di esfiltrazione" >}}
+{{% /col %}}
+{{% /multicol %}}
 
 ---
 

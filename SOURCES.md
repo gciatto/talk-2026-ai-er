@@ -74,7 +74,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Workflow: un esempio intuitivo | Workflows: an intuitive example | `workflows` (line 72) |
 | Pattern di workflow: un catalogo | Workflow patterns: a catalogue | `workflows` (line 376) |
 | I tool cambiano il profilo di rischio | Tools change the risk profile | `agents` (line 699) |
-| Prompt injection | Prompt injection | `agents` (line 717) |
+| Prompt injection | Prompt injection | `agents` (line 717); trifecta Venn diagram __new__ |
 | Mitigazioni | Mitigations | `agents` (line 742) |
 | L'LLM propone, i critici verificano: LLM-Modulo | LLMs can't plan, but can help planning: LLM-Modulo | `agents` (line 674), merged with the previous slide |
 | **Fondamenti di IA agentica** | **Fundamentals of Agentic AI** | __new__ |
