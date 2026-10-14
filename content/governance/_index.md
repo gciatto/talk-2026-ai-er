@@ -854,6 +854,17 @@ Stimiamo il costo annuo dell'esempio ricorrente, con __ipotesi__ esplicite (e ap
 
 ---
 
+{{< slide id="cost-breakeven" >}}
+
+## Il punto di pareggio, a colpo d'occhio
+
+{{< image src="./cost-breakeven.svg" max-h="55vh" alt="Costo annuo in funzione dei token elaborati all'anno, in scala logaritmica: le opzioni a consumo (modello proprietario di frontiera, piccolo proprietario, aperto ospitato nell'UE) sono rette crescenti, le opzioni a costo fisso (GPU da 80 GB a noleggio 24/7, circa 24mila dollari all'anno; workstation on-premise, circa 1.200 dollari all'anno) sono orizzontali. L'esempio ricorrente, circa 20 milioni di token all'anno, sta molto a sinistra di tutti i punti di pareggio: la workstation conviene rispetto al modello di frontiera da circa 200 milioni di token all'anno, rispetto al modello aperto ospitato nell'UE solo da circa 6 miliardi" >}}
+
+- I costi fissi non crescono con il volume, ma hanno una _capacità_ massima e costi nascosti (_personale_, manutenzione)
+- Rispetto a un modello aperto ospitato nell'UE, l'on-premise conviene solo a volumi __centinaia di volte__ maggiori dell'esempio ricorrente
+
+---
+
 {{< slide id="local-sustainability" >}}
 
 ## Quando l'esecuzione locale è _davvero_ sostenibile?

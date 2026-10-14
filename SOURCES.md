@@ -151,6 +151,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Eseguire modelli localmente: hardware e software (pt. 1) | Running models locally: hardware & software (pt. 1) | `llmaas` (line 351) |
 | Eseguire modelli localmente: hardware e software (pt. 2) | Running models locally: hardware & software (pt. 2) | `llmaas` (line 371) |
 | Opzioni di deployment: un esempio di calcolo dei costi | Deployment options: a worked cost example | `governance` (line 131) |
+| Il punto di pareggio, a colpo d'occhio | — | __new__ |
 | Quando l'esecuzione locale è _davvero_ sostenibile? | When is local execution _really_ sustainable? | __new__ |
 | **Sovranità digitale europea** | **European Digital Sovereignty** | __new__ |
 | "IA sovrana": una narrazione e i suoi limiti | "Sovereign AI": a framing, and its limits | `governance` (line 459) |

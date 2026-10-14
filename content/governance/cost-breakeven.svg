@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 860" width="1700" height="860" font-family="'Signika Negative', 'Helvetica Neue', Helvetica, Arial, sans-serif" fill="#222222">
+<line x1="190.0" y1="60" x2="190.0" y2="700" stroke="#e3e3e3" stroke-width="2"/>
+<text x="190.0" y="734" font-size="24" text-anchor="middle">10M</text>
+<line x1="407.5" y1="60" x2="407.5" y2="700" stroke="#e3e3e3" stroke-width="2"/>
+<text x="407.5" y="734" font-size="24" text-anchor="middle">100M</text>
+<line x1="625.0" y1="60" x2="625.0" y2="700" stroke="#e3e3e3" stroke-width="2"/>
+<text x="625.0" y="734" font-size="24" text-anchor="middle">1 mld</text>
+<line x1="842.5" y1="60" x2="842.5" y2="700" stroke="#e3e3e3" stroke-width="2"/>
+<text x="842.5" y="734" font-size="24" text-anchor="middle">10 mld</text>
+<line x1="1060.0" y1="60" x2="1060.0" y2="700" stroke="#e3e3e3" stroke-width="2"/>
+<text x="1060.0" y="734" font-size="24" text-anchor="middle">100 mld</text>
+<line x1="190" y1="700.0" x2="1060" y2="700.0" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="708.0" font-size="24" text-anchor="end">$1</text>
+<line x1="190" y1="593.3" x2="1060" y2="593.3" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="601.3" font-size="24" text-anchor="end">$10</text>
+<line x1="190" y1="486.7" x2="1060" y2="486.7" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="494.7" font-size="24" text-anchor="end">$100</text>
+<line x1="190" y1="380.0" x2="1060" y2="380.0" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="388.0" font-size="24" text-anchor="end">$1k</text>
+<line x1="190" y1="273.3" x2="1060" y2="273.3" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="281.3" font-size="24" text-anchor="end">$10k</text>
+<line x1="190" y1="166.7" x2="1060" y2="166.7" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="174.7" font-size="24" text-anchor="end">$100k</text>
+<line x1="190" y1="60.0" x2="1060" y2="60.0" stroke="#e3e3e3" stroke-width="2"/>
+<text x="176" y="68.0" font-size="24" text-anchor="end">$1M</text>
+<line x1="190" y1="700" x2="1060" y2="700" stroke="#222" stroke-width="2"/><line x1="190" y1="60" x2="190" y2="700" stroke="#222" stroke-width="2"/>
+<text x="625.0" y="778" font-size="26" text-anchor="middle">token elaborati all&#8217;anno (ingresso + uscita, 7:1)</text>
+<text transform="translate(60 380.0) rotate(-90)" font-size="26" text-anchor="middle">costo annuo (USD)</text>
+<line x1="255.5" y1="60" x2="255.5" y2="700" stroke="#555" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="265.5" y="90" font-size="22" fill="#555">esempio ricorrente</text><text x="265.5" y="116" font-size="22" fill="#555">(500 domande/anno)</text>
+<line x1="190.0" y1="510.3" x2="1060.0" y2="83.7" stroke="#d64541" stroke-width="5"/>
+<line x1="190.0" y1="574.6" x2="1060.0" y2="147.9" stroke="#e8871e" stroke-width="5"/>
+<line x1="190.0" y1="666.5" x2="1060.0" y2="239.8" stroke="#3a9e4f" stroke-width="5"/>
+<line x1="190" y1="232.8" x2="1060" y2="232.8" stroke="#8e5bb5" stroke-width="5" stroke-dasharray="14 8"/>
+<line x1="190" y1="371.6" x2="1060" y2="371.6" stroke="#2690e7" stroke-width="5" stroke-dasharray="14 8"/>
+<circle cx="755.9" cy="232.8" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/>
+<circle cx="886.9" cy="232.8" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/>
+<circle cx="473.0" cy="371.6" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/>
+<circle cx="603.9" cy="371.6" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/>
+<circle cx="791.3" cy="371.6" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/>
+<text x="1110" y="70" font-size="24" font-weight="bold">a consumo (per token)</text>
+<line x1="1110" y1="110" x2="1160" y2="110" stroke="#d64541" stroke-width="5"/><text x="1172" y="118" font-size="22">frontiera proprietario ($4 / $20)</text>
+<line x1="1110" y1="152" x2="1160" y2="152" stroke="#e8871e" stroke-width="5"/><text x="1172" y="160" font-size="22">piccolo proprietario ($1 / $5)</text>
+<line x1="1110" y1="194" x2="1160" y2="194" stroke="#3a9e4f" stroke-width="5"/><text x="1172" y="202" font-size="22">aperto ospitato UE ($0,15 / $0,60)</text>
+<text x="1110" y="256" font-size="24" font-weight="bold">costo fisso (ipotesi)</text>
+<line x1="1110" y1="296" x2="1160" y2="296" stroke="#8e5bb5" stroke-width="5" stroke-dasharray="14 8"/><text x="1172" y="304" font-size="22">GPU 80 GB a noleggio 24/7</text><text x="1172" y="332" font-size="20" fill="#555">~$2k/mese: modelli medio-grandi</text>
+<line x1="1110" y1="386" x2="1160" y2="386" stroke="#2690e7" stroke-width="5" stroke-dasharray="14 8"/><text x="1172" y="394" font-size="22">workstation on-premise</text><text x="1172" y="422" font-size="20" fill="#555">~$1,2k/anno: GPU in 3 anni + energia;</text><text x="1172" y="448" font-size="20" fill="#555">solo modelli piccoli, personale escluso</text>
+<circle cx="1135" cy="506" r="9" fill="#ffffff" stroke="#222" stroke-width="3"/><text x="1172" y="514" font-size="22">punto di pareggio</text>
+<text x="190" y="840" font-size="20" fill="#555">prezzi in USD per 1M di token in ingresso / uscita, a settembre 2026; costi fissi indicativi; non si confronta la qualità dei modelli</text>
+</svg>
