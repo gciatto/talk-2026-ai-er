@@ -120,7 +120,7 @@
 </ol>
 </section><section>
 <h2 id="dove-eseguire-il-modello-un-esempio-intuitivo">Dove eseguire il modello? Un esempio intuitivo</h2>
-<img src="./deployment-options.svg" alt="Lo stesso processo di ammissione con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i documenti dei candidati escono dall'università, chi paga cosa e chi può vedere i dati" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
+<img src="./deployment-options.svg" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
 </section><section>
 <h2 id="opzioni-di-deployment-a-confronto">Opzioni di deployment a confronto</h2>
 <div style="font-size: 80%;">
@@ -208,7 +208,7 @@
 </li>
 <li>Prerequisito: tutti i modelli devono essere raggiungibili tramite un’<strong>API comune</strong> (prossima sezione), altrimenti ogni percorso richiede codice dedicato</li>
 </ul>
-<figure id="plantuml-figure-1792990298998257584" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
+<figure id="plantuml-figure-1793033140013443762" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
 <p>@startuml
 rectangle “Applicazioni” as A
 rectangle “Gateway\n(instradamento, chiavi,\nbudget, log)” as G
@@ -222,7 +222,7 @@ G -&gt; C
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1792990298998257584");
+    handlePlantumlFigureByID("plantuml-figure-1793033140013443762");
 </script>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="providers">
@@ -291,7 +291,7 @@ G -&gt; C
 </ul>
 </section><section>
 <h2 id="chat-completion-un-esempio-intuitivo">Chat Completion: un esempio intuitivo</h2>
-<figure id="plantuml-figure-1792990298999240894" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
+<figure id="plantuml-figure-1793033140014611918" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
 <p>@startuml
 hide footbox
 actor “Utente” as U
@@ -313,7 +313,7 @@ P -&gt; U: “A Cesena sono le …”
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1792990298999240894");
+    handlePlantumlFigureByID("plantuml-figure-1793033140014611918");
 </script>
 <ul>
 <li>La <strong>stessa</strong> interazione è implementata da <em>tutti</em> i fornitori; cambia solo la <em>sintassi</em>
