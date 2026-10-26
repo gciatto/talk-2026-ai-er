@@ -79,7 +79,7 @@ Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono 
 
 ## Dove eseguire il modello? Un esempio intuitivo
 
-{{< image src="./deployment-options.svg" max-h="70vh" alt="Lo stesso processo di ammissione con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i documenti dei candidati escono dall'università, chi paga cosa e chi può vedere i dati" >}}
+{{< image src="./deployment-options.svg" max-h="70vh" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" >}}
 
 ---
 
