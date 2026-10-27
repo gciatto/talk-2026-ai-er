@@ -17,7 +17,7 @@ outputs = ["Reveal"]
 0. [Informazioni sulle lezioni](./) (questa pagina):
     + [l'esempio ricorrente](llmaas/#/running-example) · [il codice degli esempi](#/lab-snippets)
 1. [LLM-as-a-Service: API, strumenti e agenti](llmaas) (27/10/2026, 4h)
-    + [scelte architetturali](llmaas/#/llmaas) · [API](llmaas/#/apis) · [integrazione](llmaas/#/integration) · [le API OpenAI in pratica](llmaas/#/openai-in-practice) · [dal testo ai processi](llmaas/#/processes) · [IA agentica](llmaas/#/agentic-ai) · [costruire un agente](llmaas/#/building-an-agent)
+    + [scelte architetturali](llmaas/#/llmaas) · [API](llmaas/#/apis) · [integrazione](llmaas/#/integration) · [le API OpenAI in pratica](llmaas/#/openai-in-practice) · [dal testo ai processi](llmaas/#/processes) · [skill e IA agentica](llmaas/#/agentic-ai) · [costruire un agente](llmaas/#/building-an-agent)
     + esercizio guidato 1. [stesso programma, fornitori diversi](llmaas/#/exercise-providers) · esercizio guidato 2. [cambiare lo schema dell'output](llmaas/#/exercise-schema)
 2. [Alternative sovrane e aperte ai grandi LLM](governance) (18/11/2026, 3h)
     + [modelli aperti](governance/#/open-landscape) · [fornitori](governance/#/providers-landscape) · [esecuzione locale](governance/#/local) · [sovranità europea](governance/#/eu-sovereignty) · [Italia](governance/#/italy) · [valutazione](governance/#/evaluation) · [decisione](governance/#/decision)

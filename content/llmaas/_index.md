@@ -25,7 +25,7 @@ outputs = ["Reveal"]
     + Chat Completions e Responses; sincronia, asincronia, streaming; allegati
 5. [Dalla generazione di testo ai processi](#/processes)
     + output strutturato; architettura degli agenti, tool, workflow, ReAct e MCP
-6. [Fondamenti di IA agentica](#/agentic-ai)
+6. [Skill e implicazioni dell'IA agentica](#/agentic-ai)
     + skill e implicazioni architetturali
 7. [Costruire un agente](#/building-an-agent), passo dopo passo
 
@@ -1021,6 +1021,8 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 {{% section %}}
 
+{{< slide id="agent-architecture" >}}
+
 ## Agenti basati su LLM: la metafora agentica
 
 {{< image src="./agent-architecture.svg" max-h="60vh" alt="Architettura dell'agente: l'utente comunica con l'agente; al suo interno un controllore (il proprio codice) esegue il ciclo, un LLM delibera, la memoria conserva cronologia e stato, le policy vincolano il comportamento; il controllore chiama tool di percezione, ragionamento e attuazione, che leggono e scrivono nell'ambiente" >}}
@@ -1058,7 +1060,7 @@ Dalle garanzie _più deboli_ alle _più forti_:
     3. un __JSON Schema__ dei _parametri_ (nomi, tipi, descrizioni, vincoli)
     4. un'__implementazione__, che l'LLM _non vede_ e _non esegue_: è l'_agente_ a eseguirla
 
-- Le definizioni dei tool accompagnano ogni richiesta; l'LLM può rispondere con una __chiamata a tool__ anziché testo (ricordare [`tool_calls`](#/chat-completion-concept))
+- Le definizioni dei tool accompagnano ogni richiesta; l'LLM può rispondere con una __chiamata a tool__ anziché testo (campo `tool_calls` della risposta)
     + una chiamata a tool è un [output strutturato](#/structured-output) conforme allo _schema_ del tool
     + l'agente la _esegue_ e restituisce il _risultato_ come messaggio `tool`
 
@@ -1256,7 +1258,7 @@ function:
 
 ## Model Context Protocol (MCP): il concetto generale
 
-- __Problema__: finora i tool risiedono _dentro_ il codice dell'agente
+- __Problema__: con tool _locali_, le funzioni risiedono _dentro_ il codice dell'agente
     + ogni agente reimplementa (o copia) i tool necessari
     + ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)
 - [__MCP__](https://modelcontextprotocol.io) è un _protocollo aperto_ per esporre tool (e altro) alle applicazioni basate su LLM in modo _standard_ (cfr. [specifica](https://modelcontextprotocol.io/specification))
@@ -1382,7 +1384,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 {{< slide id="agentic-ai" >}}
 
-# Fondamenti di IA agentica
+# Skill e implicazioni dell'IA agentica
 
 ---
 
@@ -1618,7 +1620,7 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 ## Skill nei propri agenti
 
 - Le skill non sono una prerogativa degli _agenti di programmazione_: qualsiasi agente può supportarle con poche righe di codice
-- Cosa deve fare il __controllore__ (cfr. [la metafora agentica](#/agentic-ai)):
+- Cosa deve fare il __controllore__ (cfr. [la metafora agentica](#/agent-architecture)):
     1. _scoprire_: trovare i file `SKILL.md` nelle cartelle e interpretarne il front matter
     2. _presentare_: inserire nome, descrizione e posizione di ogni skill nel __system prompt__
     3. _caricare_: dare all'LLM un modo per __leggere__ i file delle skill (tool dedicato `load_skill` o generico `read_file`)

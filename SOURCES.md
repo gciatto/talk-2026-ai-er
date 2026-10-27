@@ -86,7 +86,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Prompt injection | Prompt injection | `agents` (line 717); trifecta Venn diagram __new__ |
 | Mitigazioni | Mitigations | `agents` (line 742) |
 | L'LLM propone, i critici verificano: LLM-Modulo | LLMs can't plan, but can help planning: LLM-Modulo | `agents` (line 674), merged with the previous slide |
-| **Fondamenti di IA agentica** | **Fundamentals of Agentic AI** | __new__ |
+| **Skill e implicazioni dell'IA agentica** | **Skills and Implications of Agentic AI** | __new__ |
 | Skill: il concetto generale | Skills: the general concept | `skills` (line 42) |
 | Skill: un esempio intuitivo | Skills: an intuitive example | `skills` (line 63) |
 | Skill a confronto con prompt, tool, server MCP e workflow | Skills vs. prompts, tools, MCP servers, and workflows | `skills` (line 76) |
@@ -121,9 +121,10 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Riprendiamo: dove deve essere eseguito il modello? | Recall: where should the model run? | __new__ |
 | **Il panorama dei modelli aperti e a pesi aperti** | **The Landscape of Open and Open-Weight Models** | __new__ |
 | Cataloghi di modelli (pt. 1): il concetto generale | Model zoos (pt. 1): the general concept | `llmaas` (line 55) |
-| Eseguire modelli localmente: cosa serve? (pt. 1) | Running models locally: what does it take? (pt. 1) | `llmaas` (line 264) |
-| Quantizzazione (pt. 1): il concetto | Quantization (pt. 1): the concept | `llmaas` (line 308) |
+| Pesi, parametri e memoria: il concetto generale | Running models locally: what does it take? (pt. 1) | `llmaas` (line 264) |
+| Quantizzazione: il concetto | Quantization (pt. 1): the concept | `llmaas` (line 308) |
 | Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama) | Decoding GGUF quantization labels (as seen in Ollama's tags) | `llmaas` (line 337) |
+| Precisione e memoria: un confronto intuitivo | Running models locally: what does it take? (pt. 1), memory footprint figure | `llmaas` (line 264), split; interpretation __new__ |
 | Modelli Mixture-of-Experts: parametri totali e attivi | Running models locally: hardware & software (pt. 1), MoE subsection | `llmaas` (line 363), split |
 | I parametri chiave, a colpo d'occhio | Key parameters, at a glance | __new__ |
 | Cataloghi di modelli (pt. 2): il panorama tecnologico | Model zoos (pt. 2): the technological landscape | `llmaas` (line 77) |
@@ -155,7 +156,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Portabilità delle applicazioni e dipendenza dal fornitore | Portability of applications, and dependency on the provider | __new__ |
 | **Esecuzione locale e sovranità infrastrutturale** | **Local Execution and Infrastructural Sovereignty** | __new__ |
 | Ollama (cfr. <https://ollama.com/>) | About Ollama (cf. <https://ollama.com/>) | `llmaas` (line 121) |
-| Eseguire modelli localmente: cosa serve? (pt. 2) | Running models locally: what does it take? (pt. 2) | `llmaas` (line 286) |
+| Quanta memoria serve per i pesi? | Running models locally: what does it take? (pt. 2) | `llmaas` (line 286) |
 | Eseguire modelli localmente: hardware e software (pt. 1) | Running models locally: hardware & software (pt. 1) | `llmaas` (line 351) |
 | Eseguire modelli localmente: hardware e software (pt. 2) | Running models locally: hardware & software (pt. 2) | `llmaas` (line 371) |
 | Esempio on-premise con Ollama, pt. 1 | On-premise Example with Ollama pt. 1 | `llmaas` (line 137) |

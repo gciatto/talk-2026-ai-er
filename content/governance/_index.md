@@ -77,7 +77,7 @@ outputs = ["Reveal"]
 
 {{< slide id="local-requirements" >}}
 
-## Eseguire modelli localmente: cosa serve? (pt. 1)
+## Pesi, parametri e memoria: il concetto generale
 
 ### Il concetto generale: un modello è un’enorme raccolta di numeri
 
@@ -97,7 +97,7 @@ outputs = ["Reveal"]
 
 ---
 
-## Quantizzazione (pt. 1): il concetto
+## Quantizzazione: il concetto
 
 - __Quantizzazione__ = rappresentare i pesi del modello con _meno bit_ (es. interi a 4 bit anziché numeri in virgola mobile a 16 bit)
     + associando _intervalli_ di valori reali a pochi _livelli discreti_, più alcuni _fattori di scala_ (memorizzati per _blocco_ di pesi)
@@ -110,9 +110,9 @@ outputs = ["Reveal"]
 
 {{< image src="./quantization.svg" max-h="40vh" alt="Istogramma a campana dei pesi fp16 mappato su 16 codici a quattro bit più un fattore di scala per blocco, ottenendo un istogramma approssimato a gradini" >}}
 
-{{< image src="./memory-footprint.svg" max-h="20vh" alt="Barre impilate della memoria richiesta (pesi più cache KV di 8mila token) da modelli 7B, 14B, 32B e 70B a precisione 16 bit, Q8_0 e Q4_K_M, confrontate con dispositivi da 8/16/24/48/80 GB" >}}
-
 ---
+
+{{< slide id="quantization-labels" >}}
 
 ## Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama)
 
@@ -125,6 +125,17 @@ outputs = ["Reveal"]
 - `IQ*`: quantizzazioni con _matrice d'importanza_, calibrate su testo campione per ridurre la perdita con pochissimi bit
 
 Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `...-q8_0` o `...-fp16` ne selezionano una specifica (cfr. scheda _"Tags"_ di ogni modello nel [catalogo Ollama](https://ollama.com/models))
+
+---
+
+{{< slide id="memory-footprint" >}}
+
+## Precisione e memoria: un confronto intuitivo
+
+{{< image src="./memory-footprint.svg" max-h="60vh" alt="Barre impilate della memoria richiesta (pesi più cache KV di 8mila token) da modelli 7B, 14B, 32B e 70B a precisione 16 bit, Q8_0 e Q4_K_M, confrontate con dispositivi da 8/16/24/48/80 GB" >}}
+
+- A parità di modello, meno bit per peso significano __meno memoria__ occupata
+- Il contesto richiede memoria _aggiuntiva_: non basta confrontare il file scaricato con la VRAM disponibile
 
 ---
 
@@ -235,7 +246,7 @@ Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `..
 | __Fine-tuning__ | continuare l'addestramento di un modello esistente su esempi specifici | adattare un modello multilingue a rapporti amministrativi italiani |
 | __Distillazione__ | addestrare un modello usando risposte o altri segnali di un modello _insegnante_ | un modello capace produce esempi di soluzione per addestrarne uno più piccolo |
 | __Fusione__ (_merge_) | combinare i pesi di modelli o adattamenti compatibili | combinare due adattamenti della stessa famiglia, poi rivalutare il risultato |
-| __Quantizzazione__ | rappresentare i pesi con meno bit, come [già visto](#/local-requirements) | distribuire una variante a 4 bit per ridurre la memoria richiesta |
+| __Quantizzazione__ | rappresentare i pesi con meno bit, come [già visto](#/quantization-labels) | distribuire una variante a 4 bit per ridurre la memoria richiesta |
 
 - Le operazioni possono __combinarsi__: usare risposte di un insegnante per fare fine-tuning di un altro modello, poi quantizzarlo
 - Un modello derivato non è necessariamente _migliore_: va valutato sul compito e può perdere capacità
@@ -385,7 +396,7 @@ più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamen
 - __Responsabile del trattamento__: tratta i dati _per conto_ del titolare e secondo le sue istruzioni (es. un fornitore LLM con questo ruolo contrattuale)
     + il rapporto è disciplinato da un accordo o altro atto giuridico vincolante: __DPA__ (_Data Processing Agreement_, art. 28); eventuali sub-responsabili fanno parte della catena da verificare
 - __Minimizzazione__: inviare solo i dati necessari; __conservazione__: stabilire per quanto tempo mantenere prompt, risposte e log, poi cancellarli o anonimizzarli
-- __Trasferimenti fuori dallo SEE__: richiedono un meccanismo previsto dal GDPR, es. decisione di adeguatezza o garanzie appropriate; scegliere un marchio europeo non basta a capire dove transitano i dati
+- __Trasferimenti fuori dallo Spazio economico europeo (SEE)__: richiedono un meccanismo previsto dal GDPR, es. decisione di adeguatezza o garanzie appropriate; scegliere un marchio europeo non basta a capire dove transitano i dati
 
 Fonti: [EDPB, titolare e responsabile](https://www.edpb.europa.eu/sme/learn-the-basics/data-controller-or-data-processor_en), [GDPR, artt. 5 e 28](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [Commissione, trasferimenti internazionali](https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/rules-international-data-transfers_en) (consultati a ottobre 2026)
 
@@ -736,7 +747,7 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 ---
 
-## Eseguire modelli localmente: cosa serve? (pt. 2)
+## Quanta memoria serve per i pesi?
 
 ### Regola pratica per i soli pesi
 
