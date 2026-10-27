@@ -17,7 +17,6 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **LLM-as-a-Service: API, tool e agenti** | **LLM-as-a-Service: APIs, Tools, and Agents** | __new__ |
 | Programma | Outline | __new__ |
 | **LLM-as-a-Service** | **LLM-as-a-Service** | __new__ |
-| Le cinque dimensioni del compromesso | The five dimensions of the trade-off | `governance` (line 45) |
 | Dove eseguire il modello? Il concetto generale | Where should the model run? The general concept | `governance` (line 90) |
 | Dove eseguire il modello? Un esempio intuitivo | Where should the model run? An intuitive example | `governance` (line 105) |
 | Opzioni di deployment a confronto | Deployment options: comparison | `governance` (line 111) |
@@ -43,6 +42,11 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Quale interfaccia per quale caso d'uso? | Which interface for which use case? | __new__ |
 | **Le API di OpenAI in pratica** | **The OpenAI APIs in Practice** | __new__ |
 | API Chat Completion di OpenAI con Python | OpenAI's Chat Completion API with Python | `llmaas` (line 749) |
+| Il fornitore degli esempi: Open Router | About Open Router (cf. <https://openrouter.ai/>), pt. 1 and 2 (trimmed) | `llmaas` (lines 414, 432) |
+| Open Router: creare una chiave API | On-cloud Example with Open Router (pt. 1–3, merged) | `llmaas` (lines 454, 467, 475) |
+| Open Router: scegliere un modello | — | __new__ |
+| Una richiesta senza programma: `curl` | On-cloud Example with Open Router (pt. 4) | `llmaas` (line 488) |
+| Una richiesta senza programma: `curl` (continua) | On-cloud Example with Open Router (pt. 4, cont.) | `llmaas` (line 501) |
 | Esempio 1: chat CLI sincrona (pt. 1) | Example 1: Sync CLI Chat (pt. 1) | `llmaas` (line 779) |
 | Esempio 1: chat CLI sincrona (pt. 2) | Example 1: Sync CLI Chat (pt. 2) | `llmaas` (line 802) |
 | Esempio 1: chat CLI sincrona (pt. 3) | Example 1: Sync CLI Chat (pt. 3) | `llmaas` (line 820) |
@@ -155,13 +159,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
 | Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__ |
-| Open Router (cfr. <https://openrouter.ai/>), pt. 1 | About Open Router (cf. <https://openrouter.ai/>), pt. 1 | `llmaas` (line 414) |
+| Open Router (cfr. <https://openrouter.ai/>), pt. 1 | About Open Router (cf. <https://openrouter.ai/>), pt. 1 | `llmaas` (line 414), trimmed: account, key, naming moved to `llmaas` |
 | Open Router (cfr. <https://openrouter.ai/>), pt. 2 | About Open Router (cf. <https://openrouter.ai/>), pt. 2 | `llmaas` (line 432) |
-| Esempio cloud con Open Router (pt. 1) | On-cloud Example with Open Router (pt. 1) | `llmaas` (line 454) |
-| Esempio cloud con Open Router (pt. 2) | On-cloud Example with Open Router (pt. 2) | `llmaas` (line 467) |
-| Esempio cloud con Open Router (pt. 3) | On-cloud Example with Open Router (pt. 3) | `llmaas` (line 475) |
-| Esempio cloud con Open Router (pt. 4) | On-cloud Example with Open Router (pt. 4) | `llmaas` (line 488) |
-| Esempio cloud con Open Router (pt. 4, continua) | On-cloud Example with Open Router (pt. 4, cont.) | `llmaas` (line 501) |
 | Un client, _molti_ fornitori gratuiti | One client, _many_ free providers | `free-access` (line 71) |
 | Portabilità delle applicazioni e dipendenza dal fornitore | Portability of applications, and dependency on the provider | __new__ |
 | **Esecuzione locale e sovranità infrastrutturale** | **Local Execution and Infrastructural Sovereignty** | __new__ |
@@ -201,6 +200,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Una valutazione realistica per un'organizzazione | A realistic evaluation, for an organisation | __new__ |
 | Quante evidenze servono? | How much evidence? | `validating` (line 84) |
 | **Criteri di scelta per l'adozione** | **Decision Criteria for Adoption** | __new__ |
+| Le cinque dimensioni del compromesso | The five dimensions of the trade-off | `governance` (line 45) |
 | Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? | __new__ |
 | Come scegliere un modello per un compito? | How to choose a model for a given task? | `governance` (line 769) |
 | Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |

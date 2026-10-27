@@ -43,24 +43,6 @@ Modelli architetturali e scelte strategiche
 
 {{% section %}}
 
-## Le cinque dimensioni del compromesso
-
-Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
-
-1. __Qualità__: quanto sono _buoni_ (accurati, affidabili, coerenti) gli output per il compito da svolgere?
-2. __Costo__: quanto costano _sviluppo_, _esercizio_ (per richiesta, al mese) e _manutenzione_?
-3. __Controllo__: quanto possiamo _ispezionare_, _personalizzare_, _riprodurre_ e _mantenere operativo_ il sistema, indipendentemente da terzi?
-4. __Conformità__: il sistema rispetta _leggi_ (es. GDPR, AI Act), _contratti_ e _politiche interne_?
-5. __Time-to-market__: quanto rapidamente possiamo _rilasciare_ (e _modificare_) il sistema?
-
-{{< image src="./tradeoff-radar.svg" max-h="45vh" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" >}}
-
-{{% fragment %}}
-> __Nessuna__ opzione domina tutte le altre: la governance consiste nello scegliere il _compromesso giusto_ per il _caso d'uso_ e __documentare le ragioni della scelta__
-{{% /fragment %}}
-
----
-
 {{< slide id="deployment-options" >}}
 
 ## Dove eseguire il modello? Il concetto generale
@@ -489,6 +471,123 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
     3. __cronologia della conversazione__: una _lista_ di _messaggi_ (dizionari con `role` e `content`)
     4. __richiesta__: `client.chat.completions.create(model=..., messages=...)`, che restituisce una __risposta__ (con `.choices[0].message.content` e `.usage`)
     5. il __programma__ aggiunge ogni risposta alla cronologia perché l'API è _stateless_ (cfr. [concetto di Chat Completion](#/chat-completion-concept))
+
+---
+
+{{< slide id="open-router-intro" >}}
+
+## Il fornitore degli esempi: Open Router
+
+- Negli esempi usiamo [Open Router](https://openrouter.ai/) (_OR_) perché è utilizzabile __gratuitamente__
+    + i modelli con suffisso `:free` non costano nulla, con _limiti stretti_ (20 richieste al minuto, 50 al giorno; [dettagli](https://openrouter.ai/docs/api_reference/limits)), senza carta di credito
+    + espone un'API __compatibile con OpenAI__: il codice degli esempi funziona _identico_ con altri fornitori (cfr. [Esercizio guidato 1](#/exercise-providers)) o con un modello locale (es. Ollama)
+- OR è un __aggregatore__: _una_ chiave e _una_ API per i modelli di _molti_ fornitori (OpenAI, Anthropic, Google, Mistral, Qwen, ...)
+    + i modelli a pagamento hanno un __prezzo per token__ (in `$/1M tokens`, spesso diverso per token in _ingresso_ e in _uscita_)
+    + aggregatori, instradamento tra fornitori e lock-in: cfr. la [prossima lezione](../governance/#/provider-kinds)
+- I modelli si chiamano `provider/model[:tier]`, es. `nvidia/nemotron-3-ultra-550b-a55b:free`
+    + `provider`: chi pubblica il modello (es. `openai`, `qwen`, `google`); `model`: la variante; `tier`: es. `free`
+
+---
+
+## Open Router: creare una chiave API
+
+1. Creare un account su <https://openrouter.ai> (il modo più rapido: accedere con GitHub); per gli esempi __non servono crediti__
+2. Creare una __chiave API__ in <https://openrouter.ai/workspaces/default/keys>
+
+    {{< image src="open-router-apikeys.png" alt="Impostazioni delle chiavi API di Open Router" max-h="35vh" >}}
+
+3. La chiave (`sk-or-v1-...`) basta per <u>spendere il credito dell'account</u> a nome del titolare: va trattata come una __password__
+    + mai nel codice o in un repository: in una variabile d'ambiente (`OPENAI_API_KEY`, cfr. [configurazione](../#/lab-snippets-setup))
+    + se si acquistano crediti, impostare un _limite di spesa_; utilizzo e costi di ogni richiesta sono nella [dashboard delle attività](https://openrouter.ai/activity)
+
+---
+
+## Open Router: scegliere un modello
+
+1. Aprire il [catalogo dei modelli](https://openrouter.ai/models) e filtrare per prezzo (es. _free_) e capacità (es. _tools_, contesto)
+2. Copiare l'__ID__ del modello (es. `google/gemma-4-31b-it:free`) e assegnarlo a `OPENAI_MODEL`
+
+{{< image src="../governance/open-router-models.png" alt="Catalogo dei modelli di Open Router" max-h="40vh" >}}
+
+- I modelli gratuiti __cambiano spesso__ (compaiono, scompaiono, sono sovraccarichi): se uno non risponde, provarne un altro
+- Come leggere un catalogo (dimensione, quantizzazione, licenza, contesto) e quale modello scegliere: cfr. [cataloghi di modelli](../governance/#/model-zoos) nella prossima lezione
+
+---
+
+{{< slide id="curl" >}}
+
+## Una richiesta senza programma: `curl`
+
+- Una richiesta di Chat Completion è solo una __richiesta HTTP__: basta `curl` per provare la chiave API
+
+    ```bash
+    curl -X POST "https://openrouter.ai/api/v1/chat/completions" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -d '{"model": "nvidia/nemotron-3-ultra-550b-a55b:free", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'
+    ```
+
+- Nella risposta (prossima slide) osservare:
+    + `choices[0].message.content`: il messaggio generato; `reasoning`: il "ragionamento" del modello (cfr. [modelli di ragionamento](#/reasoning-models))
+    + `usage`: i token consumati (quelli di _ragionamento_ sono la maggior parte!) e il __costo__ (`cost`, qui zero: modello `:free`)
+    + `model`, `provider`: _chi_ ha davvero risposto
+- Le librerie client (Esempio 1) fanno _esattamente_ questo: costruiscono il JSON, inviano la richiesta, decodificano la risposta
+
+---
+
+## Una richiesta senza programma: `curl` (continua)
+
+risposta (ottobre 2026, convertita in YAML per facilitarne la lettura):
+
+```yaml {class="print-2cols"}
+id: gen-1793115666-9uN6LYPhwcZ1B8NBaMCo
+object: chat.completion
+created: 1793115666
+model: nvidia/nemotron-3-ultra-550b-a55b:free
+provider: Nvidia
+system_fingerprint: null
+service_tier: null
+choices:
+  - index: 0
+    logprobs: null
+    finish_reason: stop
+    native_finish_reason: stop
+    message:
+      role: assistant
+      content: The capital of France is **Paris**.
+      refusal: null
+      reasoning: The user is asking for the capital of
+        France. This is a straightforward factual
+        question. I know the answer is Paris. I will
+        provide the direct answer.
+      reasoning_details:
+        - type: reasoning.text
+          text: The user is asking for the capital of
+            France. This is a straightforward factual
+            question. I know the answer is Paris. I will
+            provide the direct answer.
+          format: unknown
+          index: 0
+usage:
+  prompt_tokens: 23
+  completion_tokens: 41
+  total_tokens: 64
+  cost: 0
+  is_byok: false
+  prompt_tokens_details:
+    cached_tokens: 0
+    cache_write_tokens: 0
+    audio_tokens: 0
+    video_tokens: 0
+  cost_details:
+    upstream_inference_cost: 0
+    upstream_inference_prompt_cost: 0
+    upstream_inference_completions_cost: 0
+  completion_tokens_details:
+    reasoning_tokens: 38
+    image_tokens: 0
+    audio_tokens: 0
+```
 
 ---
 

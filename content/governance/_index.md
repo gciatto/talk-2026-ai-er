@@ -36,7 +36,7 @@ outputs = ["Reveal"]
     1. __API cloud proprietaria__ (es. OpenAI, Anthropic, Google)
     2. __modello aperto, ospitato da terzi__ (es. tramite Open Router, un fornitore cloud UE)
     3. __on-premise__ (es. tramite Ollama, vLLM)
-- ... da scegliere secondo _cinque dimensioni_: qualità, costo, controllo, conformità, time-to-market (cfr. il [confronto](../llmaas/#/deployment-options))
+- ... da scegliere secondo _cinque dimensioni_: qualità, costo, controllo, conformità, time-to-market (cfr. il [confronto](../llmaas/#/deployment-options) e i [criteri di scelta](#/tradeoffs))
 - Le opzioni 2 e 3 richiedono modelli __a pesi aperti__: _quali_, di _chi_, a quali _condizioni_ e quanto sono _validi_?
 
 ---
@@ -525,16 +525,13 @@ Chi offre cosa
 
 ## Open Router (cfr. <https://openrouter.ai/>), pt. 1
 
-- Open Router (_OR_) offre un servizio __cloud__ per accedere a LLM di diversi fornitori, facilitando il _passaggio dall'uno all'altro_
-
-- La sua caratteristica distintiva è il ruolo di _aggregatore_ di più fornitori: permette di accedere a modelli diversi tramite un'unica API e aiuta a evitare il lock-in
-    + OR è utilizzabile __gratuitamente__, con _limiti molto stretti_ (20 richieste al minuto, massimo 50 al giorno)
-        * si possono __acquistare crediti__ per aumentare i limiti dei modelli gratuiti (dettagli in <https://openrouter.ai/docs/api_reference/limits>) o usare modelli _a consumo_
-        * altre API con quote gratuite, tutte compatibili con l'API OpenAI (ottobre 2026): [Google Gemini API](https://ai.google.dev/gemini-api/docs/pricing), [Mistral](https://mistral.ai/pricing/) (piano Free), [Groq](https://console.groq.com/docs/rate-limits), [Cohere](https://docs.cohere.com/docs/rate-limits) (chiave di prova, solo uso non commerciale)
-
-- Un [catalogo di modelli](https://openrouter.ai/models) piuttosto ricco, con modelli di <u>molti</u> fornitori: in particolare OpenAI, Anthropic, Google, xAI, Mistral ecc.
+- Già usato negli esempi della [lezione precedente](../llmaas/#/open-router-intro) (account, chiave API, nomi `provider/model[:tier]`, `curl`): qui, il suo ruolo di __aggregatore__
+- Un'unica API per modelli di _molti_ fornitori: facilita il _passaggio dall'uno all'altro_ e aiuta a evitare il lock-in
+    + utilizzabile __gratuitamente__ con _limiti molto stretti_ (20 richieste al minuto, massimo 50 al giorno); si possono __acquistare crediti__ per alzarli ([dettagli](https://openrouter.ai/docs/api_reference/limits)) o usare modelli _a consumo_
+    + altre API con quote gratuite, tutte compatibili con l'API OpenAI (ottobre 2026): [Google Gemini API](https://ai.google.dev/gemini-api/docs/pricing), [Mistral](https://mistral.ai/pricing/) (piano Free), [Groq](https://console.groq.com/docs/rate-limits), [Cohere](https://docs.cohere.com/docs/rate-limits) (chiave di prova, solo uso non commerciale)
+- Un [catalogo di modelli](https://openrouter.ai/models) piuttosto ricco (cfr. [cataloghi](#/model-zoos)), con modelli di <u>molti</u> fornitori: OpenAI, Anthropic, Google, xAI, Mistral ecc.
     + i modelli hanno un __prezzo per token__, normalmente espresso in `$/1M tokens` (talvolta diverso per i token in _ingresso_ e in _uscita_)
-        * è molto comune nei servizi cloud: occorre tenerne conto durante gli esperimenti per evitare costi inattesi
+        * occorre tenerne conto durante gli esperimenti per evitare costi inattesi (impostare un _limite di spesa_, controllare la [dashboard delle attività](https://openrouter.ai/activity))
         * ricordare che _token_ $\neq$ _parola_: i token sono frammenti di testo definiti dal _tokenizzatore_ del modello (cfr. [esempio interattivo](https://platform.openai.com/tokenizer)), e la stessa frase può costare token diversi su modelli diversi
 
     {{< image src="open-router-models.png" alt="Catalogo dei modelli di Open Router" max-h="40vh" >}}
@@ -542,12 +539,6 @@ Chi offre cosa
 ---
 
 ## Open Router (cfr. <https://openrouter.ai/>), pt. 2
-
-- I modelli nel catalogo OR sono __denominati__ secondo la convenzione `provider/model`, seguita da un eventuale `:tier`, dove:
-    + `provider` è il nome del fornitore del servizio (es. `openai`, `qwen`, `google` ecc.)
-    + `model` è il nome della _variante_ indicato dal fornitore (es. `gpt-oss-120b`, `qwen3-coder`, `gemma-4-26b-a4b-it` ecc.)
-    + `tier` è un suffisso opzionale che indica una variante specifica (di solito `free` per i modelli gratuiti)
-
 
 - L'__instradamento dinamico__ delle richieste avviene su due livelli:
     + tra __modelli__: `openrouter/auto` ([Auto Router](https://openrouter.ai/docs/guides/routing/routers/auto-router)) lascia scegliere a OR il modello per ogni richiesta in base al contenuto (__a pagamento__: può scegliere modelli a pagamento, quindi non funziona su account senza crediti)
@@ -560,119 +551,6 @@ Chi offre cosa
     + utile per evitare il lock-in e avere più controllo su costi e modelli da usare
 
 > Instradamento dinamico e BYOK sono caratteristiche _distintive_ di OR; per il resto è un "normale" fornitore cloud
-
----
-
-## Esempio cloud con Open Router (pt. 1)
-
-1. __Creare__ un account Open Router e _accedere_ al servizio: <https://openrouter.ai>
-    + è più semplice riutilizzare l'account GitHub
-
-2. Facoltativamente, aggiungere __metodi di pagamento__ e _crediti_ all'account in <https://openrouter.ai/settings/credits>
-    + per gli esempi di queste lezioni non servono crediti
-    + se si sperimenta spendendo denaro, impostare un _limite di spesa_ per evitare costi inattesi
-
-    {{< image src="open-router-credits.png" alt="Impostazioni dei crediti di Open Router" max-h="40vh" >}}
-
----
-
-## Esempio cloud con Open Router (pt. 2)
-
-3. Controllare periodicamente la __dashboard delle attività__ dell'account per verificare utilizzo e costi delle richieste: <https://openrouter.ai/activity>
-
-    {{< image src="open-router-activity.png" alt="Dashboard delle attività di Open Router" max-h="40vh" >}}
-
----
-
-## Esempio cloud con Open Router (pt. 3)
-
-4. Per usare i modelli OR da un programma occorre creare una __chiave API__ (da conservare in modo sicuro e non condividere)
-    * (ossia un _token di autenticazione_ che consente ai client di autenticarsi a nome del titolare della chiave)
-    * per il _workspace predefinito_, si crea in <https://openrouter.ai/workspaces/default/keys>
-        + in OR, i __workspace__ sono _domini amministrativi_ al cui interno si applicano regole di configurazione (es. routing, limiti di costo ecc.)
-
-    {{< image src="open-router-apikeys.png" alt="Impostazioni delle chiavi API di Open Router" max-h="40vh" >}}
-
-    + una chiave API è una stringa del tipo `sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXX`: basta per <u>spendere il credito dell’account</u> e inviare richieste a nome del titolare
-
----
-
-## Esempio cloud con Open Router (pt. 4)
-
-5. Si può provare la chiave API con una semplice richiesta `curl`:
-
-    ```bash
-    curl -X POST "https://openrouter.ai/api/v1/chat/completions" \
-        -H "Content-Type: application/json" \
-        -H "Authorization: Bearer YOUR_API_KEY" \
-        -d '{"model": "nvidia/nemotron-3-super-120b-a12b:free", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'
-    ```
-
----
-
-## Esempio cloud con Open Router (pt. 4, continua)
-
-risposta (convertita in YAML per facilitarne la lettura):
-
-```yaml {class="print-2cols"}
-id: gen-1779447979-077vepCYJjlgJfXKnK2q
-object: chat.completion
-created: 1779447979
-model: openai/gpt-5-nano-2025-08-07
-provider: OpenAI
-system_fingerprint: null
-service_tier: default
-choices:
-  - index: 0
-    logprobs: null
-    finish_reason: stop
-    native_finish_reason: completed
-    message:
-      role: assistant
-      content: Paris.
-      refusal: null
-      reasoning: '**Providing the capital of France**
-
-
-        The user asked a straightforward question: "What is the
-        capital of France?" The answer is simple: Paris. I
-        should respond concisely. My best guess is to confirm:
-        "The capital of France is Paris." While adding context
-        could be fun, it’s not necessary since the user didn’t
-        request it. If I wanted to be helpful, I could mention
-        that Paris is the largest city and home to famous
-        landmarks like the Eiffel Tower, but I’ll keep it
-        brief.**Confirming details on Paris**
-
-
-        I can keep my response short and straightforward. The
-        user asked about the capital of France, and I can simply
-        say: "Paris." If I want to offer more, I could say, "The
-        capital of France is Paris." I think that covers it! But
-        if they are interested, I could mention I''m happy to
-        share more details about Paris if they''d like. For now,
-        I’ll stick with the essential answer.'
-usage:
-  prompt_tokens: 13
-  completion_tokens: 243
-  total_tokens: 256
-  cost: 9.785e-05
-  is_byok: false
-  prompt_tokens_details:
-    cached_tokens: 0
-    cache_write_tokens: 0
-    audio_tokens: 0
-    video_tokens: 0
-  cost_details:
-    upstream_inference_cost: 9.785e-05
-    upstream_inference_prompt_cost: 6.5e-07
-    upstream_inference_completions_cost: 9.72e-05
-  completion_tokens_details:
-    reasoning_tokens: 192
-    image_tokens: 0
-    audio_tokens: 0
-
-```
 
 ---
 
@@ -1424,6 +1302,26 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 ---
 
 {{% section %}}
+
+{{< slide id="tradeoffs" >}}
+
+## Le cinque dimensioni del compromesso
+
+Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
+
+1. __Qualità__: quanto sono _buoni_ (accurati, affidabili, coerenti) gli output per il compito da svolgere?
+2. __Costo__: quanto costano _sviluppo_, _esercizio_ (per richiesta, al mese) e _manutenzione_?
+3. __Controllo__: quanto possiamo _ispezionare_, _personalizzare_, _riprodurre_ e _mantenere operativo_ il sistema, indipendentemente da terzi?
+4. __Conformità__: il sistema rispetta _leggi_ (es. GDPR, AI Act), _contratti_ e _politiche interne_?
+5. __Time-to-market__: quanto rapidamente possiamo _rilasciare_ (e _modificare_) il sistema?
+
+{{< image src="./tradeoff-radar.svg" max-h="45vh" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" >}}
+
+{{% fragment %}}
+> __Nessuna__ opzione domina tutte le altre: la governance consiste nello scegliere il _compromesso giusto_ per il _caso d'uso_ e __documentare le ragioni della scelta__
+{{% /fragment %}}
+
+---
 
 {{< slide id="three-options" >}}
 
