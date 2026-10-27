@@ -521,10 +521,23 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
 - Una richiesta di Chat Completion è solo una __richiesta HTTP__: basta `curl` per provare la chiave API
 
     ```bash
+    export OPENAI_API_KEY="sk-or-v1-..."
+    export OPENAI_MODEL="nvidia/nemotron-3-ultra-550b-a55b:free"
     curl -X POST "https://openrouter.ai/api/v1/chat/completions" \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -d '{"model": "nvidia/nemotron-3-ultra-550b-a55b:free", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'
+        -d '{"model": "'$OPENAI_MODEL'", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'
+    ```
+
+    mentre, su Windows PowerShell, si può usare:
+
+    ```powershell
+    $env:OPENAI_API_KEY="sk-or-v1-..."
+    $env:OPENAI_MODEL="nvidia/nemotron-3-ultra-550b-a55b:free"
+    curl -X POST "https://openrouter.ai/api/v1/chat/completions" `
+        -H "Content-Type: application/json" `
+        -H "Authorization: Bearer $env:OPENAI_API_KEY" `
+        -d '{"model": "' + $env:OPENAI_MODEL + '", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'
     ```
 
 - Nella risposta (prossima slide) osservare:
@@ -682,14 +695,36 @@ you> ^CGoodbye!
     + il fornitore conserva temporaneamente lo stato interno del prefisso: i token riusati possono costare meno ed essere elaborati più rapidamente
 - La __risposta viene comunque generata di nuovo__: non è una risposta salvata e restituita senza chiamare il modello
 
-| Richiesta | Parte riusabile | Parte da elaborare |
-|---|---|---|
-| 1: istruzioni + documento + domanda A | nessuna, al primo passaggio | tutto il prompt |
-| 2: istruzioni + documento + domanda B | istruzioni + documento, se ancora in cache | domanda B |
+    | Richiesta | Parte riusabile | Parte da elaborare |
+    |---|---|---|
+    | 1: istruzioni + documento + domanda A | nessuna, al primo passaggio | tutto il prompt |
+    | 2: istruzioni + documento + _domanda B_ | istruzioni + documento, se ancora in cache | domanda B |
 
-- Mettere le parti __stabili all'inizio__ e quelle __variabili alla fine__; modificare il prefisso impedisce di riusarlo da quel punto in poi
-- La cache __scade__; disponibilità, soglie e prezzi dipendono dal fornitore e dal modello
-- La cache riduce il lavoro ripetuto, ma __non amplia la finestra di contesto__ e non sostituisce la gestione della cronologia
+- Note e suggerimenti:
+    * Mettere le parti __stabili all'inizio__ e quelle __variabili alla fine__; modificare il prefisso impedisce di riusarlo da quel punto in poi
+    * La cache __scade__; disponibilità, soglie e prezzi dipendono dal fornitore e dal modello
+    * La cache riduce il lavoro ripetuto, ma __non amplia la finestra di contesto__ e non sostituisce la gestione della cronologia
+
+---
+
+## Prompt caching: come si attiva?
+
+{{% small "85%" %}}
+
+| Fornitore | Attivazione | Cosa fare nel codice |
+|---|---|---|
+| [OpenAI](https://developers.openai.com/api/docs/guides/prompt-caching) | __automatica__, sui modelli supportati (prompt da almeno ~1024 token) | nulla; opzionale `prompt_cache_key` per indirizzare richieste con lo stesso prefisso alla stessa cache; sui modelli più recenti, anche _punti di cache_ espliciti |
+| [Anthropic](https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching) | __esplicita__ | aggiungere `"cache_control": {"type": "ephemeral"}` alla richiesta (punto di cache automatico) o ai singoli blocchi (fino a 4); durata 5 minuti (o 1 ora); scrivere in cache costa _di più_ (1,25×), leggerla molto meno (0,1×) |
+| [Google Gemini](https://ai.google.dev/gemini-api/docs/caching) | _implicita_ (Gemini 2.5 e successivi) o _esplicita_ (alcuni modelli) | nulla, oppure creare un _contenuto in cache_ e citarlo nelle richieste |
+| [Open Router](https://openrouter.ai/docs/features/prompt-caching) | quella del fornitore a monte | inoltra (e traduce) `cache_control`; manda le richieste successive allo _stesso_ fornitore, per non perdere la cache |
+| Locale ([vLLM](https://docs.vllm.ai/en/latest/features/automatic_prefix_caching.html), Ollama) | riuso del prefisso _nel server_, di norma automatico | nulla (Ollama: finché il modello resta caricato in memoria): qui la cache fa risparmiare _tempo_, non denaro |
+
+{{% /small %}}
+
+- Si __verifica__ nella risposta: `usage.prompt_tokens_details.cached_tokens` (letti dalla cache) e `cache_write_tokens` (scritti) in Chat Completions (cfr. la [risposta di `curl`](#/curl)), oppure `cache_read_input_tokens` nell'API di Anthropic
+- Il requisito è lo stesso ovunque: un _prefisso identico_, byte per byte (niente data/ora o ID variabili nel system prompt!)
+
+> Situazione a ottobre 2026: soglie minime, durata della cache e sconti cambiano per fornitore e modello
 
 ---
 

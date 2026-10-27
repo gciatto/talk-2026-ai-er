@@ -51,6 +51,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 1: chat CLI sincrona (pt. 2) | Example 1: Sync CLI Chat (pt. 2) | `llmaas` (line 802) |
 | Esempio 1: chat CLI sincrona (pt. 3) | Example 1: Sync CLI Chat (pt. 3) | `llmaas` (line 820) |
 | Prompt caching: riusare il prefisso, generare una nuova risposta | Prompt caching: the general concept | `prompting` (line 882), condensed |
+| Prompt caching: come si attiva? | — | __new__ |
 | La cronologia cresce a ogni turno (e con lei i costi) | Context management: the general concept + an intuitive example | `prompting` (lines 853, 876), condensed |
 | Esercizio guidato 1: stesso programma, diversi fornitori | Guided exercise 1: same program, different providers | __new__ |
 | Esempio 2: chat CLI asincrona con streaming | Example 2: Async CLI Chat with Streaming | `llmaas` (line 1025) |
