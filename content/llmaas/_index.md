@@ -53,7 +53,7 @@ Opzioni di deployment e fornitori
     2. __Modello aperto ospitato da terzi__: un modello a pesi aperti, eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router)
     3. __On-premise__ (_self-hosted_, _locale_): un modello a pesi aperti sul _proprio_ hardware (es. tramite Ollama, vLLM)
 
-{{< image src="./deployment-options.svg" max-h="50vh" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" >}}
+{{< image src="./deployment-options.svg" max-h="42vh" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" >}}
 
 - Per l'applicazione cambia poco (stessa API, cfr. [prossima sezione](#/apis)); per costi, controllo e privacy cambia _molto_: confronto e criteri di scelta nella [prossima lezione](../governance/#/tradeoffs)
 
@@ -646,7 +646,7 @@ you> ^CGoodbye!
 
 ## Prompt caching: come si attiva?
 
-{{% small "85%" %}}
+{{% small "80%" %}}
 
 | Fornitore | Attivazione | Cosa fare nel codice |
 |---|---|---|

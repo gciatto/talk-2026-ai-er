@@ -548,8 +548,6 @@ Chi offre cosa
         * occorre tenerne conto durante gli esperimenti per evitare costi inattesi (impostare un _limite di spesa_, controllare la [dashboard delle attività](https://openrouter.ai/activity))
         * ricordare che _token_ $\neq$ _parola_: i token sono frammenti di testo definiti dal _tokenizzatore_ del modello (cfr. [esempio interattivo](https://platform.openai.com/tokenizer)), e la stessa frase può costare token diversi su modelli diversi
 
-    {{< image src="open-router-models.png" alt="Catalogo dei modelli di Open Router" max-h="40vh" >}}
-
 ---
 
 ## Open Router (cfr. <https://openrouter.ai/>), pt. 2
@@ -1329,7 +1327,7 @@ Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
 4. __Conformità__: il sistema rispetta _leggi_ (es. GDPR, AI Act), _contratti_ e _politiche interne_?
 5. __Time-to-market__: quanto rapidamente possiamo _rilasciare_ (e _modificare_) il sistema?
 
-{{< image src="./tradeoff-radar.svg" max-h="45vh" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" >}}
+{{< image src="./tradeoff-radar.svg" max-h="33vh" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" >}}
 
 {{% fragment %}}
 > __Nessuna__ opzione domina tutte le altre: la governance consiste nello scegliere il _compromesso giusto_ per il _caso d'uso_ e __documentare le ragioni della scelta__
@@ -1341,7 +1339,7 @@ Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
 
 ## Cloud commerciale, fornitore europeo o on-premise?
 
-{{% small "75%" %}}
+{{% small "70%" %}}
 
 | | Cloud commerciale (es. API di fornitori USA) | Fornitore europeo (modelli proprietari o a pesi aperti, data center UE) | On-premise (modelli a pesi aperti) |
 |---|---|---|---|
