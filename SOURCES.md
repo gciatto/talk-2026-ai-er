@@ -26,6 +26,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **L'ecosistema delle API per l'IA generativa** | **The Ecosystem of APIs for Generative AI** | __new__ |
 | Il concetto generale: _Chat Completion_ come API richiesta–risposta | The general concept: _Chat Completion_ as a request–response API | `llmaas` (line 573) |
 | Chat Completion: un esempio intuitivo | Chat Completion: an intuitive example | `llmaas` (line 589) |
+| Anatomia di un prompt: istruzioni, contesto, dati e formato | What is a prompt? The general concept + Anatomy of a prompt: an intuitive example | `prompting` (lines 43, 61), condensed |
 | Modelli di ragionamento: qualità in cambio di latenza e costi | Reasoning models: the general concept + an intuitive example | `prompting` (lines 737, 752), condensed |
 | Cosa aspettarsi dalle API Web dei fornitori di LLM-as-a-Service? | What to expect in general from Web APIs of LLM-as-a-Service providers? | `llmaas` (line 618) |
 | Compatibilità delle API Web degli LLM (pt. 1) – Famiglia OpenAI | About LLMs' Web API Compatibility (pt. 1) – OpenAI family | `llmaas` (line 640) |
@@ -45,6 +46,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 1: chat CLI sincrona (pt. 1) | Example 1: Sync CLI Chat (pt. 1) | `llmaas` (line 779) |
 | Esempio 1: chat CLI sincrona (pt. 2) | Example 1: Sync CLI Chat (pt. 2) | `llmaas` (line 802) |
 | Esempio 1: chat CLI sincrona (pt. 3) | Example 1: Sync CLI Chat (pt. 3) | `llmaas` (line 820) |
+| Prompt caching: riusare il prefisso, generare una nuova risposta | Prompt caching: the general concept | `prompting` (line 882), condensed |
 | La cronologia cresce a ogni turno (e con lei i costi) | Context management: the general concept + an intuitive example | `prompting` (lines 853, 876), condensed |
 | Esercizio guidato 1: stesso programma, diversi fornitori | Guided exercise 1: same program, different providers | __new__ |
 | Esempio 2: chat CLI asincrona con streaming | Example 2: Async CLI Chat with Streaming | `llmaas` (line 1025) |
@@ -58,6 +60,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **Dalla generazione di testo ai processi** | **From Text Generation to Processes** | __new__ |
 | Output strutturato | About Structured Output | `prompting` (line 109) |
 | Come descrivere al modello il formato strutturato desiderato? | How to represent target structured format to the model? | `prompting` (line 117) |
+| Dalle classi Pydantic al JSON Schema | Pydantic classes with documentation strings + continuation | `prompting` (lines 130, 161), condensed; schema excerpt adapted from `lab-snippets` |
 | Come si _impone_ l'output strutturato? (pt. 1) | How is structured output _enforced_? (pt. 1) | `prompting` (line 189) |
 | Esempio 4: output strutturato con classi Pydantic (pt. 1) | Example 4: Structured Output with Pydantic Classes (pt. 1) | `prompting` (line 235) |
 | Esempio 4: output strutturato con classi Pydantic (pt. 2) | Example 4: Structured Output with Pydantic Classes (pt. 2) | `prompting` (line 257) |
@@ -97,11 +100,13 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Sicurezza delle skill: minacce | Security of skills: threats | `skills` (line 896) |
 | Sicurezza delle skill: mitigazioni | Security of skills: mitigations | `skills` (line 912) |
 | Implicazioni architetturali e decisionali | Architectural and decision implications | __new__ |
+| Prompting, RAG e fine-tuning: cosa cambia? | Which technique? The general concept | `rag` (line 123), condensed and adapted |
 | Quale tecnica? Compromessi | Which technique? Trade-offs | `governance` (line 639) |
 | **Costruire un agente, passo dopo passo** | **Building an Agent, Incrementally** | __new__ |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 1) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 1) | `agents` (line 278) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 2) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 2) | `agents` (line 295) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 3) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 3) | `agents` (line 314) |
+| Esempio 6 (bis): lo stesso agente con LangChain | Example 1 (bis): the same Agent with LangChain (pt. 1) + continuation | `agents` (lines 370, 384), condensed |
 | Esempio 7: tool semplici come server MCP (pt. 1) | Example 7: Simple Tools as an MCP Server (pt. 1) | `agents` (line 485) |
 | Esempio 7: tool semplici come server MCP (pt. 2) | Example 7: Simple Tools as an MCP Server (pt. 2) | `agents` (line 505) |
 | Tool locali e server MCP a confronto | Local tools vs. MCP servers | `agents` (line 546) |

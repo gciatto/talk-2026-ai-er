@@ -1,0 +1,9 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Full name of the applicant, first name first, family name last.
+  degree:
+    anyOf: [{type: string}, {type: 'null'}]
+    description: Degree obtained by the applicant before the application, according to the letter.
+required: [name, degree, alma_mater, attended, skills, strengths, weaknesses]

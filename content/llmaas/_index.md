@@ -211,6 +211,25 @@ P -> U: "A Cesena sono le ..."
 
 ---
 
+{{< slide id="prompt-anatomy" >}}
+
+## Anatomia di un prompt: istruzioni, contesto, dati e formato
+
+Un __prompt__ è l'intero input fornito al modello: nelle API di chat, la sequenza di messaggi e gli eventuali vincoli di formato.
+
+| Elemento | A cosa serve | Esempio |
+|---|---|---|
+| __Istruzioni__ | definire il compito e come svolgerlo | «Riassumi questo documento in tre punti» |
+| __Contesto__ | spiegare a chi e a cosa serve il risultato | «Il destinatario è un dirigente non tecnico» |
+| __Dati di input__ | fornire il materiale da elaborare | il testo del documento, delimitato da `<document>...</document>` |
+| __Formato di output__ | rendere il risultato utilizzabile | tre punti, ciascuno con titolo e una frase |
+
+- Il messaggio __system__ contiene di solito le parti _stabili_; il messaggio __user__ contiene la richiesta e i dati _variabili_
+- Un __template__ è testo fisso con segnaposto che il programma riempie a ogni richiesta
+- Delimitare i dati aiuta a separarli dalle istruzioni, ma __non garantisce__ che il modello ignori istruzioni malevole nei documenti (cfr. [prompt injection](#/prompt-injection))
+
+---
+
 {{< slide id="reasoning-models" >}}
 
 ## Modelli di ragionamento: qualità in cambio di latenza e costi
@@ -555,6 +574,26 @@ you> ^CGoodbye!
 
 ---
 
+{{< slide id="prompt-caching" >}}
+
+## Prompt caching: riusare il prefisso, generare una nuova risposta
+
+- Il __prompt caching__ riusa il lavoro già svolto dal modello su un _prefisso identico_ del prompt
+    + es. stesse istruzioni e stesso documento, seguiti da una _nuova domanda_
+    + il fornitore conserva temporaneamente lo stato interno del prefisso: i token riusati possono costare meno ed essere elaborati più rapidamente
+- La __risposta viene comunque generata di nuovo__: non è una risposta salvata e restituita senza chiamare il modello
+
+| Richiesta | Parte riusabile | Parte da elaborare |
+|---|---|---|
+| 1: istruzioni + documento + domanda A | nessuna, al primo passaggio | tutto il prompt |
+| 2: istruzioni + documento + domanda B | istruzioni + documento, se ancora in cache | domanda B |
+
+- Mettere le parti __stabili all'inizio__ e quelle __variabili alla fine__; modificare il prefisso impedisce di riusarlo da quel punto in poi
+- La cache __scade__; disponibilità, soglie e prezzi dipendono dal fornitore e dal modello
+- La cache riduce il lavoro ripetuto, ma __non amplia la finestra di contesto__ e non sostituisce la gestione della cronologia
+
+---
+
 {{< slide id="context-growth" >}}
 
 ## La cronologia cresce a ogni turno (e con lei i costi)
@@ -802,6 +841,28 @@ __In breve__: vincolare il modello a _produrre output_ in un formato preciso (es
 
 3. In _Python_ si possono usare [librerie come `pydantic`](https://docs.pydantic.dev/) per definire _modelli di dati_ con logica di validazione e __generare__ da essi schemi JSON
     + è così comune che le librerie client LLM-aaS (inclusa `openai`) spesso supportano direttamente i modelli `pydantic`
+
+---
+
+{{< slide id="pydantic-schema" >}}
+
+## Dalle classi Pydantic al JSON Schema
+
+- Un modello __Pydantic__ è una classe Python che descrive i _campi_ dei dati: nomi, tipi e vincoli
+- Le descrizioni di `Field(...)` diventano parte dello __schema__ che legge l'LLM
+
+{{% small "80%" %}}
+{{% code path="static/lab-snippets/snippets/lecture_prompting/example1/letter_scoring_openai.py" from="45" to="49" %}}
+{{% /small %}}
+
+Estratto del JSON Schema corrispondente (in YAML, omettendo titoli e gli altri campi):
+
+{{% small "80%" %}}
+{{% code path="content/llmaas/applicant-schema.yml" %}}
+{{% /small %}}
+
+- __Obbligatorio__ ≠ __non nullo__: `Optional[str]` senza valore predefinito richiede il campo, ma ammette `null` quando l'informazione manca
+- Lo schema vincola la _forma_; non dimostra che il contenuto sia __vero__
 
 ---
 
@@ -1632,6 +1693,26 @@ openclaw agent --agent main --local --message "Draft the admission letter for Je
 
 ---
 
+{{< slide id="technique-selection" >}}
+
+## Prompting, RAG e fine-tuning: cosa cambia?
+
+> Con [tool, workflow e skill](#/skills-vs-others) organizziamo le azioni e le procedure. Come adattiamo invece ciò che il modello _sa_ e _produce_?
+
+| Tecnica | Cosa cambia | Esempio | Cosa mantenere |
+|---|---|---|---|
+| __Prompting__ | l'input: istruzioni, esempi, formato | spiegare come valutare una lettera | prompt e casi di valutazione |
+| __RAG__ (richiamo alle lezioni dedicate) | i documenti recuperati e inseriti nel prompt | cercare l'articolo pertinente del regolamento | corpus, indice e recupero |
+| __Fine-tuning__ | i __pesi__, tramite ulteriore addestramento su esempi | adattare stile e formato a migliaia di rapporti già approvati | dataset, addestramento e rivalutazione |
+
+- Prompting e RAG usano il modello __senza riaddestrarlo__; il fine-tuning produce un __modello derivato__
+- Il fine-tuning richiede dati adeguati, risorse e una licenza che lo consenta; non è una banca dati aggiornabile documento per documento
+- Le tecniche si __combinano__: un modello adattato può ricevere istruzioni, documenti recuperati e tool
+
+> Partire dal prompting; aggiungere conoscenze, azioni o addestramento solo quando le valutazioni ne mostrano la necessità
+
+---
+
 {{< slide id="which-technique" >}}
 
 ## Quale tecnica? Compromessi
@@ -1749,6 +1830,33 @@ Da una chat a un agente con tool condivisi
 ---
 
 {{% section %}}
+
+{{< slide id="agent-langchain" >}}
+
+## Esempio 6 (bis): lo stesso agente con LangChain
+
+> __Obiettivo__: delegare a una libreria il [ciclo ReAct](#/react) che abbiamo appena implementato
+
+1. `ChatOpenAI` configura il modello; `create_agent` riceve __modello__, __tool__ e __istruzioni__ e costruisce il controllore:
+
+    {{% code path="static/lab-snippets/snippets/lecture_agents/example1bis/agent_langchain.py" from="18" to="23" %}}
+
+    + le funzioni Python diventano tool tramite docstring e annotazioni di tipo
+    + `tool_errors` restituisce gli errori previsti dei tool al modello, così che possa correggere la chiamata
+
+2. L'agente riceve e restituisce uno __stato__: `messages` contiene l'intera conversazione, incluse chiamate e risultati dei tool
+    + `.invoke(...)` esegue il ciclo; `.ainvoke(...)` è la variante asincrona usata nell'[esempio MCP](#/mcp-example)
+    + `recursion_limit` limita i passi del grafo: non equivale al numero di chiamate LLM
+
+3. Codice completo: [`agent_langchain.py`](../lab-snippets/snippets/lecture_agents/example1bis/agent_langchain.py). Eseguire con:
+
+    ```bash
+    poetry run python -m snippets -l agents -e 1bis
+    ```
+
+> Il framework gestisce il ciclo; scelta dei tool, permessi e controlli rimangono responsabilità di chi progetta
+
+---
 
 {{< slide id="mcp-example" >}}
 
