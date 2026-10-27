@@ -24,9 +24,9 @@ outputs = ["Reveal"]
 4. [Le API di OpenAI in pratica](#/openai-in-practice)
     + Chat Completions e Responses; sincronia, asincronia, streaming; allegati
 5. [Dalla generazione di testo ai processi](#/processes)
-    + output strutturato, tool, dai chatbot ai workflow
+    + output strutturato; architettura degli agenti, tool, workflow, ReAct e MCP
 6. [Fondamenti di IA agentica](#/agentic-ai)
-    + agenti, skill e implicazioni architetturali
+    + skill e implicazioni architetturali
 7. [Costruire un agente](#/building-an-agent), passo dopo passo
 
 > Brevi __esempi__ ed __esercizi guidati__ lungo il percorso: il codice è nel repository [`lab-snippets`]({{< github-url repo="lab-snippets" >}}) (cfr. [come eseguire gli esempi](../#/lab-snippets-run))
@@ -73,7 +73,6 @@ Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono 
     + lo stesso modello può essere trasferito altrove; i dati escono comunque dalla propria infrastruttura
 3. __On-premise__ (detto anche _self-hosted_, _locale_): un modello a pesi aperti eseguito sul _proprio_ hardware (es. tramite Ollama, vLLM)
     + i dati non escono dalla propria infrastruttura; hardware, gestione operativa e aggiornamenti sono a carico dell’organizzazione
-
 
 ---
 
@@ -209,6 +208,32 @@ P -> U: "A Cesena sono le ..."
 
 - La __stessa__ interazione è implementata da _tutti_ i fornitori; cambia solo la _sintassi_
     * nomi degli endpoint e dei campi, posizione del system prompt, ecc.
+
+---
+
+{{< slide id="reasoning-models" >}}
+
+## Modelli di ragionamento: qualità in cambio di latenza e costi
+
+{{% multicol %}}
+{{% col class="col-5" %}}
+{{% small "85%" %}}
+- I __modelli di ragionamento__ (_thinking_) generano una _catena di ragionamento_ __prima__ della risposta, senza che venga chiesto
+    + es. GPT-5+, Claude, Gemini "thinking", DeepSeek-R1, Qwen3, `gpt-oss`
+- I __token di ragionamento__:
+    + sono _generati_, quindi __fatturati__ come token di _output_, e occupano la finestra di contesto
+    + possono essere _nascosti_, _riassunti_ o _restituiti_, a seconda del fornitore
+    + scambiano __latenza e costo__ con __qualità__ sui compiti difficili
+- Quasi tutte le API permettono di regolare _quanto_ ragiona il modello: un __livello di sforzo__ (es. `low` / `medium` / `high`) o un __budget di token__
+    + stesso concetto, _sintassi_ diversa tra fornitori (es. `reasoning_effort` per OpenAI, `reasoning={...}` per Open Router)
+{{% /small %}}
+{{% /col %}}
+{{% col class="col-7" %}}
+{{< image src="./reasoning-tokens.svg" max-h="60vh" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" >}}
+{{% /col %}}
+{{% /multicol %}}
+
+> Scegliere il livello di sforzo _più basso_ che superi le proprie valutazioni: per estrazione e classificazione spesso basta `low`
 
 ---
 
@@ -619,6 +644,12 @@ messages.append(dict(role="assistant", content="".join(answer_parts))) # reconst
 
 ---
 
+{{< slide id="running-example" >}}
+
+{{< import path="reusable/running-example.md" >}}
+
+---
+
 {{< slide id="responses-example" >}}
 
 ## Esempio 3: chat CLI con allegati tramite API Responses (pt. 1)
@@ -728,32 +759,6 @@ you> Goodbye!
 
 ---
 
-{{< slide id="reasoning-models" >}}
-
-## Modelli di ragionamento: qualità in cambio di latenza e costi
-
-{{% multicol %}}
-{{% col class="col-5" %}}
-{{% small "85%" %}}
-- I __modelli di ragionamento__ (_thinking_) generano una _catena di ragionamento_ __prima__ della risposta, senza che venga chiesto
-    + es. GPT-5+, Claude, Gemini "thinking", DeepSeek-R1, Qwen3, `gpt-oss`
-- I __token di ragionamento__:
-    + sono _generati_, quindi __fatturati__ come token di _output_, e occupano la finestra di contesto
-    + possono essere _nascosti_, _riassunti_ o _restituiti_, a seconda del fornitore
-    + scambiano __latenza e costo__ con __qualità__ sui compiti difficili
-- Quasi tutte le API permettono di regolare _quanto_ ragiona il modello: un __livello di sforzo__ (es. `low` / `medium` / `high`) o un __budget di token__
-    + stesso concetto, _sintassi_ diversa tra fornitori (es. `reasoning_effort` per OpenAI, `reasoning={...}` per Open Router)
-{{% /small %}}
-{{% /col %}}
-{{% col class="col-7" %}}
-{{< image src="./reasoning-tokens.svg" max-h="60vh" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" >}}
-{{% /col %}}
-{{% /multicol %}}
-
-> Scegliere il livello di sforzo _più basso_ che superi le proprie valutazioni: per estrazione e classificazione spesso basta `low`
-
----
-
 {{< slide id="api-errors" >}}
 
 ## Quando qualcosa va storto: errori, limiti di utilizzo e costi
@@ -774,12 +779,6 @@ you> Goodbye!
 {{< slide id="processes" >}}
 
 # Dalla generazione di testo ai processi
-
----
-
-{{< slide id="running-example" >}}
-
-{{< import path="reusable/running-example.md" >}}
 
 ---
 
@@ -820,9 +819,6 @@ Dalle garanzie _più deboli_ alle _più forti_:
     + cfr. [Willard & Louf (2023)](https://arxiv.org/abs/2307.09702) e librerie come [Outlines](https://github.com/dottxt-ai/outlines), [llguidance](https://github.com/guidance-ai/llguidance), [XGrammar](https://github.com/mlc-ai/xgrammar)
 
     {{< image src="./constrained-decoding.svg" max-h="25vh" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" >}}
-
-4. __Trucco della chiamata a tool__: dichiarare un _tool_ (fittizio) i cui parametri corrispondono allo schema desiderato e _forzare_ il modello a chiamarlo
-    + gli _argomenti_ della chiamata sono l'output strutturato (comune prima del supporto dei fornitori a (3))
 
 {{% /small %}}
 
@@ -964,6 +960,33 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 {{% section %}}
 
+## Agenti basati su LLM: la metafora agentica
+
+{{< image src="./agent-architecture.svg" max-h="60vh" alt="Architettura dell'agente: l'utente comunica con l'agente; al suo interno un controllore (il proprio codice) esegue il ciclo, un LLM delibera, la memoria conserva cronologia e stato, le policy vincolano il comportamento; il controllore chiama tool di percezione, ragionamento e attuazione, che leggono e scrivono nell'ambiente" >}}
+
+- __LLM__ $\rightarrow$ _deliberazione_: interpreta il contesto e propone l'azione successiva
+- __tool__ $\rightarrow$ _percezione_ (ottenere dati), _attuazione_ (modificare il mondo) e _ragionamento_ (calcolare, controllare, verificare)
+- __controllore__ (il proprio codice) $\rightarrow$ il _ciclo_: costruisce il contesto, _esegue_ chiamate ai tool, decide quando fermarsi
+
+---
+
+## Gli LLM da soli non sono agenti
+
+- Gli LLM producono __testo__, non _azioni_: serve _software_ che traduca il testo in _operazioni_
+    + es. `Prenota il treno per Lisbona` è solo testo, finché un programma non lo traduce in _ricerca_, _prenotazione_, _pagamento_ e _conferma_
+    + non percepiscono né agiscono sugli ambienti _direttamente_
+    + non gestiscono obiettivi e stato in modo _persistente_
+- L'"agente" è soprattutto il __software circostante__: _agente_ $\approx$ _controllore_ + _LLM_ + _tool_ + _memoria_ + _policy_
+
+- Ciò che gli LLM __sostituiscono__ rispetto agli agenti classici è (parte della) _deliberazione_:
+    + non serve _formalizzare_ in anticipo obiettivi, credenze e piani: l'LLM gestisce obiettivi _vaghi_, scritti in linguaggio naturale
+    + la deliberazione diventa però _testo generato_: plausibile, non necessariamente _corretto_ e difficile da _verificare_
+
+- _Intelligenza_, _autonomia_ e _capacità di agire_ sono dimensioni __separabili__ (cfr. [Floridi, 2025](https://doi.org/10.1007/s13347-025-00858-9))
+    + _intelligenza_: quanto __bene__ risolve i problemi; _capacità di agire_: quale __stato__ cambia davvero; _autonomia_: chi __controlla__ _quando_ e _perché_ agisce
+
+---
+
 {{< slide id="tools-concept" >}}
 
 ## Tool: il concetto generale
@@ -981,6 +1004,8 @@ Dalle garanzie _più deboli_ alle _più forti_:
 - Nella maggior parte dei linguaggi, i tool sono semplici __funzioni__:
     + nome $\rightarrow$ _nome della funzione_; descrizione $\rightarrow$ _docstring_; schema $\rightarrow$ _annotazioni di tipo_; implementazione $\rightarrow$ _corpo_
     + quindi la __documentazione__ di una funzione _è_ la sua interfaccia per l'LLM: una funzione non documentata è un tool _inutilizzabile_
+
+- Il medesimo meccanismo può produrre __output strutturato__: dichiarare un tool _fittizio_ con lo schema desiderato e forzarne la chiamata; gli _argomenti_ sono i dati da estrarre, senza eseguire alcuna azione
 
 - I tool affrontano tre limiti degli LLM isolati (cfr. [Toolformer](https://arxiv.org/abs/2302.04761)):
     + conoscenze _obsolete_ o mancanti $\rightarrow$ ricerca, recupero di informazioni, database
@@ -1051,36 +1076,8 @@ function:
     + _calcolo_: validatori, calcolatori, motori di regole (es. verifica dei requisiti), tutto ciò che il codice fa meglio di un LLM
 - Ogni tool è un __piccolo adattatore__ per un'API esistente: l'LLM non comunica direttamente con il sistema, lo fa il _codice del tool_
     + il tool decide quindi cosa l'LLM può vedere e fare: _validazione_, _permessi_ e _log_ risiedono lì
-- I tool possono essere _locali_ (funzioni nel codice applicativo) o _condivisi_ tramite [Model Context Protocol](#/mcp) (MCP), per essere usati da _qualsiasi_ applicazione basata su LLM
+- Anticipazione: i tool possono essere _locali_ (funzioni nel codice applicativo) o _condivisi_ tramite [Model Context Protocol](#/mcp) (MCP), per essere usati da _qualsiasi_ applicazione basata su LLM
 - Esistono anche tool _lato server_ (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il _lock-in_
-
----
-
-{{< slide id="react" >}}
-
-## Il ciclo ReAct: il concetto generale
-
-- __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
-    + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e nei modelli _di ragionamento_, che generano una catena di ragionamento, fatturata come _token_ di output, prima di rispondere)
-
-- Il __controllore__ dell'agente è un semplice ciclo:
-    1. inviare all'LLM la conversazione e le definizioni dei tool
-    2. se la risposta __non contiene chiamate a tool__, è la _risposta finale_: terminare
-    3. altrimenti _eseguire_ ogni chiamata, aggiungere il _risultato_ alla conversazione e tornare a 1
-    4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ripetere il ciclo all'infinito e ogni passo ha un costo)
-
-- Tutto il resto riguarda le _regole di comportamento_ (_policy_) e spetta a chi progetta:
-    + quali tool sono disponibili e per chi? Quali chiamate richiedono _approvazione umana_?
-    + cosa succede se un tool _fallisce_? (suggerimento: comunicare l'errore all'LLM può permettergli di correggere la richiesta)
-    + cosa viene _registrato_? Quanto contesto si conserva? (a ogni passo la conversazione _cresce_, e con essa costo e latenza: oltre la _finestra di contesto_ occorre _riassumere_ o _scartare_ i messaggi più vecchi)
-
----
-
-## Il ciclo ReAct: un esempio intuitivo
-
-{{< image src="./react-loop.svg" max-h="75vh" alt="Diagramma di sequenza del ciclo ReAct: l'utente chiede luogo di nascita di Turing, ora e meteo; l'agente invia domanda e definizioni dei tool all'LLM, che richiede web_search; l'agente esegue la ricerca e restituisce i risultati; appreso che Turing è nato a Londra, l'LLM richiede get_current_time e get_weather in parallelo; l'agente li esegue e restituisce ora e meteo; l'LLM fornisce la risposta finale, che l'agente trasmette all'utente" >}}
-
-- Si noti il _concatenamento_: gli argomenti del secondo passo (`London`) provengono dal _risultato_ del primo
 
 {{% /section %}}
 
@@ -1118,7 +1115,7 @@ function:
 - Ogni passo _legge_ lo stato, svolge il compito e _aggiorna_ lo stato; il __motore__ decide il passo successivo
     + l'LLM svolge _alcuni_ passi (quelli che richiedono _linguaggio_), ma __non__ ne decide l'ordine
 - Idea consolidata, nuovi ingredienti: _business process management_ (cfr. [BPMN](https://www.omg.org/spec/BPMN/2.0.2/)), _pipeline ETL_, _pipeline CI/CD_, ... ora con __passi LLM__
-    + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo _e_ riduce i costi rispetto agli agenti ReAct
+    + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo _e_ riduce i costi rispetto agli agenti che scelgono dinamicamente i passi
 
 ---
 
@@ -1131,7 +1128,7 @@ function:
 | __Passo di azione__ | ha _effetti_ sul mondo (tool, API, file) | sì, ma _irreversibile_ | inviare un'e-mail, registrare una decisione |
 | __Passo con intervento umano__ | chiede a una _persona_ di approvare, correggere o scegliere | no (una persona) | la commissione approva la graduatoria |
 
-- Anche un __agente__ può essere un passo: es. un ciclo ReAct per una domanda _aperta_, dentro un processo altrimenti _fisso_
+- Anche un __agente__ può essere un passo: es. un agente che esplora i dati per una domanda _aperta_, dentro un processo altrimenti _fisso_
 - Regola pratica: mettere nei __passi sui dati__ ciò che il codice sa fare; usare __passi LLM__ solo quando serve il _linguaggio_; proteggere i __passi di azione__ con controlli e, se irreversibili o rilevanti sul piano normativo, con __passi con intervento umano__
 
 ---
@@ -1148,7 +1145,7 @@ function:
     + __più economico__: ogni passo LLM vede _solo_ ciò che serve, anche con un modello più piccolo
     + __verificabile__: passi isolabili, percorsi del grafo enumerabili
     + __meno flessibile__: le richieste impreviste richiedono una _nuova versione_ del workflow
-- Confronto con le [skill](#/skills-vs-others): le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile
+- Anticipazione: le [skill](#/skills-vs-others) sono procedure in linguaggio naturale che un agente carica quando servono; le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile
 
 ---
 
@@ -1165,6 +1162,73 @@ function:
 ---
 
 {{% section %}}
+
+{{< slide id="react" >}}
+
+## Il ciclo ReAct: il concetto generale
+
+- __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
+    + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e nei modelli _di ragionamento_, che generano una catena di ragionamento, fatturata come _token_ di output, prima di rispondere)
+
+- Il __controllore__ dell'agente è un semplice ciclo:
+    1. inviare all'LLM la conversazione e le definizioni dei tool
+    2. se la risposta __non contiene chiamate a tool__, è la _risposta finale_: terminare
+    3. altrimenti _eseguire_ ogni chiamata, aggiungere il _risultato_ alla conversazione e tornare a 1
+    4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ripetere il ciclo all'infinito e ogni passo ha un costo)
+
+- Tutto il resto riguarda le _regole di comportamento_ (_policy_) e spetta a chi progetta:
+    + quali tool sono disponibili e per chi? Quali chiamate richiedono _approvazione umana_?
+    + cosa succede se un tool _fallisce_? (suggerimento: comunicare l'errore all'LLM può permettergli di correggere la richiesta)
+    + cosa viene _registrato_? Quanto contesto si conserva? (a ogni passo la conversazione _cresce_, e con essa costo e latenza: oltre la _finestra di contesto_ occorre _riassumere_ o _scartare_ i messaggi più vecchi)
+
+---
+
+## Il ciclo ReAct: un esempio intuitivo
+
+{{< image src="./react-loop.svg" max-h="75vh" alt="Diagramma di sequenza del ciclo ReAct: l'utente chiede luogo di nascita di Turing, ora e meteo; l'agente invia domanda e definizioni dei tool all'LLM, che richiede web_search; l'agente esegue la ricerca e restituisce i risultati; appreso che Turing è nato a Londra, l'LLM richiede get_current_time e get_weather in parallelo; l'agente li esegue e restituisce ora e meteo; l'LLM fornisce la risposta finale, che l'agente trasmette all'utente" >}}
+
+- Si noti il _concatenamento_: gli argomenti del secondo passo (`London`) provengono dal _risultato_ del primo
+
+---
+
+{{< slide id="mcp" >}}
+
+## Model Context Protocol (MCP): il concetto generale
+
+- __Problema__: finora i tool risiedono _dentro_ il codice dell'agente
+    + ogni agente reimplementa (o copia) i tool necessari
+    + ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)
+- [__MCP__](https://modelcontextprotocol.io) è un _protocollo aperto_ per esporre tool (e altro) alle applicazioni basate su LLM in modo _standard_ (cfr. [specifica](https://modelcontextprotocol.io/specification))
+    + "una porta USB-C per le applicazioni IA": $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$
+    + introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation
+
+{{< image src="./mcp-n-plus-m.svg" max-h="38vh" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" >}}
+
+- MCP non cambia il [ciclo ReAct](#/react), solo _da dove_ provengono i tool
+
+---
+
+## MCP: ruoli e trasporti
+
+- Ruoli:
+    + __host__: applicazione basata su LLM (es. agente, IDE, chat)
+    + __client__: componente dell'host connesso a _un_ server
+    + __server__: programma che espone _tool_ (funzioni), _risorse_ (dati) e _prompt_ (template)
+- Messaggi [JSON-RPC](https://www.jsonrpc.org/specification), es. `tools/list` (scoperta), `tools/call` (invocazione), su due __trasporti__:
+    + _stdio_: il server è un _sottoprocesso locale_ dell'host e comunica tramite stdin/stdout
+    + _streamable HTTP_: il server è un _servizio Web_, anche remoto, eventualmente con autenticazione (OAuth)
+- Dalla [specifica del 28/07/2026](https://modelcontextprotocol.io/specification/2026-07-28/changelog) il protocollo è _stateless_ (senza sessioni né handshake `initialize`); i server possono ancora chiedere input durante una chiamata (_elicitation_)
+
+---
+
+## MCP: un esempio intuitivo
+
+{{< image src="./mcp-gateway.svg" max-h="55vh" alt="Due modi per connettere un host MCP ai server: (a) direttamente, con un client MCP per server (simple-tools e fetch come processi stdio locali, più un server HTTP remoto), ripetendo configurazione e policy in ogni host; (b) tramite gateway MCP, un endpoint unico che aggrega, filtra, autentica, conserva segreti, registra, limita le richieste ed esegue i server in sandbox" >}}
+
+- I nostri tool si spostano in un __server__, usabile da _qualsiasi_ host MCP: agente, IDE, chat, ...
+- Un __gateway MCP__ è un _proxy_ che aggrega più server dietro un endpoint: un unico punto per applicare _policy_ (chi può chiamare cosa), conservare _segreti_ e _registrare_ le chiamate
+
+---
 
 {{< slide id="security" >}}
 
@@ -1248,7 +1312,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 - Gli LLM generano piani _plausibili_, ma non _garantiti_: nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il __12%__ dei casi ([Valmeekam et al., 2023](https://arxiv.org/abs/2305.15771))
 - __LLM-Modulo__ ([Kambhampati et al., 2024](https://proceedings.mlr.press/v235/kambhampati24a.html)): l'LLM _propone_, __critici__ esterni _verificano_, in un ciclo _genera–verifica–critica_
-    + prima i controlli _nel codice_ (economici, deterministici), poi i giudizi di LLM o persone, solo per ciò che il codice non può verificare
+    + prima i controlli _nel codice_ (economici, deterministici), poi i giudizi di LLM (un _LLM-as-a-Judge_: un modello che valuta secondo criteri espliciti) o persone, solo per ciò che il codice non può verificare
     + in pratica: il piano è un [output strutturato](#/structured-output), validato _prima_ di eseguire qualsiasi azione
 
 {{% /section %}}
@@ -1262,33 +1326,6 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 ---
 
 {{% section %}}
-
-## Agenti basati su LLM: la metafora agentica
-
-{{< image src="./agent-architecture.svg" max-h="60vh" alt="Architettura dell'agente: l'utente comunica con l'agente; al suo interno un controllore (il proprio codice) esegue il ciclo, un LLM delibera, la memoria conserva cronologia e stato, le policy vincolano il comportamento; il controllore chiama tool di percezione, ragionamento e attuazione, che leggono e scrivono nell'ambiente" >}}
-
-- __LLM__ $\rightarrow$ _deliberazione_: interpreta il contesto e propone l'azione successiva
-- __tool__ $\rightarrow$ _percezione_ (ottenere dati), _attuazione_ (modificare il mondo) e _ragionamento_ (calcolare, controllare, verificare)
-- __controllore__ (il proprio codice) $\rightarrow$ il _ciclo_: costruisce il contesto, _esegue_ chiamate ai tool, decide quando fermarsi
-
----
-
-## Gli LLM da soli non sono agenti
-
-- Gli LLM producono __testo__, non _azioni_: serve _software_ che traduca il testo in _operazioni_
-    + es. `Prenota il treno per Lisbona` è solo testo, finché un programma non lo traduce in _ricerca_, _prenotazione_, _pagamento_ e _conferma_
-    + non percepiscono né agiscono sugli ambienti _direttamente_
-    + non gestiscono obiettivi e stato in modo _persistente_
-- L'"agente" è soprattutto il __software circostante__: _agente_ $\approx$ _controllore_ + _LLM_ + _tool_ + _memoria_ + _policy_
-
-- Ciò che gli LLM __sostituiscono__ rispetto agli agenti classici è (parte della) _deliberazione_:
-    + non serve _formalizzare_ in anticipo obiettivi, credenze e piani: l'LLM gestisce obiettivi _vaghi_, scritti in linguaggio naturale
-    + la deliberazione diventa però _testo generato_: plausibile, non necessariamente _corretto_ e difficile da _verificare_
-
-- _Intelligenza_, _autonomia_ e _capacità di agire_ sono dimensioni __separabili__ (cfr. [Floridi, 2025](https://doi.org/10.1007/s13347-025-00858-9))
-    + _intelligenza_: quanto __bene__ risolve i problemi; _capacità di agire_: quale __stato__ cambia davvero; _autonomia_: chi __controlla__ _quando_ e _perché_ agisce
-
----
 
 {{< slide id="skills-concept" >}}
 
@@ -1712,45 +1749,6 @@ Da una chat a un agente con tool condivisi
 ---
 
 {{% section %}}
-
-{{< slide id="mcp" >}}
-
-## Model Context Protocol (MCP): il concetto generale
-
-- __Problema__: finora i tool risiedono _dentro_ il codice dell'agente
-    + ogni agente reimplementa (o copia) i tool necessari
-    + ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)
-- [__MCP__](https://modelcontextprotocol.io) è un _protocollo aperto_ per esporre tool (e altro) alle applicazioni basate su LLM in modo _standard_ (cfr. [specifica](https://modelcontextprotocol.io/specification))
-    + "una porta USB-C per le applicazioni IA": $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$
-    + introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation
-
-{{< image src="./mcp-n-plus-m.svg" max-h="38vh" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" >}}
-
-- MCP non cambia il [ciclo ReAct](#/react), solo _da dove_ provengono i tool
-
----
-
-## MCP: ruoli e trasporti
-
-- Ruoli:
-    + __host__: applicazione basata su LLM (es. agente, IDE, chat)
-    + __client__: componente dell'host connesso a _un_ server
-    + __server__: programma che espone _tool_ (funzioni), _risorse_ (dati) e _prompt_ (template)
-- Messaggi [JSON-RPC](https://www.jsonrpc.org/specification), es. `tools/list` (scoperta), `tools/call` (invocazione), su due __trasporti__:
-    + _stdio_: il server è un _sottoprocesso locale_ dell'host e comunica tramite stdin/stdout
-    + _streamable HTTP_: il server è un _servizio Web_, anche remoto, eventualmente con autenticazione (OAuth)
-- Dalla [specifica del 28/07/2026](https://modelcontextprotocol.io/specification/2026-07-28/changelog) il protocollo è _stateless_ (senza sessioni né handshake `initialize`); i server possono ancora chiedere input durante una chiamata (_elicitation_)
-
----
-
-## MCP: un esempio intuitivo
-
-{{< image src="./mcp-gateway.svg" max-h="55vh" alt="Due modi per connettere un host MCP ai server: (a) direttamente, con un client MCP per server (simple-tools e fetch come processi stdio locali, più un server HTTP remoto), ripetendo configurazione e policy in ogni host; (b) tramite gateway MCP, un endpoint unico che aggrega, filtra, autentica, conserva segreti, registra, limita le richieste ed esegue i server in sandbox" >}}
-
-- I nostri tool si spostano in un __server__, usabile da _qualsiasi_ host MCP: agente, IDE, chat, ...
-- Un __gateway MCP__ è un _proxy_ che aggrega più server dietro un endpoint: un unico punto per applicare _policy_ (chi può chiamare cosa), conservare _segreti_ e _registrare_ le chiamate
-
----
 
 {{< slide id="mcp-example" >}}
 

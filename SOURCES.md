@@ -26,6 +26,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **L'ecosistema delle API per l'IA generativa** | **The Ecosystem of APIs for Generative AI** | __new__ |
 | Il concetto generale: _Chat Completion_ come API richiesta–risposta | The general concept: _Chat Completion_ as a request–response API | `llmaas` (line 573) |
 | Chat Completion: un esempio intuitivo | Chat Completion: an intuitive example | `llmaas` (line 589) |
+| Modelli di ragionamento: qualità in cambio di latenza e costi | Reasoning models: the general concept + an intuitive example | `prompting` (lines 737, 752), condensed |
 | Cosa aspettarsi dalle API Web dei fornitori di LLM-as-a-Service? | What to expect in general from Web APIs of LLM-as-a-Service providers? | `llmaas` (line 618) |
 | Compatibilità delle API Web degli LLM (pt. 1) – Famiglia OpenAI | About LLMs' Web API Compatibility (pt. 1) – OpenAI family | `llmaas` (line 640) |
 | Compatibilità delle API Web degli LLM (pt. 2) – API compatibili con OpenAI | About LLMs' Web API Compatibility (pt. 2) – OpenAI-compatible APIs | `llmaas` (line 653) |
@@ -47,12 +48,12 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | La cronologia cresce a ogni turno (e con lei i costi) | Context management: the general concept + an intuitive example | `prompting` (lines 853, 876), condensed |
 | Esercizio guidato 1: stesso programma, diversi fornitori | Guided exercise 1: same program, different providers | __new__ |
 | Esempio 2: chat CLI asincrona con streaming | Example 2: Async CLI Chat with Streaming | `llmaas` (line 1025) |
+| Esempio ricorrente | Running example | `reusable/running-example.md`, shared with upstream |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 1) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 1) | `llmaas` (line 1111) |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 2) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 2) | `llmaas` (line 1131) |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 3) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 3) | `llmaas` (line 1146) |
 | Esempio 3: chat CLI con allegati tramite API Responses (pt. 4) | Example 3: CLI Chat with Attachments, via the Responses API (pt. 4) | `llmaas` (line 1161) |
 | Quale endpoint per quale scenario? | Which endpoint for which scenario? | __new__ |
-| Modelli di ragionamento: qualità in cambio di latenza e costi | Reasoning models: the general concept + an intuitive example | `prompting` (lines 737, 752), condensed |
 | Quando qualcosa va storto: errori, limiti di utilizzo e costi | When things go wrong: errors, rate limits, and costs | `llmaas` (line 1420) |
 | **Dalla generazione di testo ai processi** | **From Text Generation to Processes** | __new__ |
 | Output strutturato | About Structured Output | `prompting` (line 109) |
@@ -63,28 +64,30 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 4: output strutturato con classi Pydantic (pt. 3) | Example 4: Structured Output with Pydantic Classes (pt. 3) | `prompting` (line 281) |
 | Esempio 4: output strutturato con classi Pydantic (pt. 4, continua) | Example 4: Structured Output with Pydantic Classes (pt. 4, cont.) | `prompting` (line 315) |
 | Esercizio guidato 2: modificare lo schema di output | Guided exercise 2: changing the output schema | __new__ |
+| Agenti basati su LLM: la metafora agentica | Agents built around LLMs: the agentic metaphor | `agents` (line 56) |
+| Gli LLM da soli non sono agenti | LLMs are not agents by themselves | `agents` (line 66) |
 | Tool: il concetto generale | Tools: the general concept | `agents` (line 105) |
 | Tool: un esempio intuitivo | Tools: an intuitive example | `agents` (line 130) |
 | I tool come ponte verso i sistemi aziendali | Tools as the bridge to enterprise systems | __new__ |
-| Il ciclo ReAct: il concetto generale | The ReAct loop: the general concept | `agents` (line 250) |
-| Il ciclo ReAct: un esempio intuitivo | The ReAct loop: an intuitive example | `agents` (line 268) |
 | Lo spettro dell'autonomia | The spectrum of autonomy | `agents` (line 83) |
 | Workflow: il concetto generale | Workflows: the general concept | `workflows` (line 42) |
 | Tipi di passi | Kinds of steps | `workflows` (line 56) |
 | Workflow: un esempio intuitivo | Workflows: an intuitive example | `workflows` (line 72) |
 | Pattern di workflow: un catalogo | Workflow patterns: a catalogue | `workflows` (line 376) |
+| Il ciclo ReAct: il concetto generale | The ReAct loop: the general concept | `agents` (line 250) |
+| Il ciclo ReAct: un esempio intuitivo | The ReAct loop: an intuitive example | `agents` (line 268) |
+| Model Context Protocol (MCP): il concetto generale | The Model Context Protocol (MCP): the general concept | `agents` (line 437); N×M vs. N+M diagram __new__ |
+| MCP: ruoli e trasporti | The Model Context Protocol (MCP): the general concept (second half) | `agents` (line 437), split |
+| MCP: un esempio intuitivo | MCP: an intuitive example | `agents` (line 459) |
 | I tool cambiano il profilo di rischio | Tools change the risk profile | `agents` (line 699) |
 | Prompt injection | Prompt injection | `agents` (line 717); trifecta Venn diagram __new__ |
 | Mitigazioni | Mitigations | `agents` (line 742) |
 | L'LLM propone, i critici verificano: LLM-Modulo | LLMs can't plan, but can help planning: LLM-Modulo | `agents` (line 674), merged with the previous slide |
 | **Fondamenti di IA agentica** | **Fundamentals of Agentic AI** | __new__ |
-| Agenti basati su LLM: la metafora agentica | Agents built around LLMs: the agentic metaphor | `agents` (line 56) |
-| Gli LLM da soli non sono agenti | LLMs are not agents by themselves | `agents` (line 66) |
 | Skill: il concetto generale | Skills: the general concept | `skills` (line 42) |
 | Skill: un esempio intuitivo | Skills: an intuitive example | `skills` (line 63) |
 | Skill a confronto con prompt, tool, server MCP e workflow | Skills vs. prompts, tools, MCP servers, and workflows | `skills` (line 76) |
 | Anatomia di una skill | Anatomy of a skill | `skills` (line 152) |
-| **Valutare una domanda di dottorato** | **Reviewing a PhD application** | __new__ |
 | Caricamento progressivo del contesto delle skill | Skills as a context-loading mechanism: progressive disclosure | `skills` (line 209) |
 | Skill e tool: script e istruzioni | Skills and tools: scripts vs. instructions | `skills` (line 223) |
 | Dove si eseguono le skill? | Where do skills run? | __new__ |
@@ -99,9 +102,6 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 6: un agente da zero con il client OpenAI (pt. 1) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 1) | `agents` (line 278) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 2) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 2) | `agents` (line 295) |
 | Esempio 6: un agente da zero con il client OpenAI (pt. 3) | Example 6: an Agent from Scratch, with OpenAI's Client (pt. 3) | `agents` (line 314) |
-| Model Context Protocol (MCP): il concetto generale | The Model Context Protocol (MCP): the general concept | `agents` (line 437); N×M vs. N+M diagram __new__ |
-| MCP: ruoli e trasporti | The Model Context Protocol (MCP): the general concept (second half) | `agents` (line 437), split |
-| MCP: un esempio intuitivo | MCP: an intuitive example | `agents` (line 459) |
 | Esempio 7: tool semplici come server MCP (pt. 1) | Example 7: Simple Tools as an MCP Server (pt. 1) | `agents` (line 485) |
 | Esempio 7: tool semplici come server MCP (pt. 2) | Example 7: Simple Tools as an MCP Server (pt. 2) | `agents` (line 505) |
 | Tool locali e server MCP a confronto | Local tools vs. MCP servers | `agents` (line 546) |
