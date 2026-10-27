@@ -17,11 +17,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **LLM-as-a-Service: API, tool e agenti** | **LLM-as-a-Service: APIs, Tools, and Agents** | __new__ |
 | Programma | Outline | __new__ |
 | **LLM-as-a-Service** | **LLM-as-a-Service** | __new__ |
-| Dove eseguire il modello? Il concetto generale | Where should the model run? The general concept | `governance` (line 90) |
-| Dove eseguire il modello? Un esempio intuitivo | Where should the model run? An intuitive example | `governance` (line 105) |
-| Opzioni di deployment a confronto | Deployment options: comparison | `governance` (line 111) |
-| Architetture ibride | Hybrid architectures | __new__ |
-| Fornitori, cataloghi e criteri di scelta | Providers, catalogues, and selection criteria | __new__ |
+| LLM-as-a-Service: dove gira il modello? | Where should the model run? The general concept + An intuitive example (merged, trimmed) | `governance` (lines 90, 105) |
+| Fornitori e cataloghi: una panoramica | — | __new__ |
 | **L'ecosistema delle API per l'IA generativa** | **The Ecosystem of APIs for Generative AI** | __new__ |
 | Il concetto generale: _Chat Completion_ come API richiesta–risposta | The general concept: _Chat Completion_ as a request–response API | `llmaas` (line 573) |
 | Chat Completion: un esempio intuitivo | Chat Completion: an intuitive example | `llmaas` (line 589) |
@@ -160,6 +157,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
 | Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__ |
+| Come scegliere un fornitore? | — | __new__ |
 | Open Router (cfr. <https://openrouter.ai/>), pt. 1 | About Open Router (cf. <https://openrouter.ai/>), pt. 1 | `llmaas` (line 414), trimmed: account, key, naming moved to `llmaas` |
 | Open Router (cfr. <https://openrouter.ai/>), pt. 2 | About Open Router (cf. <https://openrouter.ai/>), pt. 2 | `llmaas` (line 432) |
 | Un client, _molti_ fornitori gratuiti | One client, _many_ free providers | `free-access` (line 71) |
@@ -202,7 +200,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Quante evidenze servono? | How much evidence? | `validating` (line 84) |
 | **Criteri di scelta per l'adozione** | **Decision Criteria for Adoption** | __new__ |
 | Le cinque dimensioni del compromesso | The five dimensions of the trade-off | `governance` (line 45) |
-| Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? | __new__ |
+| Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? (merged with Deployment options: comparison) | __new__, and `governance` (line 111) |
+| Architetture ibride | — | __new__ |
 | Come scegliere un modello per un compito? | How to choose a model for a given task? | `governance` (line 769) |
 | Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
 | Indicazioni per l'ingegneria: tre scenari | Engineering take-aways: three scenarios | `governance` (line 583) |

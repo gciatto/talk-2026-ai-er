@@ -7,7 +7,7 @@ Guidance for AI agents (and humans) working on this repository.
 Slides of two lectures by Giovanni Ciatto, within the *AI Course — Regione Emilia-Romagna 2026 (Part 2)*
 (other lectures of the course, on RAG, are given by other teachers):
 
-1. `llmaas` — LLM-as-a-Service: APIs, tools, and agents (27/10/2026, 4h)
+1. `llmaas` — LLM-as-a-Service: APIs, tools, and agents (28/10/2026, 4h)
 2. `governance` — Sovereign and open alternatives to large LLMs (18/11/2026, 3h)
 
 Published at <https://gciatto.github.io/talk-2026-ai-er> (GitHub Pages, branch `gh-pages`, built by CI on every push to `master`).

@@ -16,11 +16,11 @@ outputs = ["Reveal"]
 
 0. [Informazioni sulle lezioni](./) (questa pagina):
     + [l'esempio ricorrente](llmaas/#/running-example) · [il codice degli esempi](#/lab-snippets)
-1. [LLM-as-a-Service: API, strumenti e agenti](llmaas) (27/10/2026, 4h)
-    + [scelte architetturali](llmaas/#/llmaas) · [API](llmaas/#/apis) · [integrazione](llmaas/#/integration) · [le API OpenAI in pratica](llmaas/#/openai-in-practice) · [dal testo ai processi](llmaas/#/processes) · [skill e IA agentica](llmaas/#/agentic-ai) · [costruire un agente](llmaas/#/building-an-agent)
+1. [LLM-as-a-Service: API, strumenti e agenti](llmaas) (28/10/2026, 4h)
+    + [opzioni di deployment e fornitori](llmaas/#/llmaas) · [API](llmaas/#/apis) · [integrazione](llmaas/#/integration) · [le API OpenAI in pratica](llmaas/#/openai-in-practice) · [dal testo ai processi](llmaas/#/processes) · [skill e IA agentica](llmaas/#/agentic-ai) · [costruire un agente](llmaas/#/building-an-agent)
     + esercizio guidato 1. [stesso programma, fornitori diversi](llmaas/#/exercise-providers) · esercizio guidato 2. [cambiare lo schema dell'output](llmaas/#/exercise-schema)
 2. [Alternative sovrane e aperte ai grandi LLM](governance) (18/11/2026, 3h)
-    + [modelli aperti](governance/#/open-landscape) · [fornitori](governance/#/providers-landscape) · [esecuzione locale](governance/#/local) · [sovranità europea](governance/#/eu-sovereignty) · [Italia](governance/#/italy) · [valutazione](governance/#/evaluation) · [decisione](governance/#/decision)
+    + [modelli aperti](governance/#/open-landscape) · [fornitori](governance/#/providers-landscape) · [esecuzione locale](governance/#/local) · [sovranità europea](governance/#/eu-sovereignty) · [Italia](governance/#/italy) · [valutazione](governance/#/evaluation) · [decisione](governance/#/decision) · [architetture ibride](governance/#/hybrid)
     + visita guidata: [tre cataloghi di modelli](governance/#/zoo-tour) · esercizio guidato 1. [confrontare i modelli](governance/#/exercise-compare) · esercizio guidato 2. [motivare e documentare una decisione](governance/#/exercise-decision)
 
 ---
@@ -37,14 +37,14 @@ outputs = ["Reveal"]
 ## Obiettivi
 
 1. __LLM-as-a-Service__: come _integrare_ gli LLM nelle applicazioni
-    + scelte architetturali e strategiche: architetture cloud, on-premise e ibride
+    + opzioni di deployment (cloud, on-premise) e panoramica dei fornitori
     + l'ecosistema delle API e le API OpenAI come standard _de facto_
     + dalla generazione di testo ai _processi_: output strutturato, strumenti, workflow, agenti, skill
 
 2. __Alternative sovrane e aperte__: come _scegliere_ modelli e fornitori
     + modelli aperti e a pesi aperti, fornitori, aggregatori, esecuzione locale
     + iniziative europee e italiane e loro maturità
-    + come valutare i modelli e come decidere
+    + come valutare i modelli e come decidere: compromessi, architetture ibride
 
 ---
 

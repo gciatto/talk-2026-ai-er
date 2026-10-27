@@ -18,7 +18,7 @@ outputs = ["Reveal"]
 1. [Il panorama dei modelli aperti e a pesi aperti](#/open-landscape)
     + cataloghi e parametri chiave; quantizzazione e MoE; apertura, derivati, licenze e quadro normativo
 2. [Modelli, fornitori e piattaforme](#/providers-landscape): chi offre cosa
-    + fornitori primari, aggregatori, marketplace; Open Router; portabilità e lock-in
+    + fornitori primari, aggregatori, marketplace; criteri di scelta del fornitore; Open Router; portabilità e lock-in
 3. [Esecuzione locale](#/local) e sovranità infrastrutturale
     + Ollama; requisiti hardware; quando è sostenibile?
 4. [Sovranità digitale europea](#/sovereignty): iniziative e loro maturità
@@ -26,7 +26,7 @@ outputs = ["Reveal"]
 6. [Come valutare un LLM](#/evaluation)
     + benchmark e loro limiti; valutazione realistica per un'organizzazione
 7. [Criteri di scelta per l'adozione](#/decision)
-    + cloud, fornitore europeo o on-premise? Applicare vincoli, valutazioni e responsabilità
+    + le cinque dimensioni del compromesso; cloud, fornitore europeo o on-premise? Architetture ibride; applicare vincoli, valutazioni e responsabilità
 
 ---
 
@@ -36,7 +36,7 @@ outputs = ["Reveal"]
     1. __API cloud proprietaria__ (es. OpenAI, Anthropic, Google)
     2. __modello aperto, ospitato da terzi__ (es. tramite Open Router, un fornitore cloud UE)
     3. __on-premise__ (es. tramite Ollama, vLLM)
-- ... da scegliere secondo _cinque dimensioni_: qualità, costo, controllo, conformità, time-to-market (cfr. il [confronto](../llmaas/#/deployment-options) e i [criteri di scelta](#/tradeoffs))
+- ... da scegliere secondo _cinque dimensioni_: qualità, costo, controllo, conformità, time-to-market (cfr. i [criteri di scelta](#/tradeoffs) e il [confronto](#/three-options))
 - Le opzioni 2 e 3 richiedono modelli __a pesi aperti__: _quali_, di _chi_, a quali _condizioni_ e quanto sono _validi_?
 
 ---
@@ -518,6 +518,20 @@ Chi offre cosa
 {{% /small %}}
 
 {{< image src="./provider-chain.svg" max-h="20vh" alt="Catena dei fornitori: l'organizzazione (titolare del trattamento) invia i dati a un aggregatore (es. Open Router, USA; ToS e DPA firmati dall'organizzazione), che li inoltra a un fornitore di inferenza (es. Together AI, USA, o Scaleway, UE; contratto con l'aggregatore), che esegue i pesi di uno sviluppatore (es. Qwen3, Alibaba, Cina; solo la licenza dei pesi). I dati transitano dai primi tre, lo sviluppatore non li vede" >}}
+
+---
+
+{{< slide id="provider-criteria" >}}
+
+## Come scegliere un fornitore?
+
+1. _modelli_ disponibili nel catalogo e qualità per il compito da svolgere
+2. struttura _tariffaria_ (per token, richiesta, ora di GPU, abbonamento) e _limiti di utilizzo_
+3. _funzionalità_: tool, output strutturato, multimodalità, elaborazione in batch, fine-tuning, ...
+4. _protezione dei dati_: dove vengono elaborati e conservati, per quanto tempo, garanzie contrattuali (es. nessun addestramento sui propri dati)
+5. _compatibilità delle API_: quanto è facile _passare_ a un altro fornitore? Quanto dipendiamo da quello attuale (__vendor lock-in__)?
+
+> Lo _stesso_ modello a pesi aperti può essere offerto da _molti_ fornitori: la scelta del fornitore è distinta da quella del modello
 
 ---
 
@@ -1327,20 +1341,53 @@ Ogni scelta relativa a un sistema basato sull'IA implica un compromesso tra:
 
 ## Cloud commerciale, fornitore europeo o on-premise?
 
-{{% small "85%" %}}
+{{% small "75%" %}}
 
 | | Cloud commerciale (es. API di fornitori USA) | Fornitore europeo (modelli proprietari o a pesi aperti, data center UE) | On-premise (modelli a pesi aperti) |
 |---|---|---|---|
-| __Qualità__ | massima (modelli di frontiera) | buona: migliori modelli aperti o proprietari UE (es. Mistral) | limitata dall'hardware |
-| __Costo__ | per token; economico con volumi bassi | per token, spesso inferiore per modelli aperti | acquisto iniziale dell’hardware + energia + personale; economico solo con volumi alti e costanti |
-| __Controllo__ | basso: il produttore modifica o ritira i modelli | medio: i pesi aperti si possono spostare altrove | completo |
+| __Qualità__ | massima (modelli di frontiera) | buona: migliori modelli aperti o proprietari UE (es. Mistral) | limitata dall'hardware (modelli più piccoli) |
+| __Costo__ | per token, nessun costo fisso; economico con volumi bassi | per token (o per ora di GPU), spesso inferiore per modelli aperti | acquisto iniziale dell’hardware + energia + personale; costo marginale ~nullo, economico solo con volumi alti e costanti |
+| __Scalabilità__ | pressoché illimitata (entro i limiti di utilizzo) | alta | limitata dall'hardware disponibile |
+| __Controllo__ | basso: il produttore modifica o ritira i modelli; nessun accesso ai pesi | medio: i pesi aperti si possono spostare altrove | completo: versioni fissate, funziona offline |
 | __Conformità__ | contratti (DPA), garanzie sui trasferimenti, giurisdizione estera (es. CLOUD Act USA) | giurisdizione UE; serve comunque un DPA | dati all'interno dell'organizzazione |
-| __Time-to-market__ | minuti | da ore a giorni | settimane |
+| __Lock-in__ | alto (funzioni proprietarie, prezzi) | basso, con pesi aperti | basso (ma dipendenza dalle competenze hardware) |
+| __Time-to-market__ | minuti | da ore a giorni | da giorni a settimane (acquisto, configurazione) |
+| __Impatto energetico__ | non visibile nel prezzo | come per il cloud | _misurabile_ (e a proprio carico) |
 
 {{% /small %}}
 
-- Spesso la risposta è una __combinazione__ (cfr. [architetture ibride](../llmaas/#/hybrid)), in base a sensibilità dei dati e difficoltà del compito
+- L'energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito ([Luccioni et al., 2024](https://arxiv.org/abs/2311.16863)); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)
+- Spesso la risposta è una __combinazione__ (cfr. [architetture ibride](#/hybrid)), in base a sensibilità dei dati e difficoltà del compito
 - Qualunque sia l'opzione, la responsabilità resta __vostra__: es. come _deployer_ secondo l'AI Act e come _titolare del trattamento_ secondo il GDPR
+
+---
+
+{{< slide id="hybrid" >}}
+
+## Architetture ibride
+
+- Nella pratica, le organizzazioni raramente scelgono _una sola_ opzione: le __combinano__ secondo un _criterio_
+    + __sensibilità dei dati__: dati personali o riservati $\rightarrow$ modelli on-premise (o ospitati nell'UE); dati pubblici $\rightarrow$ API cloud
+    + __difficoltà del compito__: compiti semplici e frequenti (es. classificazione, estrazione) $\rightarrow$ modelli piccoli ed economici; compiti difficili $\rightarrow$ modelli di frontiera
+    + __disponibilità__: un fornitore _di riserva_ (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo
+- A rendere possibile questa architettura è un __gateway__ (detto anche _router_, _proxy_): _un unico_ punto d'accesso per accedere a _molti_ modelli e fornitori
+    + le applicazioni comunicano solo con il gateway; questo _instrada_ le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e _registra_ le operazioni
+    + es. [LiteLLM](https://docs.litellm.ai/), [Portkey](https://portkey.ai/), gateway dei fornitori cloud o aggregatori come [Open Router](#/open-router)
+- Prerequisito: tutti i modelli devono essere raggiungibili tramite un'__API comune__ (cfr. [lezione precedente](../llmaas/#/apis)), altrimenti ogni percorso richiede codice dedicato
+
+{{< plantuml max-h="30vh" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" >}}
+@startuml
+rectangle "Applicazioni" as A
+rectangle "Gateway\n(instradamento, chiavi,\nbudget, log)" as G
+rectangle "Modello on-premise\n(dati sensibili)" as L
+rectangle "Modello aperto ospitato nell'UE" as E
+rectangle "API cloud di frontiera\n(compiti difficili)" as C
+A -> G : una API
+G -> L
+G -> E
+G -> C
+@enduml
+{{< /plantuml >}}
 
 ---
 

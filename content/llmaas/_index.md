@@ -15,8 +15,8 @@ outputs = ["Reveal"]
 
 ## Programma
 
-1. [LLM-as-a-Service](#/llmaas): modelli architetturali e scelte strategiche
-    + cloud, on-premise e ibrido; fornitori e cataloghi; costi, controllo, sicurezza, lock-in
+1. [LLM-as-a-Service](#/llmaas): opzioni di deployment e fornitori
+    + cloud, modello aperto ospitato, on-premise; panoramica di fornitori e cataloghi
 2. [L'ecosistema delle API](#/apis) per l'IA generativa
     + endpoint, l'API di OpenAI come standard _de facto_, compatibilità tra fornitori
 3. [Integrare un LLM](#/integration) in un'applicazione
@@ -37,7 +37,7 @@ outputs = ["Reveal"]
 
 # LLM-as-a-Service
 
-Modelli architetturali e scelte strategiche
+Opzioni di deployment e fornitori
 
 ---
 
@@ -45,79 +45,23 @@ Modelli architetturali e scelte strategiche
 
 {{< slide id="deployment-options" >}}
 
-## Dove eseguire il modello? Il concetto generale
+## LLM-as-a-Service: dove gira il modello?
 
-Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono per _chi_ esegue il modello e _dove_ vanno i dati:
+- Un LLM si usa quasi sempre __as a service__: l'applicazione invia richieste a un'_API_, il modello gira _altrove_
+- Tre principali __opzioni di deployment__ (messa in esercizio), che differiscono per _chi_ esegue il modello e _dove_ vanno i dati:
+    1. __API cloud proprietaria__: il modello del fornitore, eseguito da lui (es. OpenAI, Anthropic, Google)
+    2. __Modello aperto ospitato da terzi__: un modello a pesi aperti, eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router)
+    3. __On-premise__ (_self-hosted_, _locale_): un modello a pesi aperti sul _proprio_ hardware (es. tramite Ollama, vLLM)
 
-1. __API cloud proprietaria__: il modello appartiene al fornitore _ed_ è eseguito da lui (es. OpenAI, Anthropic, Google)
-    + si accede solo a un'_API_; i dati vengono elaborati sull'infrastruttura del fornitore
-2. __Modello aperto ospitato da terzi__: un modello a pesi aperti eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router, Hugging Face Inference Endpoints, GPU cloud a noleggio)
-    + lo stesso modello può essere trasferito altrove; i dati escono comunque dalla propria infrastruttura
-3. __On-premise__ (detto anche _self-hosted_, _locale_): un modello a pesi aperti eseguito sul _proprio_ hardware (es. tramite Ollama, vLLM)
-    + i dati non escono dalla propria infrastruttura; hardware, gestione operativa e aggiornamenti sono a carico dell’organizzazione
+{{< image src="./deployment-options.svg" max-h="50vh" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" >}}
 
----
-
-## Dove eseguire il modello? Un esempio intuitivo
-
-{{< image src="./deployment-options.svg" max-h="70vh" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" >}}
-
----
-
-## Opzioni di deployment a confronto
-
-{{% small "80%" %}}
-
-| | API cloud proprietaria | Modello aperto ospitato | On-premise |
-|---|---|---|---|
-| __Qualità__ | massima (modelli di frontiera) | buona (i migliori modelli aperti inseguono la frontiera) | limitata dall'hardware (modelli più piccoli) |
-| __Struttura dei costi__ | pagamento per token, nessun costo fisso | pagamento per token o per ora di GPU | acquisto hardware + energia + personale; costo marginale ~nullo |
-| __Scalabilità__ | pressoché illimitata (entro i limiti di utilizzo) | alta | limitata dall'hardware disponibile |
-| __Controllo__ | basso: i modelli possono cambiare o essere ritirati; nessun accesso ai pesi | medio: modello trasferibile, fornitore sostituibile | completo: versioni fissate, funziona offline |
-| __Privacy__ | dati elaborati dal fornitore (contano contratti, conservazione, giurisdizione) | stesse criticità, eventualmente con un fornitore UE | i dati rimangono all'interno |
-| __Lock-in__ | alto (funzioni proprietarie, prezzi) | basso | basso (ma dipendenza dalle competenze hardware) |
-| __Time-to-market__ | minuti | ore | da giorni a settimane (acquisto, configurazione) |
-| __Impatto energetico__ | consumo energetico per token non visibile nel prezzo | come per le API cloud | consumo _misurabile_ (e a proprio carico) |
-
-- L'energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito ([Luccioni et al., 2024](https://arxiv.org/abs/2311.16863)); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)
-- Le soluzioni _ibride_ sono comuni: es. _on-premise_ per dati sensibili, _cloud_ per il resto; oppure un _gateway_ che instrada le richieste in base alla sensibilità dei dati
-
-{{% /small %}}
-
----
-
-{{< slide id="hybrid" >}}
-
-## Architetture ibride
-
-- Nella pratica, le organizzazioni raramente scelgono _una sola_ opzione: le __combinano__ secondo un _criterio_
-    + __sensibilità dei dati__: dati personali o riservati $\rightarrow$ modelli on-premise (o ospitati nell'UE); dati pubblici $\rightarrow$ API cloud
-    + __difficoltà del compito__: compiti semplici e frequenti (es. classificazione, estrazione) $\rightarrow$ modelli piccoli ed economici; compiti difficili $\rightarrow$ modelli di frontiera
-    + __disponibilità__: un fornitore _di riserva_ (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo
-- A rendere possibile questa architettura è un __gateway__ (detto anche _router_, _proxy_): _un unico_ punto d'accesso per accedere a _molti_ modelli e fornitori
-    + le applicazioni comunicano solo con il gateway; questo _instrada_ le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e _registra_ le operazioni
-    + es. [LiteLLM](https://docs.litellm.ai/), [Portkey](https://portkey.ai/), gateway dei fornitori cloud o aggregatori come [Open Router](https://openrouter.ai/) (approfondimento nella [prossima lezione](../governance/))
-- Prerequisito: tutti i modelli devono essere raggiungibili tramite un'__API comune__ (prossima sezione), altrimenti ogni percorso richiede codice dedicato
-
-{{< plantuml max-h="30vh" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" >}}
-@startuml
-rectangle "Applicazioni" as A
-rectangle "Gateway\n(instradamento, chiavi,\nbudget, log)" as G
-rectangle "Modello on-premise\n(dati sensibili)" as L
-rectangle "Modello aperto ospitato nell'UE" as E
-rectangle "API cloud di frontiera\n(compiti difficili)" as C
-A -> G : una API
-G -> L
-G -> E
-G -> C
-@enduml
-{{< /plantuml >}}
+- Per l'applicazione cambia poco (stessa API, cfr. [prossima sezione](#/apis)); per costi, controllo e privacy cambia _molto_: confronto e criteri di scelta nella [prossima lezione](../governance/#/tradeoffs)
 
 ---
 
 {{< slide id="providers" >}}
 
-## Fornitori, cataloghi e criteri di scelta
+## Fornitori e cataloghi: una panoramica
 
 - Esistono diversi __fornitori__, con offerte differenti per modelli, prezzi e funzionalità
     + _sviluppatori di modelli_ che vendono l'accesso ai propri modelli, es. [OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/), [Google](https://ai.google.dev/), [Mistral](https://mistral.ai/)
@@ -125,14 +69,7 @@ G -> C
     + _aggregatori_ che rivendono l'accesso a molti fornitori tramite una API, es. [Open Router](https://openrouter.ai/)
     + _runtime_ per il deployment on-premise, es. [Ollama](https://ollama.com/), [vLLM](https://docs.vllm.ai/)
 - Ogni fornitore espone un __catalogo__ (detto anche _model zoo_): un elenco ricercabile di modelli, ciascuno con _nome_, _scheda del modello_, metadati tecnici (finestra di contesto, modalità, tool) e _prezzo_ (o _licenza_)
-    + cataloghi e schede dei modelli sono argomento della [prossima lezione](../governance/)
-
-- __Criteri di scelta__ di un fornitore:
-    1. _modelli_ disponibili nel catalogo e qualità per il compito da svolgere
-    2. struttura _tariffaria_ (per token, richiesta, ora di GPU, abbonamento) e _limiti di utilizzo_
-    3. _funzionalità_: tool, output strutturato, multimodalità, elaborazione in batch, fine-tuning, ...
-    4. _protezione dei dati_: dove vengono elaborati e conservati, per quanto tempo, garanzie contrattuali (es. nessun addestramento sui propri dati)
-    5. _compatibilità delle API_: quanto è facile _passare_ a un altro fornitore? Quanto dipendiamo da quello attuale (__vendor lock-in__)?
+    + [cataloghi](../governance/#/model-zoos) e [criteri di scelta del fornitore](../governance/#/provider-criteria) sono argomento della prossima lezione
 
 {{% /section %}}
 
@@ -434,7 +371,7 @@ Le API __simili a quelle di OpenAI__ stanno diventando lo standard _de facto_, m
 | __SDK del fornitore__ | `openai`, `anthropic`, `google-genai` | tipizzato, completo, aggiornato alle funzionalità del fornitore | legato a una API (lock-in) | servono funzionalità specifiche del fornitore |
 | __SDK OpenAI + fornitori compatibili__ | `openai` con `base_url=...` (Open Router, Ollama, vLLM, Mistral, ...) | un SDK, molti fornitori; cambio tramite configurazione | è portabile solo il _sottoinsieme comune_ delle funzionalità | si vuole portabilità a basso costo (__scelta predefinita__) |
 | __Framework multi-fornitore__ | [LangChain](https://docs.langchain.com/), [LiteLLM](https://docs.litellm.ai/) (SDK), [PydanticAI](https://ai.pydantic.dev/) | una interfaccia per (quasi) ogni API; agenti, RAG, workflow inclusi | ulteriore livello: dipendenze, modifiche incompatibili, funzionalità in ritardo | si sviluppano agenti/workflow o si devono supportare molti fornitori |
-| __Gateway__ | [LiteLLM](https://docs.litellm.ai/) (proxy), gateway cloud, [Open Router](https://openrouter.ai/) | chiavi, budget, log e instradamento centralizzati (cfr. [architetture ibride](#/hybrid)) | un servizio in più da gestire (o di cui fidarsi) | più applicazioni o gruppi condividono modelli |
+| __Gateway__ | [LiteLLM](https://docs.litellm.ai/) (proxy), gateway cloud, [Open Router](https://openrouter.ai/) | chiavi, budget, log e instradamento centralizzati (cfr. [architetture ibride](../governance/#/hybrid)) | un servizio in più da gestire (o di cui fidarsi) | più applicazioni o gruppi condividono modelli |
 
 {{% /small %}}
 
