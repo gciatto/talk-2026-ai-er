@@ -203,8 +203,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? (merged with Deployment options: comparison) | __new__, and `governance` (line 111) |
 | Architetture ibride | — | __new__ |
 | Come scegliere un modello per un compito? | How to choose a model for a given task? | `governance` (line 769) |
-| Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
-| Indicazioni per l'ingegneria: tre scenari | Engineering take-aways: three scenarios | `governance` (line 583) |
+| Controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
+| Scelta dei modelli: tre scenari | Engineering take-aways: three scenarios | `governance` (line 583) |
 | Esercizio guidato 1: confrontare i modelli sull'esempio ricorrente | Guided exercise 1: comparing models on the running example | __new__ |
 | Esercizio guidato 2: motivare una decisione per iscritto, in gruppi | Guided exercise 2: a decision record, in groups | __new__ |
 | Riepilogo | Wrap-up | __new__ |

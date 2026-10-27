@@ -383,7 +383,7 @@ più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamen
 
 {{< image src="./regulation-layers.svg" max-h="35vh" alt="Livelli annidati di regole attorno a un'applicazione basata su LLM (licenze e termini di servizio, policy dell'organizzazione, Legge 132/2025, AI Act dell'UE, GDPR), ciascuno associato alla domanda a cui risponde" >}}
 
-> Avvertenza: è una panoramica da _ingegneri_, __non__ una consulenza legale: nei progetti reali coinvolgere l'_ufficio legale_ e il _Responsabile della protezione dei dati_ (DPO) della propria organizzazione
+> Avvertenza: è una panoramica a supporto delle __scelte progettuali e organizzative__, __non__ una consulenza legale: nei progetti reali coinvolgere l'_ufficio legale_ e il _Responsabile della protezione dei dati_ (DPO) della propria organizzazione
 
 ---
 
@@ -940,7 +940,7 @@ Iniziative e loro maturità
     + i modelli più riproducibili non sono necessariamente europei (es. OLMo 3, statunitense), e un fornitore europeo può divulgare poco (es. Mistral)
 
 {{% fragment %}}
-> Lettura scettica: per un ingegnere, _dove gira il modello_ e _cosa consente la licenza_ contano molto più di _chi lo ha addestrato_. Le evidenze (prossime slide) suggeriscono che i modelli UE e italiani sono perlopiù __piccoli__, __tardivi__ e __non competitivi__ con la frontiera né con i migliori modelli globali a pesi aperti
+> Lettura scettica: nella valutazione per l'adozione, _dove gira il modello_ e _cosa consente la licenza_ contano molto più della _nazionalità dello sviluppatore_. Le evidenze (prossime slide) suggeriscono che i modelli UE e italiani sono perlopiù __piccoli__, __tardivi__ e __non competitivi__ con la frontiera né con i migliori modelli globali a pesi aperti
 {{% /fragment %}}
 
 ---
@@ -1092,7 +1092,7 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 
 {{< image src="./model-card-anatomy.svg" max-h="35vh" alt="Anatomia di una model card: otto sezioni, dai dettagli del modello alla licenza, associate alle dimensioni di governance su cui forniscono informazioni (qualità, conformità, controllo)" >}}
 
-- __Cosa cercare__, da ingegneri: _licenza_, _lingue_, _finestra di contesto_, _limite temporale delle conoscenze_, _usi previsti_ (il proprio rientra?), _limiti_ noti e _valutazioni_ pertinenti al compito
+- __Cosa verificare per scegliere e adottare un modello__: _licenza_, _lingue_, _finestra di contesto_, _limite temporale delle conoscenze_, _usi previsti_ (il proprio rientra?), _limiti_ noti e _valutazioni_ pertinenti al compito
 
 {{% /small %}}
 
@@ -1443,7 +1443,7 @@ flowchart LR
 
 {{< slide id="open-models-checklist" >}}
 
-## Indicazioni per l'ingegneria: controlli prima dell'adozione
+## Controlli prima dell'adozione
 
 La conformità va verificata per la specifica combinazione di __checkpoint, versione della licenza, licenze del codice e dei dati, deployment e uso previsto__, anziché sulla base del nome del marchio
 
@@ -1467,7 +1467,7 @@ La conformità va verificata per la specifica combinazione di __checkpoint, vers
 
 ---
 
-## Indicazioni per l'ingegneria: tre scenari
+## Scelta dei modelli: tre scenari
 
 {{% multicol %}}
 {{% col %}}

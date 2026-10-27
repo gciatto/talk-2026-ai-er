@@ -52,7 +52,7 @@ outputs = ["Reveal"]
 
 - Per _tutti_: nessuno, oltre alla curiosità
     + le slide trattano __concetti__ e __compromessi__, con brevi esempi ed esercizi guidati
-- Per i _tecnici_ che vogliono eseguire gli esempi in autonomia:
+- Per chi desidera eseguire gli esempi in autonomia:
     + conoscenze di base di __Python__, __Git__ e della __shell__; nozioni di base sulle API __HTTP__ e su __JSON__
     + [Python](https://www.python.org/downloads/) 3.11+ e [Git](https://git-scm.com/downloads) installati
     + una __chiave API__ di un fornitore di LLM (ad es. una chiave gratuita ottenuta da [Open Router](https://openrouter.ai/)), oppure un ambiente di esecuzione _locale_ per LLM (ad es. [Ollama](https://ollama.com/))
