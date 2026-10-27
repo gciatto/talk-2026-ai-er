@@ -134,14 +134,9 @@ P -> U: "A Cesena sono le ..."
 
 ## Anatomia di un prompt: istruzioni, contesto, dati e formato
 
-Un __prompt__ è l'intero input fornito al modello: nelle API di chat, la sequenza di messaggi e gli eventuali vincoli di formato.
+Un __prompt__ è l'intero input del modello: i messaggi e gli eventuali vincoli di formato, es. per riassumere un documento:
 
-| Elemento | A cosa serve | Esempio |
-|---|---|---|
-| __Istruzioni__ | definire il compito e come svolgerlo | «Riassumi questo documento in tre punti» |
-| __Contesto__ | spiegare a chi e a cosa serve il risultato | «Il destinatario è un dirigente non tecnico» |
-| __Dati di input__ | fornire il materiale da elaborare | il testo del documento, delimitato da `<document>...</document>` |
-| __Formato di output__ | rendere il risultato utilizzabile | tre punti, ciascuno con titolo e una frase |
+{{< image src="./prompt-anatomy.svg" max-h="44vh" alt="I messaggi system e user di un prompt che riassume documenti, con istruzioni, contesto, dati di input e formato di output evidenziati: il system prompt è fisso, il segnaposto document_text cambia a ogni richiesta, e la richiesta allega uno JSON Schema per un riassunto in tre punti" >}}
 
 - Il messaggio __system__ contiene di solito le parti _stabili_; il messaggio __user__ contiene la richiesta e i dati _variabili_
 - Un __template__ è testo fisso con segnaposto che il programma riempie a ogni richiesta

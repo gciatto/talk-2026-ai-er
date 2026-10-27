@@ -22,7 +22,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **L'ecosistema delle API per l'IA generativa** | **The Ecosystem of APIs for Generative AI** | __new__ |
 | Il concetto generale: _Chat Completion_ come API richiesta–risposta | The general concept: _Chat Completion_ as a request–response API | `llmaas` (line 573) |
 | Chat Completion: un esempio intuitivo | Chat Completion: an intuitive example | `llmaas` (line 589) |
-| Anatomia di un prompt: istruzioni, contesto, dati e formato | What is a prompt? The general concept + Anatomy of a prompt: an intuitive example | `prompting` (lines 43, 61), condensed |
+| Anatomia di un prompt: istruzioni, contesto, dati e formato | What is a prompt? The general concept + Anatomy of a prompt: an intuitive example | `prompting` (lines 43, 61), condensed; figure `prompt-anatomy.svg` translated, with a generic example (document summary) instead of the running example |
 | Modelli di ragionamento: qualità in cambio di latenza e costi | Reasoning models: the general concept + an intuitive example | `prompting` (lines 737, 752), condensed |
 | Cosa aspettarsi dalle API Web dei fornitori di LLM-as-a-Service? | What to expect in general from Web APIs of LLM-as-a-Service providers? | `llmaas` (line 618) |
 | Compatibilità delle API Web degli LLM (pt. 1) – Famiglia OpenAI | About LLMs' Web API Compatibility (pt. 1) – OpenAI family | `llmaas` (line 640) |
