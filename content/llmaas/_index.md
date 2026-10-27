@@ -1356,14 +1356,14 @@ L’_harness_ è il software che gestisce l’agente.
 {{% multicol %}}
 {{% col class="col-5" %}}
 
-```text
+```bash
 phd-application-review/
-├── SKILL.md          # obbligatorio: metadati + istruzioni
-├── scripts/          # opzionale: codice eseguibile
+├── SKILL.md         # metadati + istruzioni
+├── scripts/         # codice eseguibile
 │   └── check_application.py
-├── references/       # opzionale: documenti, letti su richiesta
+├── references/      # documenti, letti su richiesta
 │   └── rubric.md
-└── assets/           # opzionale: template, dati
+└── assets/          # template, dati
     └── report-template.md
 ```
 
