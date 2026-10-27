@@ -72,6 +72,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Tool: il concetto generale | Tools: the general concept | `agents` (line 105) |
 | Tool: un esempio intuitivo | Tools: an intuitive example | `agents` (line 130) |
 | I tool come ponte verso i sistemi aziendali | Tools as the bridge to enterprise systems | __new__ |
+| Dove gira un tool, e cosa vede | Where a tool runs, and what it sees | __new__ |
 | Lo spettro dell'autonomia | The spectrum of autonomy | `agents` (line 83) |
 | Workflow: il concetto generale | Workflows: the general concept | `workflows` (line 42) |
 | Tipi di passi | Kinds of steps | `workflows` (line 56) |

@@ -1139,8 +1139,19 @@ function:
     + _calcolo_: validatori, calcolatori, motori di regole (es. verifica dei requisiti), tutto ciò che il codice fa meglio di un LLM
 - Ogni tool è un __piccolo adattatore__ per un'API esistente: l'LLM non comunica direttamente con il sistema, lo fa il _codice del tool_
     + il tool decide quindi cosa l'LLM può vedere e fare: _validazione_, _permessi_ e _log_ risiedono lì
-- Anticipazione: i tool possono essere _locali_ (funzioni nel codice applicativo) o _condivisi_ tramite [Model Context Protocol](#/mcp) (MCP), per essere usati da _qualsiasi_ applicazione basata su LLM
-- Esistono anche tool _lato server_ (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il _lock-in_
+
+---
+
+{{< slide id="tool-environments" >}}
+
+## Dove gira un tool, e cosa vede
+
+{{< image src="./tool-environments.svg" max-h="58vh" alt="Tre posizioni di un tool: (a) tool locale, funzione dentro l'applicazione dell'organizzazione, vede tutto ciò che vede l'applicazione (file, DB e API interne, segreti); (b) tool remoto, es. server MCP in un altro ambiente (una sandbox interna, o un servizio di terzi), vede solo il proprio ambiente (i propri DB, API e segreti) e gli argomenti ricevuti dall'applicazione; (c) tool del fornitore, ospitato nel cloud del fornitore accanto all'LLM, vede solo la sandbox del fornitore, il Web e i file caricati, mentre i sistemi dell'organizzazione non gli sono visibili e i dati escono dall'organizzazione" >}}
+
+- Tool _locali_ (funzioni nel codice applicativo) o _condivisi_ tramite [Model Context Protocol](#/mcp) (MCP), per essere usati da _qualsiasi_ applicazione basata su LLM
+- Una __sandbox__ è il caso (b) _dentro_ l'organizzazione: il tool gira in un _container_ isolato, che vede solo ciò che vi viene montato
+    + costringe a decidere _esplicitamente_ quali file, servizi e segreti mettere a disposizione del tool (cfr. [mitigazioni](#/security))
+- Tool _lato server_ (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il _lock-in_
 
 {{% /section %}}
 
@@ -1159,10 +1170,10 @@ function:
 - __Agenti__: l'LLM dirige _dinamicamente_ il proprio processo e l'uso dei tool (l'_LLM_ controlla il flusso)
     + cfr. [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) di Anthropic
 
-- Regola pratica: usare la __minima autonomia__ necessaria
-    + partire da una singola chiamata; passare ai workflow quando i passi sono _noti_ in anticipo; agli agenti solo quando _non_ lo sono
-    + _l'autonomia è un costo_ (rischi, verifiche, governance), non un obiettivo: si vuole _automatizzare_, non "avere un agente"
-    + prima i workflow, poi gli agenti
+> - Regola pratica: usare la __minima autonomia__ necessaria
+>    + partire da una singola chiamata; passare ai workflow quando i passi sono _noti_ in anticipo; agli agenti solo quando _non_ lo sono
+>    + _l'autonomia è un costo_ (rischi, verifiche, governance), non un obiettivo: si vuole _automatizzare_, non "avere un agente"
+>    + prima i workflow, poi gli agenti
 
 ---
 
