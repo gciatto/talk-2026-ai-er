@@ -129,6 +129,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Cataloghi di modelli (pt. 2): il panorama tecnologico | Model zoos (pt. 2): the technological landscape | `llmaas` (line 77) |
 | Cataloghi di modelli (pt. 3): e poi? | Model zoos (pt. 3): what next? | `llmaas` (line 98) |
 | Esplorazione guidata: lo stesso modello in tre cataloghi | Guided tour: the same model, in three zoos | __new__ |
+| Modelli derivati: fine-tuning, distillazione e fusione | Derivatives: fine-tunes, distillation, merges, data, outputs + Which technique? The general concept | __new__ conceptual bridge, adapted from `governance` (line 420) and `rag` (line 123) |
 | Cosa rende un modello _"aperto"_? Il concetto generale | What makes a model _"open"_? The general concept | `governance` (line 328) |
 | L'apertura ha _gradi_, non è binaria | Openness is _graded_, not binary | `governance` (line 344) |
 | La definizione OSI di IA open source (OSAID 1.0, ott. 2024) | The OSI Open Source AI Definition (OSAID 1.0, Oct. 2024) | `governance` (line 361) |
@@ -137,7 +138,9 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Cosa significano in pratica le licenze restrittive? | What do restrictive licenses mean in practice? | `governance` (line 405) |
 | Derivati: fine-tuning, distillazione, fusioni, dati, output | Derivatives: fine-tunes, distillation, merges, data, outputs | `governance` (line 420) |
 | La regolamentazione: il quadro generale | Regulation: the general picture | `governance` (line 164) |
+| GDPR per applicazioni con LLM: i concetti essenziali | GDPR for LLM-powered applications: key concepts | `governance` (line 181), condensed; official references checked October 2026 |
 | AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219) |
+| AI Act dell'UE: modello, sistema e ruoli | EU AI Act: who must do what? | `governance` (line 248), condensed; official definitions checked October 2026 |
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
 | Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__ |

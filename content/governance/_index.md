@@ -16,7 +16,7 @@ outputs = ["Reveal"]
 ## Programma
 
 1. [Il panorama dei modelli aperti e a pesi aperti](#/open-landscape)
-    + cataloghi di modelli (Hugging Face, Ollama, Open Router); parametri chiave; cosa significa "aperto"; licenze
+    + cataloghi e parametri chiave; quantizzazione e MoE; apertura, derivati, licenze e quadro normativo
 2. [Modelli, fornitori e piattaforme](#/providers-landscape): chi offre cosa
     + fornitori primari, aggregatori, marketplace; Open Router; portabilità e lock-in
 3. [Esecuzione locale](#/local) e sovranità infrastrutturale
@@ -26,7 +26,7 @@ outputs = ["Reveal"]
 6. [Come valutare un LLM](#/evaluation)
     + benchmark e loro limiti; valutazione realistica per un'organizzazione
 7. [Criteri di scelta per l'adozione](#/decision)
-    + cloud, fornitore europeo o on-premise? Come costruire una rosa di candidati
+    + cloud, fornitore europeo o on-premise? Applicare vincoli, valutazioni e responsabilità
 
 ---
 
@@ -224,6 +224,25 @@ Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `..
 
 {{% section %}}
 
+{{< slide id="model-derivatives" >}}
+
+## Modelli derivati: fine-tuning, distillazione e fusione
+
+> Richiamo: il [fine-tuning](../llmaas/#/technique-selection) modifica i pesi; prompting e RAG modificano ciò che il modello riceve in input
+
+| Operazione | Come funziona | Esempio intuitivo |
+|---|---|---|
+| __Fine-tuning__ | continuare l'addestramento di un modello esistente su esempi specifici | adattare un modello multilingue a rapporti amministrativi italiani |
+| __Distillazione__ | addestrare un modello usando risposte o altri segnali di un modello _insegnante_ | un modello capace produce esempi di soluzione per addestrarne uno più piccolo |
+| __Fusione__ (_merge_) | combinare i pesi di modelli o adattamenti compatibili | combinare due adattamenti della stessa famiglia, poi rivalutare il risultato |
+| __Quantizzazione__ | rappresentare i pesi con meno bit, come [già visto](#/local-requirements) | distribuire una variante a 4 bit per ridurre la memoria richiesta |
+
+- Le operazioni possono __combinarsi__: usare risposte di un insegnante per fare fine-tuning di un altro modello, poi quantizzarlo
+- Un modello derivato non è necessariamente _migliore_: va valutato sul compito e può perdere capacità
+- Per le [licenze](#/open-models), distinguere __modello di partenza__, __dati usati__ e __output dell'insegnante__: possono avere condizioni diverse
+
+---
+
 {{< slide id="open-models" >}}
 
 ## Cosa rende un modello _"aperto"_? Il concetto generale
@@ -357,6 +376,23 @@ più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamen
 
 ---
 
+{{< slide id="gdpr-concepts" >}}
+
+## GDPR per applicazioni con LLM: i concetti essenziali
+
+- __Dati personali__: informazioni su una persona identificata o identificabile; nell'esempio, nomi, passaporti, voti e lettere sui candidati
+- __Titolare del trattamento__: decide _perché_ e _come_ trattare i dati (es. l'università)
+- __Responsabile del trattamento__: tratta i dati _per conto_ del titolare e secondo le sue istruzioni (es. un fornitore LLM con questo ruolo contrattuale)
+    + il rapporto è disciplinato da un accordo o altro atto giuridico vincolante: __DPA__ (_Data Processing Agreement_, art. 28); eventuali sub-responsabili fanno parte della catena da verificare
+- __Minimizzazione__: inviare solo i dati necessari; __conservazione__: stabilire per quanto tempo mantenere prompt, risposte e log, poi cancellarli o anonimizzarli
+- __Trasferimenti fuori dallo SEE__: richiedono un meccanismo previsto dal GDPR, es. decisione di adeguatezza o garanzie appropriate; scegliere un marchio europeo non basta a capire dove transitano i dati
+
+Fonti: [EDPB, titolare e responsabile](https://www.edpb.europa.eu/sme/learn-the-basics/data-controller-or-data-processor_en), [GDPR, artt. 5 e 28](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [Commissione, trasferimenti internazionali](https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/rules-international-data-transfers_en) (consultati a ottobre 2026)
+
+> Prima di scegliere il fornitore: quali dati gli inviamo, per quale scopo, dove e per quanto tempo vengono trattati?
+
+---
+
 ## AI Act dell'UE: un approccio basato sul rischio
 
 {{% multicol %}}
@@ -387,6 +423,30 @@ più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamen
 {{% fragment %}}
 > Il nostro __esempio ricorrente è ad alto rischio__: contribuisce a decidere l'_ammissione_ a un dottorato. Lo stesso LLM, usato per riassumere notizie, sarebbe a rischio _minimo_: il regolamento disciplina l'__uso__, non la tecnologia
 {{% /fragment %}}
+
+---
+
+{{< slide id="ai-act-roles" >}}
+
+## AI Act dell'UE: modello, sistema e ruoli
+
+Un __modello__ è un componente; il __sistema__ comprende anche codice, interfacce, dati e controlli che lo rendono utilizzabile per un compito.
+
+{{% small "85%" %}}
+
+| Ruolo | Chi è, nell'esempio | Su cosa ricadono le responsabilità |
+|---|---|---|
+| __Fornitore del modello GPAI__ | chi sviluppa e immette sul mercato il modello per finalità generali | obblighi relativi al _modello_, distinti da quelli dell'applicazione |
+| __Fornitore del sistema__ (_provider_) | chi sviluppa, o fa sviluppare, l'assistente alle ammissioni e lo mette in servizio a proprio nome | progettazione e conformità del _sistema_, secondo la sua classificazione di rischio |
+| __Utilizzatore professionale__ (_deployer_) | l'università che usa il sistema sotto la propria autorità | impiego del sistema; per l'alto rischio, anche sorveglianza umana e monitoraggio |
+
+{{% /small %}}
+
+- L'università che costruisce e usa il proprio assistente può essere __sia fornitore sia deployer__ del sistema
+- Chi appone il proprio nome a un sistema ad alto rischio, lo modifica sostanzialmente o ne cambia la finalità rendendolo ad alto rischio può assumere il ruolo di __fornitore__ (art. 25)
+- Questi ruoli sono __distinti__ da titolare e responsabile del GDPR: occorre identificare entrambi gli insiemi di responsabilità
+
+Fonti: [AI Act, definizioni (art. 3)](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-3), [catena del valore (art. 25)](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-25), [obblighi dei deployer (art. 26)](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) (consultati a ottobre 2026)
 
 ---
 
