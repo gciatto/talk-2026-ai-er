@@ -67,6 +67,9 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Esempio 4: output strutturato con classi Pydantic (pt. 3) | Example 4: Structured Output with Pydantic Classes (pt. 3) | `prompting` (line 281) |
 | Esempio 4: output strutturato con classi Pydantic (pt. 4, continua) | Example 4: Structured Output with Pydantic Classes (pt. 4, cont.) | `prompting` (line 315) |
 | Esercizio guidato 2: modificare lo schema di output | Guided exercise 2: changing the output schema | __new__ |
+| Cos'è un agente? | Agents: the classical view | `agents` (line 34), expanded |
+| Cos'è un agente? Le nozioni chiave | What is an agent? Key notions | __new__ |
+| Agenti: un'idea di (almeno) 30 anni | Agents: an idea at least 30 years old | __new__ |
 | Agenti basati su LLM: la metafora agentica | Agents built around LLMs: the agentic metaphor | `agents` (line 56) |
 | Gli LLM da soli non sono agenti | LLMs are not agents by themselves | `agents` (line 66) |
 | Tool: il concetto generale | Tools: the general concept | `agents` (line 105) |

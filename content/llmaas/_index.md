@@ -1019,7 +1019,60 @@ Dalle garanzie _più deboli_ alle _più forti_:
 
 ---
 
+# Verso gli agenti
+
+---
+
 {{% section %}}
+
+{{< slide id="agents-concept" >}}
+
+## Cos'è un agente?
+
+> Un __agente__ è un'entità _situata_ in un _ambiente_ (che quindi _percepisce_ e su cui _agisce_), che persegue un _obiettivo_ per conto di un essere umano
+
+{{< image src="./agent-classic.svg" max-h="48vh" alt="L'agente classico: un essere umano delega un obiettivo all'agente; dentro l'agente, i sensori percepiscono, le credenze sono la rappresentazione interna del mondo, la deliberazione decide cosa fare dato l'obiettivo, gli attuatori agiscono; l'ambiente (fisico, digitale o organizzativo, che cambia anche da solo) invia percezioni ai sensori e riceve azioni dagli attuatori; l'agente è situato: vede solo una parte dell'ambiente, e solo attraverso i propri sensori" >}}
+
+- La visione _classica_ (cfr. [Wooldridge & Jennings, 1995](https://doi.org/10.1017/S0269888900008122); [Russell & Norvig](https://aima.cs.berkeley.edu/)): un agente è un __ciclo di controllo__, non un singolo calcolo
+    + _percepire_ $\rightarrow$ aggiornare le _credenze_ $\rightarrow$ _deliberare_ $\rightarrow$ _agire_ $\rightarrow$ osservare gli effetti, e ripetere
+
+---
+
+## Cos'è un agente? Le nozioni chiave
+
+{{% small "85%" %}}
+| Nozione | Intuitivamente | Es. termostato | Es. assistente della commissione |
+|---|---|---|---|
+| __Ambiente__ | il "mondo" in cui l'agente opera: fisico, digitale o organizzativo; cambia anche _senza_ l'agente | la stanza | candidature, regolamento, casella e-mail |
+| _Situato_ | l'agente sta _dentro_ l'ambiente: ne vede solo una _parte_, e solo tramite i propri sensori | sente solo la temperatura _lì dov'è_ | vede solo i documenti a cui ha _accesso_ |
+| _Percepire_ | ottenere informazioni sullo stato dell'ambiente (_sensori_) | leggere la temperatura | leggere certificati e lettere |
+| _Agire_ | modificare lo stato dell'ambiente (_attuatori_) | accendere o spegnere la caldaia | registrare una decisione, inviare un'e-mail |
+| __Obiettivo__ | lo stato del mondo _desiderato_, che guida la scelta delle azioni | 20 °C | una graduatoria corretta e motivata |
+| _Per conto di_ | l'obiettivo è _delegato_ da un essere umano, che ne resta __responsabile__ | chi lo imposta | la commissione |
+{{% /small %}}
+
+- Entrambi sono agenti: il termostato è un agente _semplice_, l'assistente un agente _ricco_
+    + la differenza sta nella __deliberazione__: quanto è difficile _decidere cosa fare_, e quanta conoscenza del mondo serve per farlo
+
+---
+
+{{< slide id="agents-history" >}}
+
+## Agenti: un'idea di (almeno) 30 anni
+
+{{< image src="./agents-timeline.svg" max-h="25vh" alt="Timeline 1990-2026: nel 1995 l'IA come studio degli agenti (Russell e Norvig), gli agenti intelligenti (Wooldridge e Jennings) e l'architettura BDI (Rao e Georgeff); negli anni 2000 sistemi multi-agente, piattaforme e linguaggi (JADE, Jason) e standard FIPA; fino a circa il 2021 rappresentazione del mondo e deliberazione sono scritte a mano (logica, regole, ontologie, piani), costose, fragili e per domini ristretti; dal 2022-23 ReAct e Toolformer, LLM che ragionano e usano tool, dal linguaggio naturale; nel 2024-25 il termine Agentic AI" >}}
+
+- L'agente è una nozione __centrale__ dell'IA da decenni: [Russell & Norvig](https://aima.cs.berkeley.edu/) definiscono l'IA stessa come lo studio degli _agenti razionali_
+- Il problema storicamente _difficile_: dare all'agente una __rappresentazione del mondo__ su cui _ragionare_ e _deliberare_ (decidere cosa fare)
+    + credenze, obiettivi e piani andavano _formalizzati_ a mano (logica, regole, ontologie; es. l'architettura [BDI](https://cdn.aaai.org/ICMAS/1995/ICMAS95-042.pdf), _belief–desire–intention_): costoso, fragile, praticabile solo in domini _ristretti_
+- Con gli LLM questo problema è diventato in larga misura __affrontabile__: conoscenza del mondo e deliberazione _a partire dal linguaggio naturale_
+    + da qui il termine __Agentic AI__: intuitivamente, "_costruire agenti con gli LLM_" (cfr. [la metafora agentica](#/agent-architecture))
+
+{{% fragment %}}
+> __Attenzione__: _agente_ $\neq$ _LLM_. Esiste un'ampia letteratura (e ricerca attiva) su agenti __non__ basati su LLM (es. BDI, sistemi multi-agente, apprendimento per rinforzo), da cui vengono molte idee "agentiche" di oggi
+{{% /fragment %}}
+
+---
 
 {{< slide id="agent-architecture" >}}
 
@@ -1184,8 +1237,26 @@ function:
 - Un __workflow__ descrive un _processo_ come un grafo di __passi__ (anche _condizionali_, _ciclici_ o _paralleli_), che operano su una __memoria__ condivisa
     + ogni passo _legge_ la memoria, svolge il compito e la _aggiorna_; il __motore__ decide il passo successivo
     + l'LLM svolge _alcuni_ passi (quelli che richiedono _linguaggio_), ma __non__ ne decide l'ordine
+- Lo stesso comportamento si può descrivere come __macchina a stati__ (cfr. [prossima slide](#/workflows-states)):
+    + __memoria__: i _dati_ accumulati fino a quel momento (input, risultati intermedi, eventuali istruzioni caricate)
+    + __stato__: un _nodo_ del diagramma degli stati; insieme al contenuto della memoria, determina cosa fare (quale arco uscente seguire)
+    + __transizione__: un _arco_ tra due stati, eventualmente con una _guardia_ (una condizione sulla memoria); __passo__ è il suo nome informale
+    + il __workflow__ è una descrizione _duale_ dello stesso comportamento: mette l'accento sui _passi_ anziché sugli _stati_
 - Idea consolidata, nuovi ingredienti: _business process management_ (cfr. [BPMN](https://www.omg.org/spec/BPMN/2.0.2/)), _pipeline ETL_, _pipeline CI/CD_, ... ora con __passi LLM__
     + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo _e_ riduce i costi rispetto agli agenti che scelgono dinamicamente i passi
+
+---
+
+{{< slide id="workflows-states" >}}
+
+## Workflow come macchina a stati
+
+{{< image src="./admission-states.svg" max-h="47vh" alt="Il workflow di ammissione come diagramma degli stati: dall'inizio, la transizione 'leggere i certificati' (passo LLM, uno per candidato in parallelo) porta allo stato 'certificati letti'; 'verificare l'ammissibilità' (passo sui dati) porta ad 'ammissibilità nota'; con la guardia 'alcuni idonei', 'valutare le lettere' (passo LLM) porta a 'lettere valutate', poi 'stilare la graduatoria' (passo sui dati) a 'graduatoria pronta' e 'chiedere l'approvazione' (input utente) ad 'attesa commissione'; con la guardia 'nessuno idoneo' si passa direttamente all'attesa; dallo stato di attesa (esecuzione sospesa), con 'risposta: sì' si avvisano i candidati (azione) e si termina, con 'risposta: no' si termina senza invii. Ogni stato indica i campi aggiunti alla memoria; sotto, la memoria (run, candidates, transcripts, problems, scores, ranking, approved, notified), salvata dopo ogni transizione come checkpoint" >}}
+
+- Il [workflow di ammissione](#/workflows-example), visto dal lato degli _stati_: uno stato _iniziale_, uno o più stati _finali_, eventuali _cicli_ (limitati!)
+- Non sempre un passo è _una_ transizione: l'_intervento umano_ diventa uno __stato di attesa__, da cui si esce su un _evento_ (la risposta, anche ore dopo); i passi _paralleli_ diventano _una_ transizione, che termina quando tutti i rami hanno finito
+- Attenzione: macchina a stati __non__ significa macchina a stati _finiti_: gli stati sono finiti, ma la memoria no (_macchina a stati estesa_)
+    + le librerie (es. LangGraph) chiamano _state_ quella che qui chiamiamo __memoria__
 
 ---
 
@@ -1246,29 +1317,11 @@ function:
 
 ## Il ciclo ReAct: il concetto generale
 
-- Lo stesso comportamento si può descrivere come __macchina a stati__ (cfr. [prossima slide](#/workflows-states)):
-    + __memoria__: i _dati_ accumulati fino a quel momento (input, risultati intermedi, eventuali istruzioni caricate)
-    + __stato__: un _nodo_ del diagramma degli stati; insieme al contenuto della memoria, determina cosa fare (quale arco uscente seguire)
-    + __transizione__: un _arco_ tra due stati, eventualmente con una _guardia_ (una condizione sulla memoria); __passo__ è il suo nome informale
-    + il __workflow__ è una descrizione _duale_ dello stesso comportamento: mette l'accento sui _passi_ anziché sugli _stati_
 - __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
     + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e nei modelli _di ragionamento_, che generano una catena di ragionamento, fatturata come _token_ di output, prima di rispondere)
 
 - Il __controllore__ dell'agente è un semplice ciclo:
     1. inviare all'LLM la conversazione e le definizioni dei tool
-{{< slide id="workflows-states" >}}
-
-## Workflow come macchina a stati
-
-{{< image src="./admission-states.svg" max-h="47vh" alt="Il workflow di ammissione come diagramma degli stati: dall'inizio, la transizione 'leggere i certificati' (passo LLM, uno per candidato in parallelo) porta allo stato 'certificati letti'; 'verificare l'ammissibilità' (passo sui dati) porta ad 'ammissibilità nota'; con la guardia 'alcuni idonei', 'valutare le lettere' (passo LLM) porta a 'lettere valutate', poi 'stilare la graduatoria' (passo sui dati) a 'graduatoria pronta' e 'chiedere l'approvazione' (input utente) ad 'attesa commissione'; con la guardia 'nessuno idoneo' si passa direttamente all'attesa; dallo stato di attesa (esecuzione sospesa), con 'risposta: sì' si avvisano i candidati (azione) e si termina, con 'risposta: no' si termina senza invii. Ogni stato indica i campi aggiunti alla memoria; sotto, la memoria (run, candidates, transcripts, problems, scores, ranking, approved, notified), salvata dopo ogni transizione come checkpoint" >}}
-
-- Il [workflow di ammissione](#/workflows-example), visto dal lato degli _stati_: uno stato _iniziale_, uno o più stati _finali_, eventuali _cicli_ (limitati!)
-- Non sempre un passo è _una_ transizione: l'_intervento umano_ diventa uno __stato di attesa__, da cui si esce su un _evento_ (la risposta, anche ore dopo); i passi _paralleli_ diventano _una_ transizione, che termina quando tutti i rami hanno finito
-- Attenzione: macchina a stati __non__ significa macchina a stati _finiti_: gli stati sono finiti, ma la memoria no (_macchina a stati estesa_)
-    + le librerie (es. LangGraph) chiamano _state_ quella che qui chiamiamo __memoria__
-
----
-
     2. se la risposta __non contiene chiamate a tool__, è la _risposta finale_: terminare
     3. altrimenti _eseguire_ ogni chiamata, aggiungere il _risultato_ alla conversazione e tornare a 1
     4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ripetere il ciclo all'infinito e ogni passo ha un costo)
@@ -1331,7 +1384,7 @@ function:
 
 ## I tool cambiano il profilo di rischio
 
-Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose sbagliate, alla velocità di una macchina
+> Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose sbagliate, alla velocità di una macchina
 
 | Tipo di tool | Esempio | Rischi |
 |---|---|---|
