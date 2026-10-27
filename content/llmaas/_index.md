@@ -1677,33 +1677,199 @@ La _stessa_ skill (cartella con un `SKILL.md`) può essere usata da _diversi tip
 
 ---
 
-{{< slide id="skills-openclaw" >}}
+{{< slide id="skills-ponytail" >}}
 
-## Esempio 5: usare skill da OpenClaw
+## Esempio 5: anatomia di una skill reale, ponytail (pt. 1)
 
-{{% small "85%" %}}
+> __Obiettivo__: smontare una skill _reale_ e molto diffusa, [ponytail](https://github.com/DietrichGebert/ponytail) (licenza MIT, ~178.000 stelle su GitHub a ottobre 2026), che fa comportare un agente di programmazione come un "_senior pigro_": niente codice superfluo, prima la libreria standard, il diff più corto
 
-> __Obiettivo__: due skill per la commissione, [`phd-application-review`](../lab-snippets/snippets/lecture_skills/example1/phd-application-review/SKILL.md) e [`admission-letter`](../lab-snippets/snippets/lecture_skills/example1/admission-letter/SKILL.md) (cartelle in [`snippets/lecture_skills/example1/`](../lab-snippets/snippets/lecture_skills/example1/__init__.py)), usate da un _agente locale_ senza scrivere codice
-
-- [OpenClaw](https://docs.openclaw.ai/): harness agentico open source (MIT), self-hosted, accessibile dal terminale o da app di messaggistica
-    + installazione (richiede Node.js): `npm install -g openclaw@latest`, poi `openclaw onboard`
-    + funziona con modelli _locali_ tramite Ollama (es. `openclaw models set ollama/<model>`) o qualunque endpoint _compatibile con OpenAI_ (cfr. [fornitori personalizzati](https://docs.openclaw.ai/concepts/model-providers/custom-providers))
-
-- Per far trovare le skill a OpenClaw, aggiungere la cartella dell'esempio a `skills.load.extraDirs` in `~/.openclaw/openclaw.json`
-
-{{% code path="static/lab-snippets/snippets/lecture_skills/example1/openclaw.json5" language="js" %}}
-
-- Verificarle e poi usarle:
+{{% multicol %}}
+{{% col class="col-6" %}}
 
 ```bash
-openclaw skills list                     # both skills should be listed, as "ready"
-openclaw agent --agent main --local --message "Review the application of Mario Rossi"
-openclaw agent --agent main --local --message "Draft the admission letter for Jean Dupont: we invite him to an interview"
+ponytail/
+├── skills/                  # le skill (standard)
+│   ├── ponytail/SKILL.md    # la skill principale
+│   ├── ponytail-review/SKILL.md
+│   └── ...                  # audit, debt, gain, help
+├── .claude-plugin/          # il pacchetto per Claude Code
+│   ├── marketplace.json     # il repo è anche un "negozio"
+│   └── plugin.json          # nome, versione, hook, opzioni
+├── hooks/                   # codice eseguito dall'harness
+│   └── ponytail-activate.js # ... a ogni avvio di sessione
+├── .openclaw/skills/  .codex-plugin/  .cursor/rules/
+├── AGENTS.md  ...           # adattatori per altri harness
+└── README.md, INSTALL.md
 ```
 
-- Le _stesse_ cartelle funzionano senza modifiche in Claude Code (`.claude/skills/`), Codex, Cursor, Copilot (`.agents/skills/`), ...: provare a collegarle con `ln -s`
-
+{{% small "70%" %}}
+Estratto dell'albero del repository, commit [`09c434a`](https://github.com/DietrichGebert/ponytail/tree/09c434ab73ca43761c5d8b0c5d341926c2fba710) (18 ottobre 2026)
 {{% /small %}}
+
+{{% /col %}}
+{{% col class="col-6" %}}
+
+- Il cuore è una __skill__ (cartella con `SKILL.md`, cfr. [anatomia](#/writing-skills)): _solo istruzioni_, nessuno script
+- Attorno, un __plugin__: il _pacchetto_ con cui un harness installa _insieme_ skill, comandi, __hook__ (ed eventualmente server MCP)
+    + _hook_: codice _deterministico_ che l'harness esegue a certi eventi (avvio della sessione, invio di un prompt, ...)
+- La _stessa_ skill è _adattata_ a una dozzina di harness (Claude Code, Codex, Cursor, OpenClaw, Gemini CLI, ...)
+    + la portabilità del [metamodello](#/skills-landscape) vale per `SKILL.md`; plugin, hook e regole restano __specifici__ di ogni harness
+
+{{% /col %}}
+{{% /multicol %}}
+
+---
+
+## Esempio 5: anatomia di una skill reale, ponytail (pt. 2)
+
+{{% multicol %}}
+{{% col class="col-6" %}}
+
+```markdown
+---
+name: ponytail
+description: >
+  Lazy senior dev mode: the smallest change that fully
+  solves the task, and a reply a busy human understands
+  in one read. Use on any coding task (writing, fixing,
+  refactoring, reviewing, choosing dependencies) and when
+  the user says "ponytail", "be lazy", "simplest
+  solution", "yagni", or complains about
+  over-engineering or bloat. Levels: lite, full
+  (default), ultra.
+argument-hint: "[lite|full|ultra|off]"
+license: MIT
+---
+```
+
+```markdown
+# Ponytail
+You are a lazy senior developer. [...]
+## The smallest complete change
+
+Take the first option that fully works:
+
+1. Does it need to exist? [...]
+2. Already in this codebase? [...]
+3. Standard library or a platform feature? Use it [...]
+4. An installed dependency? Use it. [...]
+```
+
+{{% small "70%" %}}
+Estratto di [`skills/ponytail/SKILL.md`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/skills/ponytail/SKILL.md) (52 righe in tutto)
+{{% /small %}}
+
+{{% /col %}}
+{{% col class="col-6" %}}
+
+- Si noti che:
+    + la `description` dice _cosa_ fa e _quando_ usarla, con le __parole chiave__ che l'utente potrebbe scrivere ("_be lazy_", "_yagni_")
+    + `argument-hint` è un'_estensione_ di Claude Code: suggerisce gli argomenti di `/ponytail lite`, `/ponytail ultra`, ...
+    + il corpo è una __procedura__ in linguaggio naturale: una _scala_ di opzioni, da provare in ordine
+    + seguono i _limiti_ ("_Never cut: validation at trust boundaries, [...] security_") e i _livelli_ (`lite`, `full`, `ultra`)
+- È __memoria procedurale__ (cfr. [skill](#/skills-concept)): _come_ lavorare, non _cosa_ sapere
+    + chiunque legga l'inglese può _verificarla_ (e _modificarla_): non serve saper programmare
+
+{{% /col %}}
+{{% /multicol %}}
+
+---
+
+## Esempio 5: anatomia di una skill reale, ponytail (pt. 3)
+
+{{% multicol %}}
+{{% col class="col-6" %}}
+
+```js
+// .claude-plugin/plugin.json (estratto)
+{
+  "name": "ponytail",
+  "version": "5.3.2",
+  "hooks": [
+    "./hooks/claude-codex-hooks.json",
+    "./hooks/claude-band.json"
+  ],
+  "userConfig": {
+    "webhookUrl": {
+      "type": "string",
+      "description": "Optional: an https address that gets
+        this task's row as JSON after every turn [...]
+        Empty: nothing leaves this machine.",
+      "default": ""
+    }, ...
+  }
+}
+```
+
+```js
+// hooks/claude-codex-hooks.json (estratto)
+"SessionStart": [{
+  "matcher": "startup|resume|clear|compact",
+  "hooks": [{ "type": "command",
+    "command": "node -e \"require(... 'hooks/ponytail-activate.js')\"" }]
+}]
+```
+
+{{% /col %}}
+{{% col class="col-6" %}}
+
+- A ogni avvio di sessione, l'hook `ponytail-activate.js` _inietta_ le regole nel contesto: la skill è __sempre attiva__
+    + scelta _deliberata_ dell'autore: rinuncia al [caricamento progressivo](#/progressive-disclosure) (costo di contesto _a ogni_ richiesta) in cambio di un comportamento _costante_
+    + installando la sola cartella `skills/ponytail/`, l'agente la caricherebbe _solo_ quando pertinente
+- Gli hook sono __codice__ eseguito con i _propri_ privilegi, fuori dalle sandbox (cfr. [minacce](#/skills-security))
+    + qui si legge anche un'opzione per _inviare dati_ a un indirizzo esterno (vuota, quindi disattivata, per default)
+- Morale: un plugin "_di sole istruzioni_" può contenere molto più di istruzioni $\rightarrow$ __leggere prima di installare__
+
+{{% /col %}}
+{{% /multicol %}}
+
+{{% small "70%" %}}
+Estratti da [`.claude-plugin/plugin.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/.claude-plugin/plugin.json) e [`hooks/claude-codex-hooks.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/claude-codex-hooks.json), commit `09c434a`
+{{% /small %}}
+
+---
+
+{{< slide id="install-claude-code" >}}
+
+## Esempio 5: installare Claude Code e la skill (pt. 4)
+
+{{% multicol %}}
+{{% col class="col-6" %}}
+
+1. Installare [Claude Code](https://code.claude.com/docs/en/setup) (o con `brew install --cask claude-code`, `winget install Anthropic.ClaudeCode`)
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash   # macOS, Linux, WSL
+irm https://claude.ai/install.ps1 | iex          # Windows
+```
+
+2. Avviarlo _nella cartella di un progetto_, e accedere dal browser
+    + serve un account Pro, Max, Team, Enterprise o Console (il piano gratuito di claude.ai __non__ include Claude Code)
+
+```bash
+cd my-project && claude
+```
+
+3. Nel prompt di Claude Code, aggiungere il _marketplace_ e installare il _plugin_ (due prompt separati)
+
+```text
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+```
+
+{{% /col %}}
+{{% col class="col-6" %}}
+
+- Cosa osservare (stessa richiesta _prima_ e _dopo_ l'installazione, es. "_aggiungi un selettore di date a questo form_"):
+    + _prima_: spesso una nuova dipendenza, un componente, un foglio di stile (l'esempio del README)
+    + _dopo_: `<input type="date">`, e una riga su ciò che è stato _omesso_
+    + `/ponytail ultra`: l'agente _contesta_ la richiesta prima di scrivere codice
+- Gestione: `/plugin` elenca, disattiva e rimuove i plugin (`/plugin remove ponytail`)
+- Alternativa _gratuita_: la stessa skill in [OpenClaw](https://docs.openclaw.ai/tools/skills) con modelli locali (Ollama), copiando [`.openclaw/skills/ponytail`](https://github.com/DietrichGebert/ponytail/tree/09c434ab73ca43761c5d8b0c5d341926c2fba710/.openclaw/skills) in `~/.openclaw/skills/`
+    + lo stesso vale per le skill della [commissione](#/writing-skills), in [`snippets/lecture_skills/example1/`](../lab-snippets/snippets/lecture_skills/example1/__init__.py)
+
+{{% /col %}}
+{{% /multicol %}}
 
 ---
 
