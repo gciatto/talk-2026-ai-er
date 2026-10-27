@@ -1677,6 +1677,21 @@ La _stessa_ skill (cartella con un `SKILL.md`) può essere usata da _diversi tip
 
 ---
 
+{{< slide id="hooks" >}}
+
+## Hook: il concetto generale
+
+{{< image src="./hook-lifecycle.svg" max-h="34vh" alt="Il ciclo dell'agente con gli eventi degli hook: SessionStart prima del primo prompt (aggiunge contesto, es. le regole di una skill); UserPromptSubmit quando l'utente scrive (blocca il prompt o aggiunge contesto); dentro il ciclo ReAct, PreToolUse prima di ogni chiamata a tool (consenti, nega, chiedi, modifica argomenti) e PostToolUse dopo (aggiunge contesto o blocca); PreCompact quando il contesto è pieno; Stop quando l'agente vuole terminare il turno (può costringerlo a continuare)" >}}
+
+- Un __hook__ è codice _deterministico_ che l'harness esegue a determinati __eventi__ del ciclo di vita dell'agente
+    + riceve i dati dell'evento (es. nome e argomenti del tool) e può __consentire__, __negare__ o __modificare__ ciò che accade, oppure aggiungere _contesto_
+- Skill e hook: __suggerimenti__ e __politiche__
+    + una skill _chiede_ all'LLM di fare qualcosa: l'LLM può non farlo
+    + un hook _garantisce_ che qualcosa accada (o non accada), qualunque cosa decida l'LLM: gira _fuori_ dall'LLM
+- Usi tipici: _guardrail_ (bloccare comandi pericolosi), _automazione_ (formattare il codice dopo ogni modifica), _iniezione di contesto_ (le regole di una skill, all'avvio), _audit_ (registrare ogni chiamata a tool)
+
+---
+
 {{< slide id="skills-ponytail" >}}
 
 ## Esempio 5: anatomia di una skill reale, ponytail (pt. 1)
@@ -1710,8 +1725,7 @@ Estratto dell'albero del repository, commit [`09c434a`](https://github.com/Dietr
 {{% col class="col-6" %}}
 
 - Il cuore è una __skill__ (cartella con `SKILL.md`, cfr. [anatomia](#/writing-skills)): _solo istruzioni_, nessuno script
-- Attorno, un __plugin__: il _pacchetto_ con cui un harness installa _insieme_ skill, comandi, __hook__ (ed eventualmente server MCP)
-    + _hook_: codice _deterministico_ che l'harness esegue a certi eventi (avvio della sessione, invio di un prompt, ...)
+- Attorno, un __plugin__: il _pacchetto_ con cui un harness installa _insieme_ skill, comandi, [hook](#/hooks) (ed eventualmente server MCP)
 - La _stessa_ skill è _adattata_ a una dozzina di harness (Claude Code, Codex, Cursor, OpenClaw, Gemini CLI, ...)
     + la portabilità del [metamodello](#/skills-landscape) vale per `SKILL.md`; plugin, hook e regole restano __specifici__ di ogni harness
 
@@ -1801,37 +1815,78 @@ Estratto di [`skills/ponytail/SKILL.md`](https://github.com/DietrichGebert/ponyt
 }
 ```
 
-```js
-// hooks/claude-codex-hooks.json (estratto)
-"SessionStart": [{
-  "matcher": "startup|resume|clear|compact",
-  "hooks": [{ "type": "command",
-    "command": "node -e \"require(... 'hooks/ponytail-activate.js')\"" }]
-}]
-```
+{{% small "70%" %}}
+Estratto di [`.claude-plugin/plugin.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/.claude-plugin/plugin.json), commit `09c434a`
+{{% /small %}}
 
 {{% /col %}}
 {{% col class="col-6" %}}
 
-- A ogni avvio di sessione, l'hook `ponytail-activate.js` _inietta_ le regole nel contesto: la skill è __sempre attiva__
-    + scelta _deliberata_ dell'autore: rinuncia al [caricamento progressivo](#/progressive-disclosure) (costo di contesto _a ogni_ richiesta) in cambio di un comportamento _costante_
-    + installando la sola cartella `skills/ponytail/`, l'agente la caricherebbe _solo_ quando pertinente
-- Gli hook sono __codice__ eseguito con i _propri_ privilegi, fuori dalle sandbox (cfr. [minacce](#/skills-security))
-    + qui si legge anche un'opzione per _inviare dati_ a un indirizzo esterno (vuota, quindi disattivata, per default)
-- Morale: un plugin "_di sole istruzioni_" può contenere molto più di istruzioni $\rightarrow$ __leggere prima di installare__
+- Il _manifesto_ del plugin dichiara, oltre al nome e alla versione:
+    + i file che registrano gli [hook](#/hooks): uno per attivare la skill, uno per la "_band_", la barra con costi e token del task, sopra il prompt
+    + le _opzioni_ chieste all'utente all'installazione (`userConfig`)
+- `webhookUrl`: dopo _ogni turno_, invia a un indirizzo esterno una riga JSON con le statistiche del task
+    + progetto, nome del task (o il suo _primo prompt_), modello, costo, token, turni, esito dei test; non il codice
+    + pensato per dashboard di _team_; __vuoto per default__, solo `https`, token nel portachiavi di sistema
+- Funzionalità legittima, ma da _sapere_: un plugin "_di istruzioni_" contiene anche codice che __può inviare dati__ fuori, senza che il `SKILL.md` lo dica
 
 {{% /col %}}
 {{% /multicol %}}
 
+---
+
+## Esempio 5: anatomia di una skill reale, ponytail (pt. 4)
+
+{{% multicol %}}
+{{% col class="col-6" %}}
+
+```js
+// claude-codex-hooks.json: QUANDO eseguirlo
+"SessionStart": [{ "matcher": "startup|resume|clear|compact",
+  "hooks": [{ "command": "node ... ponytail-activate.js" }] }]
+```
+
+```js
+// ponytail-activate.js: COSA fa (estratti)
+// 2. Emit the ponytail ruleset [...]
+let output = getPonytailInstructions(mode);
+// 2b. Codebase map: what already exists [...]
+const map = execFileSync(process.execPath,
+  [path.join(__dirname, 'ponytail-map.js')], ...);
+if (map) output += '\n\n' + map;
+```
+
+```js
+// 3. Detect missing statusline config [...]
+output += "STATUSLINE SETUP NEEDED: [...] add this to "
+  + settingsPath + ": " + statusLineSnippet + " "
+  + "Proactively offer to set this up for the user [...]";
+writeHookOutput('SessionStart', mode, output);
+```
+
 {{% small "70%" %}}
-Estratti da [`.claude-plugin/plugin.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/.claude-plugin/plugin.json) e [`hooks/claude-codex-hooks.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/claude-codex-hooks.json), commit `09c434a`
+Estratti di [`hooks/claude-codex-hooks.json`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/claude-codex-hooks.json) e [`hooks/ponytail-activate.js`](https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/ponytail-activate.js) (201 righe), commit `09c434a`
 {{% /small %}}
+
+{{% /col %}}
+{{% col class="col-6" %}}
+
+- L'hook è un _programma_ (Node.js) che Claude Code esegue a ogni __avvio di sessione__ (e dopo `/clear` o una compattazione)
+- Ciò che stampa diventa __contesto__ per l'LLM, cioè _prompt_:
+    1. il corpo di `SKILL.md`: la skill è __sempre attiva__, anziché caricata solo quando pertinente (cfr. [caricamento progressivo](#/progressive-disclosure)): più contesto a ogni richiesta, comportamento più _costante_
+    2. una _mappa_ del codice del progetto, prodotta eseguendo un _altro_ script
+    3. _istruzioni_ all'agente: proporre all'utente di __modificare__ `~/.claude/settings.json`
+- Gli hook girano con i _propri_ privilegi, fuori dalle sandbox (cfr. [minacce](#/skills-security)): possono leggere file, eseguire programmi e "_parlare_" all'LLM
+    + installando la sola cartella `skills/ponytail/`, nulla di tutto questo verrebbe eseguito
+
+{{% /col %}}
+{{% /multicol %}}
 
 ---
 
 {{< slide id="install-claude-code" >}}
 
-## Esempio 5: installare Claude Code e la skill (pt. 4)
+## Esempio 5: installare Claude Code e la skill (pt. 5)
 
 {{% multicol %}}
 {{% col class="col-6" %}}

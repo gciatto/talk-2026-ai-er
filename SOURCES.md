@@ -100,10 +100,12 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Skill e tool: script e istruzioni | Skills and tools: scripts vs. instructions | `skills` (line 223) |
 | Dove si eseguono le skill? | Where do skills run? | __new__ |
 | Skill: il panorama tecnologico | Skills: the technological landscape | `skills` (line 242) |
+| Hook: il concetto generale | Hooks: the general concept + Hooks in the agent's lifecycle (merged) | `skills` (lines 637, 655) |
 | Esempio 5: anatomia di una skill reale, ponytail (pt. 1) | Example 5: anatomy of a real skill, ponytail (pt. 1) | __new__ |
 | Esempio 5: anatomia di una skill reale, ponytail (pt. 2) | Example 5: anatomy of a real skill, ponytail (pt. 2) | __new__ |
 | Esempio 5: anatomia di una skill reale, ponytail (pt. 3) | Example 5: anatomy of a real skill, ponytail (pt. 3) | __new__ |
-| Esempio 5: installare Claude Code e la skill (pt. 4) | Example 5: installing Claude Code and the skill (pt. 4) | __new__ |
+| Esempio 5: anatomia di una skill reale, ponytail (pt. 4) | Example 5: anatomy of a real skill, ponytail (pt. 4) | __new__ |
+| Esempio 5: installare Claude Code e la skill (pt. 5) | Example 5: installing Claude Code and the skill (pt. 5) | __new__ |
 | Skill nei propri agenti | Skills in your own agents | `skills` (line 399) |
 | Sicurezza delle skill: minacce | Security of skills: threats | `skills` (line 896) |
 | Sicurezza delle skill: mitigazioni | Security of skills: mitigations | `skills` (line 912) |
