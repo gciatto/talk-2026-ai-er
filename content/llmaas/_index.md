@@ -1384,7 +1384,8 @@ function:
 
 ## I tool cambiano il profilo di rischio
 
-> Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose sbagliate, alla velocità di una macchina
+> Senza tool un LLM può solo _dire_ cose sbagliate; con i tool può _fare_ cose sbagliate,
+> <br/> <u>alla velocità di una macchina</u>
 
 | Tipo di tool | Esempio | Rischi |
 |---|---|---|
@@ -1460,7 +1461,8 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 {{< image src="./llm-modulo.svg" max-h="50vh" alt="Ciclo LLM-Modulo sull'esempio ricorrente: un obiettivo (selezionare i migliori candidati per un colloquio) arriva all'LLM, che propone un piano (valutare ogni lettera, ordinare per punteggio, invitare i primi 2 tramite send_email); critici esterni lo verificano: critici rigidi nel codice (i tool esistono, argomenti validi, precondizioni soddisfatte), critici di policy (e-mail solo con approvazione umana, considerare anche i voti), critici morbidi (LLM-as-a-Judge o persone); i piani rifiutati tornano all'LLM con la critica, quelli accettati sono eseguiti dal controllore con log e approvazione umana" >}}
 
-- Gli LLM generano piani _plausibili_, ma non _garantiti_: nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il __12%__ dei casi ([Valmeekam et al., 2023](https://arxiv.org/abs/2305.15771))
+- Gli LLM generano piani _plausibili_, ma non _garantiti_:
+    + nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il __12%__ dei casi ([Valmeekam et al., 2023](https://arxiv.org/abs/2305.15771))
 - __LLM-Modulo__ ([Kambhampati et al., 2024](https://proceedings.mlr.press/v235/kambhampati24a.html)): l'LLM _propone_, __critici__ esterni _verificano_, in un ciclo _genera–verifica–critica_
     + prima i controlli _nel codice_ (economici, deterministici), poi i giudizi di LLM (un _LLM-as-a-Judge_: un modello che valuta secondo criteri espliciti) o persone, solo per ciò che il codice non può verificare
     + in pratica: il piano è un [output strutturato](#/structured-output), validato _prima_ di eseguire qualsiasi azione
@@ -1485,7 +1487,7 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
     + concretamente: una __cartella__ con _istruzioni_ (file Markdown), più eventuali _script_, _documenti di riferimento_ e _risorse_ (es. template)
     + inizialmente l'agente vede solo __nome__ e __descrizione__; legge il resto _su richiesta_
 
-- Nei tipi di memoria di un agente secondo [CoALA (Sumers et al., 2023)](https://arxiv.org/abs/2309.02427) (_di lavoro_: il contesto; _episodica_: le interazioni passate; _semantica_: fatti e documenti; _procedurale_: come fare le cose), le skill sono __memoria procedurale__ resa _esplicita_ e _modificabile_
+- Nei tipi di memoria di un agente secondo [CoALA (Sumers et al., 2023)](https://arxiv.org/abs/2309.02427)*, le skill sono __memoria procedurale__ resa _esplicita_ e _modificabile_
     + _come_ fare qualcosa (es. "come valutiamo una domanda di dottorato", "come scriviamo una nota di rilascio"), rispetto a _ciò_ che si sa (memoria semantica, es. RAG)
     + scritte da _persone_ (o da agenti e poi riviste da persone), _versionate_ come codice e _condivise_ come documentazione
 
@@ -1495,6 +1497,11 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 - Perché non basta un system prompt più lungo? Per la _finestra di contesto_ (il numero massimo di token per richiesta) e perché _più_ contesto non significa risposte _migliori_ (cfr. ["context rot"](https://research.trychroma.com/context-rot)):
     + 50 procedure $\times$ 2.000 token ciascuna = 100.000 token, inviati a _ogni_ passo, perlopiù _irrilevanti_ e _distraenti_
     + con le skill: 50 $\times$ ~100 token di descrizioni, più l'_unica_ procedura necessaria
+
+
+{{% small "50%" %}}
+\* _di lavoro_: il contesto; _episodica_: le interazioni passate; _semantica_: fatti e documenti; _procedurale_: come fare le cose
+{{% /small %}}
 
 ---
 
@@ -1508,31 +1515,6 @@ Non esiste una difesa completa dalla prompt injection: progettare gli agenti _as
 
 - La cartella della skill viene _individuata_ all'avvio; l'LLM _attiva_ la skill quando è pertinente e ne _segue le istruzioni_
     + nessuno _chiama_ la skill: l'LLM __decide__ di usarla in base alla _descrizione_ (come per i [tool](#/tools-concept))
-
----
-
-{{< slide id="skills-vs-others" >}}
-
-## Skill a confronto con prompt, tool, server MCP e workflow
-
-L’_harness_ è il software che gestisce l’agente.
-
-{{% small "80%" %}}
-
-| | System prompt | Tool | Server MCP | __Skill__ | Workflow |
-|---|---|---|---|---|---|
-| _Cos'è_ | istruzioni sempre nel contesto | una funzione che l'LLM può chiedere di chiamare | tool (e risorse, prompt) dietro un protocollo | cartella di istruzioni + script + risorse | codice che orchestra chiamate LLM e tool |
-| _Linguaggio_ | linguaggio naturale | codice + docstring | codice | __linguaggio naturale__ (+ codice) | codice |
-| _Chi decide di usarlo_ | nessuno (sempre attivo) | l'LLM | l'LLM | __l'LLM__ (o esplicitamente l'utente) | il progettista |
-| _Costo del contesto_ | completo a ogni passo | schema a ogni passo | schemi di tutti i tool a ogni passo (salvo caricamento _differito_, es. tool search di Claude Code: solo nomi, schemi su richiesta) | __solo descrizione__ fino all'attivazione | solo ciò che serve a ogni passo |
-| _Chi può scriverlo_ | chiunque | sviluppatori | sviluppatori | __esperti di dominio__ (+ sviluppatori per gli script) | sviluppatori |
-| _Prevedibilità_ | media | alta (il codice) | alta (il codice) | bassa–media | alta |
-
-{{% /small %}}
-
-- Le skill e gli altri elementi sono __complementari__: una skill può indicare _quali tool_ (o server MCP) usare e _come_
-- Regola pratica (cfr. [spettro dell'autonomia](#/autonomy-spectrum)): _procedure_ che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; _procedure_ affidabili e verificabili $\rightarrow$ [workflow](#/workflows-concept)
-    + compromessi organizzativi (costo, conformità, time-to-market) nella sezione [Quale tecnica?](#/which-technique)
 
 ---
 
@@ -1623,6 +1605,29 @@ metadata:
 - `allowed-tools` (sperimentale) elenca i tool utilizzabili _senza chiedere conferma_ all'utente, es. `allowed-tools: Bash(python:*) Read`
     + _preapprova_ i tool, __non__ li esegue in sandbox: supporto e semantica variano tra harness
     + alcuni harness aggiungono campi propri (es. `disable-model-invocation`, `context: fork` o `hooks` di Claude Code; `metadata.openclaw.requires` di OpenClaw)
+
+---
+
+{{< slide id="skills-vs-others" >}}
+
+## Skill a confronto con prompt, tool, server MCP e workflow
+
+{{% small "80%" %}}
+
+| | System prompt | Tool | Server MCP | __Skill__ | Workflow |
+|---|---|---|---|---|---|
+| _Cos'è_ | istruzioni sempre nel contesto | una funzione che l'LLM può chiedere di chiamare | tool (e risorse, prompt) dietro un protocollo | cartella di istruzioni + script + risorse | codice che orchestra chiamate LLM e tool |
+| _Linguaggio_ | linguaggio naturale | codice + docstring | codice | __linguaggio naturale__ (+ codice) | codice |
+| _Chi decide di usarlo_ | nessuno (sempre attivo) | l'LLM | l'LLM | __l'LLM__ (o esplicitamente l'utente) | il progettista |
+| _Costo del contesto_ | completo a ogni passo | schema a ogni passo | schemi di tutti i tool a ogni passo (salvo caricamento _differito_, es. tool search di Claude Code: solo nomi, schemi su richiesta) | __solo descrizione__ fino all'attivazione | solo ciò che serve a ogni passo |
+| _Chi può scriverlo_ | chiunque | sviluppatori | sviluppatori | __esperti di dominio__ (+ sviluppatori per gli script) | sviluppatori |
+| _Prevedibilità_ | media | alta (il codice) | alta (il codice) | bassa–media | alta |
+
+{{% /small %}}
+
+- Le skill e gli altri elementi sono __complementari__: una skill può indicare _quali tool_ (o server MCP) usare e _come_
+- Regola pratica (cfr. [spettro dell'autonomia](#/autonomy-spectrum)): _procedure_ che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; _procedure_ affidabili e verificabili $\rightarrow$ [workflow](#/workflows-concept)
+    + compromessi organizzativi (costo, conformità, time-to-market) nella sezione [Quale tecnica?](#/which-technique)
 
 {{% /section %}}
 
