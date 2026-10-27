@@ -31,15 +31,15 @@
 <h3 id="hahahugoshortcode1s2hbhb"><a href="mailto:giovanni.ciatto@unibo.it">Giovanni Ciatto</a></h3>
 <br>
 <br>
-<p>Generato il: 2026-10-26
+<p>Generato il: 2026-10-27
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section><section>
 <h2 id="programma">Programma</h2>
 <ol>
-<li><a href="#/llmaas">LLM-as-a-Service</a>: modelli architetturali e scelte strategiche
+<li><a href="#/llmaas">LLM-as-a-Service</a>: opzioni di deployment e fornitori
 <ul>
-<li>cloud, on-premise e ibrido; fornitori e cataloghi; costi, controllo, sicurezza, lock-in</li>
+<li>cloud, modello aperto ospitato, on-premise; panoramica di fornitori e cataloghi</li>
 </ul>
 </li>
 <li><a href="#/apis">L’ecosistema delle API</a> per l’IA generativa
@@ -59,12 +59,12 @@
 </li>
 <li><a href="#/processes">Dalla generazione di testo ai processi</a>
 <ul>
-<li>output strutturato, tool, dai chatbot ai workflow</li>
+<li>output strutturato; architettura degli agenti, tool, workflow, ReAct e MCP</li>
 </ul>
 </li>
-<li><a href="#/agentic-ai">Fondamenti di IA agentica</a>
+<li><a href="#/agentic-ai">Skill e implicazioni dell’IA agentica</a>
 <ul>
-<li>agenti, skill e implicazioni architetturali</li>
+<li>skill e implicazioni architetturali</li>
 </ul>
 </li>
 <li><a href="#/building-an-agent">Costruire un agente</a>, passo dopo passo</li>
@@ -77,159 +77,32 @@
 <section data-noprocess="" data-shortcode-slide="" id="llmaas">
   
 <h1 id="llm-as-a-service">LLM-as-a-Service</h1>
-<p>Modelli architetturali e scelte strategiche</p>
-</section><section>
+<p>Opzioni di deployment e fornitori</p>
+</section>
 
 
 <section data-shortcode-section="">
-<h2 id="le-cinque-dimensioni-del-compromesso">Le cinque dimensioni del compromesso</h2>
-<p>Ogni scelta relativa a un sistema basato sull’IA implica un compromesso tra:</p>
-<ol>
-<li><strong>Qualità</strong>: quanto sono <em>buoni</em> (accurati, affidabili, coerenti) gli output per il compito da svolgere?</li>
-<li><strong>Costo</strong>: quanto costano <em>sviluppo</em>, <em>esercizio</em> (per richiesta, al mese) e <em>manutenzione</em>?</li>
-<li><strong>Controllo</strong>: quanto possiamo <em>ispezionare</em>, <em>personalizzare</em>, <em>riprodurre</em> e <em>mantenere operativo</em> il sistema, indipendentemente da terzi?</li>
-<li><strong>Conformità</strong>: il sistema rispetta <em>leggi</em> (es. GDPR, AI Act), <em>contratti</em> e <em>politiche interne</em>?</li>
-<li><strong>Time-to-market</strong>: quanto rapidamente possiamo <em>rilasciare</em> (e <em>modificare</em>) il sistema?</li>
-</ol>
-<img src="./tradeoff-radar.svg" alt="Grafico radar che confronta un'API cloud di frontiera e un piccolo modello aperto on-premise per qualità, costo, controllo, conformità e time-to-market: nessuno prevale su tutte le dimensioni" style="max-width: calc(95 * 19.2px); max-height: calc(45 * 10.8px); object-fit: contain;">
-<span class="fragment ">
-  <blockquote>
-<p><strong>Nessuna</strong> opzione domina tutte le altre: la governance consiste nello scegliere il <em>compromesso giusto</em> per il <em>caso d’uso</em> e <strong>documentare le ragioni della scelta</strong></p>
-</blockquote>
-</span>
-</section>
 <section data-noprocess="" data-shortcode-slide="" id="deployment-options">
-<h2 id="dove-eseguire-il-modello-il-concetto-generale">Dove eseguire il modello? Il concetto generale</h2>
-<p>Tre principali <strong>opzioni di deployment</strong> (messa in esercizio), che differiscono per <em>chi</em> esegue il modello e <em>dove</em> vanno i dati:</p>
+<h2 id="llm-as-a-service-dove-gira-il-modello">LLM-as-a-Service: dove gira il modello?</h2>
+<ul>
+<li>Un LLM si usa quasi sempre <strong>as a service</strong>: l’applicazione invia richieste a un’<em>API</em>, il modello gira <em>altrove</em></li>
+<li>Tre principali <strong>opzioni di deployment</strong> (messa in esercizio), che differiscono per <em>chi</em> esegue il modello e <em>dove</em> vanno i dati:
 <ol>
-<li><strong>API cloud proprietaria</strong>: il modello appartiene al fornitore <em>ed</em> è eseguito da lui (es. OpenAI, Anthropic, Google)
-<ul>
-<li>si accede solo a un’<em>API</em>; i dati vengono elaborati sull’infrastruttura del fornitore</li>
-</ul>
-</li>
-<li><strong>Modello aperto ospitato da terzi</strong>: un modello a pesi aperti eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router, Hugging Face Inference Endpoints, GPU cloud a noleggio)
-<ul>
-<li>lo stesso modello può essere trasferito altrove; i dati escono comunque dalla propria infrastruttura</li>
-</ul>
-</li>
-<li><strong>On-premise</strong> (detto anche <em>self-hosted</em>, <em>locale</em>): un modello a pesi aperti eseguito sul <em>proprio</em> hardware (es. tramite Ollama, vLLM)
-<ul>
-<li>i dati non escono dalla propria infrastruttura; hardware, gestione operativa e aggiornamenti sono a carico dell’organizzazione</li>
-</ul>
-</li>
+<li><strong>API cloud proprietaria</strong>: il modello del fornitore, eseguito da lui (es. OpenAI, Anthropic, Google)</li>
+<li><strong>Modello aperto ospitato da terzi</strong>: un modello a pesi aperti, eseguito da un fornitore cloud o un aggregatore (es. tramite Open Router)</li>
+<li><strong>On-premise</strong> (<em>self-hosted</em>, <em>locale</em>): un modello a pesi aperti sul <em>proprio</em> hardware (es. tramite Ollama, vLLM)</li>
 </ol>
-</section><section>
-<h2 id="dove-eseguire-il-modello-un-esempio-intuitivo">Dove eseguire il modello? Un esempio intuitivo</h2>
-<img src="./deployment-options.svg" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" style="max-width: calc(95 * 19.2px); max-height: calc(70 * 10.8px); object-fit: contain;">
-</section><section>
-<h2 id="opzioni-di-deployment-a-confronto">Opzioni di deployment a confronto</h2>
-<div style="font-size: 80%;">
-<table>
-	<thead>
-			<tr>
-					<th></th>
-					<th>API cloud proprietaria</th>
-					<th>Modello aperto ospitato</th>
-					<th>On-premise</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><strong>Qualità</strong></td>
-					<td>massima (modelli di frontiera)</td>
-					<td>buona (i migliori modelli aperti inseguono la frontiera)</td>
-					<td>limitata dall’hardware (modelli più piccoli)</td>
-			</tr>
-			<tr>
-					<td><strong>Struttura dei costi</strong></td>
-					<td>pagamento per token, nessun costo fisso</td>
-					<td>pagamento per token o per ora di GPU</td>
-					<td>acquisto hardware + energia + personale; costo marginale ~nullo</td>
-			</tr>
-			<tr>
-					<td><strong>Scalabilità</strong></td>
-					<td>pressoché illimitata (entro i limiti di utilizzo)</td>
-					<td>alta</td>
-					<td>limitata dall’hardware disponibile</td>
-			</tr>
-			<tr>
-					<td><strong>Controllo</strong></td>
-					<td>basso: i modelli possono cambiare o essere ritirati; nessun accesso ai pesi</td>
-					<td>medio: modello trasferibile, fornitore sostituibile</td>
-					<td>completo: versioni fissate, funziona offline</td>
-			</tr>
-			<tr>
-					<td><strong>Privacy</strong></td>
-					<td>dati elaborati dal fornitore (contano contratti, conservazione, giurisdizione)</td>
-					<td>stesse criticità, eventualmente con un fornitore UE</td>
-					<td>i dati rimangono all’interno</td>
-			</tr>
-			<tr>
-					<td><strong>Lock-in</strong></td>
-					<td>alto (funzioni proprietarie, prezzi)</td>
-					<td>basso</td>
-					<td>basso (ma dipendenza dalle competenze hardware)</td>
-			</tr>
-			<tr>
-					<td><strong>Time-to-market</strong></td>
-					<td>minuti</td>
-					<td>ore</td>
-					<td>da giorni a settimane (acquisto, configurazione)</td>
-			</tr>
-			<tr>
-					<td><strong>Impatto energetico</strong></td>
-					<td>consumo energetico per token non visibile nel prezzo</td>
-					<td>come per le API cloud</td>
-					<td>consumo <em>misurabile</em> (e a proprio carico)</td>
-			</tr>
-	</tbody>
-</table>
-<ul>
-<li>L’energia conta: il consumo energetico dei compiti generativi è di ordini di grandezza superiore a quello dei modelli specifici per un compito (<a href="https://arxiv.org/abs/2311.16863">Luccioni et al., 2024</a>); i fornitori di GPAI devono documentare i consumi (AI Act, art. 53, allegato XI)</li>
-<li>Le soluzioni <em>ibride</em> sono comuni: es. <em>on-premise</em> per dati sensibili, <em>cloud</em> per il resto; oppure un <em>gateway</em> che instrada le richieste in base alla sensibilità dei dati</li>
-</ul>
-</div>
-</section>
-<section data-noprocess="" data-shortcode-slide="" id="hybrid">
-<h2 id="architetture-ibride">Architetture ibride</h2>
-<ul>
-<li>Nella pratica, le organizzazioni raramente scelgono <em>una sola</em> opzione: le <strong>combinano</strong> secondo un <em>criterio</em>
-<ul>
-<li><strong>sensibilità dei dati</strong>: dati personali o riservati $\rightarrow$ modelli on-premise (o ospitati nell’UE); dati pubblici $\rightarrow$ API cloud</li>
-<li><strong>difficoltà del compito</strong>: compiti semplici e frequenti (es. classificazione, estrazione) $\rightarrow$ modelli piccoli ed economici; compiti difficili $\rightarrow$ modelli di frontiera</li>
-<li><strong>disponibilità</strong>: un fornitore <em>di riserva</em> (o modello locale) quando quello principale non è disponibile o raggiunge i limiti di utilizzo</li>
-</ul>
 </li>
-<li>A rendere possibile questa architettura è un <strong>gateway</strong> (detto anche <em>router</em>, <em>proxy</em>): <em>un unico</em> punto d’accesso per accedere a <em>molti</em> modelli e fornitori
+</ul>
+<img src="./deployment-options.svg" alt="La stessa applicazione con IA con tre opzioni di deployment (API cloud proprietaria, modello aperto ospitato, on-premise): se i dati escono dall'organizzazione, chi paga cosa e chi può vedere i dati" style="max-width: calc(95 * 19.2px); max-height: calc(42 * 10.8px); object-fit: contain;">
 <ul>
-<li>le applicazioni comunicano solo con il gateway; questo <em>instrada</em> le richieste, conserva le chiavi API, fa rispettare i limiti di spesa e <em>registra</em> le operazioni</li>
-<li>es. <a href="https://docs.litellm.ai/">LiteLLM</a>, <a href="https://portkey.ai/">Portkey</a>, gateway dei fornitori cloud o aggregatori come <a href="https://openrouter.ai/">Open Router</a> (approfondimento nella <a href="../governance/">prossima lezione</a>)</li>
+<li>Per l’applicazione cambia poco (stessa API, cfr. <a href="#/apis">prossima sezione</a>); per costi, controllo e privacy cambia <em>molto</em>: confronto e criteri di scelta nella <a href="../governance/#/tradeoffs">prossima lezione</a></li>
 </ul>
-</li>
-<li>Prerequisito: tutti i modelli devono essere raggiungibili tramite un’<strong>API comune</strong> (prossima sezione), altrimenti ogni percorso richiede codice dedicato</li>
-</ul>
-<figure id="plantuml-figure-1793033140013443762" class="plantuml" alt="Architettura ibrida: le applicazioni usano una sola API verso un gateway (instradamento, chiavi, budget, log), che inoltra a un modello on-premise (dati sensibili), a un modello aperto ospitato nell'UE o a un'API cloud di frontiera (compiti difficili)" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(30 * 10.8px);">
-<p>@startuml
-rectangle “Applicazioni” as A
-rectangle “Gateway\n(instradamento, chiavi,\nbudget, log)” as G
-rectangle “Modello on-premise\n(dati sensibili)” as L
-rectangle “Modello aperto ospitato nell’UE” as E
-rectangle “API cloud di frontiera\n(compiti difficili)” as C
-A -&gt; G : una API
-G -&gt; L
-G -&gt; E
-G -&gt; C
-@enduml</p>
-</figure>
-<script>
-    handlePlantumlFigureByID("plantuml-figure-1793033140013443762");
-</script>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="providers">
-<h2 id="fornitori-cataloghi-e-criteri-di-scelta">Fornitori, cataloghi e criteri di scelta</h2>
+<h2 id="fornitori-e-cataloghi-una-panoramica">Fornitori e cataloghi: una panoramica</h2>
 <ul>
-<li>
-<p>Esistono diversi <strong>fornitori</strong>, con offerte differenti per modelli, prezzi e funzionalità</p>
+<li>Esistono diversi <strong>fornitori</strong>, con offerte differenti per modelli, prezzi e funzionalità
 <ul>
 <li><em>sviluppatori di modelli</em> che vendono l’accesso ai propri modelli, es. <a href="https://openai.com/">OpenAI</a>, <a href="https://www.anthropic.com/">Anthropic</a>, <a href="https://ai.google.dev/">Google</a>, <a href="https://mistral.ai/">Mistral</a></li>
 <li><em>fornitori cloud</em> che ospitano molti modelli, es. <a href="https://azure.microsoft.com/en-us/products/ai-foundry">Azure AI Foundry</a>, <a href="https://aws.amazon.com/bedrock/">AWS Bedrock</a>, <a href="https://cloud.google.com/vertex-ai">Google Vertex AI</a></li>
@@ -237,21 +110,10 @@ G -&gt; C
 <li><em>runtime</em> per il deployment on-premise, es. <a href="https://ollama.com/">Ollama</a>, <a href="https://docs.vllm.ai/">vLLM</a></li>
 </ul>
 </li>
-<li>
-<p>Ogni fornitore espone un <strong>catalogo</strong> (detto anche <em>model zoo</em>): un elenco ricercabile di modelli, ciascuno con <em>nome</em>, <em>scheda del modello</em>, metadati tecnici (finestra di contesto, modalità, tool) e <em>prezzo</em> (o <em>licenza</em>)</p>
+<li>Ogni fornitore espone un <strong>catalogo</strong> (detto anche <em>model zoo</em>): un elenco ricercabile di modelli, ciascuno con <em>nome</em>, <em>scheda del modello</em>, metadati tecnici (finestra di contesto, modalità, tool) e <em>prezzo</em> (o <em>licenza</em>)
 <ul>
-<li>cataloghi e schede dei modelli sono argomento della <a href="../governance/">prossima lezione</a></li>
+<li><a href="../governance/#/model-zoos">cataloghi</a> e <a href="../governance/#/provider-criteria">criteri di scelta del fornitore</a> sono argomento della prossima lezione</li>
 </ul>
-</li>
-<li>
-<p><strong>Criteri di scelta</strong> di un fornitore:</p>
-<ol>
-<li><em>modelli</em> disponibili nel catalogo e qualità per il compito da svolgere</li>
-<li>struttura <em>tariffaria</em> (per token, richiesta, ora di GPU, abbonamento) e <em>limiti di utilizzo</em></li>
-<li><em>funzionalità</em>: tool, output strutturato, multimodalità, elaborazione in batch, fine-tuning, …</li>
-<li><em>protezione dei dati</em>: dove vengono elaborati e conservati, per quanto tempo, garanzie contrattuali (es. nessun addestramento sui propri dati)</li>
-<li><em>compatibilità delle API</em>: quanto è facile <em>passare</em> a un altro fornitore? Quanto dipendiamo da quello attuale (<strong>vendor lock-in</strong>)?</li>
-</ol>
 </li>
 </ul>
 
@@ -291,7 +153,7 @@ G -&gt; C
 </ul>
 </section><section>
 <h2 id="chat-completion-un-esempio-intuitivo">Chat Completion: un esempio intuitivo</h2>
-<figure id="plantuml-figure-1793033140014611918" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
+<figure id="plantuml-figure-1793118304790103419" class="plantuml" alt="" style="width: 100%;max-width: calc(95 * 19.2px);max-height: calc(70 * 10.8px);">
 <p>@startuml
 hide footbox
 actor “Utente” as U
@@ -313,7 +175,7 @@ P -&gt; U: “A Cesena sono le …”
 @enduml</p>
 </figure>
 <script>
-    handlePlantumlFigureByID("plantuml-figure-1793033140014611918");
+    handlePlantumlFigureByID("plantuml-figure-1793118304790103419");
 </script>
 <ul>
 <li>La <strong>stessa</strong> interazione è implementata da <em>tutti</em> i fornitori; cambia solo la <em>sintassi</em>
@@ -322,6 +184,49 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="prompt-anatomy">
+<h2 id="anatomia-di-un-prompt-istruzioni-contesto-dati-e-formato">Anatomia di un prompt: istruzioni, contesto, dati e formato</h2>
+<p>Un <strong>prompt</strong> è l’intero input del modello: i messaggi e gli eventuali vincoli di formato, es. per riassumere un documento:</p>
+<img src="./prompt-anatomy.svg" alt="I messaggi system e user di un prompt che riassume documenti, con istruzioni, contesto, dati di input e formato di output evidenziati: il system prompt è fisso, il segnaposto document_text cambia a ogni richiesta, e la richiesta allega uno JSON Schema per un riassunto in tre punti" style="max-width: calc(95 * 19.2px); max-height: calc(44 * 10.8px); object-fit: contain;">
+<ul>
+<li>Il messaggio <strong>system</strong> contiene di solito le parti <em>stabili</em>; il messaggio <strong>user</strong> contiene la richiesta e i dati <em>variabili</em></li>
+<li>Un <strong>template</strong> è testo fisso con segnaposto che il programma riempie a ogni richiesta</li>
+<li>Delimitare i dati aiuta a separarli dalle istruzioni, ma <strong>non garantisce</strong> che il modello ignori istruzioni malevole nei documenti (cfr. <a href="#/prompt-injection">prompt injection</a>)</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="reasoning-models">
+<h2 id="modelli-di-ragionamento-qualità-in-cambio-di-latenza-e-costi">Modelli di ragionamento: qualità in cambio di latenza e costi</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-5" style="text-align: left;"><div style="font-size: 85%;">
+<ul>
+<li>I <strong>modelli di ragionamento</strong> (<em>thinking</em>) generano una <em>catena di ragionamento</em> <strong>prima</strong> della risposta, senza che venga chiesto
+<ul>
+<li>es. GPT-5+, Claude, Gemini “thinking”, DeepSeek-R1, Qwen3, <code>gpt-oss</code></li>
+</ul>
+</li>
+<li>I <strong>token di ragionamento</strong>:
+<ul>
+<li>sono <em>generati</em>, quindi <strong>fatturati</strong> come token di <em>output</em>, e occupano la finestra di contesto</li>
+<li>possono essere <em>nascosti</em>, <em>riassunti</em> o <em>restituiti</em>, a seconda del fornitore</li>
+<li>scambiano <strong>latenza e costo</strong> con <strong>qualità</strong> sui compiti difficili</li>
+</ul>
+</li>
+<li>Quasi tutte le API permettono di regolare <em>quanto</em> ragiona il modello: un <strong>livello di sforzo</strong> (es. <code>low</code> / <code>medium</code> / <code>high</code>) o un <strong>budget di token</strong>
+<ul>
+<li>stesso concetto, <em>sintassi</em> diversa tra fornitori (es. <code>reasoning_effort</code> per OpenAI, <code>reasoning={...}</code> per Open Router)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="col col-7" style="text-align: left;"><img src="./reasoning-tokens.svg" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" style="max-width: calc(95 * 19.2px); max-height: calc(60 * 10.8px); object-fit: contain;">
+</div>
+</div>
+</div>
+<blockquote>
+<p>Scegliere il livello di sforzo <em>più basso</em> che superi le proprie valutazioni: per estrazione e classificazione spesso basta <code>low</code></p>
+</blockquote>
 </section><section>
 <h2 id="cosa-aspettarsi-dalle-api-web-dei-fornitori-di-llm-as-a-service">Cosa aspettarsi dalle API Web dei fornitori di LLM-as-a-Service?</h2>
 <ol>
@@ -696,7 +601,7 @@ P -&gt; U: “A Cesena sono le …”
 			<tr>
 					<td><strong>Gateway</strong></td>
 					<td><a href="https://docs.litellm.ai/">LiteLLM</a> (proxy), gateway cloud, <a href="https://openrouter.ai/">Open Router</a></td>
-					<td>chiavi, budget, log e instradamento centralizzati (cfr. <a href="#/hybrid">architetture ibride</a>)</td>
+					<td>chiavi, budget, log e instradamento centralizzati (cfr. <a href="../governance/#/hybrid">architetture ibride</a>)</td>
 					<td>un servizio in più da gestire (o di cui fidarsi)</td>
 					<td>più applicazioni o gruppi condividono modelli</td>
 			</tr>
@@ -751,6 +656,139 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 </ul>
 </section>
+<section data-noprocess="" data-shortcode-slide="" id="open-router-intro">
+<h2 id="il-fornitore-degli-esempi-open-router">Il fornitore degli esempi: Open Router</h2>
+<ul>
+<li>Negli esempi usiamo <a href="https://openrouter.ai/">Open Router</a> (<em>OR</em>) perché è utilizzabile <strong>gratuitamente</strong>
+<ul>
+<li>i modelli con suffisso <code>:free</code> non costano nulla, con <em>limiti stretti</em> (20 richieste al minuto, 50 al giorno; <a href="https://openrouter.ai/docs/api_reference/limits">dettagli</a>), senza carta di credito</li>
+<li>espone un’API <strong>compatibile con OpenAI</strong>: il codice degli esempi funziona <em>identico</em> con altri fornitori (cfr. <a href="#/exercise-providers">Esercizio guidato 1</a>) o con un modello locale (es. Ollama)</li>
+</ul>
+</li>
+<li>OR è un <strong>aggregatore</strong>: <em>una</em> chiave e <em>una</em> API per i modelli di <em>molti</em> fornitori (OpenAI, Anthropic, Google, Mistral, Qwen, …)
+<ul>
+<li>i modelli a pagamento hanno un <strong>prezzo per token</strong> (in <code>$/1M tokens</code>, spesso diverso per token in <em>ingresso</em> e in <em>uscita</em>)</li>
+<li>aggregatori, instradamento tra fornitori e lock-in: cfr. la <a href="../governance/#/provider-kinds">prossima lezione</a></li>
+</ul>
+</li>
+<li>I modelli si chiamano <code>provider/model[:tier]</code>, es. <code>nvidia/nemotron-3-ultra-550b-a55b:free</code>
+<ul>
+<li><code>provider</code>: chi pubblica il modello (es. <code>openai</code>, <code>qwen</code>, <code>google</code>); <code>model</code>: la variante; <code>tier</code>: es. <code>free</code></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="open-router-creare-una-chiave-api">Open Router: creare una chiave API</h2>
+<ol>
+<li>
+<p>Creare un account su <a href="https://openrouter.ai">https://openrouter.ai</a> (il modo più rapido: accedere con GitHub); per gli esempi <strong>non servono crediti</strong></p>
+</li>
+<li>
+<p>Creare una <strong>chiave API</strong> in <a href="https://openrouter.ai/workspaces/default/keys">https://openrouter.ai/workspaces/default/keys</a></p>
+ <img src="open-router-apikeys.png" alt="Impostazioni delle chiavi API di Open Router" style="max-width: calc(95 * 19.2px); max-height: calc(35 * 10.8px); object-fit: contain;">
+</li>
+<li>
+<p>La chiave (<code>sk-or-v1-...</code>) basta per <u>spendere il credito dell’account</u> a nome del titolare: va trattata come una <strong>password</strong></p>
+<ul>
+<li>mai nel codice o in un repository: in una variabile d’ambiente (<code>OPENAI_API_KEY</code>, cfr. <a href="../#/lab-snippets-setup">configurazione</a>)</li>
+<li>se si acquistano crediti, impostare un <em>limite di spesa</em>; utilizzo e costi di ogni richiesta sono nella <a href="https://openrouter.ai/activity">dashboard delle attività</a></li>
+</ul>
+</li>
+</ol>
+</section><section>
+<h2 id="open-router-scegliere-un-modello">Open Router: scegliere un modello</h2>
+<ol>
+<li>Aprire il <a href="https://openrouter.ai/models">catalogo dei modelli</a> e filtrare per prezzo (es. <em>free</em>) e capacità (es. <em>tools</em>, contesto)</li>
+<li>Copiare l’<strong>ID</strong> del modello (es. <code>google/gemma-4-31b-it:free</code>) e assegnarlo a <code>OPENAI_MODEL</code></li>
+</ol>
+<img src="../governance/open-router-models.png" alt="Catalogo dei modelli di Open Router" style="max-width: calc(95 * 19.2px); max-height: calc(40 * 10.8px); object-fit: contain;">
+<ul>
+<li>I modelli gratuiti <strong>cambiano spesso</strong> (compaiono, scompaiono, sono sovraccarichi): se uno non risponde, provarne un altro</li>
+<li>Come leggere un catalogo (dimensione, quantizzazione, licenza, contesto) e quale modello scegliere: cfr. <a href="../governance/#/model-zoos">cataloghi di modelli</a> nella prossima lezione</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="curl">
+<h2 id="una-richiesta-senza-programma-curl">Una richiesta senza programma: <code>curl</code></h2>
+<ul>
+<li>
+<p>Una richiesta di Chat Completion è solo una <strong>richiesta HTTP</strong>: basta <code>curl</code> per provare la chiave API</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">OPENAI_API_KEY</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"sk-or-v1-..."</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">OPENAI_MODEL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"nvidia/nemotron-3-ultra-550b-a55b:free"</span>
+</span></span><span style="display:flex;"><span>curl -X POST <span style="color:#4e9a06">"https://openrouter.ai/api/v1/chat/completions"</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span>    -H <span style="color:#4e9a06">"Content-Type: application/json"</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span>    -H <span style="color:#4e9a06">"Authorization: Bearer </span><span style="color:#000">$OPENAI_API_KEY</span><span style="color:#4e9a06">"</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span>    -d <span style="color:#4e9a06">'{"model": "'</span><span style="color:#000">$OPENAI_MODEL</span><span style="color:#4e9a06">'", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'</span>
+</span></span></code></pre></div><p>mentre, su Windows PowerShell, si può usare:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">$env:OPENAI_API_KEY</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">"sk-or-v1-..."</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">$env:OPENAI_MODEL</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">"nvidia/nemotron-3-ultra-550b-a55b:free"</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">curl </span><span style="color:#000">-X</span> <span style="color:#000">POST</span> <span style="color:#4e9a06">"https://openrouter.ai/api/v1/chat/completions"</span> <span style="color:#000;font-weight:bold">`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">-H</span> <span style="color:#4e9a06">"Content-Type: application/json"</span> <span style="color:#000;font-weight:bold">`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">-H</span> <span style="color:#4e9a06">"Authorization: Bearer </span><span style="color:#000">$env:OPENAI_API_KEY</span><span style="color:#4e9a06">"</span> <span style="color:#000;font-weight:bold">`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">-d</span> <span style="color:#4e9a06">'{"model": "'</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">$env:OPENAI_MODEL</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#4e9a06">'", "messages": [{"role": "user", "content": "What is the capital of France?"}]}'</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Nella risposta (prossima slide) osservare:</p>
+<ul>
+<li><code>choices[0].message.content</code>: il messaggio generato; <code>reasoning</code>: il “ragionamento” del modello (cfr. <a href="#/reasoning-models">modelli di ragionamento</a>)</li>
+<li><code>usage</code>: i token consumati (quelli di <em>ragionamento</em> sono la maggior parte!) e il <strong>costo</strong> (<code>cost</code>, qui zero: modello <code>:free</code>)</li>
+<li><code>model</code>, <code>provider</code>: <em>chi</em> ha davvero risposto</li>
+</ul>
+</li>
+<li>
+<p>Le librerie client (Esempio 1) fanno <em>esattamente</em> questo: costruiscono il JSON, inviano la richiesta, decodificano la risposta</p>
+</li>
+</ul>
+</section><section>
+<h2 id="una-richiesta-senza-programma-curl-continua">Una richiesta senza programma: <code>curl</code> (continua)</h2>
+<p>risposta (ottobre 2026, convertita in YAML per facilitarne la lettura):</p>
+<div class="highlight print-2cols"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">id</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">gen-1793115666-9uN6LYPhwcZ1B8NBaMCo</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">object</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">chat.completion</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">created</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1793115666</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">model</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">nvidia/nemotron-3-ultra-550b-a55b:free</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">provider</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Nvidia</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">system_fingerprint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">null</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">service_tier</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">null</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">choices</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">index</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">logprobs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">null</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">finish_reason</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">stop</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">native_finish_reason</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">stop</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">message</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">role</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">assistant</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">content</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">The capital of France is **Paris**.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">refusal</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">null</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">reasoning</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">The user is asking for the capital of</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#000">France. This is a straightforward factual</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#000">question. I know the answer is Paris. I will</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#000">provide the direct answer.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">reasoning_details</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span>- <span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">reasoning.text</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">          </span><span style="color:#204a87;font-weight:bold">text</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">The user is asking for the capital of</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">            </span><span style="color:#000">France. This is a straightforward factual</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">            </span><span style="color:#000">question. I know the answer is Paris. I will</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">            </span><span style="color:#000">provide the direct answer.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">          </span><span style="color:#204a87;font-weight:bold">format</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">unknown</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">          </span><span style="color:#204a87;font-weight:bold">index</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">usage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">prompt_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">23</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">completion_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">41</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">total_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">64</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">cost</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">is_byok</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">prompt_tokens_details</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">cached_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">cache_write_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">audio_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">video_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">cost_details</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">upstream_inference_cost</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">upstream_inference_prompt_cost</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">upstream_inference_completions_cost</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">completion_tokens_details</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">reasoning_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">38</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">image_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">audio_tokens</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div></section>
 <section data-noprocess="" data-shortcode-slide="" id="sync-chat">
 <h2 id="esempio-1-chat-cli-sincrona-pt-1">Esempio 1: chat CLI sincrona (pt. 1)</h2>
 <div style="font-size: 90%;">
@@ -864,6 +902,97 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="prompt-caching">
+<h2 id="prompt-caching-riusare-il-prefisso-generare-una-nuova-risposta">Prompt caching: riusare il prefisso, generare una nuova risposta</h2>
+<ul>
+<li>
+<p>Il <strong>prompt caching</strong> riusa il lavoro già svolto dal modello su un <em>prefisso identico</em> del prompt</p>
+<ul>
+<li>es. stesse istruzioni e stesso documento, seguiti da una <em>nuova domanda</em></li>
+<li>il fornitore conserva temporaneamente lo stato interno del prefisso: i token riusati possono costare meno ed essere elaborati più rapidamente</li>
+</ul>
+</li>
+<li>
+<p>La <strong>risposta viene comunque generata di nuovo</strong>: non è una risposta salvata e restituita senza chiamare il modello</p>
+<table>
+	<thead>
+			<tr>
+					<th>Richiesta</th>
+					<th>Parte riusabile</th>
+					<th>Parte da elaborare</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1: istruzioni + documento + domanda A</td>
+					<td>nessuna, al primo passaggio</td>
+					<td>tutto il prompt</td>
+			</tr>
+			<tr>
+					<td>2: istruzioni + documento + <em>domanda B</em></td>
+					<td>istruzioni + documento, se ancora in cache</td>
+					<td>domanda B</td>
+			</tr>
+	</tbody>
+</table>
+</li>
+<li>
+<p>Note e suggerimenti:</p>
+<ul>
+<li>Mettere le parti <strong>stabili all’inizio</strong> e quelle <strong>variabili alla fine</strong>; modificare il prefisso impedisce di riusarlo da quel punto in poi</li>
+<li>La cache <strong>scade</strong>; disponibilità, soglie e prezzi dipendono dal fornitore e dal modello</li>
+<li>La cache riduce il lavoro ripetuto, ma <strong>non amplia la finestra di contesto</strong> e non sostituisce la gestione della cronologia</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="prompt-caching-come-si-attiva">Prompt caching: come si attiva?</h2>
+<div style="font-size: 80%;">
+<table>
+	<thead>
+			<tr>
+					<th>Fornitore</th>
+					<th>Attivazione</th>
+					<th>Cosa fare nel codice</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">OpenAI</a></td>
+					<td><strong>automatica</strong>, sui modelli supportati (prompt da almeno ~1024 token)</td>
+					<td>nulla; opzionale <code>prompt_cache_key</code> per indirizzare richieste con lo stesso prefisso alla stessa cache; sui modelli più recenti, anche <em>punti di cache</em> espliciti</td>
+			</tr>
+			<tr>
+					<td><a href="https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching">Anthropic</a></td>
+					<td><strong>esplicita</strong></td>
+					<td>aggiungere <code>"cache_control": {"type": "ephemeral"}</code> alla richiesta (punto di cache automatico) o ai singoli blocchi (fino a 4); durata 5 minuti (o 1 ora); scrivere in cache costa <em>di più</em> (1,25×), leggerla molto meno (0,1×)</td>
+			</tr>
+			<tr>
+					<td><a href="https://ai.google.dev/gemini-api/docs/caching">Google Gemini</a></td>
+					<td><em>implicita</em> (Gemini 2.5 e successivi) o <em>esplicita</em> (alcuni modelli)</td>
+					<td>nulla, oppure creare un <em>contenuto in cache</em> e citarlo nelle richieste</td>
+			</tr>
+			<tr>
+					<td><a href="https://openrouter.ai/docs/features/prompt-caching">Open Router</a></td>
+					<td>quella del fornitore a monte</td>
+					<td>inoltra (e traduce) <code>cache_control</code>; manda le richieste successive allo <em>stesso</em> fornitore, per non perdere la cache</td>
+			</tr>
+			<tr>
+					<td>Locale (<a href="https://docs.vllm.ai/en/latest/features/automatic_prefix_caching.html">vLLM</a>, Ollama)</td>
+					<td>riuso del prefisso <em>nel server</em>, di norma automatico</td>
+					<td>nulla (Ollama: finché il modello resta caricato in memoria): qui la cache fa risparmiare <em>tempo</em>, non denaro</td>
+			</tr>
+	</tbody>
+</table>
+</div>
+<ul>
+<li>Si <strong>verifica</strong> nella risposta: <code>usage.prompt_tokens_details.cached_tokens</code> (letti dalla cache) e <code>cache_write_tokens</code> (scritti) in Chat Completions (cfr. la <a href="#/curl">risposta di <code>curl</code></a>), oppure <code>cache_read_input_tokens</code> nell’API di Anthropic</li>
+<li>Il requisito è lo stesso ovunque: un <em>prefisso identico</em>, byte per byte (niente data/ora o ID variabili nel system prompt!)</li>
+</ul>
+<blockquote>
+<p>Situazione a ottobre 2026: soglie minime, durata della cache e sconti cambiano per fornitore e modello</p>
+</blockquote>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="context-growth">
 <h2 id="la-cronologia-cresce-a-ogni-turno-e-con-lei-i-costi">La cronologia cresce a ogni turno (e con lei i costi)</h2>
@@ -981,6 +1110,51 @@ P -&gt; U: “A Cesena sono le …”
 <li>Le risposte parziali vanno stampate con <code>print(..., end="", flush=True)</code> per evitare problemi di buffering nel terminale</li>
 <li>Durante l’esecuzione osservare la latenza <em>percepita</em>: le prime parole arrivano <em>molto</em> prima della risposta completa</li>
 </ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="running-example">
+<h2 id="esempio-ricorrente">Esempio ricorrente</h2>
+<h3 id="un-assistente-per-la-commissione-che-valuta-le-domande-di-dottorato">Un assistente per la commissione che valuta le domande di dottorato</h3>
+<ul>
+<li>
+<p>3 candidati e altrettante domande, con <em>passaporto</em>, <em>certificato degli esami</em> e <em>lettera di presentazione</em> (in linguaggio naturale)</p>
+</li>
+<li>
+<p>vogliamo estrarre informazioni strutturate da questi documenti (ad es. nome, età, voti, esperienza di ricerca ecc.) per agevolare la valutazione</p>
+</li>
+</ul>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mario-rossi.png" alt="Passaporto di Mario Rossi" style="max-height: 300px; object-fit: contain;">
+<ul>
+<li><a href="../lab-snippets/data/transcript-mario-rossi.png">Certificato degli esami</a></li>
+<li><a href="../lab-snippets/data/letter-mario-rossi.txt">Lettera di presentazione</a>
+<ul>
+<li>la lettera è molto positiva</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-jean-dupont.png" alt="Passaporto di Jean Dupont" style="max-height: 300px; object-fit: contain;">
+<ul>
+<li><a href="../lab-snippets/data/transcript-jean-dupont.png">Certificato degli esami</a></li>
+<li><a href="../lab-snippets/data/letter-jean-dupont.txt">Lettera di presentazione</a>
+<ul>
+<li>la lettera contiene alcune critiche</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mohammed-ali.png" alt="Passaporto di Mohammed Ali" style="max-height: 300px; object-fit: contain;">
+<ul>
+<li><a href="../lab-snippets/data/transcript-mohammed-ali.png">Certificato degli esami</a></li>
+<li><a href="../lab-snippets/data/letter-mohammed-ali.txt">Lettera di presentazione</a>
+<ul>
+<li>la lettera è positiva ma poco approfondita</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="responses-example">
 <h2 id="esempio-3-chat-cli-con-allegati-tramite-api-responses-pt-1">Esempio 3: chat CLI con allegati tramite API Responses (pt. 1)</h2>
@@ -1180,39 +1354,6 @@ P -&gt; U: “A Cesena sono le …”
 <li>Attenzione al <em>compromesso</em>: più la funzione è specifica del fornitore, maggiore è il <strong>lock-in</strong></li>
 </ul>
 </section>
-<section data-noprocess="" data-shortcode-slide="" id="reasoning-models">
-<h2 id="modelli-di-ragionamento-qualità-in-cambio-di-latenza-e-costi">Modelli di ragionamento: qualità in cambio di latenza e costi</h2>
-<div class="container w-100 m-0 p-0">
-    <div class="row "><div class="col col-5" style="text-align: left;"><div style="font-size: 85%;">
-<ul>
-<li>I <strong>modelli di ragionamento</strong> (<em>thinking</em>) generano una <em>catena di ragionamento</em> <strong>prima</strong> della risposta, senza che venga chiesto
-<ul>
-<li>es. GPT-5+, Claude, Gemini “thinking”, DeepSeek-R1, Qwen3, <code>gpt-oss</code></li>
-</ul>
-</li>
-<li>I <strong>token di ragionamento</strong>:
-<ul>
-<li>sono <em>generati</em>, quindi <strong>fatturati</strong> come token di <em>output</em>, e occupano la finestra di contesto</li>
-<li>possono essere <em>nascosti</em>, <em>riassunti</em> o <em>restituiti</em>, a seconda del fornitore</li>
-<li>scambiano <strong>latenza e costo</strong> con <strong>qualità</strong> sui compiti difficili</li>
-</ul>
-</li>
-<li>Quasi tutte le API permettono di regolare <em>quanto</em> ragiona il modello: un <strong>livello di sforzo</strong> (es. <code>low</code> / <code>medium</code> / <code>high</code>) o un <strong>budget di token</strong>
-<ul>
-<li>stesso concetto, <em>sintassi</em> diversa tra fornitori (es. <code>reasoning_effort</code> per OpenAI, <code>reasoning={...}</code> per Open Router)</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="col col-7" style="text-align: left;"><img src="./reasoning-tokens.svg" alt="La stessa richiesta di graduatoria con sforzo di ragionamento basso, medio e alto: i token di ragionamento nascosti crescono da 250 a 3500 mentre la risposta resta attorno ai 250 token, quindi latenza e costo di output crescono di conseguenza" style="max-width: calc(95 * 19.2px); max-height: calc(60 * 10.8px); object-fit: contain;">
-</div>
-</div>
-</div>
-<blockquote>
-<p>Scegliere il livello di sforzo <em>più basso</em> che superi le proprie valutazioni: per estrazione e classificazione spesso basta <code>low</code></p>
-</blockquote>
-</section>
 <section data-noprocess="" data-shortcode-slide="" id="api-errors">
 <h2 id="quando-qualcosa-va-storto-errori-limiti-di-utilizzo-e-costi">Quando qualcosa va storto: errori, limiti di utilizzo e costi</h2>
 <ul>
@@ -1243,55 +1384,6 @@ P -&gt; U: “A Cesena sono le …”
 <h1 id="dalla-generazione-di-testo-ai-processi">Dalla generazione di testo ai processi</h1>
 </section>
 
-<section data-noprocess="" data-shortcode-slide="" id="running-example">
-  
-<h2 id="esempio-ricorrente">Esempio ricorrente</h2>
-<h3 id="un-assistente-per-la-commissione-che-valuta-le-domande-di-dottorato">Un assistente per la commissione che valuta le domande di dottorato</h3>
-<ul>
-<li>
-<p>3 candidati e altrettante domande, con <em>passaporto</em>, <em>certificato degli esami</em> e <em>lettera di presentazione</em> (in linguaggio naturale)</p>
-</li>
-<li>
-<p>vogliamo estrarre informazioni strutturate da questi documenti (ad es. nome, età, voti, esperienza di ricerca ecc.) per agevolare la valutazione</p>
-</li>
-</ul>
-
-<div class="container w-100 m-0 p-0">
-    <div class="row "><div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mario-rossi.png" alt="Passaporto di Mario Rossi" style="max-height: 300px; object-fit: contain;">
-<ul>
-<li><a href="../lab-snippets/data/transcript-mario-rossi.png">Certificato degli esami</a></li>
-<li><a href="../lab-snippets/data/letter-mario-rossi.txt">Lettera di presentazione</a>
-<ul>
-<li>la lettera è molto positiva</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-jean-dupont.png" alt="Passaporto di Jean Dupont" style="max-height: 300px; object-fit: contain;">
-<ul>
-<li><a href="../lab-snippets/data/transcript-jean-dupont.png">Certificato degli esami</a></li>
-<li><a href="../lab-snippets/data/letter-jean-dupont.txt">Lettera di presentazione</a>
-<ul>
-<li>la lettera contiene alcune critiche</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="col " style="text-align: left;"><img src="../lab-snippets/data/passport-mohammed-ali.png" alt="Passaporto di Mohammed Ali" style="max-height: 300px; object-fit: contain;">
-<ul>
-<li><a href="../lab-snippets/data/transcript-mohammed-ali.png">Certificato degli esami</a></li>
-<li><a href="../lab-snippets/data/letter-mohammed-ali.txt">Lettera di presentazione</a>
-<ul>
-<li>la lettera è positiva ma poco approfondita</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
-</section>
-
 
 <section data-shortcode-section="">
 <section data-noprocess="" data-shortcode-slide="" id="structured-output">
@@ -1314,6 +1406,38 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ol>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="pydantic-schema">
+<h2 id="dalle-classi-pydantic-al-json-schema">Dalle classi Pydantic al JSON Schema</h2>
+<ul>
+<li>Un modello <strong>Pydantic</strong> è una classe Python che descrive i <em>campi</em> dei dati: nomi, tipi e vincoli</li>
+<li>Le descrizioni di <code>Field(...)</code> diventano parte dello <strong>schema</strong> che legge l’LLM</li>
+</ul>
+<div style="font-size: 80%;">
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">ApplicantInfo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">BaseModel</span><span style="color:#000;font-weight:bold">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">"""Structured information about the applicant, extracted from the letter."""</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">name</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87">str</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"Full name of the applicant, first name first, family name last."</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">degree</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Optional</span><span style="color:#000;font-weight:bold">[</span><span style="color:#204a87">str</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">"Degree obtained by the applicant before the application, according to the letter."</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div>
+</div>
+<p>Estratto del JSON Schema corrispondente (in YAML, omettendo titoli e gli altri campi):</p>
+<div style="font-size: 80%;">
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">object</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">properties</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">string</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Full name of the applicant, first name first, family name last.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">degree</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">anyOf</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>{<span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">string}, {type: 'null'}]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Degree obtained by the applicant before the application, according to the letter.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">required</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">name, degree, alma_mater, attended, skills, strengths, weaknesses]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div>
+</div>
+<ul>
+<li><strong>Obbligatorio</strong> ≠ <strong>non nullo</strong>: <code>Optional[str]</code> senza valore predefinito richiede il campo, ma ammette <code>null</code> quando l’informazione manca</li>
+<li>Lo schema vincola la <em>forma</em>; non dimostra che il contenuto sia <strong>vero</strong></li>
+</ul>
 </section><section>
 <h2 id="come-si-impone-loutput-strutturato-pt-1">Come si <em>impone</em> l’output strutturato? (pt. 1)</h2>
 <div style="font-size: 85%;">
@@ -1335,12 +1459,6 @@ P -&gt; U: “A Cesena sono le …”
 <li>cfr. <a href="https://arxiv.org/abs/2307.09702">Willard &amp; Louf (2023)</a> e librerie come <a href="https://github.com/dottxt-ai/outlines">Outlines</a>, <a href="https://github.com/guidance-ai/llguidance">llguidance</a>, <a href="https://github.com/mlc-ai/xgrammar">XGrammar</a></li>
 </ul>
  <img src="./constrained-decoding.svg" alt="Decodifica vincolata: durante la generazione del valore di age, il JSON Schema (age: intero) esclude tutti i token candidati tranne 42, che viene scelto" style="max-width: calc(95 * 19.2px); max-height: calc(25 * 10.8px); object-fit: contain;">
-</li>
-<li>
-<p><strong>Trucco della chiamata a tool</strong>: dichiarare un <em>tool</em> (fittizio) i cui parametri corrispondono allo schema desiderato e <em>forzare</em> il modello a chiamarlo</p>
-<ul>
-<li>gli <em>argomenti</em> della chiamata sono l’output strutturato (comune prima del supporto dei fornitori a (3))</li>
-</ul>
 </li>
 </ol>
 </div>
@@ -1648,10 +1766,144 @@ P -&gt; U: “A Cesena sono le …”
 </span>
 
 </section>
+</section><section>
+<h1 id="verso-gli-agenti">Verso gli agenti</h1>
 </section>
 
 
 <section data-shortcode-section="">
+<section data-noprocess="" data-shortcode-slide="" id="agents-concept">
+<h2 id="cosè-un-agente">Cos’è un agente?</h2>
+<blockquote>
+<p>Un <strong>agente</strong> è un’entità <em>situata</em> in un <em>ambiente</em> (che quindi <em>percepisce</em> e su cui <em>agisce</em>), che persegue un <em>obiettivo</em> per conto di un essere umano</p>
+</blockquote>
+<img src="./agent-classic.svg" alt="L'agente classico: un essere umano delega un obiettivo all'agente; dentro l'agente, i sensori percepiscono, le credenze sono la rappresentazione interna del mondo, la deliberazione decide cosa fare dato l'obiettivo, gli attuatori agiscono; l'ambiente (fisico, digitale o organizzativo, che cambia anche da solo) invia percezioni ai sensori e riceve azioni dagli attuatori; l'agente è situato: vede solo una parte dell'ambiente, e solo attraverso i propri sensori" style="max-width: calc(95 * 19.2px); max-height: calc(48 * 10.8px); object-fit: contain;">
+<ul>
+<li>La visione <em>classica</em> (cfr. <a href="https://doi.org/10.1017/S0269888900008122">Wooldridge &amp; Jennings, 1995</a>; <a href="https://aima.cs.berkeley.edu/">Russell &amp; Norvig</a>): un agente è un <strong>ciclo di controllo</strong>, non un singolo calcolo
+<ul>
+<li><em>percepire</em> $\rightarrow$ aggiornare le <em>credenze</em> $\rightarrow$ <em>deliberare</em> $\rightarrow$ <em>agire</em> $\rightarrow$ osservare gli effetti, e ripetere</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="cosè-un-agente-le-nozioni-chiave">Cos’è un agente? Le nozioni chiave</h2>
+<div style="font-size: 85%;">
+<table>
+	<thead>
+			<tr>
+					<th>Nozione</th>
+					<th>Intuitivamente</th>
+					<th>Es. termostato</th>
+					<th>Es. assistente della commissione</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Ambiente</strong></td>
+					<td>il “mondo” in cui l’agente opera: fisico, digitale o organizzativo; cambia anche <em>senza</em> l’agente</td>
+					<td>la stanza</td>
+					<td>candidature, regolamento, casella e-mail</td>
+			</tr>
+			<tr>
+					<td><em>Situato</em></td>
+					<td>l’agente sta <em>dentro</em> l’ambiente: ne vede solo una <em>parte</em>, e solo tramite i propri sensori</td>
+					<td>sente solo la temperatura <em>lì dov’è</em></td>
+					<td>vede solo i documenti a cui ha <em>accesso</em></td>
+			</tr>
+			<tr>
+					<td><em>Percepire</em></td>
+					<td>ottenere informazioni sullo stato dell’ambiente (<em>sensori</em>)</td>
+					<td>leggere la temperatura</td>
+					<td>leggere certificati e lettere</td>
+			</tr>
+			<tr>
+					<td><em>Agire</em></td>
+					<td>modificare lo stato dell’ambiente (<em>attuatori</em>)</td>
+					<td>accendere o spegnere la caldaia</td>
+					<td>registrare una decisione, inviare un’e-mail</td>
+			</tr>
+			<tr>
+					<td><strong>Obiettivo</strong></td>
+					<td>lo stato del mondo <em>desiderato</em>, che guida la scelta delle azioni</td>
+					<td>20 °C</td>
+					<td>una graduatoria corretta e motivata</td>
+			</tr>
+			<tr>
+					<td><em>Per conto di</em></td>
+					<td>l’obiettivo è <em>delegato</em> da un essere umano, che ne resta <strong>responsabile</strong></td>
+					<td>chi lo imposta</td>
+					<td>la commissione</td>
+			</tr>
+	</tbody>
+</table>
+</div>
+<ul>
+<li>Entrambi sono agenti: il termostato è un agente <em>semplice</em>, l’assistente un agente <em>ricco</em>
+<ul>
+<li>la differenza sta nella <strong>deliberazione</strong>: quanto è difficile <em>decidere cosa fare</em>, e quanta conoscenza del mondo serve per farlo</li>
+</ul>
+</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="agents-history">
+<h2 id="agenti-unidea-di-almeno-30-anni">Agenti: un’idea di (almeno) 30 anni</h2>
+<img src="./agents-timeline.svg" alt="Timeline 1990-2026: nel 1995 l'IA come studio degli agenti (Russell e Norvig), gli agenti intelligenti (Wooldridge e Jennings) e l'architettura BDI (Rao e Georgeff); negli anni 2000 sistemi multi-agente, piattaforme e linguaggi (JADE, Jason) e standard FIPA; fino a circa il 2021 rappresentazione del mondo e deliberazione sono scritte a mano (logica, regole, ontologie, piani), costose, fragili e per domini ristretti; dal 2022-23 ReAct e Toolformer, LLM che ragionano e usano tool, dal linguaggio naturale; nel 2024-25 il termine Agentic AI" style="max-width: calc(95 * 19.2px); max-height: calc(25 * 10.8px); object-fit: contain;">
+<ul>
+<li>L’agente è una nozione <strong>centrale</strong> dell’IA da decenni: <a href="https://aima.cs.berkeley.edu/">Russell &amp; Norvig</a> definiscono l’IA stessa come lo studio degli <em>agenti razionali</em></li>
+<li>Il problema storicamente <em>difficile</em>: dare all’agente una <strong>rappresentazione del mondo</strong> su cui <em>ragionare</em> e <em>deliberare</em> (decidere cosa fare)
+<ul>
+<li>credenze, obiettivi e piani andavano <em>formalizzati</em> a mano (logica, regole, ontologie; es. l’architettura <a href="https://cdn.aaai.org/ICMAS/1995/ICMAS95-042.pdf">BDI</a>, <em>belief–desire–intention</em>): costoso, fragile, praticabile solo in domini <em>ristretti</em></li>
+</ul>
+</li>
+<li>Con gli LLM questo problema è diventato in larga misura <strong>affrontabile</strong>: conoscenza del mondo e deliberazione <em>a partire dal linguaggio naturale</em>
+<ul>
+<li>da qui il termine <strong>Agentic AI</strong>: intuitivamente, “<em>costruire agenti con gli LLM</em>” (cfr. <a href="#/agent-architecture">la metafora agentica</a>)</li>
+</ul>
+</li>
+</ul>
+<span class="fragment ">
+  <blockquote>
+<p><strong>Attenzione</strong>: <em>agente</em> $\neq$ <em>LLM</em>. Esiste un’ampia letteratura (e ricerca attiva) su agenti <strong>non</strong> basati su LLM (es. BDI, sistemi multi-agente, apprendimento per rinforzo), da cui vengono molte idee “agentiche” di oggi</p>
+</blockquote>
+</span>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="agent-architecture">
+<h2 id="agenti-basati-su-llm-la-metafora-agentica">Agenti basati su LLM: la metafora agentica</h2>
+<img src="./agent-architecture.svg" alt="Architettura dell'agente: l'utente comunica con l'agente; al suo interno un controllore (il proprio codice) esegue il ciclo, un LLM delibera, la memoria conserva cronologia e stato, le policy vincolano il comportamento; il controllore chiama tool di percezione, ragionamento e attuazione, che leggono e scrivono nell'ambiente" style="max-width: calc(95 * 19.2px); max-height: calc(60 * 10.8px); object-fit: contain;">
+<ul>
+<li><strong>LLM</strong> $\rightarrow$ <em>deliberazione</em>: interpreta il contesto e propone l’azione successiva</li>
+<li><strong>tool</strong> $\rightarrow$ <em>percezione</em> (ottenere dati), <em>attuazione</em> (modificare il mondo) e <em>ragionamento</em> (calcolare, controllare, verificare)</li>
+<li><strong>controllore</strong> (il proprio codice) $\rightarrow$ il <em>ciclo</em>: costruisce il contesto, <em>esegue</em> chiamate ai tool, decide quando fermarsi</li>
+</ul>
+</section><section>
+<h2 id="gli-llm-da-soli-non-sono-agenti">Gli LLM da soli non sono agenti</h2>
+<ul>
+<li>
+<p>Gli LLM producono <strong>testo</strong>, non <em>azioni</em>: serve <em>software</em> che traduca il testo in <em>operazioni</em></p>
+<ul>
+<li>es. <code>Prenota il treno per Lisbona</code> è solo testo, finché un programma non lo traduce in <em>ricerca</em>, <em>prenotazione</em>, <em>pagamento</em> e <em>conferma</em></li>
+<li>non percepiscono né agiscono sugli ambienti <em>direttamente</em></li>
+<li>non gestiscono obiettivi e stato in modo <em>persistente</em></li>
+</ul>
+</li>
+<li>
+<p>L’“agente” è soprattutto il <strong>software circostante</strong>: <em>agente</em> $\approx$ <em>controllore</em> + <em>LLM</em> + <em>tool</em> + <em>memoria</em> + <em>policy</em></p>
+</li>
+<li>
+<p>Ciò che gli LLM <strong>sostituiscono</strong> rispetto agli agenti classici è (parte della) <em>deliberazione</em>:</p>
+<ul>
+<li>non serve <em>formalizzare</em> in anticipo obiettivi, credenze e piani: l’LLM gestisce obiettivi <em>vaghi</em>, scritti in linguaggio naturale</li>
+<li>la deliberazione diventa però <em>testo generato</em>: plausibile, non necessariamente <em>corretto</em> e difficile da <em>verificare</em></li>
+</ul>
+</li>
+<li>
+<p><em>Intelligenza</em>, <em>autonomia</em> e <em>capacità di agire</em> sono dimensioni <strong>separabili</strong> (cfr. <a href="https://doi.org/10.1007/s13347-025-00858-9">Floridi, 2025</a>)</p>
+<ul>
+<li><em>intelligenza</em>: quanto <strong>bene</strong> risolve i problemi; <em>capacità di agire</em>: quale <strong>stato</strong> cambia davvero; <em>autonomia</em>: chi <strong>controlla</strong> <em>quando</em> e <em>perché</em> agisce</li>
+</ul>
+</li>
+</ul>
+</section>
 <section data-noprocess="" data-shortcode-slide="" id="tools-concept">
 <h2 id="tool-il-concetto-generale">Tool: il concetto generale</h2>
 <ul>
@@ -1665,7 +1917,7 @@ P -&gt; U: “A Cesena sono le …”
 </ol>
 </li>
 <li>
-<p>Le definizioni dei tool accompagnano ogni richiesta; l’LLM può rispondere con una <strong>chiamata a tool</strong> anziché testo (ricordare <a href="#/chat-completion-concept"><code>tool_calls</code></a>)</p>
+<p>Le definizioni dei tool accompagnano ogni richiesta; l’LLM può rispondere con una <strong>chiamata a tool</strong> anziché testo (campo <code>tool_calls</code> della risposta)</p>
 <ul>
 <li>una chiamata a tool è un <a href="#/structured-output">output strutturato</a> conforme allo <em>schema</em> del tool</li>
 <li>l’agente la <em>esegue</em> e restituisce il <em>risultato</em> come messaggio <code>tool</code></li>
@@ -1677,6 +1929,9 @@ P -&gt; U: “A Cesena sono le …”
 <li>nome $\rightarrow$ <em>nome della funzione</em>; descrizione $\rightarrow$ <em>docstring</em>; schema $\rightarrow$ <em>annotazioni di tipo</em>; implementazione $\rightarrow$ <em>corpo</em></li>
 <li>quindi la <strong>documentazione</strong> di una funzione <em>è</em> la sua interfaccia per l’LLM: una funzione non documentata è un tool <em>inutilizzabile</em></li>
 </ul>
+</li>
+<li>
+<p>Il medesimo meccanismo può produrre <strong>output strutturato</strong>: dichiarare un tool <em>fittizio</em> con lo schema desiderato e forzarne la chiamata; gli <em>argomenti</em> sono i dati da estrarre, senza eseguire alcuna azione</p>
 </li>
 <li>
 <p>I tool affrontano tre limiti degli LLM isolati (cfr. <a href="https://arxiv.org/abs/2302.04761">Toolformer</a>):</p>
@@ -1774,42 +2029,19 @@ P -&gt; U: “A Cesena sono le …”
 <li>il tool decide quindi cosa l’LLM può vedere e fare: <em>validazione</em>, <em>permessi</em> e <em>log</em> risiedono lì</li>
 </ul>
 </li>
-<li>I tool possono essere <em>locali</em> (funzioni nel codice applicativo) o <em>condivisi</em> tramite <a href="#/mcp">Model Context Protocol</a> (MCP), per essere usati da <em>qualsiasi</em> applicazione basata su LLM</li>
-<li>Esistono anche tool <em>lato server</em> (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il <em>lock-in</em></li>
 </ul>
 </section>
-<section data-noprocess="" data-shortcode-slide="" id="react">
-<h2 id="il-ciclo-react-il-concetto-generale">Il ciclo ReAct: il concetto generale</h2>
+<section data-noprocess="" data-shortcode-slide="" id="tool-environments">
+<h2 id="dove-gira-un-tool-e-cosa-vede">Dove gira un tool, e cosa vede</h2>
+<img src="./tool-environments.svg" alt="Tre posizioni di un tool: (a) tool locale, funzione dentro l'applicazione dell'organizzazione, vede tutto ciò che vede l'applicazione (file, DB e API interne, segreti); (b) tool remoto, es. server MCP in un altro ambiente (una sandbox interna, o un servizio di terzi), vede solo il proprio ambiente (i propri DB, API e segreti) e gli argomenti ricevuti dall'applicazione; (c) tool del fornitore, ospitato nel cloud del fornitore accanto all'LLM, vede solo la sandbox del fornitore, il Web e i file caricati, mentre i sistemi dell'organizzazione non gli sono visibili e i dati escono dall'organizzazione" style="max-width: calc(95 * 19.2px); max-height: calc(58 * 10.8px); object-fit: contain;">
 <ul>
-<li>
-<p><strong>ReAct</strong> (<em>Reason + Act</em>, cfr. <a href="https://arxiv.org/abs/2210.03629">Yao et al. (2023)</a>): l’LLM <em>alterna</em> ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l’<em>osservazione</em>, cioè il risultato del tool) guida il ragionamento successivo</p>
+<li>Tool <em>locali</em> (funzioni nel codice applicativo) o <em>condivisi</em> tramite <a href="#/mcp">Model Context Protocol</a> (MCP), per essere usati da <em>qualsiasi</em> applicazione basata su LLM</li>
+<li>Una <strong>sandbox</strong> è il caso (b) <em>dentro</em> l’organizzazione: il tool gira in un <em>container</em> isolato, che vede solo ciò che vi viene montato
 <ul>
-<li>nato come tecnica di <em>prompting</em> (“Thought: … Action: … Observation: …”), ora <em>integrato</em> nelle API tramite chiamate a tool (e nei modelli <em>di ragionamento</em>, che generano una catena di ragionamento, fatturata come <em>token</em> di output, prima di rispondere)</li>
+<li>costringe a decidere <em>esplicitamente</em> quali file, servizi e segreti mettere a disposizione del tool (cfr. <a href="#/security">mitigazioni</a>)</li>
 </ul>
 </li>
-<li>
-<p>Il <strong>controllore</strong> dell’agente è un semplice ciclo:</p>
-<ol>
-<li>inviare all’LLM la conversazione e le definizioni dei tool</li>
-<li>se la risposta <strong>non contiene chiamate a tool</strong>, è la <em>risposta finale</em>: terminare</li>
-<li>altrimenti <em>eseguire</em> ogni chiamata, aggiungere il <em>risultato</em> alla conversazione e tornare a 1</li>
-<li>terminare comunque dopo un <em>numero massimo di passi</em> (l’LLM può ripetere il ciclo all’infinito e ogni passo ha un costo)</li>
-</ol>
-</li>
-<li>
-<p>Tutto il resto riguarda le <em>regole di comportamento</em> (<em>policy</em>) e spetta a chi progetta:</p>
-<ul>
-<li>quali tool sono disponibili e per chi? Quali chiamate richiedono <em>approvazione umana</em>?</li>
-<li>cosa succede se un tool <em>fallisce</em>? (suggerimento: comunicare l’errore all’LLM può permettergli di correggere la richiesta)</li>
-<li>cosa viene <em>registrato</em>? Quanto contesto si conserva? (a ogni passo la conversazione <em>cresce</em>, e con essa costo e latenza: oltre la <em>finestra di contesto</em> occorre <em>riassumere</em> o <em>scartare</em> i messaggi più vecchi)</li>
-</ul>
-</li>
-</ul>
-</section><section>
-<h2 id="il-ciclo-react-un-esempio-intuitivo">Il ciclo ReAct: un esempio intuitivo</h2>
-<img src="./react-loop.svg" alt="Diagramma di sequenza del ciclo ReAct: l'utente chiede luogo di nascita di Turing, ora e meteo; l'agente invia domanda e definizioni dei tool all'LLM, che richiede web_search; l'agente esegue la ricerca e restituisce i risultati; appreso che Turing è nato a Londra, l'LLM richiede get_current_time e get_weather in parallelo; l'agente li esegue e restituisce ora e meteo; l'LLM fornisce la risposta finale, che l'agente trasmette all'utente" style="max-width: calc(95 * 19.2px); max-height: calc(75 * 10.8px); object-fit: contain;">
-<ul>
-<li>Si noti il <em>concatenamento</em>: gli argomenti del secondo passo (<code>London</code>) provengono dal <em>risultato</em> del primo</li>
+<li>Tool <em>lato server</em> (ospitati dal fornitore), es. ricerca Web, ricerca nei file, esecuzione di codice: nessun codice da scrivere, ma i dati vanno al fornitore e cresce il <em>lock-in</em></li>
 </ul>
 
 </section>
@@ -1821,20 +2053,17 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="lo-spettro-dellautonomia">Lo spettro dell’autonomia</h2>
 <img src="./autonomy-spectrum.svg" alt="Spettro dell'autonomia, dal flusso controllato dal codice a quello controllato dall'LLM: singola chiamata LLM (valutare una lettera), workflow (valutare tutte le lettere e ordinare), router (l'LLM sceglie un ramo), agente (l'LLM sceglie il tool successivo in un ciclo); più autonomia porta flessibilità, ma anche costi, latenza, imprevedibilità, rischi e impegno di verifica" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
 <ul>
-<li>
-<p>Chi decide il <em>prossimo passo</em>: il <strong>codice</strong> scritto dallo sviluppatore, o l’<strong>LLM</strong>?</p>
-</li>
-<li>
-<p><strong>Workflow</strong>: LLM e tool sono orchestrati lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso)</p>
-</li>
-<li>
-<p><strong>Agenti</strong>: l’LLM dirige <em>dinamicamente</em> il proprio processo e l’uso dei tool (l’<em>LLM</em> controlla il flusso)</p>
+<li>Chi decide il <em>prossimo passo</em>: il <strong>codice</strong> scritto dallo sviluppatore, o l’<strong>LLM</strong>?</li>
+<li><strong>Workflow</strong>: LLM e tool sono orchestrati lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso)</li>
+<li><strong>Agenti</strong>: l’LLM dirige <em>dinamicamente</em> il proprio processo e l’uso dei tool (l’<em>LLM</em> controlla il flusso)
 <ul>
 <li>cfr. <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a> di Anthropic</li>
 </ul>
 </li>
-<li>
-<p>Regola pratica: usare la <strong>minima autonomia</strong> necessaria</p>
+</ul>
+<blockquote>
+<ul>
+<li>Regola pratica: usare la <strong>minima autonomia</strong> necessaria
 <ul>
 <li>partire da una singola chiamata; passare ai workflow quando i passi sono <em>noti</em> in anticipo; agli agenti solo quando <em>non</em> lo sono</li>
 <li><em>l’autonomia è un costo</em> (rischi, verifiche, governance), non un obiettivo: si vuole <em>automatizzare</em>, non “avere un agente”</li>
@@ -1842,27 +2071,41 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ul>
+</blockquote>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="workflows-concept">
 <h2 id="workflow-il-concetto-generale">Workflow: il concetto generale</h2>
-<blockquote>
-<p>Ricordare: nello <a href="#/autonomy-spectrum">spettro dell’autonomia</a>, i <strong>workflow</strong> orchestrano LLM e tool lungo percorsi <em>predefiniti</em> (il <em>codice</em> controlla il flusso), mentre gli <strong>agenti</strong> affidano all’LLM la direzione del processo</p>
-</blockquote>
 <ul>
-<li>Un <strong>workflow</strong> è un <em>processo</em>: un insieme di <strong>passi</strong> e <strong>transizioni</strong> tra essi, che operano su uno <strong>stato</strong> condiviso
+<li>Un <strong>workflow</strong> descrive un <em>processo</em> come un grafo di <strong>passi</strong> (anche <em>condizionali</em>, <em>ciclici</em> o <em>paralleli</em>), che operano su una <strong>memoria</strong> condivisa
 <ul>
-<li>ossia una <em>macchina a stati</em> (o un <em>grafo</em>): i nodi sono passi, gli archi transizioni, anche <em>condizionali</em> (guardie sullo stato)</li>
-<li>uno <em>stato iniziale</em>, uno o più <em>stati finali</em>, eventuali <em>cicli</em> (limitati!) e rami <em>paralleli</em></li>
+<li>ogni passo <em>legge</em> la memoria, svolge il compito e la <em>aggiorna</em>; il <strong>motore</strong> decide il passo successivo</li>
+<li>l’LLM svolge <em>alcuni</em> passi (quelli che richiedono <em>linguaggio</em>), ma <strong>non</strong> ne decide l’ordine</li>
 </ul>
 </li>
-<li>Ogni passo <em>legge</em> lo stato, svolge il compito e <em>aggiorna</em> lo stato; il <strong>motore</strong> decide il passo successivo
+<li>Lo stesso comportamento si può descrivere come <strong>macchina a stati</strong> (cfr. <a href="#/workflows-states">prossima slide</a>):
 <ul>
-<li>l’LLM svolge <em>alcuni</em> passi (quelli che richiedono <em>linguaggio</em>), ma <strong>non</strong> ne decide l’ordine</li>
+<li><strong>memoria</strong>: i <em>dati</em> accumulati fino a quel momento (input, risultati intermedi, eventuali istruzioni caricate)</li>
+<li><strong>stato</strong>: un <em>nodo</em> del diagramma degli stati; insieme al contenuto della memoria, determina cosa fare (quale arco uscente seguire)</li>
+<li><strong>transizione</strong>: un <em>arco</em> tra due stati, eventualmente con una <em>guardia</em> (una condizione sulla memoria); <strong>passo</strong> è il suo nome informale</li>
+<li>il <strong>workflow</strong> è una descrizione <em>duale</em> dello stesso comportamento: mette l’accento sui <em>passi</em> anziché sugli <em>stati</em></li>
 </ul>
 </li>
 <li>Idea consolidata, nuovi ingredienti: <em>business process management</em> (cfr. <a href="https://www.omg.org/spec/BPMN/2.0.2/">BPMN</a>), <em>pipeline ETL</em>, <em>pipeline CI/CD</em>, … ora con <strong>passi LLM</strong>
 <ul>
-<li>cfr. <a href="https://arxiv.org/abs/2403.11322">StateFlow</a> (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo <em>e</em> riduce i costi rispetto agli agenti ReAct</li>
+<li>cfr. <a href="https://arxiv.org/abs/2403.11322">StateFlow</a> (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo <em>e</em> riduce i costi rispetto agli agenti che scelgono dinamicamente i passi</li>
+</ul>
+</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="workflows-states">
+<h2 id="workflow-come-macchina-a-stati">Workflow come macchina a stati</h2>
+<img src="./admission-states.svg" alt="Il workflow di ammissione come diagramma degli stati: dall'inizio, la transizione 'leggere i certificati' (passo LLM, uno per candidato in parallelo) porta allo stato 'certificati letti'; 'verificare l'ammissibilità' (passo sui dati) porta ad 'ammissibilità nota'; con la guardia 'alcuni idonei', 'valutare le lettere' (passo LLM) porta a 'lettere valutate', poi 'stilare la graduatoria' (passo sui dati) a 'graduatoria pronta' e 'chiedere l'approvazione' (input utente) ad 'attesa commissione'; con la guardia 'nessuno idoneo' si passa direttamente all'attesa; dallo stato di attesa (esecuzione sospesa), con 'risposta: sì' si avvisano i candidati (azione) e si termina, con 'risposta: no' si termina senza invii. Ogni stato indica i campi aggiunti alla memoria; sotto, la memoria (run, candidates, transcripts, problems, scores, ranking, approved, notified), salvata dopo ogni transizione come checkpoint" style="max-width: calc(95 * 19.2px); max-height: calc(47 * 10.8px); object-fit: contain;">
+<ul>
+<li>Il <a href="#/workflows-example">workflow di ammissione</a>, visto dal lato degli <em>stati</em>: uno stato <em>iniziale</em>, uno o più stati <em>finali</em>, eventuali <em>cicli</em> (limitati!)</li>
+<li>Non sempre un passo è <em>una</em> transizione: l’<em>intervento umano</em> diventa uno <strong>stato di attesa</strong>, da cui si esce su un <em>evento</em> (la risposta, anche ore dopo); i passi <em>paralleli</em> diventano <em>una</em> transizione, che termina quando tutti i rami hanno finito</li>
+<li>Attenzione: macchina a stati <strong>non</strong> significa macchina a stati <em>finiti</em>: gli stati sono finiti, ma la memoria no (<em>macchina a stati estesa</em>)
+<ul>
+<li>le librerie (es. LangGraph) chiamano <em>state</em> quella che qui chiamiamo <strong>memoria</strong></li>
 </ul>
 </li>
 </ul>
@@ -1905,16 +2148,36 @@ P -&gt; U: “A Cesena sono le …”
 	</tbody>
 </table>
 <ul>
-<li>Anche un <strong>agente</strong> può essere un passo: es. un ciclo ReAct per una domanda <em>aperta</em>, dentro un processo altrimenti <em>fisso</em></li>
-<li>Regola pratica: mettere nei <strong>passi sui dati</strong> ciò che il codice sa fare; usare <strong>passi LLM</strong> solo quando serve il <em>linguaggio</em>; proteggere i <strong>passi di azione</strong> con controlli e, se irreversibili o rilevanti sul piano normativo, con <strong>passi con intervento umano</strong></li>
+<li>Anche un <strong>agente</strong> può essere un passo:
+<ul>
+<li>es. un agente che esplora i dati per una domanda <em>aperta</em>, dentro un processo altrimenti <em>fisso</em></li>
+</ul>
+</li>
+<li>Regola pratica:
+<ul>
+<li>usare script deterministici nei <strong>passi sui dati</strong> (no LLM) quando possibile;</li>
+<li>usare <strong>passi LLM</strong> solo quando serve il <em>linguaggio</em>;</li>
+<li>proteggere i <strong>passi di azione</strong> con controlli e, se irreversibili o rilevanti sul piano normativo, con <strong>passi con intervento umano</strong></li>
+</ul>
+</li>
 </ul>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="workflows-example">
 <h2 id="workflow-un-esempio-intuitivo">Workflow: un esempio intuitivo</h2>
-<img src="./admission-workflow.svg" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" style="max-width: calc(95 * 19.2px); max-height: calc(42 * 10.8px); object-fit: contain;">
 <ul>
-<li>Lo <em>stesso</em> processo come agente sarebbe un system prompt che dice “<em>estrai, verifica, valuta, ordina, chiedi, notifica</em>”, sperando che l’LLM lo segua in quell’ordine ogni volta</li>
-<li>Come workflow (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>):
+<li>
+<p>Lo stesso workflow di ammissione, rappresentato non come macchina a stati, ma diagramma di flusso/attività:</p>
+  <img src="./admission-workflow.svg" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, la memoria (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvata dopo ogni passo come checkpoint" style="max-width: calc(95 * 19.2px); max-height: calc(42 * 10.8px); object-fit: contain;">
+<ul>
+<li>Risultato analogo si potrebbe ottenere tramite un agente il cui system prompt dica “<em>estrai, verifica, valuta, ordina, chiedi, notifica</em>”
+<ul>
+<li>… <strong>sperando</strong> che l’LLM lo segua in quell’ordine ogni volta</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Vantaggi di strutturare il processo come workflow (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>):</p>
 <ul>
 <li><strong>prevedibile</strong>: stessi passi e ordine, verificabile passo per passo</li>
 <li><strong>più economico</strong>: ogni passo LLM vede <em>solo</em> ciò che serve, anche con un modello più piccolo</li>
@@ -1922,8 +2185,8 @@ P -&gt; U: “A Cesena sono le …”
 <li><strong>meno flessibile</strong>: le richieste impreviste richiedono una <em>nuova versione</em> del workflow</li>
 </ul>
 </li>
-<li>Confronto con le <a href="#/skills-vs-others">skill</a>: le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile</li>
 </ul>
+<!-- - Anticipazione: le [skill](#/skills-vs-others) sono procedure in linguaggio naturale che un agente carica quando servono; le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile -->
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="patterns">
 <h2 id="pattern-di-workflow-un-catalogo">Pattern di workflow: un catalogo</h2>
@@ -1937,9 +2200,92 @@ P -&gt; U: “A Cesena sono le …”
 
 
 <section data-shortcode-section="">
+<section data-noprocess="" data-shortcode-slide="" id="react">
+<h2 id="il-ciclo-react-il-concetto-generale">Il ciclo ReAct: il concetto generale</h2>
+<ul>
+<li>
+<p><strong>ReAct</strong> (<em>Reason + Act</em>, cfr. <a href="https://arxiv.org/abs/2210.03629">Yao et al. (2023)</a>): l’LLM <em>alterna</em> ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l’<em>osservazione</em>, cioè il risultato del tool) guida il ragionamento successivo</p>
+<ul>
+<li>nato come tecnica di <em>prompting</em> (“Thought: … Action: … Observation: …”), ora <em>integrato</em> nelle API tramite chiamate a tool (e nei modelli <em>di ragionamento</em>, che generano una catena di ragionamento, fatturata come <em>token</em> di output, prima di rispondere)</li>
+</ul>
+</li>
+<li>
+<p>Il <strong>controllore</strong> dell’agente è un semplice ciclo:</p>
+<ol>
+<li>inviare all’LLM la conversazione e le definizioni dei tool</li>
+<li>se la risposta <strong>non contiene chiamate a tool</strong>, è la <em>risposta finale</em>: terminare</li>
+<li>altrimenti <em>eseguire</em> ogni chiamata, aggiungere il <em>risultato</em> alla conversazione e tornare a 1</li>
+<li>terminare comunque dopo un <em>numero massimo di passi</em> (l’LLM può ripetere il ciclo all’infinito e ogni passo ha un costo)</li>
+</ol>
+</li>
+<li>
+<p>Tutto il resto riguarda le <em>regole di comportamento</em> (<em>policy</em>) e spetta a chi progetta:</p>
+<ul>
+<li>quali tool sono disponibili e per chi? Quali chiamate richiedono <em>approvazione umana</em>?</li>
+<li>cosa succede se un tool <em>fallisce</em>? (suggerimento: comunicare l’errore all’LLM può permettergli di correggere la richiesta)</li>
+<li>cosa viene <em>registrato</em>? Quanto contesto si conserva? (a ogni passo la conversazione <em>cresce</em>, e con essa costo e latenza: oltre la <em>finestra di contesto</em> occorre <em>riassumere</em> o <em>scartare</em> i messaggi più vecchi)</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="il-ciclo-react-un-esempio-intuitivo">Il ciclo ReAct: un esempio intuitivo</h2>
+<img src="./react-loop.svg" alt="Diagramma di sequenza del ciclo ReAct: l'utente chiede luogo di nascita di Turing, ora e meteo; l'agente invia domanda e definizioni dei tool all'LLM, che richiede web_search; l'agente esegue la ricerca e restituisce i risultati; appreso che Turing è nato a Londra, l'LLM richiede get_current_time e get_weather in parallelo; l'agente li esegue e restituisce ora e meteo; l'LLM fornisce la risposta finale, che l'agente trasmette all'utente" style="max-width: calc(95 * 19.2px); max-height: calc(75 * 10.8px); object-fit: contain;">
+<ul>
+<li>Si noti il <em>concatenamento</em>: gli argomenti del secondo passo (<code>London</code>) provengono dal <em>risultato</em> del primo</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="mcp">
+<h2 id="model-context-protocol-mcp-il-concetto-generale">Model Context Protocol (MCP): il concetto generale</h2>
+<ul>
+<li><strong>Problema</strong>: con tool <em>locali</em>, le funzioni risiedono <em>dentro</em> il codice dell’agente
+<ul>
+<li>ogni agente reimplementa (o copia) i tool necessari</li>
+<li>ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)</li>
+</ul>
+</li>
+<li><a href="https://modelcontextprotocol.io"><strong>MCP</strong></a> è un <em>protocollo aperto</em> per esporre tool (e altro) alle applicazioni basate su LLM in modo <em>standard</em> (cfr. <a href="https://modelcontextprotocol.io/specification">specifica</a>)
+<ul>
+<li>“una porta USB-C per le applicazioni IA”: $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$</li>
+<li>introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation</li>
+</ul>
+</li>
+</ul>
+<img src="./mcp-n-plus-m.svg" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
+<ul>
+<li>MCP non cambia il <a href="#/react">ciclo ReAct</a>, solo <em>da dove</em> provengono i tool</li>
+</ul>
+</section><section>
+<h2 id="mcp-ruoli-e-trasporti">MCP: ruoli e trasporti</h2>
+<ul>
+<li>Ruoli:
+<ul>
+<li><strong>host</strong>: applicazione basata su LLM (es. agente, IDE, chat)</li>
+<li><strong>client</strong>: componente dell’host connesso a <em>un</em> server</li>
+<li><strong>server</strong>: programma che espone <em>tool</em> (funzioni), <em>risorse</em> (dati) e <em>prompt</em> (template)</li>
+</ul>
+</li>
+<li>Messaggi <a href="https://www.jsonrpc.org/specification">JSON-RPC</a>, es. <code>tools/list</code> (scoperta), <code>tools/call</code> (invocazione), su due <strong>trasporti</strong>:
+<ul>
+<li><em>stdio</em>: il server è un <em>sottoprocesso locale</em> dell’host e comunica tramite stdin/stdout</li>
+<li><em>streamable HTTP</em>: il server è un <em>servizio Web</em>, anche remoto, eventualmente con autenticazione (OAuth)</li>
+</ul>
+</li>
+<li>Dalla <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">specifica del 28/07/2026</a> il protocollo è <em>stateless</em> (senza sessioni né handshake <code>initialize</code>); i server possono ancora chiedere input durante una chiamata (<em>elicitation</em>)</li>
+</ul>
+</section><section>
+<h2 id="mcp-un-esempio-intuitivo">MCP: un esempio intuitivo</h2>
+<img src="./mcp-gateway.svg" alt="Due modi per connettere un host MCP ai server: (a) direttamente, con un client MCP per server (simple-tools e fetch come processi stdio locali, più un server HTTP remoto), ripetendo configurazione e policy in ogni host; (b) tramite gateway MCP, un endpoint unico che aggrega, filtra, autentica, conserva segreti, registra, limita le richieste ed esegue i server in sandbox" style="max-width: calc(95 * 19.2px); max-height: calc(55 * 10.8px); object-fit: contain;">
+<ul>
+<li>I nostri tool si spostano in un <strong>server</strong>, usabile da <em>qualsiasi</em> host MCP: agente, IDE, chat, …</li>
+<li>Un <strong>gateway MCP</strong> è un <em>proxy</em> che aggrega più server dietro un endpoint: un unico punto per applicare <em>policy</em> (chi può chiamare cosa), conservare <em>segreti</em> e <em>registrare</em> le chiamate</li>
+</ul>
+</section>
 <section data-noprocess="" data-shortcode-slide="" id="security">
 <h2 id="i-tool-cambiano-il-profilo-di-rischio">I tool cambiano il profilo di rischio</h2>
-<p>Senza tool un LLM può solo <em>dire</em> cose sbagliate; con i tool può <em>fare</em> cose sbagliate, alla velocità di una macchina</p>
+<blockquote>
+<p>Senza tool un LLM può solo <em>dire</em> cose sbagliate; con i tool può <em>fare</em> cose sbagliate,
+<br> <u>alla velocità di una macchina</u></p>
+</blockquote>
 <table>
 	<thead>
 			<tr>
@@ -2047,10 +2393,14 @@ P -&gt; U: “A Cesena sono le …”
 <h2 id="lllm-propone-i-critici-verificano-llm-modulo">L’LLM propone, i critici verificano: LLM-Modulo</h2>
 <img src="./llm-modulo.svg" alt="Ciclo LLM-Modulo sull'esempio ricorrente: un obiettivo (selezionare i migliori candidati per un colloquio) arriva all'LLM, che propone un piano (valutare ogni lettera, ordinare per punteggio, invitare i primi 2 tramite send_email); critici esterni lo verificano: critici rigidi nel codice (i tool esistono, argomenti validi, precondizioni soddisfatte), critici di policy (e-mail solo con approvazione umana, considerare anche i voti), critici morbidi (LLM-as-a-Judge o persone); i piani rifiutati tornano all'LLM con la critica, quelli accettati sono eseguiti dal controllore con log e approvazione umana" style="max-width: calc(95 * 19.2px); max-height: calc(50 * 10.8px); object-fit: contain;">
 <ul>
-<li>Gli LLM generano piani <em>plausibili</em>, ma non <em>garantiti</em>: nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il <strong>12%</strong> dei casi (<a href="https://arxiv.org/abs/2305.15771">Valmeekam et al., 2023</a>)</li>
+<li>Gli LLM generano piani <em>plausibili</em>, ma non <em>garantiti</em>:
+<ul>
+<li>nei domini di pianificazione formali, GPT-4 produceva piani eseguibili in circa il <strong>12%</strong> dei casi (<a href="https://arxiv.org/abs/2305.15771">Valmeekam et al., 2023</a>)</li>
+</ul>
+</li>
 <li><strong>LLM-Modulo</strong> (<a href="https://proceedings.mlr.press/v235/kambhampati24a.html">Kambhampati et al., 2024</a>): l’LLM <em>propone</em>, <strong>critici</strong> esterni <em>verificano</em>, in un ciclo <em>genera–verifica–critica</em>
 <ul>
-<li>prima i controlli <em>nel codice</em> (economici, deterministici), poi i giudizi di LLM o persone, solo per ciò che il codice non può verificare</li>
+<li>prima i controlli <em>nel codice</em> (economici, deterministici), poi i giudizi di LLM (un <em>LLM-as-a-Judge</em>: un modello che valuta secondo criteri espliciti) o persone, solo per ciò che il codice non può verificare</li>
 <li>in pratica: il piano è un <a href="#/structured-output">output strutturato</a>, validato <em>prima</em> di eseguire qualsiasi azione</li>
 </ul>
 </li>
@@ -2061,47 +2411,11 @@ P -&gt; U: “A Cesena sono le …”
 
 <section data-noprocess="" data-shortcode-slide="" id="agentic-ai">
   
-<h1 id="fondamenti-di-ia-agentica">Fondamenti di IA agentica</h1>
-</section><section>
+<h1 id="skill-e-implicazioni-dellia-agentica">Skill e implicazioni dell’IA agentica</h1>
+</section>
 
 
 <section data-shortcode-section="">
-<h2 id="agenti-basati-su-llm-la-metafora-agentica">Agenti basati su LLM: la metafora agentica</h2>
-<img src="./agent-architecture.svg" alt="Architettura dell'agente: l'utente comunica con l'agente; al suo interno un controllore (il proprio codice) esegue il ciclo, un LLM delibera, la memoria conserva cronologia e stato, le policy vincolano il comportamento; il controllore chiama tool di percezione, ragionamento e attuazione, che leggono e scrivono nell'ambiente" style="max-width: calc(95 * 19.2px); max-height: calc(60 * 10.8px); object-fit: contain;">
-<ul>
-<li><strong>LLM</strong> $\rightarrow$ <em>deliberazione</em>: interpreta il contesto e propone l’azione successiva</li>
-<li><strong>tool</strong> $\rightarrow$ <em>percezione</em> (ottenere dati), <em>attuazione</em> (modificare il mondo) e <em>ragionamento</em> (calcolare, controllare, verificare)</li>
-<li><strong>controllore</strong> (il proprio codice) $\rightarrow$ il <em>ciclo</em>: costruisce il contesto, <em>esegue</em> chiamate ai tool, decide quando fermarsi</li>
-</ul>
-</section><section>
-<h2 id="gli-llm-da-soli-non-sono-agenti">Gli LLM da soli non sono agenti</h2>
-<ul>
-<li>
-<p>Gli LLM producono <strong>testo</strong>, non <em>azioni</em>: serve <em>software</em> che traduca il testo in <em>operazioni</em></p>
-<ul>
-<li>es. <code>Prenota il treno per Lisbona</code> è solo testo, finché un programma non lo traduce in <em>ricerca</em>, <em>prenotazione</em>, <em>pagamento</em> e <em>conferma</em></li>
-<li>non percepiscono né agiscono sugli ambienti <em>direttamente</em></li>
-<li>non gestiscono obiettivi e stato in modo <em>persistente</em></li>
-</ul>
-</li>
-<li>
-<p>L’“agente” è soprattutto il <strong>software circostante</strong>: <em>agente</em> $\approx$ <em>controllore</em> + <em>LLM</em> + <em>tool</em> + <em>memoria</em> + <em>policy</em></p>
-</li>
-<li>
-<p>Ciò che gli LLM <strong>sostituiscono</strong> rispetto agli agenti classici è (parte della) <em>deliberazione</em>:</p>
-<ul>
-<li>non serve <em>formalizzare</em> in anticipo obiettivi, credenze e piani: l’LLM gestisce obiettivi <em>vaghi</em>, scritti in linguaggio naturale</li>
-<li>la deliberazione diventa però <em>testo generato</em>: plausibile, non necessariamente <em>corretto</em> e difficile da <em>verificare</em></li>
-</ul>
-</li>
-<li>
-<p><em>Intelligenza</em>, <em>autonomia</em> e <em>capacità di agire</em> sono dimensioni <strong>separabili</strong> (cfr. <a href="https://doi.org/10.1007/s13347-025-00858-9">Floridi, 2025</a>)</p>
-<ul>
-<li><em>intelligenza</em>: quanto <strong>bene</strong> risolve i problemi; <em>capacità di agire</em>: quale <strong>stato</strong> cambia davvero; <em>autonomia</em>: chi <strong>controlla</strong> <em>quando</em> e <em>perché</em> agisce</li>
-</ul>
-</li>
-</ul>
-</section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-concept">
 <h2 id="skill-il-concetto-generale">Skill: il concetto generale</h2>
 <ul>
@@ -2113,7 +2427,7 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 <li>
-<p>Nei tipi di memoria di un agente secondo <a href="https://arxiv.org/abs/2309.02427">CoALA (Sumers et al., 2023)</a> (<em>di lavoro</em>: il contesto; <em>episodica</em>: le interazioni passate; <em>semantica</em>: fatti e documenti; <em>procedurale</em>: come fare le cose), le skill sono <strong>memoria procedurale</strong> resa <em>esplicita</em> e <em>modificabile</em></p>
+<p>Nei tipi di memoria di un agente secondo <a href="https://arxiv.org/abs/2309.02427">CoALA (Sumers et al., 2023)</a>*, le skill sono <strong>memoria procedurale</strong> resa <em>esplicita</em> e <em>modificabile</em></p>
 <ul>
 <li><em>come</em> fare qualcosa (es. “come valutiamo una domanda di dottorato”, “come scriviamo una nota di rilascio”), rispetto a <em>ciò</em> che si sa (memoria semantica, es. RAG)</li>
 <li>scritte da <em>persone</em> (o da agenti e poi riviste da persone), <em>versionate</em> come codice e <em>condivise</em> come documentazione</li>
@@ -2133,6 +2447,9 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 </li>
 </ul>
+<div style="font-size: 50%;">
+<p>* <em>di lavoro</em>: il contesto; <em>episodica</em>: le interazioni passate; <em>semantica</em>: fatti e documenti; <em>procedurale</em>: come fare le cose</p>
+</div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-example">
 <h2 id="skill-un-esempio-intuitivo">Skill: un esempio intuitivo</h2>
@@ -2148,92 +2465,16 @@ P -&gt; U: “A Cesena sono le …”
 </li>
 </ul>
 </section>
-<section data-noprocess="" data-shortcode-slide="" id="skills-vs-others">
-<h2 id="skill-a-confronto-con-prompt-tool-server-mcp-e-workflow">Skill a confronto con prompt, tool, server MCP e workflow</h2>
-<p>L’<em>harness</em> è il software che gestisce l’agente.</p>
-<div style="font-size: 80%;">
-<table>
-	<thead>
-			<tr>
-					<th></th>
-					<th>System prompt</th>
-					<th>Tool</th>
-					<th>Server MCP</th>
-					<th><strong>Skill</strong></th>
-					<th>Workflow</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><em>Cos’è</em></td>
-					<td>istruzioni sempre nel contesto</td>
-					<td>una funzione che l’LLM può chiedere di chiamare</td>
-					<td>tool (e risorse, prompt) dietro un protocollo</td>
-					<td>cartella di istruzioni + script + risorse</td>
-					<td>codice che orchestra chiamate LLM e tool</td>
-			</tr>
-			<tr>
-					<td><em>Linguaggio</em></td>
-					<td>linguaggio naturale</td>
-					<td>codice + docstring</td>
-					<td>codice</td>
-					<td><strong>linguaggio naturale</strong> (+ codice)</td>
-					<td>codice</td>
-			</tr>
-			<tr>
-					<td><em>Chi decide di usarlo</em></td>
-					<td>nessuno (sempre attivo)</td>
-					<td>l’LLM</td>
-					<td>l’LLM</td>
-					<td><strong>l’LLM</strong> (o esplicitamente l’utente)</td>
-					<td>il progettista</td>
-			</tr>
-			<tr>
-					<td><em>Costo del contesto</em></td>
-					<td>completo a ogni passo</td>
-					<td>schema a ogni passo</td>
-					<td>schemi di tutti i tool a ogni passo (salvo caricamento <em>differito</em>, es. tool search di Claude Code: solo nomi, schemi su richiesta)</td>
-					<td><strong>solo descrizione</strong> fino all’attivazione</td>
-					<td>solo ciò che serve a ogni passo</td>
-			</tr>
-			<tr>
-					<td><em>Chi può scriverlo</em></td>
-					<td>chiunque</td>
-					<td>sviluppatori</td>
-					<td>sviluppatori</td>
-					<td><strong>esperti di dominio</strong> (+ sviluppatori per gli script)</td>
-					<td>sviluppatori</td>
-			</tr>
-			<tr>
-					<td><em>Prevedibilità</em></td>
-					<td>media</td>
-					<td>alta (il codice)</td>
-					<td>alta (il codice)</td>
-					<td>bassa–media</td>
-					<td>alta</td>
-			</tr>
-	</tbody>
-</table>
-</div>
-<ul>
-<li>Le skill e gli altri elementi sono <strong>complementari</strong>: una skill può indicare <em>quali tool</em> (o server MCP) usare e <em>come</em></li>
-<li>Regola pratica (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>): <em>procedure</em> che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; <em>procedure</em> affidabili e verificabili $\rightarrow$ <a href="#/workflows-concept">workflow</a>
-<ul>
-<li>compromessi organizzativi (costo, conformità, time-to-market) nella sezione <a href="#/which-technique">Quale tecnica?</a></li>
-</ul>
-</li>
-</ul>
-</section>
 <section data-noprocess="" data-shortcode-slide="" id="writing-skills">
 <h2 id="anatomia-di-una-skill">Anatomia di una skill</h2>
 <div class="container w-100 m-0 p-0">
     <div class="row "><div class="col col-5" style="text-align: left;"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>phd-application-review/
-</span></span><span style="display:flex;"><span>├── SKILL.md          # obbligatorio: metadati + istruzioni
-</span></span><span style="display:flex;"><span>├── scripts/          # opzionale: codice eseguibile
+</span></span><span style="display:flex;"><span>├── SKILL.md         <span style="color:#8f5902;font-style:italic"># metadati + istruzioni</span>
+</span></span><span style="display:flex;"><span>├── scripts/         <span style="color:#8f5902;font-style:italic"># codice eseguibile</span>
 </span></span><span style="display:flex;"><span>│   └── check_application.py
-</span></span><span style="display:flex;"><span>├── references/       # opzionale: documenti, letti su richiesta
+</span></span><span style="display:flex;"><span>├── references/      <span style="color:#8f5902;font-style:italic"># documenti, letti su richiesta</span>
 </span></span><span style="display:flex;"><span>│   └── rubric.md
-</span></span><span style="display:flex;"><span>└── assets/           # opzionale: template, dati
+</span></span><span style="display:flex;"><span>└── assets/          <span style="color:#8f5902;font-style:italic"># template, dati</span>
 </span></span><span style="display:flex;"><span>    └── report-template.md
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">---</span><span style="color:#f8f8f8">
 </span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">phd-application-review</span><span style="color:#f8f8f8">
@@ -2319,6 +2560,81 @@ P -&gt; U: “A Cesena sono le …”
 <ul>
 <li><em>preapprova</em> i tool, <strong>non</strong> li esegue in sandbox: supporto e semantica variano tra harness</li>
 <li>alcuni harness aggiungono campi propri (es. <code>disable-model-invocation</code>, <code>context: fork</code> o <code>hooks</code> di Claude Code; <code>metadata.openclaw.requires</code> di OpenClaw)</li>
+</ul>
+</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="skills-vs-others">
+<h2 id="skill-a-confronto-con-prompt-tool-server-mcp-e-workflow">Skill a confronto con prompt, tool, server MCP e workflow</h2>
+<div style="font-size: 80%;">
+<table>
+	<thead>
+			<tr>
+					<th></th>
+					<th>System prompt</th>
+					<th>Tool</th>
+					<th>Server MCP</th>
+					<th><strong>Skill</strong></th>
+					<th>Workflow</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><em>Cos’è</em></td>
+					<td>istruzioni sempre nel contesto</td>
+					<td>una funzione che l’LLM può chiedere di chiamare</td>
+					<td>tool (e risorse, prompt) dietro un protocollo</td>
+					<td>cartella di istruzioni + script + risorse</td>
+					<td>codice che orchestra chiamate LLM e tool</td>
+			</tr>
+			<tr>
+					<td><em>Linguaggio</em></td>
+					<td>linguaggio naturale</td>
+					<td>codice + docstring</td>
+					<td>codice</td>
+					<td><strong>linguaggio naturale</strong> (+ codice)</td>
+					<td>codice</td>
+			</tr>
+			<tr>
+					<td><em>Chi decide di usarlo</em></td>
+					<td>nessuno (sempre attivo)</td>
+					<td>l’LLM</td>
+					<td>l’LLM</td>
+					<td><strong>l’LLM</strong> (o esplicitamente l’utente)</td>
+					<td>il progettista</td>
+			</tr>
+			<tr>
+					<td><em>Costo del contesto</em></td>
+					<td>completo a ogni passo</td>
+					<td>schema a ogni passo</td>
+					<td>schemi di tutti i tool a ogni passo (salvo caricamento <em>differito</em>, es. tool search di Claude Code: solo nomi, schemi su richiesta)</td>
+					<td><strong>solo descrizione</strong> fino all’attivazione</td>
+					<td>solo ciò che serve a ogni passo</td>
+			</tr>
+			<tr>
+					<td><em>Chi può scriverlo</em></td>
+					<td>chiunque</td>
+					<td>sviluppatori</td>
+					<td>sviluppatori</td>
+					<td><strong>esperti di dominio</strong> (+ sviluppatori per gli script)</td>
+					<td>sviluppatori</td>
+			</tr>
+			<tr>
+					<td><em>Prevedibilità</em></td>
+					<td>media</td>
+					<td>alta (il codice)</td>
+					<td>alta (il codice)</td>
+					<td>bassa–media</td>
+					<td>alta</td>
+			</tr>
+	</tbody>
+</table>
+</div>
+<ul>
+<li>Le skill e gli altri elementi sono <strong>complementari</strong>: una skill può indicare <em>quali tool</em> (o server MCP) usare e <em>come</em></li>
+<li>Regola pratica (cfr. <a href="#/autonomy-spectrum">spettro dell’autonomia</a>): <em>procedure</em> che cambiano spesso o devono essere gestite dagli esperti di dominio $\rightarrow$ skill; <em>procedure</em> affidabili e verificabili $\rightarrow$ <a href="#/workflows-concept">workflow</a>
+<ul>
+<li>compromessi organizzativi (costo, conformità, time-to-market) nella sezione <a href="#/which-technique">Quale tecnica?</a></li>
 </ul>
 </li>
 </ul>
@@ -2434,49 +2750,238 @@ P -&gt; U: “A Cesena sono le …”
 </ul>
 <p style="font-size: 50%; opacity: 0.8; margin-top: 0.5em;"><b>Nota</b>: dal 18 giugno 2026, <i>Gemini CLI</i> è sostituito da <a href="https://antigravity.google/">Antigravity CLI</a> per gli utenti gratuiti, Google AI Pro e Ultra (gli utenti enterprise e delle API a pagamento mantengono Gemini CLI); skill, hook, subagenti ed estensioni (come <i>plugin</i>) vengono trasferiti, senza equivalenza completa delle funzionalità (cfr. <a href="https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/">l'annuncio di Google</a>)</p>
 </section>
-<section data-noprocess="" data-shortcode-slide="" id="skills-openclaw">
-<h2 id="esempio-5-usare-skill-da-openclaw">Esempio 5: usare skill da OpenClaw</h2>
-<div style="font-size: 85%;">
+<section data-noprocess="" data-shortcode-slide="" id="hooks">
+<h2 id="hook-il-concetto-generale">Hook: il concetto generale</h2>
+<img src="./hook-lifecycle.svg" alt="Il ciclo dell'agente con gli eventi degli hook: SessionStart prima del primo prompt (aggiunge contesto, es. le regole di una skill); UserPromptSubmit quando l'utente scrive (blocca il prompt o aggiunge contesto); dentro il ciclo ReAct, PreToolUse prima di ogni chiamata a tool (consenti, nega, chiedi, modifica argomenti) e PostToolUse dopo (aggiunge contesto o blocca); PreCompact quando il contesto è pieno; Stop quando l'agente vuole terminare il turno (può costringerlo a continuare)" style="max-width: calc(95 * 19.2px); max-height: calc(34 * 10.8px); object-fit: contain;">
+<ul>
+<li>Un <strong>hook</strong> è codice <em>deterministico</em> che l’harness esegue a determinati <strong>eventi</strong> del ciclo di vita dell’agente
+<ul>
+<li>riceve i dati dell’evento (es. nome e argomenti del tool) e può <strong>consentire</strong>, <strong>negare</strong> o <strong>modificare</strong> ciò che accade, oppure aggiungere <em>contesto</em></li>
+</ul>
+</li>
+<li>Skill e hook: <strong>suggerimenti</strong> e <strong>politiche</strong>
+<ul>
+<li>una skill <em>chiede</em> all’LLM di fare qualcosa: l’LLM può non farlo</li>
+<li>un hook <em>garantisce</em> che qualcosa accada (o non accada), qualunque cosa decida l’LLM: gira <em>fuori</em> dall’LLM</li>
+</ul>
+</li>
+<li>Usi tipici: <em>guardrail</em> (bloccare comandi pericolosi), <em>automazione</em> (formattare il codice dopo ogni modifica), <em>iniezione di contesto</em> (le regole di una skill, all’avvio), <em>audit</em> (registrare ogni chiamata a tool)</li>
+</ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="skills-ponytail">
+<h2 id="esempio-5-anatomia-di-una-skill-reale-ponytail-pt-1">Esempio 5: anatomia di una skill reale, ponytail (pt. 1)</h2>
 <blockquote>
-<p><strong>Obiettivo</strong>: due skill per la commissione, <a href="../lab-snippets/snippets/lecture_skills/example1/phd-application-review/SKILL.md"><code>phd-application-review</code></a> e <a href="../lab-snippets/snippets/lecture_skills/example1/admission-letter/SKILL.md"><code>admission-letter</code></a> (cartelle in <a href="../lab-snippets/snippets/lecture_skills/example1/__init__.py"><code>snippets/lecture_skills/example1/</code></a>), usate da un <em>agente locale</em> senza scrivere codice</p>
+<p><strong>Obiettivo</strong>: smontare una skill <em>reale</em> e molto diffusa, <a href="https://github.com/DietrichGebert/ponytail">ponytail</a> (licenza MIT, ~178.000 stelle su GitHub a ottobre 2026), che fa comportare un agente di programmazione come un “<em>senior pigro</em>”: niente codice superfluo, prima la libreria standard, il diff più corto</p>
 </blockquote>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-6" style="text-align: left;"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>ponytail/
+</span></span><span style="display:flex;"><span>├── skills/                  <span style="color:#8f5902;font-style:italic"># le skill (standard)</span>
+</span></span><span style="display:flex;"><span>│   ├── ponytail/SKILL.md    <span style="color:#8f5902;font-style:italic"># la skill principale</span>
+</span></span><span style="display:flex;"><span>│   ├── ponytail-review/SKILL.md
+</span></span><span style="display:flex;"><span>│   └── ...                  <span style="color:#8f5902;font-style:italic"># audit, debt, gain, help</span>
+</span></span><span style="display:flex;"><span>├── .claude-plugin/          <span style="color:#8f5902;font-style:italic"># il pacchetto per Claude Code</span>
+</span></span><span style="display:flex;"><span>│   ├── marketplace.json     <span style="color:#8f5902;font-style:italic"># il repo è anche un "negozio"</span>
+</span></span><span style="display:flex;"><span>│   └── plugin.json          <span style="color:#8f5902;font-style:italic"># nome, versione, hook, opzioni</span>
+</span></span><span style="display:flex;"><span>├── hooks/                   <span style="color:#8f5902;font-style:italic"># codice eseguito dall'harness</span>
+</span></span><span style="display:flex;"><span>│   └── ponytail-activate.js <span style="color:#8f5902;font-style:italic"># ... a ogni avvio di sessione</span>
+</span></span><span style="display:flex;"><span>├── .openclaw/skills/  .codex-plugin/  .cursor/rules/
+</span></span><span style="display:flex;"><span>├── AGENTS.md  ...           <span style="color:#8f5902;font-style:italic"># adattatori per altri harness</span>
+</span></span><span style="display:flex;"><span>└── README.md, INSTALL.md
+</span></span></code></pre></div><div style="font-size: 70%;">
+<p>Estratto dell’albero del repository, commit <a href="https://github.com/DietrichGebert/ponytail/tree/09c434ab73ca43761c5d8b0c5d341926c2fba710"><code>09c434a</code></a> (18 ottobre 2026)</p>
+</div>
+</div>
+<div class="col col-6" style="text-align: left;"><ul>
+<li>Il cuore è una <strong>skill</strong> (cartella con <code>SKILL.md</code>, cfr. <a href="#/writing-skills">anatomia</a>): <em>solo istruzioni</em>, nessuno script</li>
+<li>Attorno, un <strong>plugin</strong>: il <em>pacchetto</em> con cui un harness installa <em>insieme</em> skill, comandi, <a href="#/hooks">hook</a> (ed eventualmente server MCP)</li>
+<li>La <em>stessa</em> skill è <em>adattata</em> a una dozzina di harness (Claude Code, Codex, Cursor, OpenClaw, Gemini CLI, …)
 <ul>
-<li>
-<p><a href="https://docs.openclaw.ai/">OpenClaw</a>: harness agentico open source (MIT), self-hosted, accessibile dal terminale o da app di messaggistica</p>
-<ul>
-<li>installazione (richiede Node.js): <code>npm install -g openclaw@latest</code>, poi <code>openclaw onboard</code></li>
-<li>funziona con modelli <em>locali</em> tramite Ollama (es. <code>openclaw models set ollama/&lt;model&gt;</code>) o qualunque endpoint <em>compatibile con OpenAI</em> (cfr. <a href="https://docs.openclaw.ai/concepts/model-providers/custom-providers">fornitori personalizzati</a>)</li>
+<li>la portabilità del <a href="#/skills-landscape">metamodello</a> vale per <code>SKILL.md</code>; plugin, hook e regole restano <strong>specifici</strong> di ogni harness</li>
 </ul>
 </li>
-<li>
-<p>Per far trovare le skill a OpenClaw, aggiungere la cartella dell’esempio a <code>skills.load.extraDirs</code> in <code>~/.openclaw/openclaw.json</code></p>
+</ul>
+</div>
+</div>
+</div>
+</section><section>
+<h2 id="esempio-5-anatomia-di-una-skill-reale-ponytail-pt-2">Esempio 5: anatomia di una skill reale, ponytail (pt. 2)</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-6" style="text-align: left;"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">---</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">ponytail</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  Lazy senior dev mode: the smallest change that fully
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  solves the task, and a reply a busy human understands
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  in one read. Use on any coding task (writing, fixing,
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  refactoring, reviewing, choosing dependencies) and when
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  the user says "ponytail", "be lazy", "simplest
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  solution", "yagni", or complains about
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  over-engineering or bloat. Levels: lite, full
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  (default), ultra.</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">argument-hint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"[lite|full|ultra|off]"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">license</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">MIT</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#000">---</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000080;font-weight:bold"># Ponytail
+</span></span></span><span style="display:flex;"><span>You are a lazy senior developer. [...]
+</span></span><span style="display:flex;"><span><span style="color:#800080;font-weight:bold">## The smallest complete change
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Take the first option that fully works:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">1.</span> Does it need to exist? [...]
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">2.</span> Already in this codebase? [...]
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">3.</span> Standard library or a platform feature? Use it [...]
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">4.</span> An installed dependency? Use it. [...]
+</span></span></code></pre></div><div style="font-size: 70%;">
+<p>Estratto di <a href="https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/skills/ponytail/SKILL.md"><code>skills/ponytail/SKILL.md</code></a> (52 righe in tutto)</p>
+</div>
+</div>
+<div class="col col-6" style="text-align: left;"><ul>
+<li>Si noti che:
+<ul>
+<li>la <code>description</code> dice <em>cosa</em> fa e <em>quando</em> usarla, con le <strong>parole chiave</strong> che l’utente potrebbe scrivere ("<em>be lazy</em>", “<em>yagni</em>”)</li>
+<li><code>argument-hint</code> è un’<em>estensione</em> di Claude Code: suggerisce gli argomenti di <code>/ponytail lite</code>, <code>/ponytail ultra</code>, …</li>
+<li>il corpo è una <strong>procedura</strong> in linguaggio naturale: una <em>scala</em> di opzioni, da provare in ordine</li>
+<li>seguono i <em>limiti</em> ("<em>Never cut: validation at trust boundaries, […] security</em>") e i <em>livelli</em> (<code>lite</code>, <code>full</code>, <code>ultra</code>)</li>
+</ul>
+</li>
+<li>È <strong>memoria procedurale</strong> (cfr. <a href="#/skills-concept">skill</a>): <em>come</em> lavorare, non <em>cosa</em> sapere
+<ul>
+<li>chiunque legga l’inglese può <em>verificarla</em> (e <em>modificarla</em>): non serve saper programmare</li>
+</ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// To be merged into ~/.openclaw/openclaw.json: makes OpenClaw find the skills of this example (cf. https://docs.openclaw.ai/tools/skills)
+</div>
+</div>
+</div>
+</section><section>
+<h2 id="esempio-5-anatomia-di-una-skill-reale-ponytail-pt-3">Esempio 5: anatomia di una skill reale, ponytail (pt. 3)</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-6" style="text-align: left;"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// .claude-plugin/plugin.json (estratto)
 </span></span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000">skills</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">load</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#8f5902;font-style:italic">// absolute path of this folder, in YOUR clone of lab-snippets
-</span></span></span><span style="display:flex;"><span>      <span style="color:#000">extraDirs</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">"/path/to/lab-snippets/snippets/lecture_skills/example1"</span><span style="color:#000;font-weight:bold">],</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">},</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">"name"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"ponytail"</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">"version"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"5.3.2"</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">"hooks"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">"./hooks/claude-codex-hooks.json"</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">"./hooks/claude-band.json"</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">],</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">"userConfig"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">"webhookUrl"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">"type"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"string"</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">"description"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"Optional: an https address that gets
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        this task's row as JSON after every turn [...]
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        Empty: nothing leaves this machine."</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">"default"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">""</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">},</span> <span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><ul>
-<li>Verificarle e poi usarle:</li>
+</span></span></code></pre></div><div style="font-size: 70%;">
+<p>Estratto di <a href="https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/.claude-plugin/plugin.json"><code>.claude-plugin/plugin.json</code></a>, commit <code>09c434a</code></p>
+</div>
+</div>
+<div class="col col-6" style="text-align: left;"><ul>
+<li>Il <em>manifesto</em> del plugin dichiara, oltre al nome e alla versione:
+<ul>
+<li>i file che registrano gli <a href="#/hooks">hook</a>: uno per attivare la skill, uno per la “<em>band</em>”, la barra con costi e token del task, sopra il prompt</li>
+<li>le <em>opzioni</em> chieste all’utente all’installazione (<code>userConfig</code>)</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>openclaw skills list                     <span style="color:#8f5902;font-style:italic"># both skills should be listed, as "ready"</span>
-</span></span><span style="display:flex;"><span>openclaw agent --agent main --local --message <span style="color:#4e9a06">"Review the application of Mario Rossi"</span>
-</span></span><span style="display:flex;"><span>openclaw agent --agent main --local --message <span style="color:#4e9a06">"Draft the admission letter for Jean Dupont: we invite him to an interview"</span>
-</span></span></code></pre></div><ul>
-<li>Le <em>stesse</em> cartelle funzionano senza modifiche in Claude Code (<code>.claude/skills/</code>), Codex, Cursor, Copilot (<code>.agents/skills/</code>), …: provare a collegarle con <code>ln -s</code></li>
+</li>
+<li><code>webhookUrl</code>: dopo <em>ogni turno</em>, invia a un indirizzo esterno una riga JSON con le statistiche del task
+<ul>
+<li>progetto, nome del task (o il suo <em>primo prompt</em>), modello, costo, token, turni, esito dei test; non il codice</li>
+<li>pensato per dashboard di <em>team</em>; <strong>vuoto per default</strong>, solo <code>https</code>, token nel portachiavi di sistema</li>
 </ul>
+</li>
+<li>Funzionalità legittima, ma da <em>sapere</em>: un plugin “<em>di istruzioni</em>” contiene anche codice che <strong>può inviare dati</strong> fuori, senza che il <code>SKILL.md</code> lo dica</li>
+</ul>
+</div>
+</div>
+</div>
+</section><section>
+<h2 id="esempio-5-anatomia-di-una-skill-reale-ponytail-pt-4">Esempio 5: anatomia di una skill reale, ponytail (pt. 4)</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-6" style="text-align: left;"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// claude-codex-hooks.json: QUANDO eseguirlo
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">"SessionStart"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[{</span> <span style="color:#4e9a06">"matcher"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"startup|resume|clear|compact"</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">"hooks"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[{</span> <span style="color:#4e9a06">"command"</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">"node ... ponytail-activate.js"</span> <span style="color:#000;font-weight:bold">}]</span> <span style="color:#000;font-weight:bold">}]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// ponytail-activate.js: COSA fa (estratti)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 2. Emit the ponytail ruleset [...]
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">let</span> <span style="color:#000">output</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">getPonytailInstructions</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">mode</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 2b. Codebase map: what already exists [...]
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#000">map</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">execFileSync</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">process</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">execPath</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">[</span><span style="color:#000">path</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">join</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">__dirname</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">'ponytail-map.js'</span><span style="color:#000;font-weight:bold">)],</span> <span style="color:#000;font-weight:bold">...);</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">output</span> <span style="color:#ce5c00;font-weight:bold">+=</span> <span style="color:#4e9a06">'\n\n'</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">map</span><span style="color:#000;font-weight:bold">;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 3. Detect missing statusline config [...]
+</span></span></span><span style="display:flex;"><span><span style="color:#000">output</span> <span style="color:#ce5c00;font-weight:bold">+=</span> <span style="color:#4e9a06">"STATUSLINE SETUP NEEDED: [...] add this to "</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">settingsPath</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">": "</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">statusLineSnippet</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">" "</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#4e9a06">"Proactively offer to set this up for the user [...]"</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">writeHookOutput</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">'SessionStart'</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">mode</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">output</span><span style="color:#000;font-weight:bold">);</span>
+</span></span></code></pre></div><div style="font-size: 70%;">
+<p>Estratti di <a href="https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/claude-codex-hooks.json"><code>hooks/claude-codex-hooks.json</code></a> e <a href="https://github.com/DietrichGebert/ponytail/blob/09c434ab73ca43761c5d8b0c5d341926c2fba710/hooks/ponytail-activate.js"><code>hooks/ponytail-activate.js</code></a> (201 righe), commit <code>09c434a</code></p>
+</div>
+</div>
+<div class="col col-6" style="text-align: left;"><ul>
+<li>L’hook è un <em>programma</em> (Node.js) che Claude Code esegue a ogni <strong>avvio di sessione</strong> (e dopo <code>/clear</code> o una compattazione)</li>
+<li>Ciò che stampa diventa <strong>contesto</strong> per l’LLM, cioè <em>prompt</em>:
+<ol>
+<li>il corpo di <code>SKILL.md</code>: la skill è <strong>sempre attiva</strong>, anziché caricata solo quando pertinente (cfr. <a href="#/progressive-disclosure">caricamento progressivo</a>): più contesto a ogni richiesta, comportamento più <em>costante</em></li>
+<li>una <em>mappa</em> del codice del progetto, prodotta eseguendo un <em>altro</em> script</li>
+<li><em>istruzioni</em> all’agente: proporre all’utente di <strong>modificare</strong> <code>~/.claude/settings.json</code></li>
+</ol>
+</li>
+<li>Gli hook girano con i <em>propri</em> privilegi, fuori dalle sandbox (cfr. <a href="#/skills-security">minacce</a>): possono leggere file, eseguire programmi e “<em>parlare</em>” all’LLM
+<ul>
+<li>installando la sola cartella <code>skills/ponytail/</code>, nulla di tutto questo verrebbe eseguito</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="install-claude-code">
+<h2 id="esempio-5-installare-claude-code-e-la-skill-pt-5">Esempio 5: installare Claude Code e la skill (pt. 5)</h2>
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col col-6" style="text-align: left;"><ol>
+<li>Installare <a href="https://code.claude.com/docs/en/setup">Claude Code</a> (o con <code>brew install --cask claude-code</code>, <code>winget install Anthropic.ClaudeCode</code>)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>curl -fsSL https://claude.ai/install.sh <span style="color:#000;font-weight:bold">|</span> bash   <span style="color:#8f5902;font-style:italic"># macOS, Linux, WSL</span>
+</span></span><span style="display:flex;"><span>irm https://claude.ai/install.ps1 <span style="color:#000;font-weight:bold">|</span> iex          <span style="color:#8f5902;font-style:italic"># Windows</span>
+</span></span></code></pre></div><ol start="2">
+<li>Avviarlo <em>nella cartella di un progetto</em>, e accedere dal browser
+<ul>
+<li>serve un account Pro, Max, Team, Enterprise o Console (il piano gratuito di claude.ai <strong>non</strong> include Claude Code)</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87">cd</span> my-project <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> claude
+</span></span></code></pre></div><ol start="3">
+<li>Nel prompt di Claude Code, aggiungere il <em>marketplace</em> e installare il <em>plugin</em> (due prompt separati)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>/plugin marketplace add DietrichGebert/ponytail
+</span></span><span style="display:flex;"><span>/plugin install ponytail@ponytail
+</span></span></code></pre></div></div>
+<div class="col col-6" style="text-align: left;"><ul>
+<li>Cosa osservare (stessa richiesta <em>prima</em> e <em>dopo</em> l’installazione, es. “<em>aggiungi un selettore di date a questo form</em>”):
+<ul>
+<li><em>prima</em>: spesso una nuova dipendenza, un componente, un foglio di stile (l’esempio del README)</li>
+<li><em>dopo</em>: <code>&lt;input type="date"&gt;</code>, e una riga su ciò che è stato <em>omesso</em></li>
+<li><code>/ponytail ultra</code>: l’agente <em>contesta</em> la richiesta prima di scrivere codice</li>
+</ul>
+</li>
+<li>Gestione: <code>/plugin</code> elenca, disattiva e rimuove i plugin (<code>/plugin remove ponytail</code>)</li>
+<li>Alternativa <em>gratuita</em>: la stessa skill in <a href="https://docs.openclaw.ai/tools/skills">OpenClaw</a> con modelli locali (Ollama), copiando <a href="https://github.com/DietrichGebert/ponytail/tree/09c434ab73ca43761c5d8b0c5d341926c2fba710/.openclaw/skills"><code>.openclaw/skills/ponytail</code></a> in <code>~/.openclaw/skills/</code>
+<ul>
+<li>lo stesso vale per le skill della <a href="#/writing-skills">commissione</a>, in <a href="../lab-snippets/snippets/lecture_skills/example1/__init__.py"><code>snippets/lecture_skills/example1/</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="skills-from-scratch">
 <h2 id="skill-nei-propri-agenti">Skill nei propri agenti</h2>
 <ul>
 <li>Le skill non sono una prerogativa degli <em>agenti di programmazione</em>: qualsiasi agente può supportarle con poche righe di codice</li>
-<li>Cosa deve fare il <strong>controllore</strong> (cfr. <a href="#/agentic-ai">la metafora agentica</a>):
+<li>Cosa deve fare il <strong>controllore</strong> (cfr. <a href="#/agent-architecture">la metafora agentica</a>):
 <ol>
 <li><em>scoprire</em>: trovare i file <code>SKILL.md</code> nelle cartelle e interpretarne il front matter</li>
 <li><em>presentare</em>: inserire nome, descrizione e posizione di ogni skill nel <strong>system prompt</strong></li>
@@ -2626,6 +3131,50 @@ P -&gt; U: “A Cesena sono le …”
 <li>Le opzioni possono coesistere: es. prototipare una procedura come <em>skill</em> in un agente locale, poi <em>consolidarla</em> in un workflow o agente dedicato quando si dimostra utile</li>
 <li>Qualunque sia la scelta, l’<strong>organizzazione</strong> rimane responsabile di ciò che gli agenti fanno per suo conto</li>
 </ul>
+</section>
+<section data-noprocess="" data-shortcode-slide="" id="technique-selection">
+<h2 id="prompting-rag-e-fine-tuning-cosa-cambia">Prompting, RAG e fine-tuning: cosa cambia?</h2>
+<blockquote>
+<p>Con <a href="#/skills-vs-others">tool, workflow e skill</a> organizziamo le azioni e le procedure. Come adattiamo invece ciò che il modello <em>sa</em> e <em>produce</em>?</p>
+</blockquote>
+<table>
+	<thead>
+			<tr>
+					<th>Tecnica</th>
+					<th>Cosa cambia</th>
+					<th>Esempio</th>
+					<th>Cosa mantenere</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Prompting</strong></td>
+					<td>l’input: istruzioni, esempi, formato</td>
+					<td>spiegare come valutare una lettera</td>
+					<td>prompt e casi di valutazione</td>
+			</tr>
+			<tr>
+					<td><strong>RAG</strong> (richiamo alle lezioni dedicate)</td>
+					<td>i documenti recuperati e inseriti nel prompt</td>
+					<td>cercare l’articolo pertinente del regolamento</td>
+					<td>corpus, indice e recupero</td>
+			</tr>
+			<tr>
+					<td><strong>Fine-tuning</strong></td>
+					<td>i <strong>pesi</strong>, tramite ulteriore addestramento su esempi</td>
+					<td>adattare stile e formato a migliaia di rapporti già approvati</td>
+					<td>dataset, addestramento e rivalutazione</td>
+			</tr>
+	</tbody>
+</table>
+<ul>
+<li>Prompting e RAG usano il modello <strong>senza riaddestrarlo</strong>; il fine-tuning produce un <strong>modello derivato</strong></li>
+<li>Il fine-tuning richiede dati adeguati, risorse e una licenza che lo consenta; non è una banca dati aggiornabile documento per documento</li>
+<li>Le tecniche si <strong>combinano</strong>: un modello adattato può ricevere istruzioni, documenti recuperati e tool</li>
+</ul>
+<blockquote>
+<p>Partire dal prompting; aggiungere conoscenze, azioni o addestramento solo quando le valutazioni ne mostrano la necessità</p>
+</blockquote>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="which-technique">
 <h2 id="quale-tecnica-compromessi">Quale tecnica? Compromessi</h2>
@@ -2832,51 +3381,40 @@ P -&gt; U: “A Cesena sono le …”
 
 
 <section data-shortcode-section="">
-<section data-noprocess="" data-shortcode-slide="" id="mcp">
-<h2 id="model-context-protocol-mcp-il-concetto-generale">Model Context Protocol (MCP): il concetto generale</h2>
-<ul>
-<li><strong>Problema</strong>: finora i tool risiedono <em>dentro</em> il codice dell’agente
-<ul>
-<li>ogni agente reimplementa (o copia) i tool necessari</li>
-<li>ogni fornitore di tool deve scrivere un adattatore per ogni framework agentico (o app)</li>
+<section data-noprocess="" data-shortcode-slide="" id="agent-langchain">
+<h2 id="esempio-6-bis-lo-stesso-agente-con-langchain">Esempio 6 (bis): lo stesso agente con LangChain</h2>
+<blockquote>
+<p><strong>Obiettivo</strong>: delegare a una libreria il <a href="#/react">ciclo ReAct</a> che abbiamo appena implementato</p>
+</blockquote>
+<ol>
+<li>
+<p><code>ChatOpenAI</code> configura il modello; <code>create_agent</code> riceve <strong>modello</strong>, <strong>tool</strong> e <strong>istruzioni</strong> e costruisce il controllore:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">llm</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">ChatOpenAI</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">base_url</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">base_url</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">api_key</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">api_key</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">model</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">model</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># errors raised by tools (e.g. an unknown time zone) go back to the LLM as error messages, instead of crashing the run</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">tool_errors</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">ToolErrorMiddleware</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">lambda</span> <span style="color:#000">error</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">request</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">f</span><span style="color:#4e9a06">"Error: </span><span style="color:#4e9a06">{</span><span style="color:#000">error</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">"</span> <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#204a87">isinstance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">error</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#c00;font-weight:bold">ValueError</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#204a87;font-weight:bold">None</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">agent</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">create_agent</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">llm</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tools</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tools</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">system_prompt</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">instructions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">middleware</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">tool_errors</span><span style="color:#000;font-weight:bold">])</span>  <span style="color:#8f5902;font-style:italic"># tools derived from functions</span>
+</span></span></code></pre></div><ul>
+<li>le funzioni Python diventano tool tramite docstring e annotazioni di tipo</li>
+<li><code>tool_errors</code> restituisce gli errori previsti dei tool al modello, così che possa correggere la chiamata</li>
 </ul>
 </li>
-<li><a href="https://modelcontextprotocol.io"><strong>MCP</strong></a> è un <em>protocollo aperto</em> per esporre tool (e altro) alle applicazioni basate su LLM in modo <em>standard</em> (cfr. <a href="https://modelcontextprotocol.io/specification">specifica</a>)
+<li>
+<p>L’agente riceve e restituisce uno <strong>stato</strong>: <code>messages</code> contiene l’intera conversazione, incluse chiamate e risultati dei tool</p>
 <ul>
-<li>“una porta USB-C per le applicazioni IA”: $N$ app + $M$ fornitori di tool richiedono $N + M$ adattatori, anziché $N \times M$</li>
-<li>introdotto da Anthropic (2024), ora supportato dalla maggior parte dei fornitori e framework e governato dalla Linux Foundation</li>
+<li><code>.invoke(...)</code> esegue il ciclo; <code>.ainvoke(...)</code> è la variante asincrona usata nell’<a href="#/mcp-example">esempio MCP</a></li>
+<li><code>recursion_limit</code> limita i passi del grafo: non equivale al numero di chiamate LLM</li>
 </ul>
 </li>
-</ul>
-<img src="./mcp-n-plus-m.svg" alt="Senza MCP, 3 applicazioni (agente, IDE, chat) e 3 sistemi (documenti, database, e-mail) richiedono 3 per 3 uguale 9 adattatori su misura; con il protocollo MCP, 3 client più 3 server uguale 6 adattatori" style="max-width: calc(95 * 19.2px); max-height: calc(38 * 10.8px); object-fit: contain;">
-<ul>
-<li>MCP non cambia il <a href="#/react">ciclo ReAct</a>, solo <em>da dove</em> provengono i tool</li>
-</ul>
-</section><section>
-<h2 id="mcp-ruoli-e-trasporti">MCP: ruoli e trasporti</h2>
-<ul>
-<li>Ruoli:
-<ul>
-<li><strong>host</strong>: applicazione basata su LLM (es. agente, IDE, chat)</li>
-<li><strong>client</strong>: componente dell’host connesso a <em>un</em> server</li>
-<li><strong>server</strong>: programma che espone <em>tool</em> (funzioni), <em>risorse</em> (dati) e <em>prompt</em> (template)</li>
-</ul>
-</li>
-<li>Messaggi <a href="https://www.jsonrpc.org/specification">JSON-RPC</a>, es. <code>tools/list</code> (scoperta), <code>tools/call</code> (invocazione), su due <strong>trasporti</strong>:
-<ul>
-<li><em>stdio</em>: il server è un <em>sottoprocesso locale</em> dell’host e comunica tramite stdin/stdout</li>
-<li><em>streamable HTTP</em>: il server è un <em>servizio Web</em>, anche remoto, eventualmente con autenticazione (OAuth)</li>
-</ul>
-</li>
-<li>Dalla <a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">specifica del 28/07/2026</a> il protocollo è <em>stateless</em> (senza sessioni né handshake <code>initialize</code>); i server possono ancora chiedere input durante una chiamata (<em>elicitation</em>)</li>
-</ul>
-</section><section>
-<h2 id="mcp-un-esempio-intuitivo">MCP: un esempio intuitivo</h2>
-<img src="./mcp-gateway.svg" alt="Due modi per connettere un host MCP ai server: (a) direttamente, con un client MCP per server (simple-tools e fetch come processi stdio locali, più un server HTTP remoto), ripetendo configurazione e policy in ogni host; (b) tramite gateway MCP, un endpoint unico che aggrega, filtra, autentica, conserva segreti, registra, limita le richieste ed esegue i server in sandbox" style="max-width: calc(95 * 19.2px); max-height: calc(55 * 10.8px); object-fit: contain;">
-<ul>
-<li>I nostri tool si spostano in un <strong>server</strong>, usabile da <em>qualsiasi</em> host MCP: agente, IDE, chat, …</li>
-<li>Un <strong>gateway MCP</strong> è un <em>proxy</em> che aggrega più server dietro un endpoint: un unico punto per applicare <em>policy</em> (chi può chiamare cosa), conservare <em>segreti</em> e <em>registrare</em> le chiamate</li>
-</ul>
+<li>
+<p>Codice completo: <a href="../lab-snippets/snippets/lecture_agents/example1bis/agent_langchain.py"><code>agent_langchain.py</code></a>. Eseguire con:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span>poetry run python -m snippets -l agents -e 1bis
+</span></span></code></pre></div></li>
+</ol>
+<blockquote>
+<p>Il framework gestisce il ciclo; scelta dei tool, permessi e controlli rimangono responsabilità di chi progetta</p>
+</blockquote>
 </section>
 <section data-noprocess="" data-shortcode-slide="" id="mcp-example">
 <h2 id="esempio-7-tool-semplici-come-server-mcp-pt-1">Esempio 7: tool semplici come server MCP (pt. 1)</h2>
@@ -3010,7 +3548,7 @@ P -&gt; U: “A Cesena sono le …”
 </section><section>
 <h1 id="fine-della-lezione">Fine della lezione</h1>
 <br>
-<p>Generato il: 2026-10-26
+<p>Generato il: 2026-10-27
  — <a href="?print-pdf&amp;pdfSeparateFragments=false"><i class="fa fa-print" aria-hidden="true"></i> versione stampabile</a></p>
 <p><a href="../#/toc"><i class="fa fa-undo" aria-hidden="true"></i> torna all’indice</a></p>
 </section>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 730" font-family="Signika Negative, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#222">
+<defs><marker id="m2690e7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2690e7"/></marker><marker id="m3a9a5b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a9a5b"/></marker><marker id="me7a626" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e7a626"/></marker><marker id="md64545" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d64545"/></marker><marker id="m555" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<line x1="120" y1="40" x2="170" y2="40" stroke="#2690e7" stroke-width="3" marker-end="url(#m2690e7)"/>
+<text x="182" y="46" font-size="19" text-anchor="start">passo LLM</text>
+<line x1="380" y1="40" x2="430" y2="40" stroke="#3a9a5b" stroke-width="3" marker-end="url(#m3a9a5b)"/>
+<text x="442" y="46" font-size="19" text-anchor="start">passo sui dati</text>
+<line x1="640" y1="40" x2="690" y2="40" stroke="#e7a626" stroke-width="3" marker-end="url(#me7a626)"/>
+<text x="702" y="46" font-size="19" text-anchor="start">input utente</text>
+<line x1="900" y1="40" x2="950" y2="40" stroke="#d64545" stroke-width="3" marker-end="url(#md64545)"/>
+<text x="962" y="46" font-size="19" text-anchor="start">azione</text>
+<text x="1180" y="46" font-size="19" text-anchor="start">nodo = stato · arco = transizione (passo)</text>
+<text x="1180" y="74" font-size="19" text-anchor="start" fill="#555">[...] = guardia sulla memoria</text>
+<circle cx="60" cy="190" r="18" fill="#555"/>
+<text x="60" y="238" font-size="17" fill="#555">inizio</text>
+<circle cx="60" cy="430" r="18" fill="#fff" stroke="#555" stroke-width="3"/><circle cx="60" cy="430" r="10" fill="#555"/>
+<text x="60" y="398" font-size="17" fill="#555">fine</text>
+<rect x="265.0" y="145.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3"/>
+<text x="380" y="186" font-size="21" font-weight="600">certificati letti</text>
+<text x="380" y="216" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">+ transcripts</text>
+<rect x="705.0" y="145.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3"/>
+<text x="820" y="186" font-size="21" font-weight="600">ammissibilità nota</text>
+<text x="820" y="216" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">+ problems</text>
+<rect x="1155.0" y="145.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3"/>
+<text x="1270" y="186" font-size="21" font-weight="600">lettere valutate</text>
+<text x="1270" y="216" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">+ scores</text>
+<rect x="1155.0" y="385.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3"/>
+<text x="1270" y="426" font-size="21" font-weight="600">graduatoria pronta</text>
+<text x="1270" y="456" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">+ ranking</text>
+<rect x="705.0" y="385.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3" stroke-dasharray="4 4"/>
+<text x="820" y="426" font-size="21" font-weight="600">attesa commissione</text>
+<text x="820" y="456" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">esecuzione sospesa</text>
+<rect x="265.0" y="385.0" width="230" height="90" rx="40" fill="#fff" stroke="#333" stroke-width="3"/>
+<text x="380" y="426" font-size="21" font-weight="600">candidati avvisati</text>
+<text x="380" y="456" font-size="16" fill="#7e57c2" font-family="Menlo, Consolas, monospace">+ approved, notified</text>
+<path d="M80,190 L261.0,190" fill="none" stroke="#2690e7" stroke-width="3" marker-end="url(#m2690e7)"/>
+<text x="172.5" y="160" font-size="17" fill="#2690e7" text-anchor="middle" font-weight="600">leggere i certificati</text>
+<text x="172.5" y="182" font-size="17" fill="#555" text-anchor="middle" font-style="italic">×N, in parallelo</text>
+<path d="M495.0,190 L701.0,190" fill="none" stroke="#3a9a5b" stroke-width="3" marker-end="url(#m3a9a5b)"/>
+<text x="600.0" y="174" font-size="17" fill="#3a9a5b" text-anchor="middle" font-weight="600">verificare l'ammissibilità</text>
+<path d="M935.0,190 L1151.0,190" fill="none" stroke="#2690e7" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#m2690e7)"/>
+<text x="1045.0" y="152" font-size="17" fill="#555" text-anchor="middle" font-style="italic">[alcuni idonei]</text>
+<text x="1045.0" y="174" font-size="17" fill="#2690e7" text-anchor="middle" font-weight="600">valutare le lettere</text>
+<path d="M1270,235.0 L1270,381.0" fill="none" stroke="#3a9a5b" stroke-width="3" marker-end="url(#m3a9a5b)"/>
+<text x="1284" y="316.0" font-size="17" fill="#3a9a5b" text-anchor="start" font-weight="600">stilare la graduatoria</text>
+<path d="M820,235.0 L820,381.0" fill="none" stroke="#e7a626" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#me7a626)"/>
+<text x="834" y="304.0" font-size="17" fill="#555" text-anchor="start" font-style="italic">[nessuno idoneo]</text>
+<text x="834" y="326.0" font-size="17" fill="#e7a626" text-anchor="start" font-weight="600">chiedere l'approvazione</text>
+<path d="M1155.0,430 L939.0,430" fill="none" stroke="#e7a626" stroke-width="3" marker-end="url(#me7a626)"/>
+<text x="1045.0" y="392" font-size="17" fill="#e7a626" text-anchor="middle" font-weight="600">chiedere</text>
+<text x="1045.0" y="414" font-size="17" fill="#e7a626" text-anchor="middle" font-weight="600">l'approvazione</text>
+<path d="M705.0,430 L499.0,430" fill="none" stroke="#d64545" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#md64545)"/>
+<text x="600.0" y="392" font-size="17" fill="#555" text-anchor="middle" font-style="italic">[risposta: sì]</text>
+<text x="600.0" y="414" font-size="17" fill="#d64545" text-anchor="middle" font-weight="600">avvisare i candidati</text>
+<path d="M265.0,430 L82,430" fill="none" stroke="#555" stroke-width="3" marker-end="url(#m555)"/>
+<path d="M820,475.0 C820,550 60,550 60,452" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#m555)"/>
+<text x="480.0" y="554" font-size="17" fill="#555" text-anchor="middle" font-style="italic">[risposta: no]: nessun invio</text>
+<rect x="40" y="580" width="1520" height="130" rx="12" fill="#7e57c2" fill-opacity="0.10" stroke="#7e57c2" stroke-width="3"/>
+<text x="800" y="616" font-size="23" font-weight="600" fill="#7e57c2">Memoria (in LangGraph: lo <tspan font-family="Menlo, Consolas, monospace">State</tspan>), salvata dopo ogni transizione: un checkpoint</text>
+<text x="800" y="652" font-size="20" font-family="Menlo, Consolas, monospace">run · candidates · transcripts · problems · scores · ranking · approved · notified</text>
+<text x="800" y="688" font-size="19" font-style="italic" fill="#555">in ogni stato, la transizione da seguire dipende dagli archi uscenti e dal contenuto della memoria</text>
+</svg>

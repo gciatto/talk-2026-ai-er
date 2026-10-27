@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 735" font-family="Signika Negative, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#222">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<text x="275" y="40" font-size="28" font-weight="600">(a) tool locale</text>
+<rect x="25" y="65" width="500" height="215" rx="10" fill="#2b6cb0" fill-opacity="0.08" stroke="#2b6cb0" stroke-width="3" />
+<text text-anchor="start" x="45" y="95" font-size="20" font-weight="600" fill="#2b6cb0">fornitore LLM (cloud)</text>
+<rect x="25" y="320" width="500" height="300" rx="10" fill="#3a9a5b" fill-opacity="0.08" stroke="#3a9a5b" stroke-width="3" />
+<text text-anchor="start" x="45" y="605" font-size="20" font-weight="600" fill="#3a9a5b">organizzazione</text>
+<rect x="185" y="140" width="180" height="70" rx="10" fill="#2b6cb0" fill-opacity="0.18" stroke="#2b6cb0" stroke-width="3" /><text x="275" y="183" font-size="22" font-weight="600">LLM</text>
+<rect x="55" y="380" width="440" height="90" rx="10" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="3" />
+<text x="145" y="432" font-size="20">applicazione</text>
+<rect x="255" y="395" width="220" height="60" rx="10" fill="#e7a626" fill-opacity="0.25" stroke="#e7a626" stroke-width="3" /><text x="365" y="432" font-size="20" font-weight="600">tool (funzione)</text>
+<rect x="55" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="125.0" y="542" font-size="17">file</text><rect x="205" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="275.0" y="542" font-size="17">DB / API interne</text><rect x="355" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="425.0" y="542" font-size="17">segreti (env)</text>
+<rect x="40" y="368" width="470" height="205" rx="14" fill="none" stroke="#d9534f" stroke-width="4" stroke-dasharray="12,7"/>
+<line x1="275" y1="210" x2="275" y2="380" stroke="#555" stroke-width="3" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="275" y="660" font-size="19">vede ciò che vede l'applicazione:</text><text x="275" y="686" font-size="19">file, rete interna, segreti</text>
+<text x="800" y="40" font-size="28" font-weight="600">(b) tool remoto</text>
+<rect x="550" y="65" width="500" height="215" rx="10" fill="#2b6cb0" fill-opacity="0.08" stroke="#2b6cb0" stroke-width="3" />
+<text text-anchor="start" x="570" y="95" font-size="20" font-weight="600" fill="#2b6cb0">fornitore LLM (cloud)</text>
+<rect x="550" y="320" width="500" height="300" rx="10" fill="#3a9a5b" fill-opacity="0.08" stroke="#3a9a5b" stroke-width="3" />
+<text text-anchor="start" x="570" y="605" font-size="20" font-weight="600" fill="#3a9a5b">organizzazione</text>
+<rect x="710" y="140" width="180" height="70" rx="10" fill="#2b6cb0" fill-opacity="0.18" stroke="#2b6cb0" stroke-width="3" /><text x="800" y="183" font-size="22" font-weight="600">LLM</text>
+<rect x="580" y="400" width="170" height="80" rx="10" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="3" /><text x="665" y="447" font-size="20">applicazione</text>
+<rect x="790" y="250" width="240" height="340" rx="12" fill="#fff" fill-opacity="0.9" stroke="#888" stroke-width="3" stroke-dasharray="8,6"/>
+<text x="910" y="282" font-size="18" font-weight="600">altro ambiente</text><text x="910" y="306" font-size="16">(sandbox interna, o di terzi)</text>
+<rect x="810" y="330" width="200" height="80" rx="10" fill="#e7a626" fill-opacity="0.25" stroke="#e7a626" stroke-width="3" /><text x="910" y="365" font-size="20" font-weight="600">tool</text><text x="910" y="392" font-size="16">es. server MCP</text>
+<rect x="810" y="445" width="200" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="910.0" y="477" font-size="17">DB / API</text><rect x="810" y="515" width="200" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="910.0" y="547" font-size="17">segreti propri</text>
+<rect x="782" y="242" width="256" height="356" rx="14" fill="none" stroke="#d9534f" stroke-width="4" stroke-dasharray="12,7"/>
+<line x1="665" y1="210" x2="665" y2="400" stroke="#555" stroke-width="3" marker-start="url(#a)" marker-end="url(#a)"/>
+<line x1="750" y1="440" x2="810" y2="390" stroke="#555" stroke-width="3" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="665" y="515" font-size="16" fill="#555">invia solo</text><text x="665" y="537" font-size="16" fill="#555">gli argomenti</text>
+<text x="800" y="660" font-size="19">vede solo il proprio ambiente</text><text x="800" y="686" font-size="19">e gli argomenti ricevuti</text>
+<text x="1325" y="40" font-size="28" font-weight="600">(c) tool del fornitore</text>
+<rect x="1075" y="65" width="500" height="215" rx="10" fill="#2b6cb0" fill-opacity="0.08" stroke="#2b6cb0" stroke-width="3" />
+<text text-anchor="start" x="1095" y="95" font-size="20" font-weight="600" fill="#2b6cb0">fornitore LLM (cloud)</text>
+<rect x="1075" y="320" width="500" height="300" rx="10" fill="#3a9a5b" fill-opacity="0.08" stroke="#3a9a5b" stroke-width="3" />
+<text text-anchor="start" x="1095" y="605" font-size="20" font-weight="600" fill="#3a9a5b">organizzazione</text>
+<rect x="1115" y="140" width="180" height="70" rx="10" fill="#2b6cb0" fill-opacity="0.18" stroke="#2b6cb0" stroke-width="3" /><text x="1205" y="183" font-size="22" font-weight="600">LLM</text>
+<rect x="1355" y="115" width="190" height="70" rx="10" fill="#e7a626" fill-opacity="0.25" stroke="#e7a626" stroke-width="3" /><text x="1450" y="157" font-size="20" font-weight="600">tool</text>
+<text x="1450" y="215" font-size="16">sandbox del fornitore,</text><text x="1450" y="238" font-size="16">Web, file caricati</text>
+<rect x="1340" y="105" width="220" height="150" rx="14" fill="none" stroke="#d9534f" stroke-width="4" stroke-dasharray="12,7"/>
+<line x1="1295" y1="175" x2="1355" y2="150" stroke="#555" stroke-width="3" marker-start="url(#a)" marker-end="url(#a)"/>
+<rect x="1105" y="390" width="180" height="80" rx="10" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="3" /><text x="1195" y="437" font-size="20">applicazione</text>
+<g opacity="0.45"><rect x="1105" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="1175.0" y="542" font-size="17">file</text><rect x="1255" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="1325.0" y="542" font-size="17">DB / API interne</text><rect x="1405" y="510" width="140" height="50" rx="10" fill="#888" fill-opacity="0.08" stroke="#888" stroke-width="2" /><text x="1475.0" y="542" font-size="17">segreti (env)</text></g>
+<line x1="1195" y1="210" x2="1195" y2="390" stroke="#555" stroke-width="3" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="1435" y="437" font-size="17" fill="#555">non visibili</text><text x="1435" y="460" font-size="17" fill="#555">al tool</text>
+<text x="1325" y="660" font-size="19">vede solo l'ambiente del fornitore:</text><text x="1325" y="686" font-size="19">i dati escono dall'organizzazione</text>
+<line x1="537.5" y1="20" x2="537.5" y2="700" stroke="#999" stroke-width="2" stroke-dasharray="6,6"/>
+<line x1="1062.5" y1="20" x2="1062.5" y2="700" stroke="#999" stroke-width="2" stroke-dasharray="6,6"/>
+<line x1="1240" y1="715" x2="1290" y2="715" stroke="#d9534f" stroke-width="4" stroke-dasharray="12,7"/><text text-anchor="start" x="1300" y="721" font-size="18">ambiente visibile al tool</text>
+</svg>

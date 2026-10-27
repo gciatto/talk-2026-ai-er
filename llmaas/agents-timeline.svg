@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 410" font-family="Signika Negative, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#222">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<rect x="80.0" y="250" width="1225.945945945946" height="70" rx="12" fill="#3a9a5b" fill-opacity="0.15" stroke="#3a9a5b" stroke-width="3"/>
+<rect x="1325.4054054054054" y="250" width="194.59459459459458" height="70" rx="12" fill="#2690e7" fill-opacity="0.18" stroke="#2690e7" stroke-width="3"/>
+<text x="692.972972972973" y="280" font-size="21" font-weight="600">rappresentazione del mondo e deliberazione: scritte a mano</text>
+<text x="692.972972972973" y="306" font-size="18" fill="#555">(logica, regole, ontologie, piani): costose, fragili, per domini ristretti</text>
+<text x="1422.7027027027027" y="280" font-size="22" font-weight="600">LLM</text>
+<text x="1422.7027027027027" y="306" font-size="17" fill="#555">dal linguaggio naturale</text>
+<line x1="80.0" y1="360" x2="1540.0" y2="360" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
+<line x1="80.0" y1="352" x2="80.0" y2="368" stroke="#555" stroke-width="2"/>
+<text x="80.0" y="395" font-size="18" fill="#555">1990</text>
+<line x1="274.5945945945946" y1="352" x2="274.5945945945946" y2="368" stroke="#555" stroke-width="2"/>
+<text x="274.5945945945946" y="395" font-size="18" fill="#555">1995</text>
+<line x1="469.18918918918916" y1="352" x2="469.18918918918916" y2="368" stroke="#555" stroke-width="2"/>
+<text x="469.18918918918916" y="395" font-size="18" fill="#555">2000</text>
+<line x1="663.7837837837837" y1="352" x2="663.7837837837837" y2="368" stroke="#555" stroke-width="2"/>
+<text x="663.7837837837837" y="395" font-size="18" fill="#555">2005</text>
+<line x1="858.3783783783783" y1="352" x2="858.3783783783783" y2="368" stroke="#555" stroke-width="2"/>
+<text x="858.3783783783783" y="395" font-size="18" fill="#555">2010</text>
+<line x1="1052.972972972973" y1="352" x2="1052.972972972973" y2="368" stroke="#555" stroke-width="2"/>
+<text x="1052.972972972973" y="395" font-size="18" fill="#555">2015</text>
+<line x1="1247.5675675675675" y1="352" x2="1247.5675675675675" y2="368" stroke="#555" stroke-width="2"/>
+<text x="1247.5675675675675" y="395" font-size="18" fill="#555">2020</text>
+<line x1="1442.162162162162" y1="352" x2="1442.162162162162" y2="368" stroke="#555" stroke-width="2"/>
+<text x="1442.162162162162" y="395" font-size="18" fill="#555">2025</text>
+<text x="274.5945945945946" y="60" font-size="19" fill="#222" font-weight="600">1995: l'IA come studio</text>
+<text x="274.5945945945946" y="86" font-size="19" fill="#222">degli agenti (Russell &amp; Norvig);</text>
+<text x="274.5945945945946" y="112" font-size="19" fill="#222">agenti intelligenti (Wooldridge</text>
+<text x="274.5945945945946" y="138" font-size="19" fill="#222">&amp; Jennings); BDI (Rao &amp; Georgeff)</text>
+<line x1="274.5945945945946" y1="148" x2="274.5945945945946" y2="250" stroke="#3a9a5b" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="274.5945945945946" cy="360" r="8" fill="#3a9a5b"/>
+<text x="585.9459459459459" y="60" font-size="19" fill="#222" font-weight="600">anni 2000: sistemi multi-agente,</text>
+<text x="585.9459459459459" y="86" font-size="19" fill="#222">piattaforme e linguaggi</text>
+<text x="585.9459459459459" y="112" font-size="19" fill="#222">(es. JADE, Jason), standard FIPA</text>
+<line x1="585.9459459459459" y1="122" x2="585.9459459459459" y2="250" stroke="#3a9a5b" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="585.9459459459459" cy="360" r="8" fill="#3a9a5b"/>
+<text x="1348.7567567567532" y="60" font-size="19" fill="#222" font-weight="600">2022–23: ReAct,</text>
+<text x="1348.7567567567532" y="86" font-size="19" fill="#222">Toolformer: LLM che</text>
+<text x="1348.7567567567532" y="112" font-size="19" fill="#222">ragionano e usano tool</text>
+<line x1="1348.7567567567532" y1="122" x2="1348.7567567567532" y2="250" stroke="#2690e7" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="1348.7567567567532" cy="360" r="8" fill="#2690e7"/>
+<text x="1442.162162162162" y="160" font-size="19" fill="#222" font-weight="600">2024–25:</text>
+<text x="1442.162162162162" y="186" font-size="19" fill="#222">"Agentic AI"</text>
+<line x1="1442.162162162162" y1="196" x2="1442.162162162162" y2="250" stroke="#2690e7" stroke-width="2" stroke-dasharray="5,4"/>
+<circle cx="1442.162162162162" cy="360" r="8" fill="#2690e7"/>
+</svg>
