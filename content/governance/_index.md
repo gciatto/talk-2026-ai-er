@@ -75,6 +75,92 @@ outputs = ["Reveal"]
 
 ---
 
+{{< slide id="local-requirements" >}}
+
+## Eseguire modelli localmente: cosa serve? (pt. 1)
+
+### Il concetto generale: un modello è un’enorme raccolta di numeri
+
+- Un LLM è essenzialmente una raccolta di __parametri__ (o _pesi_), cioè numeri appresi durante l'addestramento
+    + la _dimensione_ del modello è il numero di parametri: es. `7B` = 7 miliardi di parametri, `70B` = 70 miliardi
+- Per __eseguire__ un modello (_inferenza_), tutti i pesi devono essere caricati nella _memoria_ del dispositivo che effettua il calcolo
+    + idealmente nella memoria della GPU (__VRAM__): le GPU sono molto più veloci delle CPU nelle moltiplicazioni matriciali su cui si basano gli LLM
+- Quindi l'__occupazione di memoria__ di un modello è approssimativamente:
+
+> __memoria in byte__ ≈ (numero di parametri × bit per parametro / 8) [_pesi_] + _cache KV_ [cresce con la lunghezza del contesto] + _overhead_
+
+- La __cache key-value (KV)__ conserva le _chiavi_ e i _valori_ dell'attenzione di ogni token elaborato finora...
+    + ... evitando di ricalcolarli per ogni nuovo token generato
+    + la sua dimensione _cresce linearmente_ con la _lunghezza del contesto_
+        + per questo i runtime locali (es. Ollama) usano una finestra di contesto predefinita _più piccola_ del massimo del modello
+- L'_overhead_ comprende buffer del runtime, attivazioni e contesto del driver: di solito circa il 10–20% in più
+
+---
+
+## Quantizzazione (pt. 1): il concetto
+
+- __Quantizzazione__ = rappresentare i pesi del modello con _meno bit_ (es. interi a 4 bit anziché numeri in virgola mobile a 16 bit)
+    + associando _intervalli_ di valori reali a pochi _livelli discreti_, più alcuni _fattori di scala_ (memorizzati per _blocco_ di pesi)
+- Perché?
+    + _meno memoria_ $\implies$ modelli più grandi sullo stesso hardware
+    + inferenza _più veloce_: lo spostamento dei pesi in memoria è il principale collo di bottiglia
+- A quale prezzo?
+    + _perdita di precisione_ $\implies$ un certo _peggioramento della qualità_, spesso trascurabile a 8 bit, visibile a 4 bit e forte sotto i 3 bit
+    + il peggioramento dipende dal compito (es. maggiore per matematica, codice e lingue diverse dall'inglese)
+
+{{< image src="./quantization.svg" max-h="40vh" alt="Istogramma a campana dei pesi fp16 mappato su 16 codici a quattro bit più un fattore di scala per blocco, ottenendo un istogramma approssimato a gradini" >}}
+
+{{< image src="./memory-footprint.svg" max-h="20vh" alt="Barre impilate della memoria richiesta (pesi più cache KV di 8mila token) da modelli 7B, 14B, 32B e 70B a precisione 16 bit, Q8_0 e Q4_K_M, confrontate con dispositivi da 8/16/24/48/80 GB" >}}
+
+---
+
+## Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama)
+
+- `F16` / `BF16`: nessuna quantizzazione (16 bit)
+- `Q8_0`: 8 bit (~8,5 bit per peso, inclusi i fattori di scala dei blocchi), quasi senza perdita
+- `Q4_K_M`: in media ~4,9 bit per peso
+    - `K` = _k-quants_ (superblocchi di pesi con fattori di scala dei sottoblocchi, anch'essi quantizzati)
+    - mix `M`edium (medio: alcuni tensori sensibili restano a precisione maggiore): il compromesso normalmente usato come __impostazione predefinita__
+- `Q2_K`, `Q3_K_S`, ...: più piccoli e con perdite crescenti (mix `S`mall = piccolo, `M`edium = medio, `L`arge = grande)
+- `IQ*`: quantizzazioni con _matrice d'importanza_, calibrate su testo campione per ridurre la perdita con pochissimi bit
+
+Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `...-q8_0` o `...-fp16` ne selezionano una specifica (cfr. scheda _"Tags"_ di ogni modello nel [catalogo Ollama](https://ollama.com/models))
+
+---
+
+{{< slide id="moe" >}}
+
+## Modelli Mixture-of-Experts: parametri totali e attivi
+
+- Alcuni modelli attivano soltanto un _sottoinsieme_ dei parametri per ogni token
+    + es. `gemma-4-26b-a4b-it` = 26B parametri _totali_, ~4B _attivi_ per token
+- La __memoria__ dipende dai parametri _totali_ (tutti gli esperti devono essere caricati), la __velocità__ da quelli _attivi_
+
+---
+
+{{< slide id="key-parameters" >}}
+
+## I parametri chiave, a colpo d'occhio
+
+{{% small "85%" %}}
+
+| Parametro | Dove trovarlo | Perché conta |
+|---|---|---|
+| __Dimensione__ (parametri; _totali_ vs. _attivi_, per MoE) | nome (es. `26b-a4b`), model card | qualità (indicativamente), memoria e hardware necessari, velocità |
+| __Costo__ | prezzo per 1M di token in ingresso / uscita (cloud); hardware + energia (locale) | budget operativo; varia tra fornitori per lo _stesso_ modello |
+| __Licenza__ | model card, file della licenza | cosa è _legalmente_ consentito: uso commerciale, fine-tuning, hosting, territorio |
+| __Finestra di contesto__ | model card, metadati del catalogo | quanti documenti / quanta cronologia entrano in una richiesta |
+| __Modalità__ | model card, badge (es. `vision`) | solo testo? immagini (es. documenti scansionati)? audio? |
+| __Capacità operative__ | badge, _parametri supportati_ (es. `tools`, `structured_outputs`) | può chiamare tool, produrre output strutturati, _ragionare_? |
+| __Lingue__ | model card, rapporto tecnico | l'italiano è supportato _bene_ (non soltanto "supportato")? |
+| __Limite temporale delle conoscenze__, __data di rilascio__ | model card | quanto è aggiornato; quanto manca alla sua _dismissione_ |
+
+{{% /small %}}
+
+- I metadati del catalogo sono _dichiarazioni_ del fornitore: __verificare__ ciò che conta per il proprio caso d'uso (cfr. [valutazione](#/evaluation))
+
+---
+
 ## Cataloghi di modelli (pt. 2): il panorama tecnologico
 
 {{% small "80%" %}}
@@ -112,29 +198,6 @@ outputs = ["Reveal"]
     + Open Router: filtrare la pagina dei modelli per _parametri supportati_ (es. `tools`, `structured_outputs`, `response_format`)
 - __Scegliere__ il modello adatto a un compito e __valutarlo__ sulla base di _evidenze_ sono decisioni che incidono su qualità, costo, controllo e conformità
     + ne parleremo [più avanti](#/model-selection), con un esercizio guidato di confronto dei modelli sull'esempio ricorrente
-
----
-
-{{< slide id="key-parameters" >}}
-
-## I parametri chiave, a colpo d'occhio
-
-{{% small "85%" %}}
-
-| Parametro | Dove trovarlo | Perché conta |
-|---|---|---|
-| __Dimensione__ (parametri; _totali_ vs. _attivi_, per MoE) | nome (es. `26b-a4b`), model card | qualità (indicativamente), memoria e hardware necessari, velocità |
-| __Costo__ | prezzo per 1M di token in ingresso / uscita (cloud); hardware + energia (locale) | budget operativo; varia tra fornitori per lo _stesso_ modello |
-| __Licenza__ | model card, file della licenza | cosa è _legalmente_ consentito: uso commerciale, fine-tuning, hosting, territorio |
-| __Finestra di contesto__ | model card, metadati del catalogo | quanti documenti / quanta cronologia entrano in una richiesta |
-| __Modalità__ | model card, badge (es. `vision`) | solo testo? immagini (es. documenti scansionati)? audio? |
-| __Capacità operative__ | badge, _parametri supportati_ (es. `tools`, `structured_outputs`) | può chiamare tool, produrre output strutturati, _ragionare_? |
-| __Lingue__ | model card, rapporto tecnico | l'italiano è supportato _bene_ (non soltanto "supportato")? |
-| __Limite temporale delle conoscenze__, __data di rilascio__ | model card | quanto è aggiornato; quanto manca alla sua _dismissione_ |
-
-{{% /small %}}
-
-- I metadati del catalogo sono _dichiarazioni_ del fornitore: __verificare__ ciò che conta per il proprio caso d'uso (cfr. [valutazione](#/evaluation))
 
 ---
 
@@ -272,6 +335,58 @@ Quando viene rilasciato un modello, possono essere pubblicati diversi __artefatt
     + es. usare _output_ Llama per addestrare un modello distribuito fa scattare il requisito Llama sul _nome_
     + i fornitori proprietari offrono _tutele contrattuali in caso di contestazioni per violazione del diritto d'autore_ relative agli output (es. Copilot Copyright Commitment di Microsoft, indennizzo per IA generativa di Google, Copyright Shield di OpenAI, termini commerciali di Anthropic), solitamente solo per piani a pagamento o enterprise e a determinate condizioni; le licenze a pesi aperti non ne offrono
     + in Italia sono protette soltanto le opere _umane_ ([L. 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg), Art. 25)
+
+---
+
+{{< slide id="regulation" >}}
+
+## La regolamentazione: il quadro generale
+
+Il software basato sull'IA è soggetto ad (almeno) quattro _livelli_ di regole, ciascuno con un _oggetto_ diverso:
+
+1. il __GDPR__ ([Reg. (UE) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj)) disciplina il trattamento dei __dati personali__, qualunque sia la tecnologia
+2. l'__AI Act dell'UE__ ([Reg. (UE) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)) disciplina i __sistemi di IA__ (in base al _rischio_ del loro _uso_) e i __modelli di IA per finalità generali__
+3. le __leggi nazionali__, es. la legge italiana sull'IA ([Legge 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg))
+4. le __policy dell'organizzazione__, es. le regole interne sull'uso dell'IA generativa
+
+più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamento dei dati) e le _licenze_ (dei modelli e dei dati)
+
+{{< image src="./regulation-layers.svg" max-h="35vh" alt="Livelli annidati di regole attorno a un'applicazione basata su LLM (licenze e termini di servizio, policy dell'organizzazione, Legge 132/2025, AI Act dell'UE, GDPR), ciascuno associato alla domanda a cui risponde" >}}
+
+> Avvertenza: è una panoramica da _ingegneri_, __non__ una consulenza legale: nei progetti reali coinvolgere l'_ufficio legale_ e il _Responsabile della protezione dei dati_ (DPO) della propria organizzazione
+
+---
+
+## AI Act dell'UE: un approccio basato sul rischio
+
+{{% multicol %}}
+{{% col %}}
+
+{{% small "85%" %}}
+
+- __Rischio inaccettabile__ $\rightarrow$ _vietato_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
+    + es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
+- __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/) e [Allegato III](https://artificialintelligenceact.eu/annex/3/))
+    + es. selezione dei CV, valutazione del credito e __istruzione__: sistemi per _determinare l’accesso o l’ammissione_ agli istituti (Allegato III, punto 3(a)), _valutare i risultati dell'apprendimento_ (3(b)) o _sorvegliare_ gli esami (3(d))
+- __Rischio di trasparenza__ $\rightarrow$ obblighi di _informazione_ ([Art. 50](https://artificialintelligenceact.eu/article/50/))
+    + es. i chatbot devono dichiarare di essere IA; i contenuti sintetici devono essere _marcati_; i deepfake devono essere _etichettati_
+- __Rischio minimo__ $\rightarrow$ nessun obbligo specifico
+    + es. filtri antispam, IA nei videogiochi
+- Su un piano distinto: __modelli di IA per finalità generali (GPAI)__, con obblighi per i _fornitori_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); rischio sistemico: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
+
+{{% /small %}}
+
+{{% /col %}}
+{{% col %}}
+
+{{< image src="./ai-act-pyramid.png" max-h="60vh" alt="Piramide dei rischi dell'AI Act, dall'alto: rischio inaccettabile (vietato), alto rischio (regolamentato), rischio limitato (trasparenza), rischio minimo (non regolamentato)" >}}
+
+{{% /col %}}
+{{% /multicol %}}
+
+{{% fragment %}}
+> Il nostro __esempio ricorrente è ad alto rischio__: contribuisce a decidere l'_ammissione_ a un dottorato. Lo stesso LLM, usato per riassumere notizie, sarebbe a rischio _minimo_: il regolamento disciplina l'__uso__, non la tecnologia
+{{% /fragment %}}
 
 ---
 
@@ -561,11 +676,81 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
 
 ---
 
+## Eseguire modelli localmente: cosa serve? (pt. 2)
+
+### Regola pratica per i soli pesi
+
+| Dimensione del modello | 32 bit (`fp32`) | 16 bit (`fp16`/`bf16`) | 8 bit (`int8`, `Q8_0`) | ~4 bit (`Q4_K_M`) |
+|-----------:|----------------:|-----------------------:|-----------------------:|------------------:|
+| 1B  | 4 GB   | 2 GB   | ~1 GB  | ~0.6 GB |
+| 7B  | 28 GB  | 14 GB  | ~7.5 GB | ~4.3 GB |
+| 14B | 56 GB  | 28 GB  | ~15 GB | ~8.6 GB |
+| 32B | 128 GB | 64 GB  | ~34 GB | ~20 GB  |
+| 70B | 280 GB | 140 GB | ~74 GB | ~43 GB  |
+
+- cioè GB ≈ miliardi di parametri × bit per peso / 8 (`Q8_0` ≈ 8,5 bit, `Q4_K_M` ≈ 4,9 bit, cfr. [documentazione sulla quantizzazione di llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md))
+- aggiungere ~10–20% di overhead del runtime e la cache KV (cresce con il contesto: diversi GB da 32mila token in su)
+- i modelli sono _addestrati_ a 16/32 bit, ma la maggior parte degli utenti locali li esegue a __8 o 4 bit__: è la _quantizzazione_
+
+{{% fragment %}}
+> Prima di scaricare un modello, __fare i conti__: se non entra in VRAM, il caricamento _fallirà_ oppure il modello sarà (parzialmente) _trasferito_ alla CPU, diventando _molto più lento_
+{{% /fragment %}}
+
+---
+
+## Eseguire modelli localmente: hardware e software (pt. 1)
+
+### Hardware
+
+- __GPU Nvidia__ (CUDA): la piattaforma di riferimento; conta soprattutto la VRAM (es. 8, 12, 16, 24 GB nelle schede consumer; 40–80+ GB per data center)
+- __GPU AMD__ (ROCm): supportate, con meno modelli di schede e più vincoli
+- __Apple Silicon__ (Metal): CPU e GPU condividono _memoria unificata_, quindi tutta la RAM (meno quella del sistema operativo) è utilizzabile dal modello
+- __Solo CPU__: funziona per modelli piccoli, ma con _pochi token al secondo_
+- __Offloading parziale__: gli strati che non entrano in VRAM vengono eseguiti sulla CPU; funziona, ma è molto più lento
+
+(cfr. <https://docs.ollama.com/gpu> per le GPU supportate)
+
+---
+
+## Eseguire modelli localmente: hardware e software (pt. 2)
+
+{{% small "85%" %}}
+
+### Quali modelli si possono eseguire sui diversi dispositivi? (indicativamente, quantizzazione a ~4 bit, contesto moderato)
+
+| Macchina | Dimensione del modello gestibile |
+|---------|-----------------------|
+| portatile, 8 GB RAM, senza GPU | ≤ 3B (lento) |
+| portatile, 16 GB di memoria unificata (Apple Silicon) | ≤ 8B |
+| desktop, GPU con 12–16 GB VRAM | ≤ 14B |
+| workstation, GPU con 24 GB VRAM (o 32–64 GB di memoria unificata) | ≤ 32B |
+| server, 2 GPU da 80 GB | ≤ 70B a 16 bit (140 GB, al limite), ~120B+ a 8 bit, più grandi con 4 bit o MoE |
+
+### Software
+
+- __Driver GPU__ aggiornati (CUDA per Nvidia, ROCm per AMD; Metal è integrato in macOS)
+- un __runtime__: [Ollama](https://ollama.com) (più semplice), [LM Studio](https://lmstudio.ai/) (GUI), [llama.cpp](https://github.com/ggml-org/llama.cpp) (a un livello più basso, con maggiore controllo sui dettagli di esecuzione), [vLLM](https://docs.vllm.ai/) (per server, alto throughput, molti utenti simultanei)
+    + tutti espongono un'API Web _compatibile con OpenAI_, quindi il codice client non cambia
+- verificare cosa è in esecuzione e _dove_ con `ollama ps` (su un portatile Apple Silicon):
+
+    ```text
+    NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER    UNTIL
+    gemma4:e2b    7fbdbf8f5e45    1.7 GB    100% GPU     4096                 4 minutes from now
+    ```
+
+    + `SIZE` è la memoria _effettivamente allocata_ (pesi in uso + cache KV); `ollama list` mostra invece la dimensione _su disco_ (7,2 GB per `gemma4:e2b`: tutti i pesi, inclusi embedding per strato ed encoder di immagini/audio)
+    + `PROCESSOR` indica se il modello è interamente sulla GPU o suddiviso tra CPU e GPU (es. `48%/52% CPU/GPU`)
+    + `CONTEXT` è la finestra di contesto in uso: il [valore predefinito](https://docs.ollama.com/context-length) di Ollama dipende dalla VRAM (4mila token sotto 24 GiB, 32mila fino a 48 GiB, 256mila oltre)
+
+{{% /small %}}
+
+---
+
 ## Esempio on-premise con Ollama, pt. 1
 
 0. Verificare di avere l'__hardware necessario__ (es. GPU Nvidia, Apple Silicon ecc.)
     + dettagli e avvertenze di configurazione: <https://docs.ollama.com/gpu>
-    + per capire se la memoria disponibile è _sufficiente_ a eseguire un modello: cfr. [Eseguire modelli localmente](#/local-requirements) più avanti
+    + per capire se la memoria disponibile è _sufficiente_ a eseguire un modello: cfr. [pesi e memoria](#/local-requirements) e la tabella precedente
 
 1. __Installare__ Ollama sulla propria macchina:
 
@@ -685,139 +870,6 @@ poetry run python -m snippets -l free-access -e 1 groq openai/gpt-oss-20b "Hello
           completion_tokens: 121
           total_tokens: 150
         ```
-
-{{% /small %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-{{< slide id="local-requirements" >}}
-
-## Eseguire modelli localmente: cosa serve? (pt. 1)
-
-### Il concetto generale: un modello è un’enorme raccolta di numeri
-
-- Un LLM è essenzialmente una raccolta di __parametri__ (o _pesi_), cioè numeri appresi durante l'addestramento
-    + la _dimensione_ del modello è il numero di parametri: es. `7B` = 7 miliardi di parametri, `70B` = 70 miliardi
-- Per __eseguire__ un modello (_inferenza_), tutti i pesi devono essere caricati nella _memoria_ del dispositivo che effettua il calcolo
-    + idealmente nella memoria della GPU (__VRAM__): le GPU sono molto più veloci delle CPU nelle moltiplicazioni matriciali su cui si basano gli LLM
-- Quindi l'__occupazione di memoria__ di un modello è approssimativamente:
-
-> __memoria in byte__ ≈ (numero di parametri × bit per parametro / 8) [_pesi_] + _cache KV_ [cresce con la lunghezza del contesto] + _overhead_
-
-- La __cache key-value (KV)__ conserva le _chiavi_ e i _valori_ dell'attenzione di ogni token elaborato finora...
-    + ... evitando di ricalcolarli per ogni nuovo token generato
-    + la sua dimensione _cresce linearmente_ con la _lunghezza del contesto_
-        + per questo i runtime locali (es. Ollama) usano una finestra di contesto predefinita _più piccola_ del massimo del modello
-- L'_overhead_ comprende buffer del runtime, attivazioni e contesto del driver: di solito circa il 10–20% in più
-
-{{< image src="./memory-footprint.svg" max-h="20vh" alt="Barre impilate della memoria richiesta (pesi più cache KV di 8mila token) da modelli 7B, 14B, 32B e 70B a precisione 16 bit, Q8_0 e Q4_K_M, confrontate con dispositivi da 8/16/24/48/80 GB" >}}
-
----
-
-## Eseguire modelli localmente: cosa serve? (pt. 2)
-
-### Regola pratica per i soli pesi
-
-| Dimensione del modello | 32 bit (`fp32`) | 16 bit (`fp16`/`bf16`) | 8 bit (`int8`, `Q8_0`) | ~4 bit (`Q4_K_M`) |
-|-----------:|----------------:|-----------------------:|-----------------------:|------------------:|
-| 1B  | 4 GB   | 2 GB   | ~1 GB  | ~0.6 GB |
-| 7B  | 28 GB  | 14 GB  | ~7.5 GB | ~4.3 GB |
-| 14B | 56 GB  | 28 GB  | ~15 GB | ~8.6 GB |
-| 32B | 128 GB | 64 GB  | ~34 GB | ~20 GB  |
-| 70B | 280 GB | 140 GB | ~74 GB | ~43 GB  |
-
-- cioè GB ≈ miliardi di parametri × bit per peso / 8 (`Q8_0` ≈ 8,5 bit, `Q4_K_M` ≈ 4,9 bit, cfr. [documentazione sulla quantizzazione di llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md))
-- aggiungere ~10–20% di overhead del runtime e la cache KV (cresce con il contesto: diversi GB da 32mila token in su)
-- i modelli sono _addestrati_ a 16/32 bit, ma la maggior parte degli utenti locali li esegue a __8 o 4 bit__: è la _quantizzazione_
-
-{{% fragment %}}
-> Prima di scaricare un modello, __fare i conti__: se non entra in VRAM, il caricamento _fallirà_ oppure il modello sarà (parzialmente) _trasferito_ alla CPU, diventando _molto più lento_
-{{% /fragment %}}
-
----
-
-## Quantizzazione (pt. 1): il concetto
-
-- __Quantizzazione__ = rappresentare i pesi del modello con _meno bit_ (es. interi a 4 bit anziché numeri in virgola mobile a 16 bit)
-    + associando _intervalli_ di valori reali a pochi _livelli discreti_, più alcuni _fattori di scala_ (memorizzati per _blocco_ di pesi)
-- Perché?
-    + _meno memoria_ $\implies$ modelli più grandi sullo stesso hardware
-    + inferenza _più veloce_: lo spostamento dei pesi in memoria è il principale collo di bottiglia
-- A quale prezzo?
-    + _perdita di precisione_ $\implies$ un certo _peggioramento della qualità_, spesso trascurabile a 8 bit, visibile a 4 bit e forte sotto i 3 bit
-    + il peggioramento dipende dal compito (es. maggiore per matematica, codice e lingue diverse dall'inglese)
-
-{{< image src="./quantization.svg" max-h="40vh" alt="Istogramma a campana dei pesi fp16 mappato su 16 codici a quattro bit più un fattore di scala per blocco, ottenendo un istogramma approssimato a gradini" >}}
-
----
-
-## Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama)
-
-- `F16` / `BF16`: nessuna quantizzazione (16 bit)
-- `Q8_0`: 8 bit (~8,5 bit per peso, inclusi i fattori di scala dei blocchi), quasi senza perdita
-- `Q4_K_M`: in media ~4,9 bit per peso
-    - `K` = _k-quants_ (superblocchi di pesi con fattori di scala dei sottoblocchi, anch'essi quantizzati)
-    - mix `M`edium (medio: alcuni tensori sensibili restano a precisione maggiore): il compromesso normalmente usato come __impostazione predefinita__
-- `Q2_K`, `Q3_K_S`, ...: più piccoli e con perdite crescenti (mix `S`mall = piccolo, `M`edium = medio, `L`arge = grande)
-- `IQ*`: quantizzazioni con _matrice d'importanza_, calibrate su testo campione per ridurre la perdita con pochissimi bit
-
-Es. `ollama pull gemma4:e2b` scarica la quantizzazione predefinita; tag come `...-q8_0` o `...-fp16` ne selezionano una specifica (cfr. scheda _"Tags"_ di ogni modello nel [catalogo Ollama](https://ollama.com/models))
-
----
-
-## Eseguire modelli localmente: hardware e software (pt. 1)
-
-### Hardware
-
-- __GPU Nvidia__ (CUDA): la piattaforma di riferimento; conta soprattutto la VRAM (es. 8, 12, 16, 24 GB nelle schede consumer; 40–80+ GB per data center)
-- __GPU AMD__ (ROCm): supportate, con meno modelli di schede e più vincoli
-- __Apple Silicon__ (Metal): CPU e GPU condividono _memoria unificata_, quindi tutta la RAM (meno quella del sistema operativo) è utilizzabile dal modello
-- __Solo CPU__: funziona per modelli piccoli, ma con _pochi token al secondo_
-- __Offloading parziale__: gli strati che non entrano in VRAM vengono eseguiti sulla CPU; funziona, ma è molto più lento
-
-(cfr. <https://docs.ollama.com/gpu> per le GPU supportate)
-
-### Modelli Mixture-of-Experts (MoE)
-
-- Alcuni modelli attivano soltanto un _sottoinsieme_ dei parametri per ogni token
-    + es. `gemma-4-26b-a4b-it` = 26B parametri _totali_, ~4B _attivi_ per token
-- La __memoria__ dipende dai parametri _totali_ (tutti gli esperti devono essere caricati), la __velocità__ da quelli _attivi_
-
----
-
-## Eseguire modelli localmente: hardware e software (pt. 2)
-
-{{% small "85%" %}}
-
-### Quali modelli si possono eseguire sui diversi dispositivi? (indicativamente, quantizzazione a ~4 bit, contesto moderato)
-
-| Macchina | Dimensione del modello gestibile |
-|---------|-----------------------|
-| portatile, 8 GB RAM, senza GPU | ≤ 3B (lento) |
-| portatile, 16 GB di memoria unificata (Apple Silicon) | ≤ 8B |
-| desktop, GPU con 12–16 GB VRAM | ≤ 14B |
-| workstation, GPU con 24 GB VRAM (o 32–64 GB di memoria unificata) | ≤ 32B |
-| server, 2 GPU da 80 GB | ≤ 70B a 16 bit (140 GB, al limite), ~120B+ a 8 bit, più grandi con 4 bit o MoE |
-
-### Software
-
-- __Driver GPU__ aggiornati (CUDA per Nvidia, ROCm per AMD; Metal è integrato in macOS)
-- un __runtime__: [Ollama](https://ollama.com) (più semplice), [LM Studio](https://lmstudio.ai/) (GUI), [llama.cpp](https://github.com/ggml-org/llama.cpp) (a un livello più basso, con maggiore controllo sui dettagli di esecuzione), [vLLM](https://docs.vllm.ai/) (per server, alto throughput, molti utenti simultanei)
-    + tutti espongono un'API Web _compatibile con OpenAI_, quindi il codice client non cambia
-- verificare cosa è in esecuzione e _dove_ con `ollama ps` (su un portatile Apple Silicon):
-
-    ```text
-    NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER    UNTIL
-    gemma4:e2b    7fbdbf8f5e45    1.7 GB    100% GPU     4096                 4 minutes from now
-    ```
-
-    + `SIZE` è la memoria _effettivamente allocata_ (pesi in uso + cache KV); `ollama list` mostra invece la dimensione _su disco_ (7,2 GB per `gemma4:e2b`: tutti i pesi, inclusi embedding per strato ed encoder di immagini/audio)
-    + `PROCESSOR` indica se il modello è interamente sulla GPU o suddiviso tra CPU e GPU (es. `48%/52% CPU/GPU`)
-    + `CONTEXT` è la finestra di contesto in uso: il [valore predefinito](https://docs.ollama.com/context-length) di Ollama dipende dalla VRAM (4mila token sotto 24 GiB, 32mila fino a 48 GiB, 256mila oltre)
 
 {{% /small %}}
 
@@ -1085,6 +1137,60 @@ Dati dallo [Stanford AI Index 2026](https://hai.stanford.edu/ai-index/2026-ai-in
 
 ---
 
+{{< slide id="validation" >}}
+
+## Validare software generativo: il concetto generale
+
+- Il software basato su LLM è difficile da testare:
+    + gli output sono _non deterministici_ (stesso input, output diversi)
+    + gli output sono _aperti_ (molte risposte corrette, nessun unico valore atteso)
+    + il comportamento cambia quando cambia _prompt_, _modello_ o _fornitore_, anche senza preavviso
+- Oltre ai _soli_ test unitari (superato/fallito su un'esecuzione), servono __valutazioni__ (o _eval_): misurare _quanto spesso_ e _quanto bene_ il sistema si comporta come previsto su un _dataset_ di input rappresentativi
+    + le valutazioni possono comunque _usare_ framework di test unitari (es. `pytest`), con asserzioni su _tassi_ o _soglie_ anziché su singoli output esatti
+
+- Ingredienti di una valutazione:
+    1. un __dataset di test__: input _noti_, ciascuno con risultati _attesi_, progettato da _persone_ __prima__ del test
+    2. il __sistema da valutare__ (prompt + modello + codice)
+    3. __valutatori__ (o _metriche_), che associano a ogni (input, output, risultato atteso) un _punteggio_ o un esito _superato/fallito_:
+        * valutatori __deterministici__: validità dello schema, corrispondenza esatta, intervalli, espressioni regolari, invarianti e _relazioni_ tra output
+        * valutatori __statistici__: somiglianza rispetto a un testo di riferimento (es. [BLEU](https://aclanthology.org/P02-1040/), [ROUGE](https://aclanthology.org/W04-1013/), similarità degli embedding)
+            - richiedono un testo _di riferimento_ e hanno una correlazione debole con il giudizio umano sugli output aperti (cfr. [G-Eval](https://arxiv.org/abs/2303.16634)): qui non li usiamo
+        * __LLM-as-a-Judge__: un altro LLM valuta l'output secondo una _griglia di valutazione_ descritta in linguaggio naturale
+        * __persone__: i valutatori più affidabili e più costosi
+    4. un'__aggregazione__ (es. tasso di superamento, punteggio medio), da confrontare tra _versioni_ del sistema (_test di regressione_)
+
+- Gli output strutturati rendono la valutazione _molto_ più semplice: gran parte dei campi è verificabile con _codice_
+
+---
+
+## Validare software generativo: un esempio intuitivo
+
+{{< image src="./evaluation-pipeline.svg" max-h="65vh" alt="Pipeline di valutazione: un dataset di tre lettere con risultati attesi attraversa il template del prompt e il modello; gli output sono verificati da valutatori deterministici, relazionali e LLM-as-a-Judge; il rapporto superato/fallito alimenta la revisione del prompt" >}}
+
+---
+
+{{< slide id="llm-as-a-judge" >}}
+
+## LLM-as-a-Judge
+
+- Idea: usare un LLM (capace) per _valutare_ gli output secondo _criteri_ definiti (cfr. [Zheng et al. (2023)](https://arxiv.org/abs/2306.05685) e la rassegna di [Gu et al. (2024)](https://arxiv.org/abs/2411.15594))
+    + valutazione _puntuale_ (assegnare un punteggio a un singolo output su una scala) o _a coppie_ (quale dei due output è migliore?), con o senza risposta _di riferimento_
+    + il prompt del giudice descrive una _griglia di valutazione_; la risposta è (idealmente) un __output strutturato__: punteggio + motivazione
+    + chiedere _prima la motivazione_ aiuta (_chain-of-thought_: far _ragionare_ il modello passo per passo prima della risposta, cfr. [Wei et al. (2022)](https://arxiv.org/abs/2201.11903)); [G-Eval](https://arxiv.org/abs/2303.16634) va oltre, generando prima _passi di valutazione_ a partire dai criteri
+
+- __Distorsioni__ note dei giudici:
+    + distorsione di _posizione_ (preferenza per la prima o la seconda opzione nei confronti a coppie), cfr. [Wang et al. (2023)](https://arxiv.org/abs/2305.17926)
+    + distorsione di _verbosità_ (preferenza per risposte più lunghe) e preferenza per gli output della _propria_ famiglia di modelli
+
+- Buone pratiche:
+    + usare come giudice un modello _diverso_ (e possibilmente più capace), con temperatura _bassa_
+    + preferire criteri _circoscritti_ e _binari_ (es. "ogni punto di forza è sostenuto dalla lettera?") a quelli vaghi (es. "è buono?")
+    + __validare il giudice__: confrontare i suoi giudizi con quelli _umani_ su un piccolo campione, prima di fidarsi
+        * misurare l'_accordo_: percentuale di accordo, più [κ di Cohen](https://en.wikipedia.org/wiki/Cohen%27s_kappa) $= (p_o - p_e)/(1 - p_e)$, che tiene conto dell'accordo _atteso per caso_ (cfr. [Thakur et al., 2024](https://arxiv.org/abs/2406.12624))
+    + usare i giudici solo per ciò che _non_ è verificabile con codice
+
+---
+
 ## Come valutare i modelli?
 
 ### 1. __Benchmark__ e __classifiche__ pubblici (generici, economici da consultare)
@@ -1224,60 +1330,6 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 
 ---
 
-{{< slide id="validation" >}}
-
-## Validare software generativo: il concetto generale
-
-- Il software basato su LLM è difficile da testare:
-    + gli output sono _non deterministici_ (stesso input, output diversi)
-    + gli output sono _aperti_ (molte risposte corrette, nessun unico valore atteso)
-    + il comportamento cambia quando cambia _prompt_, _modello_ o _fornitore_, anche senza preavviso
-- Oltre ai _soli_ test unitari (superato/fallito su un'esecuzione), servono __valutazioni__ (o _eval_): misurare _quanto spesso_ e _quanto bene_ il sistema si comporta come previsto su un _dataset_ di input rappresentativi
-    + le valutazioni possono comunque _usare_ framework di test unitari (es. `pytest`), con asserzioni su _tassi_ o _soglie_ anziché su singoli output esatti
-
-- Ingredienti di una valutazione:
-    1. un __dataset di test__: input _noti_, ciascuno con risultati _attesi_, progettato da _persone_ __prima__ del test
-    2. il __sistema da valutare__ (prompt + modello + codice)
-    3. __valutatori__ (o _metriche_), che associano a ogni (input, output, risultato atteso) un _punteggio_ o un esito _superato/fallito_:
-        * valutatori __deterministici__: validità dello schema, corrispondenza esatta, intervalli, espressioni regolari, invarianti e _relazioni_ tra output
-        * valutatori __statistici__: somiglianza rispetto a un testo di riferimento (es. [BLEU](https://aclanthology.org/P02-1040/), [ROUGE](https://aclanthology.org/W04-1013/), similarità degli embedding)
-            - richiedono un testo _di riferimento_ e hanno una correlazione debole con il giudizio umano sugli output aperti (cfr. [G-Eval](https://arxiv.org/abs/2303.16634)): qui non li usiamo
-        * __LLM-as-a-Judge__: un altro LLM valuta l'output secondo una _griglia di valutazione_ descritta in linguaggio naturale
-        * __persone__: i valutatori più affidabili e più costosi
-    4. un'__aggregazione__ (es. tasso di superamento, punteggio medio), da confrontare tra _versioni_ del sistema (_test di regressione_)
-
-- Gli output strutturati rendono la valutazione _molto_ più semplice: gran parte dei campi è verificabile con _codice_
-
----
-
-## Validare software generativo: un esempio intuitivo
-
-{{< image src="./evaluation-pipeline.svg" max-h="65vh" alt="Pipeline di valutazione: un dataset di tre lettere con risultati attesi attraversa il template del prompt e il modello; gli output sono verificati da valutatori deterministici, relazionali e LLM-as-a-Judge; il rapporto superato/fallito alimenta la revisione del prompt" >}}
-
----
-
-{{< slide id="llm-as-a-judge" >}}
-
-## LLM-as-a-Judge
-
-- Idea: usare un LLM (capace) per _valutare_ gli output secondo _criteri_ definiti (cfr. [Zheng et al. (2023)](https://arxiv.org/abs/2306.05685) e la rassegna di [Gu et al. (2024)](https://arxiv.org/abs/2411.15594))
-    + valutazione _puntuale_ (assegnare un punteggio a un singolo output su una scala) o _a coppie_ (quale dei due output è migliore?), con o senza risposta _di riferimento_
-    + il prompt del giudice descrive una _griglia di valutazione_; la risposta è (idealmente) un __output strutturato__: punteggio + motivazione
-    + chiedere _prima la motivazione_ aiuta (_chain-of-thought_: far _ragionare_ il modello passo per passo prima della risposta, cfr. [Wei et al. (2022)](https://arxiv.org/abs/2201.11903)); [G-Eval](https://arxiv.org/abs/2303.16634) va oltre, generando prima _passi di valutazione_ a partire dai criteri
-
-- __Distorsioni__ note dei giudici:
-    + distorsione di _posizione_ (preferenza per la prima o la seconda opzione nei confronti a coppie), cfr. [Wang et al. (2023)](https://arxiv.org/abs/2305.17926)
-    + distorsione di _verbosità_ (preferenza per risposte più lunghe) e preferenza per gli output della _propria_ famiglia di modelli
-
-- Buone pratiche:
-    + usare come giudice un modello _diverso_ (e possibilmente più capace), con temperatura _bassa_
-    + preferire criteri _circoscritti_ e _binari_ (es. "ogni punto di forza è sostenuto dalla lettera?") a quelli vaghi (es. "è buono?")
-    + __validare il giudice__: confrontare i suoi giudizi con quelli _umani_ su un piccolo campione, prima di fidarsi
-        * misurare l'_accordo_: percentuale di accordo, più [κ di Cohen](https://en.wikipedia.org/wiki/Cohen%27s_kappa) $= (p_o - p_e)/(1 - p_e)$, che tiene conto dell'accordo _atteso per caso_ (cfr. [Thakur et al., 2024](https://arxiv.org/abs/2406.12624))
-    + usare i giudici solo per ciò che _non_ è verificabile con codice
-
----
-
 {{< slide id="evidence" >}}
 
 ## Quante evidenze servono?
@@ -1323,58 +1375,6 @@ Mentre i modelli _saturano_ i benchmark classici, nuovi benchmark provano a misu
 
 ---
 
-{{< slide id="regulation" >}}
-
-## La regolamentazione: il quadro generale
-
-Il software basato sull'IA è soggetto ad (almeno) quattro _livelli_ di regole, ciascuno con un _oggetto_ diverso:
-
-1. il __GDPR__ ([Reg. (UE) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj)) disciplina il trattamento dei __dati personali__, qualunque sia la tecnologia
-2. l'__AI Act dell'UE__ ([Reg. (UE) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)) disciplina i __sistemi di IA__ (in base al _rischio_ del loro _uso_) e i __modelli di IA per finalità generali__
-3. le __leggi nazionali__, es. la legge italiana sull'IA ([Legge 132/2025](https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg))
-4. le __policy dell'organizzazione__, es. le regole interne sull'uso dell'IA generativa
-
-più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamento dei dati) e le _licenze_ (dei modelli e dei dati)
-
-{{< image src="./regulation-layers.svg" max-h="35vh" alt="Livelli annidati di regole attorno a un'applicazione basata su LLM (licenze e termini di servizio, policy dell'organizzazione, Legge 132/2025, AI Act dell'UE, GDPR), ciascuno associato alla domanda a cui risponde" >}}
-
-> Avvertenza: è una panoramica da _ingegneri_, __non__ una consulenza legale: nei progetti reali coinvolgere l'_ufficio legale_ e il _Responsabile della protezione dei dati_ (DPO) della propria organizzazione
-
----
-
-## AI Act dell'UE: un approccio basato sul rischio
-
-{{% multicol %}}
-{{% col %}}
-
-{{% small "85%" %}}
-
-- __Rischio inaccettabile__ $\rightarrow$ _vietato_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
-    + es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
-- __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/) e [Allegato III](https://artificialintelligenceact.eu/annex/3/))
-    + es. selezione dei CV, valutazione del credito e __istruzione__: sistemi per _determinare l’accesso o l’ammissione_ agli istituti (Allegato III, punto 3(a)), _valutare i risultati dell'apprendimento_ (3(b)) o _sorvegliare_ gli esami (3(d))
-- __Rischio di trasparenza__ $\rightarrow$ obblighi di _informazione_ ([Art. 50](https://artificialintelligenceact.eu/article/50/))
-    + es. i chatbot devono dichiarare di essere IA; i contenuti sintetici devono essere _marcati_; i deepfake devono essere _etichettati_
-- __Rischio minimo__ $\rightarrow$ nessun obbligo specifico
-    + es. filtri antispam, IA nei videogiochi
-- Su un piano distinto: __modelli di IA per finalità generali (GPAI)__, con obblighi per i _fornitori_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); rischio sistemico: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
-
-{{% /small %}}
-
-{{% /col %}}
-{{% col %}}
-
-{{< image src="./ai-act-pyramid.png" max-h="60vh" alt="Piramide dei rischi dell'AI Act, dall'alto: rischio inaccettabile (vietato), alto rischio (regolamentato), rischio limitato (trasparenza), rischio minimo (non regolamentato)" >}}
-
-{{% /col %}}
-{{% /multicol %}}
-
-{{% fragment %}}
-> Il nostro __esempio ricorrente è ad alto rischio__: contribuisce a decidere l'_ammissione_ a un dottorato. Lo stesso LLM, usato per riassumere notizie, sarebbe a rischio _minimo_: il regolamento disciplina l'__uso__, non la tecnologia
-{{% /fragment %}}
-
----
-
 ## Come scegliere un modello per un compito?
 
 {{% small "85%" %}}
@@ -1397,7 +1397,7 @@ più i _contratti_ (es. termini di servizio dei fornitori, accordi sul trattamen
 
 ### Criteri di preferenza (ordinare)
 
-- _qualità_ sul __proprio__ compito (prossima slide)
+- _qualità_ sul __proprio__ compito (cfr. [valutazione](#/evaluation))
 - _latenza_ (tempo al primo token, token al secondo)
 - _costo_ per richiesta (token × prezzo o ammortamento hardware)
 - _stabilità_ dell'offerta (il modello verrà dismesso a breve?)

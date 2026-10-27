@@ -121,9 +121,13 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Riprendiamo: dove deve essere eseguito il modello? | Recall: where should the model run? | __new__ |
 | **Il panorama dei modelli aperti e a pesi aperti** | **The Landscape of Open and Open-Weight Models** | __new__ |
 | Cataloghi di modelli (pt. 1): il concetto generale | Model zoos (pt. 1): the general concept | `llmaas` (line 55) |
+| Eseguire modelli localmente: cosa serve? (pt. 1) | Running models locally: what does it take? (pt. 1) | `llmaas` (line 264) |
+| Quantizzazione (pt. 1): il concetto | Quantization (pt. 1): the concept | `llmaas` (line 308) |
+| Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama) | Decoding GGUF quantization labels (as seen in Ollama's tags) | `llmaas` (line 337) |
+| Modelli Mixture-of-Experts: parametri totali e attivi | Running models locally: hardware & software (pt. 1), MoE subsection | `llmaas` (line 363), split |
+| I parametri chiave, a colpo d'occhio | Key parameters, at a glance | __new__ |
 | Cataloghi di modelli (pt. 2): il panorama tecnologico | Model zoos (pt. 2): the technological landscape | `llmaas` (line 77) |
 | Cataloghi di modelli (pt. 3): e poi? | Model zoos (pt. 3): what next? | `llmaas` (line 98) |
-| I parametri chiave, a colpo d'occhio | Key parameters, at a glance | __new__ |
 | Esplorazione guidata: lo stesso modello in tre cataloghi | Guided tour: the same model, in three zoos | __new__ |
 | Cosa rende un modello _"aperto"_? Il concetto generale | What makes a model _"open"_? The general concept | `governance` (line 328) |
 | L'apertura ha _gradi_, non è binaria | Openness is _graded_, not binary | `governance` (line 344) |
@@ -132,6 +136,8 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Il panorama delle licenze (a settembre 2026) | The licensing landscape (as of September 2026) | `governance` (line 391) |
 | Cosa significano in pratica le licenze restrittive? | What do restrictive licenses mean in practice? | `governance` (line 405) |
 | Derivati: fine-tuning, distillazione, fusioni, dati, output | Derivatives: fine-tunes, distillation, merges, data, outputs | `governance` (line 420) |
+| La regolamentazione: il quadro generale | Regulation: the general picture | `governance` (line 164) |
+| AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219) |
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
 | Fornitori primari, aggregatori e marketplace | Primary providers, aggregators, and marketplaces | __new__ |
@@ -146,16 +152,13 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Portabilità delle applicazioni e dipendenza dal fornitore | Portability of applications, and dependency on the provider | __new__ |
 | **Esecuzione locale e sovranità infrastrutturale** | **Local Execution and Infrastructural Sovereignty** | __new__ |
 | Ollama (cfr. <https://ollama.com/>) | About Ollama (cf. <https://ollama.com/>) | `llmaas` (line 121) |
+| Eseguire modelli localmente: cosa serve? (pt. 2) | Running models locally: what does it take? (pt. 2) | `llmaas` (line 286) |
+| Eseguire modelli localmente: hardware e software (pt. 1) | Running models locally: hardware & software (pt. 1) | `llmaas` (line 351) |
+| Eseguire modelli localmente: hardware e software (pt. 2) | Running models locally: hardware & software (pt. 2) | `llmaas` (line 371) |
 | Esempio on-premise con Ollama, pt. 1 | On-premise Example with Ollama pt. 1 | `llmaas` (line 137) |
 | Esempio on-premise con Ollama, pt. 2 | On-premise Example with Ollama pt. 2 | `llmaas` (line 159) |
 | Esempio on-premise con Ollama, pt. 3 | On-premise Example with Ollama pt. 3 | `llmaas` (line 169) |
 | Esempio on-premise con Ollama, pt. 4 | On-premise Example with Ollama pt. 4 | `llmaas` (line 209) |
-| Eseguire modelli localmente: cosa serve? (pt. 1) | Running models locally: what does it take? (pt. 1) | `llmaas` (line 264) |
-| Eseguire modelli localmente: cosa serve? (pt. 2) | Running models locally: what does it take? (pt. 2) | `llmaas` (line 286) |
-| Quantizzazione (pt. 1): il concetto | Quantization (pt. 1): the concept | `llmaas` (line 308) |
-| Decifrare le etichette di quantizzazione GGUF (nei tag di Ollama) | Decoding GGUF quantization labels (as seen in Ollama's tags) | `llmaas` (line 337) |
-| Eseguire modelli localmente: hardware e software (pt. 1) | Running models locally: hardware & software (pt. 1) | `llmaas` (line 351) |
-| Eseguire modelli localmente: hardware e software (pt. 2) | Running models locally: hardware & software (pt. 2) | `llmaas` (line 371) |
 | Opzioni di deployment: un esempio di calcolo dei costi | Deployment options: a worked cost example | `governance` (line 131) |
 | Il punto di pareggio, a colpo d'occhio | — | __new__ |
 | Quando l'esecuzione locale è _davvero_ sostenibile? | When is local execution _really_ sustainable? | __new__ |
@@ -172,6 +175,9 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | **Come valutare un LLM** | **How to Evaluate an LLM** | __new__ |
 | Quale modello? Il concetto generale | Which model? The general concept | `governance` (line 671) |
 | Documentazione dei modelli: model card, system card, datasheet | Model documentation: model cards, system cards, datasheets | `governance` (line 685) |
+| Validare software generativo: il concetto generale | Validating generative software: the general concept | `validating` (line 30) |
+| Validare software generativo: un esempio intuitivo | Validating generative software: an intuitive example | `validating` (line 54) |
+| LLM-as-a-Judge | LLM-as-a-Judge | `validating` (line 62) |
 | Come valutare i modelli? | How to evaluate models? | `governance` (line 817) |
 | Cosa valutare: qualità, efficienza, robustezza, specializzazione | What to evaluate: quality, efficiency, robustness, specialisation | __new__ |
 | Misurare capacità _generali_: benchmark di frontiera | Measuring _general_ capabilities: frontier benchmarks | `governance` (line 698) |
@@ -179,14 +185,9 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Benchmark di frontiera: la classifica ARC-AGI-3 | Frontier benchmarks: the ARC-AGI-3 leaderboard | `governance` (line 758) |
 | Benchmark agentici: quanto sono validi gli agenti in generale? | Agentic benchmarks: how good are agents, in general? | `agents` (line 621) |
 | Una valutazione realistica per un'organizzazione | A realistic evaluation, for an organisation | __new__ |
-| Validare software generativo: il concetto generale | Validating generative software: the general concept | `validating` (line 30) |
-| Validare software generativo: un esempio intuitivo | Validating generative software: an intuitive example | `validating` (line 54) |
-| LLM-as-a-Judge | LLM-as-a-Judge | `validating` (line 62) |
 | Quante evidenze servono? | How much evidence? | `validating` (line 84) |
 | **Criteri di scelta per l'adozione** | **Decision Criteria for Adoption** | __new__ |
 | Cloud commerciale, fornitore europeo o on-premise? | Commercial cloud, European provider, or on-premise? | __new__ |
-| La regolamentazione: il quadro generale | Regulation: the general picture | `governance` (line 164) |
-| AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219) |
 | Come scegliere un modello per un compito? | How to choose a model for a given task? | `governance` (line 769) |
 | Indicazioni per l'ingegneria: controlli prima dell'adozione | Engineering take-aways: pre-adoption checklist | `governance` (line 563) |
 | Indicazioni per l'ingegneria: tre scenari | Engineering take-aways: three scenarios | `governance` (line 583) |
