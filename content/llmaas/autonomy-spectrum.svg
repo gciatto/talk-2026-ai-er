@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" font-family="Signika Negative, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#222">
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker>
-<linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#3a9a5b"/><stop offset="1" stop-color="#2690e7"/></linearGradient></defs>
+<linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#3a9a5b"/><stop offset="1" stop-color="#2690e7"/></linearGradient><marker id="i0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3a9a5b"/></marker><marker id="i1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2690e7"/></marker></defs>
 <rect x="40" y="40" width="1500" height="22" rx="11" fill="url(#g)"/>
 <path d="M1540,30 L1580,51 L1540,72 z" fill="#2690e7"/>
 <text x="60" y="105" font-size="24" font-weight="600" fill="#3a9a5b" text-anchor="start">il codice controlla il flusso</text>
@@ -34,6 +34,11 @@
 <text x="1377" y="290" font-style="italic" fill="#555">ad es. rispondere alle domande</text>
 <text x="1377" y="318" font-style="italic" fill="#555">della commissione</text>
 </g>
+<!-- icons -->
+<g transform="translate(215,365)" fill="none" stroke="#3a9a5b" stroke-width="3" stroke-linecap="round"><line x1="-60" y1="0" x2="-22" y2="0" marker-end="url(#i0)"/><circle r="18" fill="#3a9a5b" fill-opacity="0.25"/><line x1="22" y1="0" x2="60" y2="0" marker-end="url(#i0)"/></g>
+<g transform="translate(600,365)" fill="none" stroke="#3a9a5b" stroke-width="3" stroke-linecap="round"><rect x="-75" y="-14" width="28" height="28" rx="4"/><line x1="-43" y1="0" x2="-20" y2="0" marker-end="url(#i0)"/><circle r="15" fill="#3a9a5b" fill-opacity="0.25"/><line x1="19" y1="0" x2="42" y2="0" marker-end="url(#i0)"/><rect x="47" y="-14" width="28" height="28" rx="4"/></g>
+<g transform="translate(985,365)" fill="none" stroke="#2690e7" stroke-width="3" stroke-linecap="round"><circle cx="-45" r="15" fill="#2690e7" fill-opacity="0.25"/><line x1="-28" y1="-6" x2="30" y2="-24" marker-end="url(#i1)"/><line x1="-28" y1="0" x2="30" y2="0" marker-end="url(#i1)"/><line x1="-28" y1="6" x2="30" y2="24" marker-end="url(#i1)"/><rect x="36" y="-32" width="16" height="16" rx="3"/><rect x="36" y="-8" width="16" height="16" rx="3"/><rect x="36" y="16" width="16" height="16" rx="3"/></g>
+<g transform="translate(1377,365)" fill="none" stroke="#2690e7" stroke-width="3" stroke-linecap="round"><circle cx="-40" r="15" fill="#2690e7" fill-opacity="0.25"/><path d="M-30,-12 Q0,-40 30,-14" marker-end="url(#i1)"/><rect x="32" y="-10" width="20" height="20" rx="3"/><path d="M32,12 Q0,40 -30,14" marker-end="url(#i1)"/></g>
 <!-- trade-offs -->
 <line x1="60" y1="470" x2="1540" y2="470" stroke="#555" stroke-width="3" marker-end="url(#a)"/>
 <text x="800" y="455" font-size="24" font-weight="600">più autonomia: più flessibilità per compiti aperti...</text>
