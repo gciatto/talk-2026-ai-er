@@ -1181,12 +1181,8 @@ function:
 
 ## Workflow: il concetto generale
 
-> Ricordare: nello [spettro dell'autonomia](#/autonomy-spectrum), i __workflow__ orchestrano LLM e tool lungo percorsi _predefiniti_ (il _codice_ controlla il flusso), mentre gli __agenti__ affidano all'LLM la direzione del processo
-
-- Un __workflow__ è un _processo_: un insieme di __passi__ e __transizioni__ tra essi, che operano su uno __stato__ condiviso
-    + ossia una _macchina a stati_ (o un _grafo_): i nodi sono passi, gli archi transizioni, anche _condizionali_ (guardie sullo stato)
-    + uno _stato iniziale_, uno o più _stati finali_, eventuali _cicli_ (limitati!) e rami _paralleli_
-- Ogni passo _legge_ lo stato, svolge il compito e _aggiorna_ lo stato; il __motore__ decide il passo successivo
+- Un __workflow__ descrive un _processo_ come un grafo di __passi__ (anche _condizionali_, _ciclici_ o _paralleli_), che operano su una __memoria__ condivisa
+    + ogni passo _legge_ la memoria, svolge il compito e la _aggiorna_; il __motore__ decide il passo successivo
     + l'LLM svolge _alcuni_ passi (quelli che richiedono _linguaggio_), ma __non__ ne decide l'ordine
 - Idea consolidata, nuovi ingredienti: _business process management_ (cfr. [BPMN](https://www.omg.org/spec/BPMN/2.0.2/)), _pipeline ETL_, _pipeline CI/CD_, ... ora con __passi LLM__
     + cfr. [StateFlow](https://arxiv.org/abs/2403.11322) (Wu et al., 2024): modellare i compiti basati su LLM come macchine a stati aumenta il tasso di successo _e_ riduce i costi rispetto agli agenti che scelgono dinamicamente i passi
@@ -1202,8 +1198,12 @@ function:
 | __Passo di azione__ | ha _effetti_ sul mondo (tool, API, file) | sì, ma _irreversibile_ | inviare un'e-mail, registrare una decisione |
 | __Passo con intervento umano__ | chiede a una _persona_ di approvare, correggere o scegliere | no (una persona) | la commissione approva la graduatoria |
 
-- Anche un __agente__ può essere un passo: es. un agente che esplora i dati per una domanda _aperta_, dentro un processo altrimenti _fisso_
-- Regola pratica: mettere nei __passi sui dati__ ciò che il codice sa fare; usare __passi LLM__ solo quando serve il _linguaggio_; proteggere i __passi di azione__ con controlli e, se irreversibili o rilevanti sul piano normativo, con __passi con intervento umano__
+- Anche un __agente__ può essere un passo:
+    * es. un agente che esplora i dati per una domanda _aperta_, dentro un processo altrimenti _fisso_
+- Regola pratica:
+    * usare script deterministici nei __passi sui dati__ (no LLM) quando possibile;
+    * usare __passi LLM__ solo quando serve il _linguaggio_;
+    * proteggere i __passi di azione__ con controlli e, se irreversibili o rilevanti sul piano normativo, con __passi con intervento umano__
 
 ---
 
@@ -1211,15 +1211,20 @@ function:
 
 ## Workflow: un esempio intuitivo
 
-{{< image src="./admission-workflow.svg" max-h="42vh" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, lo stato (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvato dopo ogni passo come checkpoint" >}}
+- Lo stesso workflow di ammissione, rappresentato non come macchina a stati, ma diagramma di flusso/attività:
 
-- Lo _stesso_ processo come agente sarebbe un system prompt che dice "_estrai, verifica, valuta, ordina, chiedi, notifica_", sperando che l'LLM lo segua in quell'ordine ogni volta
-- Come workflow (cfr. [spettro dell'autonomia](#/autonomy-spectrum)):
+    {{< image src="./admission-workflow.svg" max-h="42vh" alt="Workflow di ammissione come grafo: inizio, lettura dei certificati con un passo LLM per candidato in parallelo, verifica dei requisiti (passo sui dati: laurea magistrale, art. 3); se almeno uno è idoneo, valutazione delle lettere degli idonei (passo LLM) e graduatoria (passo sui dati: voto più lettera, art. 8, primi 2 al colloquio); se nessuno è idoneo, direttamente all'approvazione della commissione; l'approvazione è un passo con intervento umano (interruzione e ripresa alla risposta); se approvato, notifica ai candidati (passo di azione, e-mail idempotenti), altrimenti fine senza invii. Sotto, la memoria (esecuzione, candidati, certificati, problemi, punteggi, graduatoria, approvazione, notifiche), salvata dopo ogni passo come checkpoint" >}}
+
+    - Risultato analogo si potrebbe ottenere tramite un agente il cui system prompt dica "_estrai, verifica, valuta, ordina, chiedi, notifica_"
+        * ... __sperando__ che l'LLM lo segua in quell'ordine ogni volta
+
+- Vantaggi di strutturare il processo come workflow (cfr. [spettro dell'autonomia](#/autonomy-spectrum)):
     + __prevedibile__: stessi passi e ordine, verificabile passo per passo
     + __più economico__: ogni passo LLM vede _solo_ ciò che serve, anche con un modello più piccolo
     + __verificabile__: passi isolabili, percorsi del grafo enumerabili
     + __meno flessibile__: le richieste impreviste richiedono una _nuova versione_ del workflow
-- Anticipazione: le [skill](#/skills-vs-others) sono procedure in linguaggio naturale che un agente carica quando servono; le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile
+
+<!-- - Anticipazione: le [skill](#/skills-vs-others) sono procedure in linguaggio naturale che un agente carica quando servono; le skill permettono agli esperti di dominio di gestire le procedure; i workflow ne rendono l’esecuzione più affidabile e verificabile -->
 
 ---
 
@@ -1241,11 +1246,29 @@ function:
 
 ## Il ciclo ReAct: il concetto generale
 
+- Lo stesso comportamento si può descrivere come __macchina a stati__ (cfr. [prossima slide](#/workflows-states)):
+    + __memoria__: i _dati_ accumulati fino a quel momento (input, risultati intermedi, eventuali istruzioni caricate)
+    + __stato__: un _nodo_ del diagramma degli stati; insieme al contenuto della memoria, determina cosa fare (quale arco uscente seguire)
+    + __transizione__: un _arco_ tra due stati, eventualmente con una _guardia_ (una condizione sulla memoria); __passo__ è il suo nome informale
+    + il __workflow__ è una descrizione _duale_ dello stesso comportamento: mette l'accento sui _passi_ anziché sugli _stati_
 - __ReAct__ (_Reason + Act_, cfr. [Yao et al. (2023)](https://arxiv.org/abs/2210.03629)): l'LLM _alterna_ ragionamento e azioni (chiamate a tool); il risultato di ogni azione (l'_osservazione_, cioè il risultato del tool) guida il ragionamento successivo
     + nato come tecnica di _prompting_ ("Thought: ... Action: ... Observation: ..."), ora _integrato_ nelle API tramite chiamate a tool (e nei modelli _di ragionamento_, che generano una catena di ragionamento, fatturata come _token_ di output, prima di rispondere)
 
 - Il __controllore__ dell'agente è un semplice ciclo:
     1. inviare all'LLM la conversazione e le definizioni dei tool
+{{< slide id="workflows-states" >}}
+
+## Workflow come macchina a stati
+
+{{< image src="./admission-states.svg" max-h="47vh" alt="Il workflow di ammissione come diagramma degli stati: dall'inizio, la transizione 'leggere i certificati' (passo LLM, uno per candidato in parallelo) porta allo stato 'certificati letti'; 'verificare l'ammissibilità' (passo sui dati) porta ad 'ammissibilità nota'; con la guardia 'alcuni idonei', 'valutare le lettere' (passo LLM) porta a 'lettere valutate', poi 'stilare la graduatoria' (passo sui dati) a 'graduatoria pronta' e 'chiedere l'approvazione' (input utente) ad 'attesa commissione'; con la guardia 'nessuno idoneo' si passa direttamente all'attesa; dallo stato di attesa (esecuzione sospesa), con 'risposta: sì' si avvisano i candidati (azione) e si termina, con 'risposta: no' si termina senza invii. Ogni stato indica i campi aggiunti alla memoria; sotto, la memoria (run, candidates, transcripts, problems, scores, ranking, approved, notified), salvata dopo ogni transizione come checkpoint" >}}
+
+- Il [workflow di ammissione](#/workflows-example), visto dal lato degli _stati_: uno stato _iniziale_, uno o più stati _finali_, eventuali _cicli_ (limitati!)
+- Non sempre un passo è _una_ transizione: l'_intervento umano_ diventa uno __stato di attesa__, da cui si esce su un _evento_ (la risposta, anche ore dopo); i passi _paralleli_ diventano _una_ transizione, che termina quando tutti i rami hanno finito
+- Attenzione: macchina a stati __non__ significa macchina a stati _finiti_: gli stati sono finiti, ma la memoria no (_macchina a stati estesa_)
+    + le librerie (es. LangGraph) chiamano _state_ quella che qui chiamiamo __memoria__
+
+---
+
     2. se la risposta __non contiene chiamate a tool__, è la _risposta finale_: terminare
     3. altrimenti _eseguire_ ogni chiamata, aggiungere il _risultato_ alla conversazione e tornare a 1
     4. terminare comunque dopo un _numero massimo di passi_ (l'LLM può ripetere il ciclo all'infinito e ogni passo ha un costo)

@@ -75,6 +75,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Dove gira un tool, e cosa vede | Where a tool runs, and what it sees | __new__ |
 | Lo spettro dell'autonomia | The spectrum of autonomy | `agents` (line 83) |
 | Workflow: il concetto generale | Workflows: the general concept | `workflows` (line 42) |
+| Workflow come macchina a stati | Workflows as state machines | __new__ |
 | Tipi di passi | Kinds of steps | `workflows` (line 56) |
 | Workflow: un esempio intuitivo | Workflows: an intuitive example | `workflows` (line 72) |
 | Pattern di workflow: un catalogo | Workflow patterns: a catalogue | `workflows` (line 376) |
