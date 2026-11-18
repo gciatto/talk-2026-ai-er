@@ -407,26 +407,30 @@ Fonti: [EDPB, titolare e responsabile](https://www.edpb.europa.eu/sme/learn-the-
 ## AI Act dell'UE: un approccio basato sul rischio
 
 {{% multicol %}}
-{{% col %}}
+{{% col class="col-8" %}}
 
-{{% small "85%" %}}
+{{% small "70%" %}}
+
+__Criterio__: conta la _finalità prevista_ del sistema, non la tecnologia; si verificano i livelli _dall'alto_, fermandosi al primo che si applica
 
 - __Rischio inaccettabile__ $\rightarrow$ _vietato_ ([Art. 5](https://artificialintelligenceact.eu/article/5/))
-    + es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
-- __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/) e [Allegato III](https://artificialintelligenceact.eu/annex/3/))
-    + es. selezione dei CV, valutazione del credito e __istruzione__: sistemi per _determinare l’accesso o l’ammissione_ agli istituti (Allegato III, punto 3(a)), _valutare i risultati dell'apprendimento_ (3(b)) o _sorvegliare_ gli esami (3(d))
-- __Rischio di trasparenza__ $\rightarrow$ obblighi di _informazione_ ([Art. 50](https://artificialintelligenceact.eu/article/50/))
-    + es. i chatbot devono dichiarare di essere IA; i contenuti sintetici devono essere _marcati_; i deepfake devono essere _etichettati_
+    + _se_ l'uso è nell'__elenco chiuso__ dell'Art. 5: es. social scoring, tecniche manipolative, __riconoscimento delle emozioni__ sul lavoro e nell'__istruzione__, raccolta indiscriminata di immagini facciali
+- __Alto rischio__ $\rightarrow$ _obblighi_ rigorosi ([Art. 6](https://artificialintelligenceact.eu/article/6/))
+    + _se_ è __componente di sicurezza__ di un prodotto già soggetto a certificazione di terzi ([Allegato I](https://artificialintelligenceact.eu/annex/1/): macchine, dispositivi medici, ...), _oppure_ è usato in un __ambito elencato__ nell'[Allegato III](https://artificialintelligenceact.eu/annex/3/): biometria, infrastrutture critiche, __istruzione__, lavoro, credito e servizi essenziali, forze dell'ordine, migrazione, giustizia
+    + es. in __istruzione__: _determinare l’accesso o l’ammissione_ (punto 3(a)), _valutare l'apprendimento_ (3(b)), _sorvegliare_ gli esami (3(d))
+    + _eccezione_ ([Art. 6(3)](https://artificialintelligenceact.eu/article/6/)): compiti solo _procedurali_ o _preparatori_, che non influiscono sostanzialmente sulla decisione; mai se il sistema __profila__ persone
+- __Rischio limitato__ $\rightarrow$ obblighi di _trasparenza_ ([Art. 50](https://artificialintelligenceact.eu/article/50/)), anche in aggiunta all'alto rischio
+    + _se_ il sistema _interagisce_ con persone o _genera_ contenuti: i chatbot devono dichiarare di essere IA; i contenuti sintetici devono essere _marcati_; i deepfake _etichettati_
 - __Rischio minimo__ $\rightarrow$ nessun obbligo specifico
-    + es. filtri antispam, IA nei videogiochi
+    + _tutti gli altri casi_: es. filtri antispam, IA nei videogiochi
 - Su un piano distinto: __modelli di IA per finalità generali (GPAI)__, con obblighi per i _fornitori_ ([Art. 53](https://artificialintelligenceact.eu/article/53/); rischio sistemico: [Art. 51](https://artificialintelligenceact.eu/article/51/), [Art. 55](https://artificialintelligenceact.eu/article/55/))
 
 {{% /small %}}
 
 {{% /col %}}
-{{% col %}}
+{{% col class="col-4" %}}
 
-{{< image src="./ai-act-pyramid.png" max-h="60vh" alt="Piramide dei rischi dell'AI Act, dall'alto: rischio inaccettabile (vietato), alto rischio (regolamentato), rischio limitato (trasparenza), rischio minimo (non regolamentato)" >}}
+{{< image src="./ai-act-pyramid.png" max-h="50vh" alt="Piramide dei rischi dell'AI Act, dall'alto: rischio inaccettabile (vietato), alto rischio (regolamentato), rischio limitato (trasparenza), rischio minimo (non regolamentato)" >}}
 
 {{% /col %}}
 {{% /multicol %}}

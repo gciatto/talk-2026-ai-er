@@ -152,7 +152,7 @@ To port a later fix of slides-module2 here, locate the slide by its Italian titl
 | Derivati: fine-tuning, distillazione, fusioni, dati, output | Derivatives: fine-tunes, distillation, merges, data, outputs | `governance` (line 420) |
 | La regolamentazione: il quadro generale | Regulation: the general picture | `governance` (line 164) |
 | GDPR per applicazioni con LLM: i concetti essenziali | GDPR for LLM-powered applications: key concepts | `governance` (line 181), condensed; official references checked October 2026 |
-| AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219) |
+| AI Act dell'UE: un approccio basato sul rischio | EU AI Act: a risk-based approach | `governance` (line 219), plus classification criteria (Art. 5, 6, 50; Annexes I and III) |
 | AI Act dell'UE: modello, sistema e ruoli | EU AI Act: who must do what? | `governance` (line 248), condensed; official definitions checked October 2026 |
 | I modelli aperti nell'AI Act dell'UE | Open models under the EU AI Act | `governance` (line 438) |
 | **Modelli, fornitori e piattaforme** | **Models, Providers, and Platforms** | __new__ |
